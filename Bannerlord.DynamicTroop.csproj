@@ -1,0 +1,50 @@
+<Project Sdk="Bannerlord.BUTRModule.Sdk/1.1.0.104">
+
+  <PropertyGroup>
+    <Version>0.0.1</Version>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <Platforms>x64</Platforms>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <BuildForWindows>false</BuildForWindows>
+    <BuildForWindowsStore>false</BuildForWindowsStore>
+    
+    <ModuleId>$(MSBuildProjectName)</ModuleId>
+    <ModuleName>$(MSBuildProjectName)</ModuleName>
+    <ModuleUrl></ModuleUrl>
+    <GameFolder>$(BANNERLORD_GAME_DIR)</GameFolder>
+    <!-- Module manually override GameVersion -->
+    <!-- <OverrideGameVersion>v1.0.0</OverrideGameVersion> -->
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework) == 'net472'">
+    <!-- Steam/GOG/Epic versions of the game -->
+    <BuildForWindows>true</BuildForWindows>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework) == 'netcoreapp3.1'">
+    <!-- Xbox Game Pass PC version of the game -->
+    <BuildForWindowsStore>false</BuildForWindowsStore>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <!-- Development Variables -->
+  <PropertyGroup>
+    <HarmonyVersion>2.2.2</HarmonyVersion>
+    <UIExtenderExVersion>2.8.0</UIExtenderExVersion>
+    <ButterLibVersion>2.8.11</ButterLibVersion>
+    <MCMVersion>5.9.1</MCMVersion>
+    <HarmonyExtensionsVersion>3.2.0.77</HarmonyExtensionsVersion>
+    <!--
+    <BUTRSharedVersion>3.0.0.135</BUTRSharedVersion>
+    <BUTRModuleManagerVersion>5.0.198</BUTRModuleManagerVersion>
+    -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" PrivateAssets="all" IncludeAssets="compile" />
+    <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+  </ItemGroup>
+  
+</Project>
