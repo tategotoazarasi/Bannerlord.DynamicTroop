@@ -15,40 +15,42 @@ namespace Bannerlord.DynamicTroop;
 
 [HarmonyPatch(typeof(MissionBehavior), "OnAgentRemoved")]
 public class AgentDeathLootPatch {
-	private static readonly HashSet<Agent> ProcessedAgents = new();
+	public static readonly HashSet<Agent> ProcessedAgents = new();
 
-	private static void Postfix(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow) {
+	public static HashSet<ItemObject> LootedItems = new();
+
+	private static void Postfix(MissionBehavior __instance,
+								Agent affectedAgent,
+								Agent affectorAgent,
+								AgentState agentState,
+								KillingBlow blow) {
 		// 确保被击倒的代理是敌方非英雄士兵
-		if ((agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
+		if (__instance.Mission.CombatType == Mission.MissionCombatType.Combat &&
+			__instance.Mission.PlayerTeam != null &&
+			__instance.Mission.PlayerTeam.IsValid &&
+			(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
 			!ProcessedAgents.Contains(affectedAgent) &&
 			!affectedAgent.Character.IsHero &&
-			affectorAgent.Team.IsPlayerTeam) {
+			((affectorAgent.Team.IsPlayerTeam &&
+			  !(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly)) ||
+			 affectedAgent.Team.IsPlayerTeam)) {
 			ProcessedAgents.Add(affectedAgent);
 			Equipment enemyEquipment = affectedAgent.SpawnEquipment;
-			EquipmentIndex[] slots = {
-											 EquipmentIndex.Weapon0,
-											 EquipmentIndex.Weapon1,
-											 EquipmentIndex.Weapon2,
-											 EquipmentIndex.Weapon3,
-											 EquipmentIndex.Head,
-											 EquipmentIndex.Body,
-											 EquipmentIndex.Leg,
-											 EquipmentIndex.Gloves,
-											 EquipmentIndex.Cape,
-											 EquipmentIndex.Horse,
-											 EquipmentIndex.HorseHarness
-										 };
-
-			foreach (EquipmentIndex slot in slots) {
+			foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 				EquipmentElement element = enemyEquipment.GetEquipmentFromSlot(slot);
 				if (element.Item != null && !element.IsEmpty) {
-					if (affectorAgent.Character.IsHero) {
+					//if (element.Item != null && !element.IsEmpty && element.Item.ItemType != ItemObject.ItemTypeEnum.Horse && element.Item.ItemType != ItemObject.ItemTypeEnum.HorseHarness) {
+					if (affectorAgent.Character.IsHero && affectorAgent.Team.IsPlayerTeam) {
+
 						// 英雄士兵杀死或击晕敌人，装备进入玩家物品栏
 						AddItemToPlayerInventory(element.Item);
 					} else {
+
 						// 非英雄士兵杀死或击晕敌人，装备进入军械库
-						ArmyArmory.AddItemToArmory(element.Item);
+						LootedItems.Add(element.Item);
 					}
+
+					//ArmyArmory.AddItemToArmory(element.Item);
 				}
 			}
 		}

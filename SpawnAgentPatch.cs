@@ -11,8 +11,13 @@ namespace Bannerlord.DynamicTroop;
 
 [HarmonyPatch(typeof(Mission), "SpawnAgent")]
 public class SpawnAgentPatch {
-	private static void Prefix(ref AgentBuildData agentBuildData) {
-		if (agentBuildData.AgentCharacter != null &&
+	private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData) {
+		// 确保当前任务是战斗类型的，并且AgentBuildData及其属性已初始化
+		if (__instance.CombatType == Mission.MissionCombatType.Combat &&
+			__instance.PlayerTeam != null &&
+			agentBuildData.AgentCharacter != null &&
+			agentBuildData.AgentTeam != null &&
+			agentBuildData.AgentTeam.IsValid &&
 			agentBuildData.AgentTeam.IsPlayerTeam &&
 			!agentBuildData.AgentCharacter.IsHero) {
 			// 判断是否骑马

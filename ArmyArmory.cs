@@ -88,29 +88,16 @@ public static class ArmyArmory {
 	}
 
 	public static void ReturnEquipmentToArmoryFromAgents(IEnumerable<Agent> agents) {
-		EquipmentIndex[] slots = {
-										 EquipmentIndex.Weapon0,
-										 EquipmentIndex.Weapon1,
-										 EquipmentIndex.Weapon2,
-										 EquipmentIndex.Weapon3,
-										 EquipmentIndex.Head,
-										 EquipmentIndex.Body,
-										 EquipmentIndex.Leg,
-										 EquipmentIndex.Gloves,
-										 EquipmentIndex.Cape,
-										 EquipmentIndex.Horse,
-										 EquipmentIndex.HorseHarness
-									 };
-
 		foreach (Agent agent in agents) {
 			if (agent.IsHuman && agent.Team.IsPlayerAlly) {
 				Equipment agentEquipment = agent.SpawnEquipment; // 获取当前装备，而不是初始装备
-				foreach (EquipmentIndex slot in slots) {
+				foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 					EquipmentElement equipmentElement = agentEquipment.GetEquipmentFromSlot(slot);
 					if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
 						Armory.AddToCounts(equipmentElement.Item, 1);
 					}
 				}
+
 				// 特别处理战马
 				/*if (agent.HasMount) {
 					var horseItem = agent.MountAgent.Monster.Item; // 获取当前骑乘的战马
@@ -124,23 +111,11 @@ public static class ArmyArmory {
 
 	public static void AddSoldierEquipmentToArmory(CharacterObject character) {
 		if (character.Equipment != null) {
-			EquipmentIndex[] slots = {
-											 EquipmentIndex.Weapon0,
-											 EquipmentIndex.Weapon1,
-											 EquipmentIndex.Weapon2,
-											 EquipmentIndex.Weapon3,
-											 EquipmentIndex.Head,
-											 EquipmentIndex.Body,
-											 EquipmentIndex.Leg,
-											 EquipmentIndex.Gloves,
-											 EquipmentIndex.Cape,
-											 EquipmentIndex.Horse,
-											 EquipmentIndex.HorseHarness
-										 };
-			foreach (Equipment? eq in character.AllEquipments) {
-				foreach (EquipmentIndex slot in slots) {
+			foreach (Equipment? eq in character.BattleEquipments) {
+				foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 					EquipmentElement equipmentElement = eq.GetEquipmentFromSlot(slot);
 					if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
+
 						// 添加装备到军火库
 						AddItemToArmory(equipmentElement.Item);
 					}
@@ -189,21 +164,7 @@ public static class ArmyArmory {
 
 	public static Equipment CreateEmptyEquipment() {
 		Equipment emptyEquipment = new Equipment();
-		EquipmentIndex[] slots = {
-										 EquipmentIndex.Weapon0,
-										 EquipmentIndex.Weapon1,
-										 EquipmentIndex.Weapon2,
-										 EquipmentIndex.Weapon3,
-										 EquipmentIndex.Head,
-										 EquipmentIndex.Body,
-										 EquipmentIndex.Leg,
-										 EquipmentIndex.Gloves,
-										 EquipmentIndex.Cape,
-										 EquipmentIndex.Horse,
-										 EquipmentIndex.HorseHarness
-									 };
-
-		foreach (EquipmentIndex slot in slots) {
+		foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 			emptyEquipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement());
 		}
 
@@ -216,22 +177,8 @@ public static class ArmyArmory {
 												 WeaponClass? weaponClass2,
 												 WeaponClass? weaponClass3,
 												 bool isMounted) {
-		EquipmentIndex[] slots = {
-										 EquipmentIndex.Weapon0,
-										 EquipmentIndex.Weapon1,
-										 EquipmentIndex.Weapon2,
-										 EquipmentIndex.Weapon3,
-										 EquipmentIndex.Head,
-										 EquipmentIndex.Body,
-										 EquipmentIndex.Leg,
-										 EquipmentIndex.Gloves,
-										 EquipmentIndex.Cape,
-										 EquipmentIndex.Horse,
-										 EquipmentIndex.HorseHarness
-									 };
-
 		bool hasWeapon = false;
-		foreach (EquipmentIndex slot in slots) {
+		foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 			WeaponClass? weaponClass = DetermineWeaponClassForSlot(slot, weaponClass0, weaponClass1, weaponClass2, weaponClass3);
 			EquipmentElement bestItem = FindBestItemForSlot(slot, weaponClass, isMounted);
 

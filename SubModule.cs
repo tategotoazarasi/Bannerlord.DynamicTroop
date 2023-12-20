@@ -2,8 +2,8 @@
 
 using HarmonyLib;
 
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -13,9 +13,6 @@ namespace Bannerlord.DynamicTroop;
 public class SubModule : MBSubModuleBase {
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
-
-		// 显示加载成功的消息
-		InformationManager.DisplayMessage(new InformationMessage("Dynamic Troop loaded", Colors.Green));
 
 		Harmony harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
 		harmony.PatchAll();
@@ -27,6 +24,16 @@ public class SubModule : MBSubModuleBase {
 
 	public override void OnGameLoaded(Game game, object initializerObject) {
 		base.OnGameLoaded(game, initializerObject);
-		InformationManager.DisplayMessage(new InformationMessage("Hello World!", Colors.Green));
 	}
+
+	public override void OnNewGameCreated(Game game, object initializerObject) {
+		base.OnNewGameCreated(game, initializerObject);
+		Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
+	}
+
+	public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
+
+	public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
+
+	public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
 }
