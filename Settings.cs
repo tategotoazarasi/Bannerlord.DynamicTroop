@@ -1,20 +1,20 @@
 ﻿#region
 
-	using MCM.Abstractions.Base.Global;
+using MCM.Abstractions.Base.Global;
 
 #endregion
 
-	namespace Bannerlord.DynamicTroop;
+namespace Bannerlord.DynamicTroop;
 
-	internal class Settings : AttributeGlobalSettings<Settings> {
-		public override string Id => "DynamicTroopSettings";
+internal class Settings : AttributeGlobalSettings<Settings> {
+	public override string Id => "DynamicTroopSettings";
 
-		public override string DisplayName => "Dynamic Troop";
+	public override string DisplayName => "Dynamic Troop";
 
-		public override string FolderName => "DynamicTroop";
+	public override string FolderName => "DynamicTroop";
 
-		public override string FormatType => "json";
+	public override string FormatType => "json";
 
-		// 在这里添加您的设置项
-		public bool MyToggle { get; set; } = true;
-	}
+	// 在这里添加您的设置项
+	public bool MyToggle { get; set; } = true;
+}
