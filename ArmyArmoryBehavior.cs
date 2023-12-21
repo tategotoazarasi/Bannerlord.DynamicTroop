@@ -8,6 +8,7 @@ using Bannerlord.ButterLib.SaveSystem.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
 #endregion
@@ -26,6 +27,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 			data.Armory.Clear();
 		} else if (dataStore.IsLoading) {
 			data.Armory.Clear();
+			ArmyArmory.Armory.Clear();
 			dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref data);
 			Load();
 			data.Armory.Clear();
@@ -51,7 +53,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	private void Load() {
 		InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
 		foreach (KeyValuePair<string, int> item in data.Armory) {
-			ArmyArmory.Armory.AddToCounts(new ItemObject(item.Key), item.Value);
+			ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
 			InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
 																	 Colors.Green));
 		}

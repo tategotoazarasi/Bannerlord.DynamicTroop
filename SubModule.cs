@@ -28,12 +28,27 @@ public class SubModule : MBSubModuleBase {
 
 	public override void OnNewGameCreated(Game game, object initializerObject) {
 		base.OnNewGameCreated(game, initializerObject);
-		Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
+		//Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
 	}
 
 	public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
 
-	public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
+	public override void BeginGameStart(Game game) {
+		base.BeginGameStart(game);
+	}
 
 	public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
+
+	protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
+		base.OnGameStart(game, gameStarterObject);
+		if (game.GameType is Campaign) {
+			AddBehaviors(gameStarterObject as CampaignGameStarter);
+		}
+	}
+
+	private void AddBehaviors(CampaignGameStarter gameStarterObject) {
+		if (gameStarterObject != null) {
+			gameStarterObject.AddBehavior(new ArmyArmoryBehavior());
+		}
+	}
 }
