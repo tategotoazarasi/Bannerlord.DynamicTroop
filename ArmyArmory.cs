@@ -96,6 +96,7 @@ public static class ArmyArmory {
 						Armory.AddToCounts(equipmentElement.Item, 1);
 					}
 				}
+
 				// 特别处理战马
 				/*if (agent.HasMount) {
 					var horseItem = agent.MountAgent.Monster.Item; // 获取当前骑乘的战马
@@ -113,6 +114,7 @@ public static class ArmyArmory {
 				foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 					EquipmentElement equipmentElement = eq.GetEquipmentFromSlot(slot);
 					if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
+
 						// 添加装备到军火库
 						AddItemToArmory(equipmentElement.Item);
 					}

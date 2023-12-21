@@ -43,13 +43,17 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		IEnumerator<ItemRosterElement> i = ArmyArmory.Armory.GetEnumerator();
 		while (i.MoveNext()) {
 			if (!i.Current.IsEmpty) {
-				data.Armory.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);
+				if (!data.Armory.ContainsKey(i.Current.EquipmentElement.Item.StringId)) {
+					data.Armory.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);
+				} else {
+					data.Armory[i.Current.EquipmentElement.Item.StringId] += i.Current.Amount;
+				}
 			}
 		}
 		/*InformationManager
-			.DisplayMessage(new
-								InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
-												   Colors.Green));*/
+	.DisplayMessage(new
+						InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
+										   Colors.Green));*/
 	}
 
 	private void Load() {
@@ -58,7 +62,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 			ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
 		}
 		/*InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
-															 Colors.Green));*/
+													 Colors.Green));*/
 	}
 
 	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }

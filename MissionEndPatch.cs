@@ -29,7 +29,9 @@ public class MissionEndPatch {
 																  agent.Team != null &&
 																  agent.Team.IsValid &&
 																  agent.Team.IsPlayerTeam &&
-																  !agent.IsHero)
+																  !agent.IsHero &&
+																  agent.Origin != null &&
+																  agent.Origin.IsUnderPlayersCommand)
 												  .ToList();
 
 			if (missionInstance.MissionResult != null &&

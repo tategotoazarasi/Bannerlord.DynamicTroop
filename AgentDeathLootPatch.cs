@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 using HarmonyLib;
 
+using SandBox.Missions.MissionLogics;
+
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -13,43 +15,50 @@ using TaleWorlds.MountAndBlade;
 
 namespace Bannerlord.DynamicTroop;
 
-[HarmonyPatch(typeof(MissionBehavior), "OnAgentRemoved")]
+[HarmonyPatch(typeof(CasualtyHandler), "OnAgentRemoved")]
 public class AgentDeathLootPatch {
 	public static readonly HashSet<Agent> ProcessedAgents = new();
 
-	public static HashSet<ItemObject> LootedItems = new();
+	public static List<ItemObject> LootedItems = new();
 
-	private static void Postfix(MissionBehavior __instance,
-								Agent affectedAgent,
-								Agent affectorAgent,
-								AgentState agentState,
-								KillingBlow blow) {
-		// 确保被击倒的代理是敌方非英雄士兵
+	private static void Prefix(MissionBehavior __instance,
+							   Agent           affectedAgent,
+							   Agent           affectorAgent,
+							   AgentState      agentState,
+							   KillingBlow     killingBlow) {
+		// 确保被击倒的agent是敌方非英雄士兵
 		if (__instance.Mission.CombatType == Mission.MissionCombatType.Combat &&
+			affectedAgent.Formation!=null && affectorAgent.Formation!=null &&
+			affectedAgent.IsHuman &&
+			affectorAgent.IsHuman &&
+			affectorAgent.Team != null &&
+			affectorAgent.Team.IsValid &&
+			affectedAgent.Team != null &&
+			affectedAgent.Team.IsValid &&
+			affectorAgent.Origin != null &&
+			affectedAgent.Origin != null &&
+			affectorAgent.Character != null &&
+			affectedAgent.Character != null &&
+			__instance.Mission != null &&
 			__instance.Mission.PlayerTeam != null &&
 			__instance.Mission.PlayerTeam.IsValid &&
 			(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
 			!ProcessedAgents.Contains(affectedAgent) &&
 			!affectedAgent.Character.IsHero &&
-			((affectorAgent.Team.IsPlayerTeam &&
-			  !(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly)) ||
-			 affectedAgent.Team.IsPlayerTeam)) {
+			!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
+			affectorAgent.Origin.IsUnderPlayersCommand) {
 			ProcessedAgents.Add(affectedAgent);
 			Equipment enemyEquipment = affectedAgent.SpawnEquipment;
+			if (enemyEquipment == null || !enemyEquipment.IsValid) {
+				return;
+			}
+
 			foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 				EquipmentElement element = enemyEquipment.GetEquipmentFromSlot(slot);
-				if (element.Item != null && !element.IsEmpty) {
-					//if (element.Item != null && !element.IsEmpty && element.Item.ItemType != ItemObject.ItemTypeEnum.Horse && element.Item.ItemType != ItemObject.ItemTypeEnum.HorseHarness) {
-					if (affectorAgent.Character.IsHero && affectorAgent.Team.IsPlayerTeam) {
-						// 英雄士兵杀死或击晕敌人，装备进入玩家物品栏
-						//AddItemToPlayerInventory(element.Item);
-						LootedItems.Add(element.Item);
-					} else {
-						// 非英雄士兵杀死或击晕敌人，装备进入军械库
-						LootedItems.Add(element.Item);
-					}
+				if (!element.IsEmpty && element.Item != null) {
 
-					//ArmyArmory.AddItemToArmory(element.Item);
+					// 非英雄士兵杀死或击晕敌人，装备进入军械库
+					LootedItems.Add(element.Item);
 				}
 			}
 		}
