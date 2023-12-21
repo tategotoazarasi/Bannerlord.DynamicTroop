@@ -6,7 +6,6 @@ using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 using static TaleWorlds.Core.ItemObject;
@@ -22,7 +21,7 @@ public static class ArmyArmory {
 		Armory.AddToCounts(item, 1);
 
 		// 显示提示信息
-		InformationManager.DisplayMessage(new InformationMessage($"已添加物品到部队军械库: {item.Name}", Colors.Green));
+		//InformationManager.DisplayMessage(new InformationMessage($"已添加物品到部队军械库: {item.Name}", Colors.Green));
 	}
 
 	public static EquipmentElement FindBestItemForSlot(EquipmentIndex slot, WeaponClass? weaponClass, bool isMounted) {
@@ -97,7 +96,6 @@ public static class ArmyArmory {
 						Armory.AddToCounts(equipmentElement.Item, 1);
 					}
 				}
-
 				// 特别处理战马
 				/*if (agent.HasMount) {
 					var horseItem = agent.MountAgent.Monster.Item; // 获取当前骑乘的战马
@@ -115,7 +113,6 @@ public static class ArmyArmory {
 				foreach (EquipmentIndex slot in Global.EquipmentSlots) {
 					EquipmentElement equipmentElement = eq.GetEquipmentFromSlot(slot);
 					if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
-
 						// 添加装备到军火库
 						AddItemToArmory(equipmentElement.Item);
 					}

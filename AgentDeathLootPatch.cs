@@ -41,11 +41,10 @@ public class AgentDeathLootPatch {
 				if (element.Item != null && !element.IsEmpty) {
 					//if (element.Item != null && !element.IsEmpty && element.Item.ItemType != ItemObject.ItemTypeEnum.Horse && element.Item.ItemType != ItemObject.ItemTypeEnum.HorseHarness) {
 					if (affectorAgent.Character.IsHero && affectorAgent.Team.IsPlayerTeam) {
-
 						// 英雄士兵杀死或击晕敌人，装备进入玩家物品栏
-						AddItemToPlayerInventory(element.Item);
+						//AddItemToPlayerInventory(element.Item);
+						LootedItems.Add(element.Item);
 					} else {
-
 						// 非英雄士兵杀死或击晕敌人，装备进入军械库
 						LootedItems.Add(element.Item);
 					}

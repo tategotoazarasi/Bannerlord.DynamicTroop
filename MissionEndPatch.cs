@@ -7,6 +7,7 @@ using HarmonyLib;
 
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -34,6 +35,9 @@ public class MissionEndPatch {
 			if (missionInstance.MissionResult != null &&
 				missionInstance.MissionResult.BattleResolved &&
 				missionInstance.MissionResult.PlayerVictory) {
+				InformationManager
+					.DisplayMessage(new InformationMessage($"已添加 {AgentDeathLootPatch.LootedItems.Count} 件战利品到部队军火库。",
+														   Colors.Green));
 				foreach (ItemObject item in AgentDeathLootPatch.LootedItems) {
 					ArmyArmory.AddItemToArmory(item);
 				}

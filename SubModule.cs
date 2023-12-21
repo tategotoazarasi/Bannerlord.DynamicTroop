@@ -28,14 +28,13 @@ public class SubModule : MBSubModuleBase {
 
 	public override void OnNewGameCreated(Game game, object initializerObject) {
 		base.OnNewGameCreated(game, initializerObject);
+
 		//Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
 	}
 
 	public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
 
-	public override void BeginGameStart(Game game) {
-		base.BeginGameStart(game);
-	}
+	public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
 
 	public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
 

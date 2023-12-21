@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
 
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
@@ -19,7 +19,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	private Data data = new();
 
 	public override void SyncData(IDataStore dataStore) {
-		InformationManager.DisplayMessage(new InformationMessage("Sync Data called", Colors.Green));
+		//InformationManager.DisplayMessage(new InformationMessage("Sync Data called", Colors.Green));
 		if (dataStore.IsSaving) {
 			data.Armory.Clear();
 			Save();
@@ -34,29 +34,47 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		}
 	}
 
-	public override void RegisterEvents() { }
+	public override void RegisterEvents() {
+		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
+	}
 
 	private void Save() {
-		InformationManager.DisplayMessage(new InformationMessage("Saving Started", Colors.Green));
+		//InformationManager.DisplayMessage(new InformationMessage("Saving Started", Colors.Green));
 		IEnumerator<ItemRosterElement> i = ArmyArmory.Armory.GetEnumerator();
 		while (i.MoveNext()) {
 			if (!i.Current.IsEmpty) {
 				data.Armory.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);
-				InformationManager
-					.DisplayMessage(new
-										InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
-														   Colors.Green));
 			}
 		}
+		/*InformationManager
+			.DisplayMessage(new
+								InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
+												   Colors.Green));*/
 	}
 
 	private void Load() {
-		InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
+		//InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
 		foreach (KeyValuePair<string, int> item in data.Armory) {
 			ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
-			InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
-																	 Colors.Green));
 		}
+		/*InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
+															 Colors.Green));*/
+	}
+
+	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
+
+	private void AddTownMenuOptions(CampaignGameStarter starter) {
+		starter.AddGameMenuOption("town",             // Town menu
+								  "army_armory_view", // Unique identifier for this menu item
+								  "查看部队军火库",          // Text shown for the menu item
+								  args => true,       // Conditions for showing this option
+								  args => {
+									  // Action to execute when this option is selected
+									  InventoryManager.OpenScreenAsStash(ArmyArmory.Armory);
+								  },
+								  false, // Is this option shown at the bottom of the menu?
+								  4      // Order in the menu
+								 );
 	}
 
 	[Serializable]
