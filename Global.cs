@@ -1,13 +1,13 @@
 ﻿#region
 
-using TaleWorlds.Core;
+	using TaleWorlds.Core;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+	namespace Bannerlord.DynamicTroop;
 
-public static class Global {
-	public static EquipmentIndex[] EquipmentSlots = {
+	public static class Global {
+		public static EquipmentIndex[] EquipmentSlots = {
 															EquipmentIndex.Weapon0,
 															EquipmentIndex.Weapon1,
 															EquipmentIndex.Weapon2,
@@ -21,13 +21,11 @@ public static class Global {
 															EquipmentIndex.HorseHarness
 														};
 
-	public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
+		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
 
-	public static WeaponClass? GetWeaponClass(ItemObject item) {
-		if (IsWeapon(item)) {
-			return item.WeaponComponent.PrimaryWeapon.WeaponClass;
+		public static WeaponClass? GetWeaponClass(ItemObject item) {
+			if (IsWeapon(item)) return item.WeaponComponent.PrimaryWeapon.WeaponClass;
+
+			return null;
 		}
-
-		return null;
 	}
-}

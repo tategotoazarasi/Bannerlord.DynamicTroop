@@ -1,53 +1,48 @@
 ﻿#region
 
-using HarmonyLib;
-
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
-using TaleWorlds.MountAndBlade;
+	using HarmonyLib;
+	using TaleWorlds.CampaignSystem;
+	using TaleWorlds.Core;
+	using TaleWorlds.MountAndBlade;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+	namespace Bannerlord.DynamicTroop;
 
-public class SubModule : MBSubModuleBase {
-	protected override void OnSubModuleLoad() {
-		base.OnSubModuleLoad();
+	public class SubModule : MBSubModuleBase {
+		protected override void OnSubModuleLoad() {
+			base.OnSubModuleLoad();
 
-		Harmony harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
-		harmony.PatchAll();
-	}
+			var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
+			harmony.PatchAll();
+		}
 
-	protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }
+		protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }
 
-	protected override void OnBeforeInitialModuleScreenSetAsRoot() { base.OnBeforeInitialModuleScreenSetAsRoot(); }
+		protected override void OnBeforeInitialModuleScreenSetAsRoot() { base.OnBeforeInitialModuleScreenSetAsRoot(); }
 
-	public override void OnGameLoaded(Game game, object initializerObject) {
-		base.OnGameLoaded(game, initializerObject);
-	}
+		public override void OnGameLoaded(Game game, object initializerObject) {
+			base.OnGameLoaded(game, initializerObject);
+		}
 
-	public override void OnNewGameCreated(Game game, object initializerObject) {
-		base.OnNewGameCreated(game, initializerObject);
+		public override void OnNewGameCreated(Game game, object initializerObject) {
+			base.OnNewGameCreated(game, initializerObject);
 
-		//Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
-	}
+			//Campaign.Current.CampaignBehaviorManager.AddBehavior(new ArmyArmoryBehavior());
+		}
 
-	public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
+		public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
 
-	public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
+		public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
 
-	public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
+		public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
 
-	protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
-		base.OnGameStart(game, gameStarterObject);
-		if (game.GameType is Campaign) {
-			AddBehaviors(gameStarterObject as CampaignGameStarter);
+		protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
+			base.OnGameStart(game, gameStarterObject);
+			if (game.GameType is Campaign) AddBehaviors(gameStarterObject as CampaignGameStarter);
+		}
+
+		private void AddBehaviors(CampaignGameStarter gameStarterObject) {
+			if (gameStarterObject != null) gameStarterObject.AddBehavior(new ArmyArmoryBehavior());
 		}
 	}
-
-	private void AddBehaviors(CampaignGameStarter gameStarterObject) {
-		if (gameStarterObject != null) {
-			gameStarterObject.AddBehavior(new ArmyArmoryBehavior());
-		}
-	}
-}
