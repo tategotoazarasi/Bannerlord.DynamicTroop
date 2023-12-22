@@ -13,7 +13,7 @@
 		protected override void OnSubModuleLoad() {
 			base.OnSubModuleLoad();
 
-			var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
+			Harmony harmony = new("com.bannerlord.mod.dynamic_troop");
 			harmony.PatchAll();
 		}
 
@@ -43,6 +43,6 @@
 		}
 
 		private void AddBehaviors(CampaignGameStarter gameStarterObject) {
-			if (gameStarterObject != null) gameStarterObject.AddBehavior(new ArmyArmoryBehavior());
+			gameStarterObject?.AddBehavior(new ArmyArmoryBehavior());
 		}
 	}

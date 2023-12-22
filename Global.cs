@@ -24,8 +24,6 @@
 		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
 
 		public static WeaponClass? GetWeaponClass(ItemObject item) {
-			if (IsWeapon(item)) return item.WeaponComponent.PrimaryWeapon.WeaponClass;
-
-			return null;
+			return IsWeapon(item) ? item.WeaponComponent.PrimaryWeapon.WeaponClass : null;
 		}
 	}

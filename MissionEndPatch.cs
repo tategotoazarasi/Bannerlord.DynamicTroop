@@ -6,6 +6,7 @@
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
+	using TaleWorlds.Localization;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -22,22 +23,25 @@
 				missionInstance.PlayerTeam.IsValid                             &&
 				Mission.Current.PlayerTeam != null) {
 				List<Agent> myAgents = missionInstance.Agents
-													  .Where(agent => agent != null           &&
-																	  agent.IsHuman           &&
-																	  agent.Team != null      &&
-																	  agent.Team.IsValid      &&
-																	  agent.Team.IsPlayerTeam &&
-																	  !agent.IsHero           &&
-																	  agent.Origin != null    &&
+													  .Where(agent => agent           != null          &&
+																	  agent.Formation != null          &&
+																	  agent.Team      != null          &&
+																	  agent.Origin    != null          &&
+																	  agent.IsHuman                    &&
+																	  agent.Team.IsValid               &&
+																	  agent.Team.IsPlayerTeam          &&
+																	  agent.State == AgentState.Active &&
+																	  !agent.IsHero                    &&
 																	  agent.Origin.IsUnderPlayersCommand)
 													  .ToList();
 
 				if (missionInstance.MissionResult != null        &&
 					missionInstance.MissionResult.BattleResolved &&
 					missionInstance.MissionResult.PlayerVictory) {
-					InformationManager
-						.DisplayMessage(new InformationMessage($"已添加 {AgentDeathLootPatch.LootedItems.Count} 件战利品到部队军火库。",
-															   Colors.Green));
+					var        lootCount   = AgentDeathLootPatch.LootedItems.Count;
+					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
+					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
+					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
 					foreach (var item in AgentDeathLootPatch.LootedItems) ArmyArmory.AddItemToArmory(item);
 
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);

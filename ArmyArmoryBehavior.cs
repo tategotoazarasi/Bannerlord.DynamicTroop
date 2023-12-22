@@ -22,13 +22,13 @@
 			if (dataStore.IsSaving) {
 				data.Armory.Clear();
 				Save();
-				dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref data);
+				_ = dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref data);
 				data.Armory.Clear();
 			}
 			else if (dataStore.IsLoading) {
 				data.Armory.Clear();
 				ArmyArmory.Armory.Clear();
-				dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref data);
+				_ = dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref data);
 				Load();
 				data.Armory.Clear();
 			}
@@ -50,25 +50,26 @@
 				}
 			/*InformationManager
 	.DisplayMessage(new
-					InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
-									   Colors.Green));*/
+	InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
+			   Colors.Green));*/
 		}
 
 		private void Load() {
 			//InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
 			foreach (var item in data.Armory)
-				ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
+				_ = ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
 			/*InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
-												 Colors.Green));*/
+						 Colors.Green));*/
 		}
 
 		private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
 
 		private void AddTownMenuOptions(CampaignGameStarter starter) {
-			starter.AddGameMenuOption("town",              // Town menu
-									  "army_armory_view",  // Unique identifier for this menu item
-									  new TextObject("{=armory_view_option}View Army Armory").ToString(), // Localized text for the menu item
-									  args => true,        // Conditions for showing this option
+			starter.AddGameMenuOption("town",             // Town menu
+									  "army_armory_view", // Unique identifier for this menu item
+									  new TextObject("{=armory_view_option}View Army Armory")
+										  .ToString(), // Localized text for the menu item
+									  args => true,    // Conditions for showing this option
 									  args => {
 										  // Action to execute when this option is selected
 										  InventoryManager.OpenScreenAsStash(ArmyArmory.Armory);
@@ -78,7 +79,7 @@
 									 );
 		}
 
-	[Serializable]
+		[Serializable]
 		private class Data {
 			[SaveableField(1)] public Dictionary<string, int> Armory = new();
 		}

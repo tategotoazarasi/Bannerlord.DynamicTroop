@@ -22,7 +22,7 @@
 								   Agent           affectorAgent,
 								   AgentState      agentState,
 								   KillingBlow     killingBlow) {
-			// 确保被击倒的agent是敌方非英雄士兵
+			// 确保被击倒的agent是敌方非英雄士兵或我方士兵
 			if (__instance.Mission.CombatType == Mission.MissionCombatType.Combat         &&
 				affectedAgent.Formation       != null                                     &&
 				affectorAgent.Formation       != null                                     &&
@@ -42,9 +42,10 @@
 				(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
 				!ProcessedAgents.Contains(affectedAgent)                                  &&
 				!affectedAgent.Character.IsHero                                           &&
-				!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly)     &&
-				affectorAgent.Origin.IsUnderPlayersCommand) {
-				ProcessedAgents.Add(affectedAgent);
+				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
+				  affectorAgent.Origin.IsUnderPlayersCommand) ||
+				 affectedAgent.Origin.IsUnderPlayersCommand)) {
+				_ = ProcessedAgents.Add(affectedAgent);
 				var enemyEquipment = affectedAgent.SpawnEquipment;
 				if (enemyEquipment == null || !enemyEquipment.IsValid) return;
 
@@ -62,7 +63,7 @@
 			var playerInventory = Campaign.Current.MainParty.ItemRoster;
 
 			// 添加物品到玩家的物品栏
-			playerInventory.AddToCounts(item, 1);
+			_ = playerInventory.AddToCounts(item, 1);
 
 			// 显示提示信息
 			InformationManager.DisplayMessage(new InformationMessage($"已添加物品到物品栏: {item.Name}", Colors.Green));

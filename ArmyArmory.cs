@@ -16,7 +16,7 @@
 		public static ItemRoster Armory = new();
 
 		public static void AddItemToArmory(ItemObject item) {
-			Armory.AddToCounts(item, 1);
+			_ = Armory.AddToCounts(item, 1);
 
 			// 显示提示信息
 			//InformationManager.DisplayMessage(new InformationMessage($"已添加物品到部队军械库: {item.Name}", Colors.Green));
@@ -34,7 +34,7 @@
 				var bestItem = suitableItems.First().EquipmentElement;
 
 				// 从军械库中移除被选中的装备
-				Armory.AddToCounts(bestItem.Item, -1);
+				_ = Armory.AddToCounts(bestItem.Item, -1);
 
 				return bestItem;
 			}
@@ -91,7 +91,7 @@
 					foreach (var slot in Global.EquipmentSlots) {
 						var equipmentElement = agentEquipment.GetEquipmentFromSlot(slot);
 						if (equipmentElement.Item != null && !equipmentElement.IsEmpty)
-							Armory.AddToCounts(equipmentElement.Item, 1);
+							_ = Armory.AddToCounts(equipmentElement.Item, 1);
 					}
 					// 特别处理战马
 					/*if (agent.HasMount) {
@@ -124,9 +124,7 @@
 								.Select(itemRosterElement => itemRosterElement.EquipmentElement)
 								.ToList();
 
-			if (suitableItems.Any()) return suitableItems.First();
-
-			return default;
+			return suitableItems.Any() ? suitableItems.First() : default;
 		}
 
 		private static bool IsItemSuitableForType(ItemRosterElement itemRosterElement,
@@ -136,9 +134,7 @@
 			if (itemRosterElement.EquipmentElement.Item.ItemType != itemType) return false;
 
 			// 如果骑马，检查物品是否适合骑马使用
-			if (isMounted && !IsSuitableForMount(itemRosterElement.EquipmentElement.Item)) return false;
-
-			return true;
+			return !isMounted || IsSuitableForMount(itemRosterElement.EquipmentElement.Item);
 		}
 
 		private static bool IsSuitableForMount(ItemObject item) {
@@ -148,7 +144,7 @@
 		}
 
 		public static Equipment CreateEmptyEquipment() {
-			var emptyEquipment = new Equipment();
+			Equipment emptyEquipment = new();
 			foreach (var slot in Global.EquipmentSlots)
 				emptyEquipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement());
 
@@ -199,20 +195,19 @@
 															   WeaponClass?   weaponClass2,
 															   WeaponClass?   weaponClass3) {
 			// 根据装备槽位返回相应的武器类别
-			switch (slot) {
-				case EquipmentIndex.Weapon0: return weaponClass0;
-				case EquipmentIndex.Weapon1: return weaponClass1;
-				case EquipmentIndex.Weapon2: return weaponClass2;
-				case EquipmentIndex.Weapon3: return weaponClass3;
-				default:                     return null; // 对于非武器槽位，返回null
-			}
+			return slot switch {
+					   EquipmentIndex.Weapon0 => weaponClass0,
+					   EquipmentIndex.Weapon1 => weaponClass1,
+					   EquipmentIndex.Weapon2 => weaponClass2,
+					   EquipmentIndex.Weapon3 => weaponClass3,
+					   _                      => null // 对于非武器槽位，返回null
+				   };
 		}
 
 		public static WeaponClass? GetWeaponClassFromEquipment(Equipment equipment, EquipmentIndex weaponSlot) {
 			var equipmentElement = equipment.GetEquipmentFromSlot(weaponSlot);
-			if (equipmentElement.Item != null && equipmentElement.Item.HasWeaponComponent)
-				return equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass;
-
-			return null;
+			return equipmentElement.Item != null && equipmentElement.Item.HasWeaponComponent
+					   ? equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass
+					   : null;
 		}
 	}
