@@ -10,6 +10,8 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class SubModule : MBSubModuleBase {
+		public static ModSettings? settings;
+
 		protected override void OnSubModuleLoad() {
 			base.OnSubModuleLoad();
 
@@ -19,7 +21,10 @@
 
 		protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }
 
-		protected override void OnBeforeInitialModuleScreenSetAsRoot() { base.OnBeforeInitialModuleScreenSetAsRoot(); }
+		protected override void OnBeforeInitialModuleScreenSetAsRoot() {
+			base.OnBeforeInitialModuleScreenSetAsRoot();
+			settings = ModSettings.Instance;
+		}
 
 		public override void OnGameLoaded(Game game, object initializerObject) {
 			base.OnGameLoaded(game, initializerObject);
@@ -33,7 +38,20 @@
 
 		public override void OnCampaignStart(Game game, object starterObject) { base.OnCampaignStart(game, starterObject); }
 
-		public override void BeginGameStart(Game game) { base.BeginGameStart(game); }
+		public override void BeginGameStart(Game game) {
+			base.BeginGameStart(game);
+			if (game.GameType is Campaign)
+				CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this,
+																			  m => {
+																				  if (m is Mission instance)
+																					  instance
+																						  .AddMissionBehavior(new
+																							  MyMissionBehavior());
+																			  });
+			/*CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this,
+																			m => {
+																			});*/
+		}
 
 		public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
 

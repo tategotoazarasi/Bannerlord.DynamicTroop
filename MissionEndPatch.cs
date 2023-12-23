@@ -38,18 +38,20 @@
 				if (missionInstance.MissionResult != null        &&
 					missionInstance.MissionResult.BattleResolved &&
 					missionInstance.MissionResult.PlayerVictory) {
-					var        lootCount   = AgentDeathLootPatch.LootedItems.Count;
+					var        lootCount   = MyMissionBehavior.LootedItems.Count;
 					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
 					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
 					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
-					foreach (var item in AgentDeathLootPatch.LootedItems) ArmyArmory.AddItemToArmory(item);
+					foreach (var item in MyMissionBehavior.LootedItems) ArmyArmory.AddItemToArmory(item);
 
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
 
-					AgentDeathLootPatch.LootedItems.Clear();
-					AgentDeathLootPatch.ProcessedAgents.Clear();
+					MyMissionBehavior.LootedItems.Clear();
+					MyMissionBehavior.ProcessedAgents.Clear();
 				}
 				else if (missionInstance.MissionResult == null) { ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents); }
 			}
+
+			MyMissionBehavior.Clear();
 		}
 	}

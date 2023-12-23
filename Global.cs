@@ -1,6 +1,7 @@
 ﻿#region
 
 	using TaleWorlds.Core;
+	using TaleWorlds.Library;
 
 #endregion
 
@@ -25,5 +26,9 @@
 
 		public static WeaponClass? GetWeaponClass(ItemObject item) {
 			return IsWeapon(item) ? item.WeaponComponent.PrimaryWeapon.WeaponClass : null;
+		}
+
+		public static void Log(string str) {
+			if (SubModule.settings.DebugMode) InformationManager.DisplayMessage(new InformationMessage(str, Colors.Red));
 		}
 	}
