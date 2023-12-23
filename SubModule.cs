@@ -49,8 +49,8 @@
 																							  MyMissionBehavior());
 																			  });
 			/*CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this,
-																			m => {
-																			});*/
+																	m => {
+																	});*/
 		}
 
 		public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }

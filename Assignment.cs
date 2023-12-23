@@ -39,4 +39,10 @@
 				   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
 					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
 		}
+
+		public void EquipAnother(Equipment equipment) {
+			foreach (var slot in Global.EquipmentSlots)
+				//var toAdd = Equipment.GetEquipmentFromSlot(slot);
+				equipment.AddEquipmentToSlotWithoutAgent(slot, Equipment.GetEquipmentFromSlot(slot));
+		}
 	}

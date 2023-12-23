@@ -61,7 +61,7 @@
 			foreach (var item in data.Armory)
 				_ = ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
 			/*InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
-				 Colors.Green));*/
+		 Colors.Green));*/
 		}
 
 		private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }

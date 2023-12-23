@@ -2,6 +2,7 @@
 
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
+	using TaleWorlds.MountAndBlade;
 
 #endregion
 
@@ -30,5 +31,14 @@
 
 		public static void Log(string str) {
 			if (SubModule.settings.DebugMode) InformationManager.DisplayMessage(new InformationMessage(str, Colors.Red));
+		}
+
+		public static bool IsAgentValid(Agent agent) {
+			return agent.Formation != null &&
+				   agent.IsHuman           &&
+				   agent.Character != null &&
+				   agent.Team      != null &&
+				   agent.Origin    != null &&
+				   agent.Team.IsValid;
 		}
 	}

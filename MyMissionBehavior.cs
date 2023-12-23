@@ -57,34 +57,33 @@
 			}
 		}
 
-		public override void OnAgentBuild(Agent agent, Banner banner) {
+		/*public override void OnAgentBuild(Agent agent, Banner banner) {
 			base.OnAgentBuild(agent, banner);
-			if (agent.IsHuman                      &&
-				agent.Character != null            &&
-				agent.Origin    != null            &&
-				agent.Origin.IsUnderPlayersCommand &&
-				!agent.IsHero) {
+			if (Global.IsAgentValid(agent) && agent.Origin.IsUnderPlayersCommand && !agent.IsHero) {
 				Global.Log("creating agent");
 				var characterStringId = agent.Character.StringId;
 				var assignment =
 					assignments.FirstOrDefault(a => !a.IsAssigned && a.Character.StringId == characterStringId);
 
 				if (assignment != null) {
+
 					// 确保equipment不为空
 					//assignment.EquipAgent(agent);
-					agent.UpdateSpawnEquipmentAndRefreshVisuals(assignment.Equipment);
+					//assignment.EquipAnother(agent.SpawnEquipment);
+					agent.InitializeSpawnEquipment(assignment.Equipment);
+					agent.EquipItemsFromSpawnEquipment(true);
 					assignment.IsAssigned = true;
 				}
 			}
-		}
+		}*/
 
 		public override void OnAgentRemoved(Agent       affectedAgent,
 											Agent       affectorAgent,
 											AgentState  agentState,
 											KillingBlow blow) {
 			if (Mission.CombatType == Mission.MissionCombatType.Combat                    &&
-				IsAgentValid(affectedAgent)                                               &&
-				IsAgentValid(affectorAgent)                                               &&
+				Global.IsAgentValid(affectedAgent)                                        &&
+				Global.IsAgentValid(affectorAgent)                                        &&
 				Mission            != null                                                &&
 				Mission.PlayerTeam != null                                                &&
 				Mission.PlayerTeam.IsValid                                                &&
@@ -109,15 +108,6 @@
 			}
 
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
-		}
-
-		private bool IsAgentValid(Agent agent) {
-			return agent.Formation != null &&
-				   agent.IsHuman           &&
-				   agent.Character != null &&
-				   agent.Team      != null &&
-				   agent.Origin    != null &&
-				   agent.Team.IsValid;
 		}
 
 		private void DoAssign() {
@@ -185,7 +175,7 @@
 			var currentItemIndex = 0;
 			foreach (var assignment in assignments) {
 				if ((itemType == ItemObject.ItemTypeEnum.Horse || itemType == ItemObject.ItemTypeEnum.HorseHarness) &&
-					assignment.Character.IsMounted)
+					!assignment.Character.IsMounted)
 					continue;
 
 				while (currentItemIndex < armours.Count && armours[currentItemIndex].Value <= 0) currentItemIndex++;
