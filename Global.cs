@@ -24,6 +24,14 @@
 															EquipmentIndex.HorseHarness
 														};
 
+		public static EquipmentIndex[] ArmourAndHorsesSlots = {
+																  EquipmentIndex.Head,
+																  EquipmentIndex.Body,
+																  EquipmentIndex.Leg,
+																  EquipmentIndex.Gloves,
+																  EquipmentIndex.Cape
+															  };
+
 		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
 
 		public static WeaponClass? GetWeaponClass(ItemObject item) {

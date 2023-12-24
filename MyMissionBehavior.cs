@@ -95,13 +95,23 @@
 				  affectorAgent.Origin.IsUnderPlayersCommand) ||
 				 affectedAgent.Origin.IsUnderPlayersCommand)) {
 				_ = ProcessedAgents.Add(affectedAgent);
-				var enemyEquipment = affectedAgent.SpawnEquipment;
-				if (enemyEquipment == null || !enemyEquipment.IsValid) return;
+				var missionEquipment = affectedAgent.Equipment;
+				var spawnEquipment   = affectedAgent.SpawnEquipment;
+				if (missionEquipment == null) return;
 
-				foreach (var slot in Global.EquipmentSlots) {
-					var element = enemyEquipment.GetEquipmentFromSlot(slot);
+				if (spawnEquipment == null) return;
+
+				foreach (var slot in Assignment.WeaponSlots) {
+					var element = missionEquipment[slot];
 					if (!element.IsEmpty && element.Item != null) {
-						// 非英雄士兵杀死或击晕敌人，装备进入军械库
+						LootedItems.Add(element.Item);
+						Global.Log($"{element.Item.StringId} added to armory");
+					}
+				}
+
+				foreach (var slot in Global.ArmourAndHorsesSlots) {
+					var element = spawnEquipment[slot];
+					if (!element.IsEmpty && element.Item != null) {
 						LootedItems.Add(element.Item);
 						Global.Log($"{element.Item.StringId} added to armory");
 					}
@@ -166,6 +176,12 @@
 				if (assignmentFilter(assignment)) {
 					var slot = assignment.EmptyWeaponSlot;
 					if (slot.HasValue) {
+						/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
+						在此之前:
+											var equipmentNode = equipmentDeque.First;
+						在此之后:
+											var int>>? equipmentNode = equipmentDeque.First;
+						*/
 						/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
 						在此之前:
 											var equipmentNode = equipmentDeque.First;

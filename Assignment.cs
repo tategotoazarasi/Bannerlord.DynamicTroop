@@ -10,12 +10,12 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class Assignment {
-		private static readonly EquipmentIndex[] weaponSlots = {
-																   EquipmentIndex.Weapon0,
-																   EquipmentIndex.Weapon1,
-																   EquipmentIndex.Weapon2,
-																   EquipmentIndex.Weapon3
-															   };
+		public static readonly EquipmentIndex[] WeaponSlots = {
+																  EquipmentIndex.Weapon0,
+																  EquipmentIndex.Weapon1,
+																  EquipmentIndex.Weapon2,
+																  EquipmentIndex.Weapon3
+															  };
 
 		private static int counter;
 
@@ -40,7 +40,7 @@
 
 		public bool IsShielded {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Shield)
 						return true;
@@ -52,7 +52,7 @@
 
 		public bool CanBeShielded {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty                                                                   &&
 						element.Item                                       != null                         &&
@@ -67,7 +67,7 @@
 
 		public bool IsArcher {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Bow) return true;
 				}
@@ -78,7 +78,7 @@
 
 		public bool IsCrossBowMan {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Crossbow)
 						return true;
@@ -90,7 +90,7 @@
 
 		public bool HaveThrown {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Thrown)
 						return true;
@@ -102,7 +102,7 @@
 
 		public bool HaveTwoHandedWeaponOrPolearms {
 			get {
-				foreach (var slot in weaponSlots) {
+				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty     &&
 						element.Item != null &&
@@ -117,7 +117,7 @@
 
 		public EquipmentIndex? EmptyWeaponSlot {
 			get {
-				foreach (var slot in weaponSlots)
+				foreach (var slot in WeaponSlots)
 					if (Equipment.GetEquipmentFromSlot(slot).IsEmpty || Equipment.GetEquipmentFromSlot(slot).Item == null)
 						return slot;
 
