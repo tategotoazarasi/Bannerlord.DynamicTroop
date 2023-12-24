@@ -134,13 +134,7 @@
 			if (itemRosterElement.EquipmentElement.Item.ItemType != itemType) return false;
 
 			// 如果骑马，检查物品是否适合骑马使用
-			return !isMounted || IsSuitableForMount(itemRosterElement.EquipmentElement.Item);
-		}
-
-		public static bool IsSuitableForMount(ItemObject item) {
-			// 检查物品是否适合骑马使用的逻辑 这可能需要根据游戏的具体实现来调整
-			var weaponUsageSetFlags = MBItem.GetItemUsageSetFlags(item.WeaponComponent.PrimaryWeapon.ItemUsage);
-			return !weaponUsageSetFlags.HasFlag(ItemUsageSetFlags.RequiresNoMount);
+			return !isMounted || Global.IsSuitableForMount(itemRosterElement.EquipmentElement.Item);
 		}
 
 		public static Equipment CreateEmptyEquipment() {

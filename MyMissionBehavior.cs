@@ -4,6 +4,7 @@
 	using System.Linq;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
+	using TaleWorlds.Library;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -112,8 +113,10 @@
 
 		private void DoAssign() {
 			AssignArmour();
-			AssignWeaponByWeaponClass();
-			AssignWeaponByItemEnumType();
+			AssignWeaponByWeaponClass(true);
+			AssignWeaponByWeaponClass(false);
+			AssignWeaponByItemEnumType(true);
+			AssignWeaponByItemEnumType(false);
 			AssignWeaponToUnarmed();
 			CopyToArmory();
 		}
@@ -151,7 +154,7 @@
 													   equipment.Key.Item.ItemType ==
 													   ItemObject.ItemTypeEnum.TwoHandedWeapon ||
 													   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Polearm) &&
-													  (!mounted || ArmyArmory.IsSuitableForMount(equipment.Key.Item)))
+													  (!mounted || Global.IsSuitableForMount(equipment.Key.Item)))
 										   .ToList();
 			if (weapons.Any()) {
 				Global.Log($"(class) weapon {weapons.First().Key.Item.StringId} assigned");
@@ -196,71 +199,73 @@
 			}
 		}
 
-		private void AssignWeaponByWeaponClass() {
+		private void AssignWeaponByWeaponClass(bool strict) {
 			foreach (var assignment in assignments) {
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.Character.IsMounted);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.Character.IsMounted);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon2, assignment, assignment.Character.IsMounted);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon3, assignment, assignment.Character.IsMounted);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.Character.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.Character.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon2, assignment, assignment.Character.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon3, assignment, assignment.Character.IsMounted, strict);
 			}
 		}
 
-		private void AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted) {
+		private void
+			AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
 			var weapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
 			if (!weapon.IsEmpty && weapon.Item != null) {
 				var weaponClass = Global.GetWeaponClass(weapon.Item);
 				var availableWeapon = equipmentToAssign
-									  .Where(equipment =>
-												 !equipment.Key.IsEmpty                                   &&
-												 equipment.Key.Item               != null                 &&
-												 equipmentToAssign[equipment.Key] > 0                     &&
-												 Global.IsWeapon(equipment.Key.Item)                      &&
-												 Global.GetWeaponClass(equipment.Key.Item) == weaponClass &&
-												 (!mounted || ArmyArmory.IsSuitableForMount(equipment.Key.Item)))
-									  .OrderByDescending(equipment => equipment.Key.Item.Tier)
+									  .Where(equipment => IsWeaponSuitable(equipment, weaponClass, mounted, strict))
+									  .OrderByDescending(equipment =>
+															 (int)equipment.Key.Item.Tier +
+															 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
 									  .ThenByDescending(equipment => equipment.Key.Item.Value)
-									  .Take(1) // 取出列表中的第一个元素
+									  .Take(1)
 									  .ToList();
-				if (availableWeapon.Any()) {
-					Global.Log($"We got {equipmentToAssign[availableWeapon.First().Key]} (class) weapon {availableWeapon.First().Key.Item.StringId}");
-					Global.Log($"(class) weapon {availableWeapon.First().Key.Item.StringId} assigned");
-					assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
-					equipmentToAssign[availableWeapon.First().Key]--;
-					Global.Log($"(class) weapon {availableWeapon.First().Key.Item.StringId} left {equipmentToAssign[availableWeapon.First().Key]}");
-				}
+
+				AssignWeaponIfAvailable(slot, assignment, availableWeapon);
 			}
 		}
 
-		private void AssignWeaponByItemEnumType() {
+		private void AssignWeaponByItemEnumType(bool strict) {
 			foreach (var assignment in assignments) {
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0, assignment, assignment.Character.IsMounted);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon1, assignment, assignment.Character.IsMounted);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon2, assignment, assignment.Character.IsMounted);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon3, assignment, assignment.Character.IsMounted);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0,
+												 assignment,
+												 assignment.Character.IsMounted,
+												 strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon1,
+												 assignment,
+												 assignment.Character.IsMounted,
+												 strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon2,
+												 assignment,
+												 assignment.Character.IsMounted,
+												 strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon3,
+												 assignment,
+												 assignment.Character.IsMounted,
+												 strict);
 			}
 		}
 
-		private void AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted) {
+		private void
+			AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !(referenceWeapon.IsEmpty || referenceWeapon.Item == null)) {
 				var availableWeapon = equipmentToAssign
 									  .Where(equipment =>
-												 !equipment.Key.IsEmpty                                       &&
-												 equipment.Key.Item               != null                     &&
-												 equipmentToAssign[equipment.Key] > 0                         &&
-												 Global.IsWeapon(equipment.Key.Item)                          &&
-												 equipment.Key.Item.ItemType == referenceWeapon.Item.ItemType &&
-												 (!mounted || ArmyArmory.IsSuitableForMount(equipment.Key.Item)))
-									  .OrderByDescending(equipment => equipment.Key.Item.Tier)
+												 IsWeaponSuitableByType(equipment,
+																		referenceWeapon.Item.ItemType,
+																		mounted,
+																		strict))
+									  .OrderByDescending(equipment =>
+															 (int)equipment.Key.Item.Tier +
+															 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
 									  .ThenByDescending(equipment => equipment.Key.Item.Value)
-									  .Take(1) // 取出列表中的第一个元素
+									  .Take(1)
 									  .ToList();
-				if (availableWeapon.Any()) {
-					Global.Log($"(type) weapon {availableWeapon.First().Key.Item.StringId} assigned");
-					assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
-					equipmentToAssign[availableWeapon.First().Key]--;
-				}
+
+				AssignWeaponIfAvailable(slot, assignment, availableWeapon);
 			}
 		}
 
@@ -287,5 +292,75 @@
 			assignments.Clear();
 			LootedItems.Clear();
 			ProcessedAgents.Clear();
+		}
+
+		private void LogAssignment(EquipmentElement equipment, EquipmentIndex slot, Assignment assignment) {
+			Global.Log($"We got {equipmentToAssign[equipment]} (class) weapon {equipment.Item.StringId}");
+			Global.Log($"(class) weapon {equipment.Item.StringId} assigned");
+			assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, equipment);
+			equipmentToAssign[equipment]--;
+			Global.Log($"(class) weapon {equipment.Item.StringId} left {equipmentToAssign[equipment]}");
+		}
+
+		// 封装判断逻辑
+		private bool IsWeaponSuitable(KeyValuePair<EquipmentElement, int> equipment,
+									  WeaponClass?                        weaponClass,
+									  bool                                mounted,
+									  bool                                strict) {
+			return !equipment.Key.IsEmpty                                      &&
+				   equipment.Key.Item               != null                    &&
+				   equipmentToAssign[equipment.Key] > 0                        &&
+				   Global.IsWeapon(equipment.Key.Item)                         &&
+				   Global.GetWeaponClass(equipment.Key.Item) == weaponClass    &&
+				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item)) &&
+				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item));
+		}
+
+		// 封装判断逻辑
+		private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
+											ItemObject.ItemTypeEnum             itemType,
+											bool                                mounted,
+											bool                                strict) {
+			return !equipment.Key.IsEmpty                                      &&
+				   equipment.Key.Item               != null                    &&
+				   equipmentToAssign[equipment.Key] > 0                        &&
+				   Global.IsWeapon(equipment.Key.Item)                         &&
+				   equipment.Key.Item.ItemType == itemType                     &&
+				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item)) &&
+				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item));
+		}
+
+		// 封装武器分配逻辑
+		private void AssignWeaponIfAvailable(EquipmentIndex                            slot,
+											 Assignment                                assignment,
+											 List<KeyValuePair<EquipmentElement, int>> availableWeapon) {
+			if (availableWeapon.Any()) {
+				Global.Log($"(type) weapon {availableWeapon.First().Key.Item.StringId} assigned");
+				assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
+				equipmentToAssign[availableWeapon.First().Key]--;
+			}
+		}
+
+		// 计算基于武器属性的Tier加成
+		private int CalculateWeaponTierBonus(ItemObject weapon, bool mounted) {
+			if (mounted) return 0; // 如果骑马，则不应用任何加成
+
+			var                                 bonus       = 0;
+			MBReadOnlyList<WeaponComponentData> weaponFlags = weapon.WeaponComponent.Weapons;
+			WeaponFlags                         weaponFlag  = 0;
+			foreach (var flag in weaponFlags) weaponFlag    |= flag.WeaponFlags;
+
+			// 为每个匹配的WeaponFlag增加加成
+			if (weaponFlag.HasFlag(WeaponFlags.BonusAgainstShield)) bonus++;
+
+			if (weaponFlag.HasFlag(WeaponFlags.CanKnockDown)) bonus++;
+
+			if (weaponFlag.HasFlag(WeaponFlags.CanDismount)) bonus++;
+
+			if (weaponFlag.HasFlag(WeaponFlags.MultiplePenetration)) bonus++;
+
+			if (Global.IsWeaponBracable(weapon)) bonus++;
+
+			return bonus;
 		}
 	}
