@@ -10,7 +10,7 @@
 
 	namespace Bannerlord.DynamicTroop;
 
-	public class MyMissionBehavior : MissionBehavior {
+	public class MyMissionBehavior : MissionLogic {
 		private static readonly Dictionary<EquipmentElement, int> equipmentToAssign = new(new EquipmentElementComparer());
 
 		public static List<Assignment> assignments = new();
@@ -19,7 +19,7 @@
 
 		public static List<ItemObject> LootedItems = new();
 
-		public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
+		public override MissionBehaviorType BehaviorType => MissionBehaviorType.Logic;
 
 		public override void AfterStart() {
 			base.AfterStart();

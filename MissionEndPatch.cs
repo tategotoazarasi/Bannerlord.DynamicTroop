@@ -45,9 +45,6 @@
 					foreach (var item in MyMissionBehavior.LootedItems) ArmyArmory.AddItemToArmory(item);
 
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
-
-					MyMissionBehavior.LootedItems.Clear();
-					MyMissionBehavior.ProcessedAgents.Clear();
 				}
 				else if (missionInstance.MissionResult == null) { ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents); }
 			}

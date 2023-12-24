@@ -1,6 +1,7 @@
 ﻿#region
 
 	using HarmonyLib;
+	using SandBox.Tournaments.MissionLogics;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
 	using TaleWorlds.MountAndBlade;
@@ -40,7 +41,7 @@
 
 		public override void BeginGameStart(Game game) {
 			base.BeginGameStart(game);
-			if (game.GameType is Campaign)
+			/*if (game.GameType is Campaign)
 				CampaignEvents.OnMissionStartedEvent.AddNonSerializedListener(this,
 																			  m => {
 																				  if (m is Mission instance)
@@ -48,7 +49,7 @@
 																						  .AddMissionBehavior(new
 																							  MyMissionBehavior());
 																			  });
-			/*CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this,
+			CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this,
 																	m => {
 																	});*/
 		}
@@ -62,5 +63,13 @@
 
 		private void AddBehaviors(CampaignGameStarter gameStarterObject) {
 			gameStarterObject?.AddBehavior(new ArmyArmoryBehavior());
+		}
+
+		public override void OnMissionBehaviorInitialize(Mission mission) {
+			base.OnMissionBehaviorInitialize(mission);
+			if (mission.CombatType == Mission.MissionCombatType.Combat &&
+				!mission.HasMissionBehavior<TournamentBehavior>()      &&
+				!mission.HasMissionBehavior<CustomBattleAgentLogic>())
+				mission.AddMissionBehavior(new MyMissionBehavior());
 		}
 	}
