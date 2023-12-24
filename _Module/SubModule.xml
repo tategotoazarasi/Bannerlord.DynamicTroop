@@ -4,11 +4,11 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
 	<Id value="$moduleid$" />
 	<Name value="$modulename$" />
-	<Version value="v$version$" />
+	<Version value="v1.0.6" />
 	<DefaultModule value="false" />
 	<ModuleCategory value="Singleplayer" />
 	<ModuleType value="Community" />
-	<Url value="$moduleurl$" />
+	<Url value="https://github.com/tategotoazarasi/Bannerlord.DynamicTroop" />
 	<DependedModules>
 		<DependedModule Id="Bannerlord.Harmony" DependentVersion="v$harmonyversion$" />
 		<DependedModule Id="Bannerlord.ButterLib" DependentVersion="v$butterlibversion$" />

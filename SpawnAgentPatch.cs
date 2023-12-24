@@ -22,7 +22,7 @@
 				agentBuildData.AgentTeam.IsValid                                  &&
 				agentBuildData.AgentTeam.IsPlayerTeam                             &&
 				!agentBuildData.AgentCharacter.IsHero) {
-				Global.Log("creating agent");
+				//Global.Log("creating agent");
 				var characterStringId = agentBuildData.AgentCharacter.StringId;
 				var assignment =
 					MyMissionBehavior.assignments.FirstOrDefault(a => !a.IsAssigned &&

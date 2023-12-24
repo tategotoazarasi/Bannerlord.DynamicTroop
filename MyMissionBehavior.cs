@@ -118,6 +118,11 @@
 			AssignWeaponByItemEnumType(true);
 			AssignWeaponByItemEnumType(false);
 			AssignWeaponToUnarmed();
+			AssignExtraArrows();
+			AssignExtraBolts();
+			AssignExtraShield();
+			AssignExtraThrownWeapon();
+			AssignExtraTwoHandedWeaponOrPolearms();
 			CopyToArmory();
 		}
 
@@ -141,6 +146,118 @@
 						equipmentToAssign[weapon.Value]--;
 					}
 				}
+		}
+
+		private void AssignExtraEquipment(EquipmentFilter equipmentFilter, AssignmentFilter assignmentFilter) {
+			var equipmentQuery = equipmentToAssign
+								 .Where(equipment =>
+											!equipment.Key.IsEmpty     &&
+											equipment.Key.Item != null &&
+											equipment.Value    > 0     &&
+											equipmentFilter(equipment))
+								 .OrderByDescending(equipment => equipment.Key.Item.Tier)
+								 .ThenByDescending(equipment => equipment.Key.Item.Value);
+
+			LinkedList<KeyValuePair<EquipmentElement, int>> equipmentDeque = new(equipmentQuery);
+
+			if (!equipmentDeque.Any()) return;
+
+			foreach (var assignment in assignments)
+				if (assignmentFilter(assignment)) {
+					var slot = assignment.EmptyWeaponSlot;
+					if (slot.HasValue) {
+						/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
+						在此之前:
+											var equipmentNode = equipmentDeque.First;
+						在此之后:
+											var int>>? equipmentNode = equipmentDeque.First;
+						*/
+						var equipmentNode      = equipmentDeque.First;
+						var equipment          = equipmentNode.Value;
+						var equipmentItem      = equipment.Key;
+						var equipmentItemCount = equipment.Value;
+
+						assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot.Value, equipmentItem);
+
+						equipmentItemCount--;
+						if (equipmentItemCount > 0)
+							equipmentNode.Value =
+								new KeyValuePair<EquipmentElement, int>(equipmentItem, equipmentItemCount);
+						else
+							equipmentDeque.RemoveFirst();
+
+						if (!equipmentDeque.Any()) return;
+					}
+				}
+		}
+
+		// 使用示例
+		private void AssignExtraShield() {
+			static bool shieldFilter(KeyValuePair<EquipmentElement, int> equipment) {
+				return !equipment.Key.IsEmpty                                        &&
+					   equipment.Key.Item          != null                           &&
+					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Shield &&
+					   equipment.Value             > 0;
+			}
+
+			static bool shieldAssignmentFilter(Assignment assignment) {
+				return assignment.CanBeShielded && !assignment.IsShielded;
+			}
+
+			AssignExtraEquipment(shieldFilter, shieldAssignmentFilter);
+		}
+
+		private void AssignExtraThrownWeapon() {
+			static bool thrownFilter(KeyValuePair<EquipmentElement, int> equipment) {
+				return !equipment.Key.IsEmpty                                        &&
+					   equipment.Key.Item          != null                           &&
+					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Thrown &&
+					   equipment.Value             > 0;
+			}
+
+			static bool thrownAssignmentFilter(Assignment assignment) { return !assignment.HaveThrown; }
+
+			AssignExtraEquipment(thrownFilter, thrownAssignmentFilter);
+		}
+
+		private void AssignExtraArrows() {
+			static bool arrowFilter(KeyValuePair<EquipmentElement, int> equipment) {
+				return !equipment.Key.IsEmpty                                        &&
+					   equipment.Key.Item          != null                           &&
+					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Arrows &&
+					   equipment.Value             > 0;
+			}
+
+			static bool arrowAssignmentFilter(Assignment assignment) { return assignment.IsArcher; }
+
+			AssignExtraEquipment(arrowFilter, arrowAssignmentFilter);
+		}
+
+		private void AssignExtraBolts() {
+			static bool boltFilter(KeyValuePair<EquipmentElement, int> equipment) {
+				return !equipment.Key.IsEmpty                                       &&
+					   equipment.Key.Item          != null                          &&
+					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Bolts &&
+					   equipment.Value             > 0;
+			}
+
+			static bool boltAssignmentFilter(Assignment assignment) { return assignment.IsCrossBowMan; }
+
+			AssignExtraEquipment(boltFilter, boltAssignmentFilter);
+		}
+
+		private void AssignExtraTwoHandedWeaponOrPolearms() {
+			static bool filter(KeyValuePair<EquipmentElement, int> equipment) {
+				return !equipment.Key.IsEmpty     &&
+					   equipment.Key.Item != null &&
+					   (equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.TwoHandedWeapon ||
+						equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Polearm) &&
+					   equipment.Value > 0;
+			}
+
+			static bool assignmentFilter(Assignment assignment) { return !assignment.HaveTwoHandedWeaponOrPolearms; }
+
+			AssignExtraEquipment(filter, assignmentFilter);
 		}
 
 		private EquipmentElement? GetOneRandomMeleeWeapon(bool mounted) {
@@ -363,4 +480,8 @@
 
 			return bonus;
 		}
+
+		private delegate bool EquipmentFilter(KeyValuePair<EquipmentElement, int> equipment);
+
+		private delegate bool AssignmentFilter(Assignment assignment);
 	}

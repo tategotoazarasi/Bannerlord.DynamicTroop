@@ -2,12 +2,21 @@
 
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
+	using TaleWorlds.MountAndBlade;
+	using static TaleWorlds.Core.ItemObject;
 
 #endregion
 
 	namespace Bannerlord.DynamicTroop;
 
 	public class Assignment {
+		private static readonly EquipmentIndex[] weaponSlots = {
+																   EquipmentIndex.Weapon0,
+																   EquipmentIndex.Weapon1,
+																   EquipmentIndex.Weapon2,
+																   EquipmentIndex.Weapon3
+															   };
+
 		private static int counter;
 
 		public Equipment Equipment;
@@ -28,6 +37,93 @@
 		public CharacterObject Character { get; }
 
 		public Equipment ReferenceEquipment { get; }
+
+		public bool IsShielded {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Shield)
+						return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool CanBeShielded {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty                                                                   &&
+						element.Item                                       != null                         &&
+						element.Item.ItemType                              == ItemTypeEnum.OneHandedWeapon &&
+						MBItem.GetItemUsageSetFlags(element.Item.StringId) != ItemUsageSetFlags.RequiresNoShield)
+						return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool IsArcher {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Bow) return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool IsCrossBowMan {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Crossbow)
+						return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool HaveThrown {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Thrown)
+						return true;
+				}
+
+				return false;
+			}
+		}
+
+		public bool HaveTwoHandedWeaponOrPolearms {
+			get {
+				foreach (var slot in weaponSlots) {
+					var element = Equipment.GetEquipmentFromSlot(slot);
+					if (!element.IsEmpty     &&
+						element.Item != null &&
+						(element.Item.ItemType == ItemTypeEnum.TwoHandedWeapon ||
+						 element.Item.ItemType == ItemTypeEnum.Polearm))
+						return true;
+				}
+
+				return false;
+			}
+		}
+
+		public EquipmentIndex? EmptyWeaponSlot {
+			get {
+				foreach (var slot in weaponSlots)
+					if (Equipment.GetEquipmentFromSlot(slot).IsEmpty || Equipment.GetEquipmentFromSlot(slot).Item == null)
+						return slot;
+
+				return null;
+			}
+		}
 
 		public bool IsUnarmed() {
 			return (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
