@@ -42,8 +42,9 @@
 			if (SubModule.settings.DebugMode) InformationManager.DisplayMessage(new InformationMessage(str, Colors.Red));
 		}
 
-		public static bool IsAgentValid(Agent agent) {
-			return agent.Formation != null &&
+		public static bool IsAgentValid(Agent? agent) {
+			return agent           != null &&
+				   agent.Formation != null &&
 				   agent.IsHuman           &&
 				   agent.Character != null &&
 				   agent.Team      != null &&

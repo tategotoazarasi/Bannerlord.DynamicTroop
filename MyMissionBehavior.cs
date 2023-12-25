@@ -94,6 +94,7 @@
 				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
 				  affectorAgent.Origin.IsUnderPlayersCommand) ||
 				 affectedAgent.Origin.IsUnderPlayersCommand)) {
+				Global.Log($"agent {affectedAgent.Character.StringId} defeated");
 				_ = ProcessedAgents.Add(affectedAgent);
 				var missionEquipment = affectedAgent.Equipment;
 				var spawnEquipment   = affectedAgent.SpawnEquipment;
