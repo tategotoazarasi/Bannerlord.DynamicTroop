@@ -221,8 +221,17 @@
 
 		public static void AssignEquipment(Equipment equipment) {
 			foreach (var slot in Global.EquipmentSlots) {
-				var element                                     = equipment.GetEquipmentFromSlot(slot);
-				if (!element.IsEmpty && element.Item != null) _ = Armory.AddToCounts(element.Item, -1);
+				var element = equipment.GetEquipmentFromSlot(slot);
+				if (!element.IsEmpty && element.Item != null) {
+					var itemToAssign = Armory.FirstOrDefault(a => !a.IsEmpty &&
+																  a.EquipmentElement.Item.StringId ==
+																  element.Item.StringId &&
+																  a.Amount > 0);
+					if (itemToAssign.IsEmpty)
+						Global.Log($"WARNING: Assigning Empty item {element.Item.StringId}");
+					else
+						_ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);
+				}
 			}
 		}
 	}

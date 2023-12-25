@@ -180,24 +180,6 @@
 				if (assignmentFilter(assignment)) {
 					var slot = assignment.EmptyWeaponSlot;
 					if (slot.HasValue) {
-						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
-						在此之前:
-											var equipmentNode = equipmentDeque.First;
-						在此之后:
-											var int>> equipmentNode = equipmentDeque.First;
-						*/
-						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
-						在此之前:
-											var equipmentNode = equipmentDeque.First;
-						在此之后:
-											var int>> equipmentNode = equipmentDeque.First;
-						*/
-						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
-						在此之前:
-												var equipmentNode      = equipmentDeque.First;
-						在此之后:
-												var int>> equipmentNode      = equipmentDeque.First;
-						*/
 						var equipmentNode      = equipmentDeque.First;
 						var equipment          = equipmentNode.Value;
 						var equipmentItem      = equipment.Key;
@@ -513,7 +495,6 @@
 			Global.Log("MissionEnded");
 		return base.MissionEnded(ref missionResult);
 		}*/
-
 
 		public override void OnRetreatMission() {
 			OnMissionEnded(null);
