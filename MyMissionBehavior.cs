@@ -134,7 +134,8 @@
 			AssignExtraShield();
 			AssignExtraThrownWeapon();
 			AssignExtraTwoHandedWeaponOrPolearms();
-			CopyToArmory();
+
+			//CopyToArmory();
 		}
 
 		private void AssignArmour() {
@@ -177,6 +178,12 @@
 				if (assignmentFilter(assignment)) {
 					var slot = assignment.EmptyWeaponSlot;
 					if (slot.HasValue) {
+						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
+						在此之前:
+											var equipmentNode = equipmentDeque.First;
+						在此之后:
+											var int>> equipmentNode = equipmentDeque.First;
+						*/
 						var equipmentNode      = equipmentDeque.First;
 						var equipment          = equipmentNode.Value;
 						var equipmentItem      = equipment.Key;
@@ -186,6 +193,7 @@
 
 						equipmentItemCount--;
 						if (equipmentToAssign[equipmentItem] > 0) equipmentToAssign[equipmentItem]--;
+
 						if (equipmentItemCount > 0)
 							equipmentNode.Value =
 								new KeyValuePair<EquipmentElement, int>(equipmentItem, equipmentItemCount);

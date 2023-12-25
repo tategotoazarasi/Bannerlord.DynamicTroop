@@ -30,7 +30,8 @@
 
 				if (assignment != null) {
 					// 确保equipment不为空
-					agentBuildData        = agentBuildData.Equipment(assignment.Equipment);
+					agentBuildData = agentBuildData.Equipment(assignment.Equipment);
+					ArmyArmory.AssignEquipment(assignment.Equipment);
 					assignment.IsAssigned = true;
 				}
 			}

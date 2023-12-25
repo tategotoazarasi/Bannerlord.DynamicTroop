@@ -211,4 +211,11 @@
 					   ? equipmentElement.Item.WeaponComponent.PrimaryWeapon.WeaponClass
 					   : null;
 		}
+
+		public static void AssignEquipment(Equipment equipment) {
+			foreach (var slot in Global.EquipmentSlots) {
+				var element                                     = equipment.GetEquipmentFromSlot(slot);
+				if (!element.IsEmpty && element.Item != null) _ = Armory.AddToCounts(element.Item, -1);
+			}
+		}
 	}

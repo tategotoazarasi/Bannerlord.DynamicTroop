@@ -46,7 +46,9 @@
 
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
 				}
-				else if (missionInstance.MissionResult == null || !missionInstance.MissionResult.BattleResolved) {
+				else if (missionInstance.MissionResult == null         ||
+						 !missionInstance.MissionResult.BattleResolved ||
+						 missionInstance.MissionResult.EnemyRetreated) {
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
 				}
 			}
