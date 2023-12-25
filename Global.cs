@@ -47,10 +47,12 @@
 		public static bool IsAgentValid(Agent? agent) {
 			return agent           != null &&
 				   agent.Formation != null &&
-				   agent.IsHuman           &&
-				   agent.Character != null &&
-				   agent.Team      != null &&
-				   agent.Origin    != null &&
+
+				   //agent.IsHuman           &&
+				   agent.Character   != null &&
+				   agent.Team        != null &&
+				   agent.Team.MBTeam != null &&
+				   agent.Origin      != null &&
 				   agent.Team.IsValid;
 		}
 

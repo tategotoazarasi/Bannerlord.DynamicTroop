@@ -85,20 +85,25 @@
 		}
 
 		public static void ReturnEquipmentToArmoryFromAgents(IEnumerable<Agent> agents) {
+			var count = 0;
 			foreach (var agent in agents)
 				if (agent.IsHuman && agent.Team.IsPlayerAlly) {
 					var agentEquipment = agent.SpawnEquipment;
 					foreach (var slot in Global.ArmourAndHorsesSlots) {
 						var equipmentElement = agentEquipment.GetEquipmentFromSlot(slot);
-						if (equipmentElement.Item != null && !equipmentElement.IsEmpty)
+						if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
 							_ = Armory.AddToCounts(equipmentElement.Item, 1);
+							count++;
+						}
 					}
 
 					var agentMissionEquipment = agent.Equipment; // 获取当前装备，而不是初始装备
 					foreach (var slot in Assignment.WeaponSlots) {
 						var equipmentElement = agentMissionEquipment[slot];
-						if (equipmentElement.Item != null && !equipmentElement.IsEmpty)
+						if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
 							_ = Armory.AddToCounts(equipmentElement.Item, 1);
+							count++;
+						}
 					}
 					// 特别处理战马
 					/*if (agent.HasMount) {
@@ -108,6 +113,8 @@
 						}
 					}*/
 				}
+
+			Global.Log($"{count} equipment reclaimed");
 		}
 
 		public static void AddSoldierEquipmentToArmory(CharacterObject character) {

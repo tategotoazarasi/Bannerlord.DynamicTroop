@@ -5,6 +5,7 @@
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
+	using TaleWorlds.Localization;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -20,7 +21,7 @@
 
 		public static List<ItemObject> LootedItems = new();
 
-		public override MissionBehaviorType BehaviorType => MissionBehaviorType.Logic;
+		private bool IsMissionEnded;
 
 		public override void AfterStart() {
 			base.AfterStart();
@@ -83,12 +84,13 @@
 											AgentState  agentState,
 											KillingBlow blow) {
 			if (Mission.CombatType == Mission.MissionCombatType.Combat                    &&
+				agentState         != null                                                &&
+				(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
 				Global.IsAgentValid(affectedAgent)                                        &&
 				Global.IsAgentValid(affectorAgent)                                        &&
 				Mission            != null                                                &&
 				Mission.PlayerTeam != null                                                &&
 				Mission.PlayerTeam.IsValid                                                &&
-				(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
 				!ProcessedAgents.Contains(affectedAgent)                                  &&
 				!affectedAgent.Character.IsHero                                           &&
 				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
@@ -183,6 +185,18 @@
 											var equipmentNode = equipmentDeque.First;
 						在此之后:
 											var int>> equipmentNode = equipmentDeque.First;
+						*/
+						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
+						在此之前:
+											var equipmentNode = equipmentDeque.First;
+						在此之后:
+											var int>> equipmentNode = equipmentDeque.First;
+						*/
+						/* 项目“Bannerlord.DynamicTroop (net472)”的未合并的更改
+						在此之前:
+												var equipmentNode      = equipmentDeque.First;
+						在此之后:
+												var int>> equipmentNode      = equipmentDeque.First;
 						*/
 						var equipmentNode      = equipmentDeque.First;
 						var equipment          = equipmentNode.Value;
@@ -493,6 +507,85 @@
 			if (Global.IsWeaponBracable(weapon)) bonus++;
 
 			return bonus;
+		}
+
+		/*public override bool MissionEnded(ref MissionResult missionResult) {
+			Global.Log("MissionEnded");
+		return base.MissionEnded(ref missionResult);
+		}*/
+
+
+		public override void OnRetreatMission() {
+			OnMissionEnded(null);
+			base.OnRetreatMission();
+		}
+
+		public override void OnSurrenderMission() {
+			OnMissionEnded(null);
+			base.OnSurrenderMission();
+		}
+
+		public override void OnMissionResultReady(MissionResult missionResult) {
+			OnMissionEnded(missionResult);
+			base.OnMissionResultReady(missionResult);
+		}
+
+		public override InquiryData OnEndMissionRequest(out bool canLeave) {
+			OnMissionEnded(null);
+			return base.OnEndMissionRequest(out canLeave);
+		}
+
+		public override void ShowBattleResults() {
+			OnMissionEnded(null);
+			base.ShowBattleResults();
+		}
+
+		public override void OnBattleEnded() {
+			OnMissionEnded(null);
+			base.OnBattleEnded();
+		}
+
+		private void OnMissionEnded(MissionResult? missionResult) {
+			if (IsMissionEnded) return;
+
+			missionResult ??= Mission.MissionResult;
+			if (Mission.CombatType == Mission.MissionCombatType.Combat &&
+				Mission.PlayerTeam != null                             &&
+				Mission.PlayerTeam.IsValid                             &&
+				Mission.Current.PlayerTeam != null) {
+				List<Agent> myAgents = Mission.Agents.Where(agent => agent           != null          &&
+																	 agent.Formation != null          &&
+																	 agent.Team      != null          &&
+																	 agent.Origin    != null          &&
+																	 agent.IsHuman                    &&
+																	 agent.Team.IsValid               &&
+																	 agent.Team.IsPlayerTeam          &&
+																	 agent.State == AgentState.Active &&
+																	 !agent.IsHero                    &&
+																	 agent.Origin.IsUnderPlayersCommand)
+											  .ToList();
+
+				if (missionResult != null && missionResult.BattleResolved && missionResult.PlayerVictory) {
+					var        lootCount   = LootedItems.Count;
+					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
+					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
+					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
+					foreach (var item in LootedItems) ArmyArmory.AddItemToArmory(item);
+
+					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
+				}
+				else if (missionResult == null || !missionResult.BattleResolved || missionResult.EnemyRetreated) {
+					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
+				}
+			}
+
+			IsMissionEnded = true;
+			Clear();
+		}
+
+		protected override void OnEndMission() {
+			OnMissionEnded(null);
+			base.OnEndMission();
 		}
 
 		private delegate bool EquipmentFilter(KeyValuePair<EquipmentElement, int> equipment);
