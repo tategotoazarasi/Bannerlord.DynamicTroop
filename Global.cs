@@ -29,7 +29,9 @@
 																  EquipmentIndex.Body,
 																  EquipmentIndex.Leg,
 																  EquipmentIndex.Gloves,
-																  EquipmentIndex.Cape
+																  EquipmentIndex.Cape,
+																  EquipmentIndex.Horse,
+																  EquipmentIndex.HorseHarness
 															  };
 
 		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
