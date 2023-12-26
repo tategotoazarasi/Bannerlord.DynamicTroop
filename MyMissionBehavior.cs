@@ -154,7 +154,7 @@
 			foreach (var assignment in assignments)
 				if (assignment.IsUnarmed()) {
 					Global.Log($"Found unarmed unit Index {assignment.Index}");
-					var weapon = GetOneRandomMeleeWeapon(assignment.Character.IsMounted);
+					var weapon = GetOneRandomMeleeWeapon(assignment.IsMounted);
 					if (weapon.HasValue) {
 						assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weapon.Value);
 						equipmentToAssign[weapon.Value]--;
@@ -180,6 +180,12 @@
 				if (assignmentFilter(assignment)) {
 					var slot = assignment.EmptyWeaponSlot;
 					if (slot.HasValue) {
+						/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
+						在此之前:
+											var equipmentNode = equipmentDeque.First;
+						在此之后:
+											var int>>? equipmentNode = equipmentDeque.First;
+						*/
 						var equipmentNode      = equipmentDeque.First;
 						var equipment          = equipmentNode.Value;
 						var equipmentItem      = equipment.Key;
@@ -305,7 +311,7 @@
 			var currentItemIndex = 0;
 			foreach (var assignment in assignments) {
 				if ((itemType == ItemObject.ItemTypeEnum.Horse || itemType == ItemObject.ItemTypeEnum.HorseHarness) &&
-					!assignment.Character.IsMounted)
+					!assignment.IsMounted)
 					continue;
 
 				while (currentItemIndex < armours.Count && armours[currentItemIndex].Value <= 0) currentItemIndex++;
@@ -328,10 +334,10 @@
 
 		private void AssignWeaponByWeaponClass(bool strict) {
 			foreach (var assignment in assignments) {
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.Character.IsMounted, strict);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.Character.IsMounted, strict);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon2, assignment, assignment.Character.IsMounted, strict);
-				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon3, assignment, assignment.Character.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon2, assignment, assignment.IsMounted, strict);
+				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon3, assignment, assignment.IsMounted, strict);
 			}
 		}
 
@@ -341,7 +347,7 @@
 			if (!weapon.IsEmpty && weapon.Item != null) {
 				var weaponClass = Global.GetWeaponClass(weapon.Item);
 				var availableWeapon = equipmentToAssign
-									  .Where(equipment => IsWeaponSuitable(equipment, weaponClass, mounted, strict))
+									  .Where(equipment => IsWeaponSuitable(equipment.Key, weaponClass, mounted, strict))
 									  .OrderByDescending(equipment =>
 															 (int)equipment.Key.Item.Tier +
 															 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
@@ -355,22 +361,10 @@
 
 		private void AssignWeaponByItemEnumType(bool strict) {
 			foreach (var assignment in assignments) {
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0,
-												 assignment,
-												 assignment.Character.IsMounted,
-												 strict);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon1,
-												 assignment,
-												 assignment.Character.IsMounted,
-												 strict);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon2,
-												 assignment,
-												 assignment.Character.IsMounted,
-												 strict);
-				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon3,
-												 assignment,
-												 assignment.Character.IsMounted,
-												 strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon1, assignment, assignment.IsMounted, strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon2, assignment, assignment.IsMounted, strict);
+				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon3, assignment, assignment.IsMounted, strict);
 			}
 		}
 
@@ -430,31 +424,51 @@
 		}
 
 		// 封装判断逻辑
-		private bool IsWeaponSuitable(KeyValuePair<EquipmentElement, int> equipment,
-									  WeaponClass?                        weaponClass,
-									  bool                                mounted,
-									  bool                                strict) {
-			return !equipment.Key.IsEmpty                                      &&
-				   equipment.Key.Item               != null                    &&
-				   equipmentToAssign[equipment.Key] > 0                        &&
-				   Global.IsWeapon(equipment.Key.Item)                         &&
-				   Global.GetWeaponClass(equipment.Key.Item) == weaponClass    &&
-				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item)) &&
-				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item));
+		private bool IsWeaponSuitable(EquipmentElement  equipment,
+									  List<WeaponClass> weaponClasses,
+									  bool              mounted,
+									  bool              strict) {
+			if (equipment.IsEmpty                 ||
+				equipment.Item == null            ||
+				!Global.IsWeapon(equipment.Item)  ||
+				equipmentToAssign[equipment] <= 0 ||
+				!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), weaponClasses))
+				return false;
+
+			var isSuitableForMount = Global.IsSuitableForMount(equipment.Item);
+			var isCouchable        = Global.IsWeaponCouchable(equipment.Item);
+
+			if (strict) {
+				if (mounted)
+					// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
+					return isSuitableForMount &&
+						   (equipment.Item.ItemType != ItemObject.ItemTypeEnum.Polearm || isCouchable);
+
+				// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
+				return !isCouchable;
+			}
+
+			// 非严格模式下：骑马的不能选择不适合骑乘的武器，非骑马的可以选择任意武器
+			return !mounted || isSuitableForMount;
 		}
 
 		// 封装判断逻辑
-		private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
-											ItemObject.ItemTypeEnum             itemType,
-											bool                                mounted,
-											bool                                strict) {
-			return !equipment.Key.IsEmpty                                      &&
-				   equipment.Key.Item               != null                    &&
-				   equipmentToAssign[equipment.Key] > 0                        &&
-				   Global.IsWeapon(equipment.Key.Item)                         &&
-				   equipment.Key.Item.ItemType == itemType                     &&
-				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item)) &&
-				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item));
+		private bool
+			IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
+								   ItemObject.ItemTypeEnum             itemType,
+								   bool                                mounted,
+								   bool                                strict) {
+			return !equipment.Key.IsEmpty                                                 &&
+				   equipment.Key.Item               != null                               &&
+				   equipmentToAssign[equipment.Key] > 0                                   &&
+				   Global.IsWeapon(equipment.Key.Item)                                    &&
+				   equipment.Key.Item.ItemType == itemType                                &&
+				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item))            &&
+				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item)) &&
+				   (!strict                                                        ||
+					!mounted                                                       ||
+					equipment.Key.Item.ItemType != ItemObject.ItemTypeEnum.Polearm ||
+					Global.IsWeaponCouchable(equipment.Key.Item));
 		}
 
 		// 封装武器分配逻辑

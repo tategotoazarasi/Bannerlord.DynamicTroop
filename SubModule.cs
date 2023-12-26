@@ -1,6 +1,13 @@
 ﻿#region
 
+	using System.IO;
+	using System.Linq;
+	using System.Reflection;
 	using HarmonyLib;
+	using log4net;
+	using log4net.Appender;
+	using log4net.Config;
+	using log4net.Repository.Hierarchy;
 	using SandBox.Tournaments.MissionLogics;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
@@ -18,6 +25,33 @@
 
 			Harmony harmony = new("com.bannerlord.mod.dynamic_troop");
 			harmony.PatchAll();
+
+			// 获取 Mod 目录的路径
+
+			/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
+			在此之前:
+					var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			在此之后:
+					string? modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			*/
+			var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+			// 构建 log4net 配置文件的完整路径
+			var logConfigPath = Path.Combine(modDirectory, "log4net.config");
+
+			// 设置日志文件的路径
+			GlobalContext.Properties["LogDir"] = modDirectory;
+
+			// 初始化 log4net
+			var loggerRepository = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(Hierarchy));
+			_ = XmlConfigurator.Configure(loggerRepository, new FileInfo(logConfigPath));
+
+			// 动态设置日志文件路径
+			var fileAppender = loggerRepository.GetAppenders().OfType<FileAppender>().FirstOrDefault();
+			if (fileAppender != null) {
+				fileAppender.File = Path.Combine(modDirectory, "log.txt");
+				fileAppender.ActivateOptions(); // 应用新的配置
+			}
 		}
 
 		protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }

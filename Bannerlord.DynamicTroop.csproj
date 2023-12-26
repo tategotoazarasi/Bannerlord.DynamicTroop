@@ -1,4 +1,4 @@
-<Project Sdk="Bannerlord.BUTRModule.Sdk/1.1.0.104">
+﻿<Project Sdk="Bannerlord.BUTRModule.Sdk/1.1.0.104">
 
   <PropertyGroup>
     <Version>0.0.1</Version>
@@ -43,8 +43,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="all" IncludeAssets="compile" />
     <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+	<Content Include="log4net.config">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</Content>
   </ItemGroup>
 
   <ItemGroup>

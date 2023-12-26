@@ -125,6 +125,13 @@
 			}
 		}
 
+		public bool IsMounted {
+			get {
+				var horse = ReferenceEquipment.GetEquipmentFromSlot(EquipmentIndex.Horse);
+				return !horse.IsEmpty && horse.Item != null;
+			}
+		}
+
 		public bool IsUnarmed() {
 			return (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
 					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
