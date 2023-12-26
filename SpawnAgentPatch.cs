@@ -2,6 +2,8 @@
 
 	using System.Linq;
 	using HarmonyLib;
+	using log4net.Core;
+	using TaleWorlds.Library;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -33,6 +35,11 @@
 					agentBuildData = agentBuildData.Equipment(assignment.Equipment);
 					ArmyArmory.AssignEquipment(assignment.Equipment);
 					assignment.IsAssigned = true;
+				}
+				else {
+					Global.Log($"assignment not found for {agentBuildData.AgentCharacter.StringId}",
+							   Colors.Red,
+							   Level.Error);
 				}
 			}
 		}

@@ -69,7 +69,7 @@
 			get {
 				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Bow) return true;
+					if (!element.IsEmpty && element.Item != null && Global.IsBow(element.Item)) return true;
 				}
 
 				return false;
@@ -80,8 +80,7 @@
 			get {
 				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Crossbow)
-						return true;
+					if (!element.IsEmpty && element.Item != null && Global.IsCrossBow(element.Item)) return true;
 				}
 
 				return false;
@@ -92,8 +91,7 @@
 			get {
 				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Thrown)
-						return true;
+					if (!element.IsEmpty && element.Item != null && Global.IsThrowing(element.Item)) return true;
 				}
 
 				return false;
@@ -106,8 +104,7 @@
 					var element = Equipment.GetEquipmentFromSlot(slot);
 					if (!element.IsEmpty     &&
 						element.Item != null &&
-						(element.Item.ItemType == ItemTypeEnum.TwoHandedWeapon ||
-						 element.Item.ItemType == ItemTypeEnum.Polearm))
+						(Global.IsTwoHanded(element.Item) || Global.IsPolearm(element.Item)))
 						return true;
 				}
 
@@ -141,11 +138,5 @@
 					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
 				   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
 					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
-		}
-
-		public void EquipAnother(Equipment equipment) {
-			foreach (var slot in Global.EquipmentSlots)
-				//var toAdd = Equipment.GetEquipmentFromSlot(slot);
-				equipment.AddEquipmentToSlotWithoutAgent(slot, Equipment.GetEquipmentFromSlot(slot));
 		}
 	}

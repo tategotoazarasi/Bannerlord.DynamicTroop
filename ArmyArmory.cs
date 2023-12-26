@@ -2,9 +2,11 @@
 
 	using System.Collections.Generic;
 	using System.Linq;
+	using log4net.Core;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.CampaignSystem.Roster;
 	using TaleWorlds.Core;
+	using TaleWorlds.Library;
 	using TaleWorlds.MountAndBlade;
 	using static TaleWorlds.Core.ItemObject;
 
@@ -114,7 +116,7 @@
 					}*/
 				}
 
-			Global.Log($"{count} equipment reclaimed");
+			Global.Log($"{count} equipment reclaimed", Colors.Green, Level.Debug);
 		}
 
 		public static void AddSoldierEquipmentToArmory(CharacterObject character) {
@@ -228,7 +230,7 @@
 																  element.Item.StringId &&
 																  a.Amount > 0);
 					if (itemToAssign.IsEmpty)
-						Global.Log($"WARNING: Assigning Empty item {element.Item.StringId}");
+						Global.Log($"Assigning Empty item {element.Item.StringId}", Colors.Red, Level.Warn);
 					else
 						_ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);
 				}
