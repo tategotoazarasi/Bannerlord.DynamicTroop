@@ -58,23 +58,22 @@
 				// 使用 log4net 记录日志
 				StackFrame frame = new(1, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
 
-
 				/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-				在此之前:
-							var method = frame.GetMethod(); // 获取方法信息
-				在此之后:
-							System.Reflection.MethodBase? method = frame.GetMethod(); // 获取方法信息
-				*/
+					  在此之前:
+								  var method = frame.GetMethod(); // 获取方法信息
+					  在此之后:
+								  System.Reflection.MethodBase? method = frame.GetMethod(); // 获取方法信息
+					  */
 				var method = frame.GetMethod(); // 获取方法信息
 
 				// 获取文件名而不是完整路径
 
 				/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-				在此之前:
-							var fileName = Path.GetFileName(frame.GetFileName());
-				在此之后:
-							string? fileName = Path.GetFileName(frame.GetFileName());
-				*/
+					  在此之前:
+								  var fileName = Path.GetFileName(frame.GetFileName());
+					  在此之后:
+								  string? fileName = Path.GetFileName(frame.GetFileName());
+					  */
 				var fileName = Path.GetFileName(frame.GetFileName());
 
 				var lineNumber = frame.GetFileLineNumber(); // 获取行号
@@ -119,60 +118,70 @@
 		}
 
 		public static bool IsWeaponCouchable(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("couchable"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("couchable"));
 		}
 
 		public static bool IsSuitableForMount(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => !flag.Contains("cant_use_on_horseback"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => !flag.Contains("cant_use_on_horseback"));
 		}
 
 		public static bool IsWeaponBracable(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("braceable"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("braceable"));
 		}
 
 		public static bool IsPolearm(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("polearm"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("polearm"));
 		}
 
 		public static bool IsOneHanded(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("one_handed"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("one_handed"));
 		}
 
 		public static bool IsTwoHanded(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("two_handed"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("two_handed"));
 		}
 
 		public static bool IsThrowing(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("throwing"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("throwing"));
 		}
 
 		public static bool IsBow(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("str_inventory_flag_bow"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("str_inventory_flag_bow"));
 		}
 
 		public static bool IsCrossBow(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("crossbow"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("crossbow"));
 		}
 
 		public static bool IsBonusAgainstShield(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("bonus_against_shield"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("bonus_against_shield"));
 		}
 
 		public static bool CanKnockdown(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("can_knockdown"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_knockdown"));
 		}
 
 		public static bool CanDismount(ItemObject weapon) {
-			return CheckWeaponFlag(weapon, flag => flag.Contains("can_dismount"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_dismount"));
 		}
 
-		private static bool CheckWeaponFlag(ItemObject weapon, Func<string, bool> flagCondition) {
-			foreach (var weaponComponentData in weapon.Weapons) {
-				List<(string, TextObject)> flagDetails = CampaignUIHelper.GetFlagDetailsForWeapon(weaponComponentData,
-					MBItem.GetItemUsageSetFlags(weaponComponentData.ItemUsage));
-				if (flagDetails.Any(flagDetail => !flagDetail.Item1.IsEmpty() && flagCondition(flagDetail.Item1)))
-					return true;
-			}
+		private static bool CheckWeaponFlag(ItemObject? weapon, Func<string, bool> flagCondition) {
+			if (weapon == null) return false;
+
+			if (weapon.Weapons == null) return false;
+			foreach (var weaponComponentData in weapon.Weapons)
+				if (weaponComponentData != null) {
+					List<(string, TextObject)> flagDetails =
+						CampaignUIHelper.GetFlagDetailsForWeapon(weaponComponentData,
+																 MBItem.GetItemUsageSetFlags(weaponComponentData
+																	 .ItemUsage));
+					if (flagDetails != null &&
+						flagDetails.Any(flagDetail =>
+											flagDetail.Item1 != null    &&
+											!flagDetail.Item1.IsEmpty() &&
+											flagCondition(flagDetail.Item1)))
+						return true;
+				}
 
 			return false;
 		}
