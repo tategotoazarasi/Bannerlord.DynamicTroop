@@ -58,22 +58,9 @@
 				// 使用 log4net 记录日志
 				StackFrame frame = new(1, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
 
-				/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-					  在此之前:
-								  var method = frame.GetMethod(); // 获取方法信息
-					  在此之后:
-								  System.Reflection.MethodBase? method = frame.GetMethod(); // 获取方法信息
-					  */
 				var method = frame.GetMethod(); // 获取方法信息
 
 				// 获取文件名而不是完整路径
-
-				/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-					  在此之前:
-								  var fileName = Path.GetFileName(frame.GetFileName());
-					  在此之后:
-								  string? fileName = Path.GetFileName(frame.GetFileName());
-					  */
 				var fileName = Path.GetFileName(frame.GetFileName());
 
 				var lineNumber = frame.GetFileLineNumber(); // 获取行号
@@ -110,6 +97,22 @@
 		}
 
 		public static bool HaveSameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
+			var thrown1 = list1.Where(weaponClass =>
+										  weaponClass is WeaponClass.ThrowingKnife
+														 or WeaponClass.ThrowingAxe
+														 or WeaponClass.Stone
+														 or WeaponClass.Javelin)
+							   .ToList();
+			if (!thrown1.IsEmpty()) return list2.Any(weaponClass => thrown1.Contains(weaponClass));
+
+			var thrown2 = list2.Where(weaponClass =>
+										  weaponClass is WeaponClass.ThrowingKnife
+														 or WeaponClass.ThrowingAxe
+														 or WeaponClass.Stone
+														 or WeaponClass.Javelin)
+							   .ToList();
+			if (!thrown2.IsEmpty()) return list1.Any(weaponClass => thrown2.Contains(weaponClass));
+
 			foreach (var weaponClass1 in list1)
 				if (list2.Any(weaponClass2 => weaponClass2 == weaponClass1))
 					return true;
@@ -118,11 +121,14 @@
 		}
 
 		public static bool IsWeaponCouchable(ItemObject weapon) {
-			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("couchable"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_couchable"));
 		}
 
 		public static bool IsSuitableForMount(ItemObject weapon) {
-			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => !flag.Contains("cant_use_on_horseback"));
+			return IsWeapon(weapon) &&
+				   CheckWeaponFlag(weapon,
+								   flag => !flag.Contains("cant_use_on_horseback") &&
+										   !flag.Contains("cant_reload_on_horseback"));
 		}
 
 		public static bool IsWeaponBracable(ItemObject weapon) {
@@ -146,7 +152,7 @@
 		}
 
 		public static bool IsBow(ItemObject weapon) {
-			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("str_inventory_flag_bow"));
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("WeaponFlagIcons\\\\bow"));
 		}
 
 		public static bool IsCrossBow(ItemObject weapon) {
@@ -165,10 +171,15 @@
 			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_dismount"));
 		}
 
+		public static bool CantUseWithShields(ItemObject weapon) {
+			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => !flag.Contains("cant_use_with_shields"));
+		}
+
 		private static bool CheckWeaponFlag(ItemObject? weapon, Func<string, bool> flagCondition) {
 			if (weapon == null) return false;
 
 			if (weapon.Weapons == null) return false;
+
 			foreach (var weaponComponentData in weapon.Weapons)
 				if (weaponComponentData != null) {
 					List<(string, TextObject)> flagDetails =

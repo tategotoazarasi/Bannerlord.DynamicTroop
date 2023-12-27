@@ -87,14 +87,17 @@
 		}
 
 		public static void ReturnEquipmentToArmoryFromAgents(IEnumerable<Agent> agents) {
+			Global.Log("ReturnEquipmentToArmoryFromAgents", Colors.Green, Level.Debug);
 			var count = 0;
 			foreach (var agent in agents)
 				if (agent.IsHuman && agent.Team.IsPlayerAlly) {
+					Global.Log($"Returning equipment of agent {agent.Character.StringId}", Colors.Green, Level.Debug);
 					var agentEquipment = agent.SpawnEquipment;
 					foreach (var slot in Global.ArmourAndHorsesSlots) {
 						var equipmentElement = agentEquipment.GetEquipmentFromSlot(slot);
 						if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
 							_ = Armory.AddToCounts(equipmentElement.Item, 1);
+							Global.Log($"equipment {equipmentElement.Item.StringId} returned", Colors.Green, Level.Debug);
 							count++;
 						}
 					}
@@ -104,6 +107,7 @@
 						var equipmentElement = agentMissionEquipment[slot];
 						if (equipmentElement.Item != null && !equipmentElement.IsEmpty) {
 							_ = Armory.AddToCounts(equipmentElement.Item, 1);
+							Global.Log($"equipment {equipmentElement.Item.StringId} returned", Colors.Green, Level.Debug);
 							count++;
 						}
 					}

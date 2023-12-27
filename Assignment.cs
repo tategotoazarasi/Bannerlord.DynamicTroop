@@ -2,7 +2,6 @@
 
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
-	using TaleWorlds.MountAndBlade;
 	using static TaleWorlds.Core.ItemObject;
 
 #endregion
@@ -54,10 +53,10 @@
 			get {
 				foreach (var slot in WeaponSlots) {
 					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty                                                                   &&
-						element.Item                                       != null                         &&
-						element.Item.ItemType                              == ItemTypeEnum.OneHandedWeapon &&
-						MBItem.GetItemUsageSetFlags(element.Item.StringId) != ItemUsageSetFlags.RequiresNoShield)
+					if (!element.IsEmpty                                      &&
+						element.Item          != null                         &&
+						element.Item.ItemType == ItemTypeEnum.OneHandedWeapon &&
+						!Global.CantUseWithShields(element.Item))
 						return true;
 				}
 

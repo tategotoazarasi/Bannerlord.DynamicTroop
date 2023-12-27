@@ -165,12 +165,6 @@
 				if (assignmentFilter(assignment)) {
 					var slot = assignment.EmptyWeaponSlot;
 					if (slot.HasValue) {
-						/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-						在此之前:
-											var equipmentNode = equipmentDeque.First;
-						在此之后:
-											var int>>? equipmentNode = equipmentDeque.First;
-						*/
 						var equipmentNode      = equipmentDeque.First;
 						var equipment          = equipmentNode.Value;
 						var equipmentItem      = equipment.Key;
@@ -216,10 +210,10 @@
 			Global.Log("AssignExtraThrownWeapon", Colors.Green, Level.Debug);
 
 			static bool thrownFilter(KeyValuePair<EquipmentElement, int> equipment) {
-				return !equipment.Key.IsEmpty                                        &&
-					   equipment.Key.Item          != null                           &&
-					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Thrown &&
-					   equipment.Value             > 0;
+				return !equipment.Key.IsEmpty                &&
+					   equipment.Key.Item != null            &&
+					   Global.IsThrowing(equipment.Key.Item) &&
+					   equipment.Value > 0;
 			}
 
 			static bool thrownAssignmentFilter(Assignment assignment) { return !assignment.HaveThrown; }
@@ -349,7 +343,7 @@
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !referenceWeapon.IsEmpty && referenceWeapon.Item != null) {
 				var weaponClass = Global.GetWeaponClass(referenceWeapon.Item);
-				foreach (var cls in weaponClass)
+				/*foreach (var cls in weaponClass)
 					Global.Log($"weapon class for {referenceWeapon.Item.StringId} is {cls}", Colors.Green, Level.Debug);
 
 				if (Global.IsWeaponCouchable(referenceWeapon.Item))
@@ -362,7 +356,7 @@
 				else
 					Global.Log($"weapon {referenceWeapon.Item.StringId} is not SuitableForMount",
 							   Colors.Green,
-							   Level.Debug);
+							   Level.Debug);*/
 
 				var availableWeapon = equipmentToAssign
 									  .Where(equipment => IsWeaponSuitable(equipment.Key, weaponClass, mounted, strict))
@@ -462,22 +456,31 @@
 		}
 
 		// 封装判断逻辑
-		private bool
-			IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
-								   ItemObject.ItemTypeEnum             itemType,
-								   bool                                mounted,
-								   bool                                strict) {
-			return !equipment.Key.IsEmpty                                                 &&
-				   equipment.Key.Item               != null                               &&
-				   equipmentToAssign[equipment.Key] > 0                                   &&
-				   Global.IsWeapon(equipment.Key.Item)                                    &&
-				   equipment.Key.Item.ItemType == itemType                                &&
-				   (!mounted || Global.IsSuitableForMount(equipment.Key.Item))            &&
-				   (!strict  || mounted || !Global.IsWeaponCouchable(equipment.Key.Item)) &&
-				   (!strict                                                        ||
-					!mounted                                                       ||
-					equipment.Key.Item.ItemType != ItemObject.ItemTypeEnum.Polearm ||
-					Global.IsWeaponCouchable(equipment.Key.Item));
+		private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
+											ItemObject.ItemTypeEnum             itemType,
+											bool                                mounted,
+											bool                                strict) {
+			if (equipment.Key.IsEmpty                 ||
+				equipment.Key.Item == null            ||
+				!Global.IsWeapon(equipment.Key.Item)  ||
+				equipmentToAssign[equipment.Key] <= 0 ||
+				equipment.Key.Item.ItemType      != itemType)
+				return false;
+
+			var isSuitableForMount = Global.IsSuitableForMount(equipment.Key.Item);
+			var isCouchable        = Global.IsWeaponCouchable(equipment.Key.Item);
+
+			if (strict) {
+				if (mounted)
+					// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
+					return isSuitableForMount && (!Global.IsPolearm(equipment.Key.Item) || isCouchable);
+
+				// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
+				return !isCouchable;
+			}
+
+			// 非严格模式下：骑马的不能选择不适合骑乘的武器，非骑马的可以选择任意武器
+			return !mounted || isSuitableForMount;
 		}
 
 		// 封装武器分配逻辑
@@ -561,20 +564,17 @@
 				Mission.PlayerTeam != null                             &&
 				Mission.PlayerTeam.IsValid                             &&
 				Mission.Current.PlayerTeam != null) {
-				List<Agent> myAgents = Mission.Agents.Where(agent => agent           != null          &&
-																	 agent.Formation != null          &&
-																	 agent.Team      != null          &&
-																	 agent.Origin    != null          &&
-																	 agent.IsHuman                    &&
-																	 agent.Team.IsValid               &&
+				List<Agent> myAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent)       &&
 																	 agent.Team.IsPlayerTeam          &&
 																	 agent.State == AgentState.Active &&
 																	 !agent.IsHero                    &&
 																	 agent.Origin.IsUnderPlayersCommand)
 											  .ToList();
-
+				Global.Log($"{myAgents.Count} player active agent remains on the battlefield", Colors.Green, Level.Debug);
 				if (missionResult != null && missionResult.BattleResolved && missionResult.PlayerVictory) {
-					var        lootCount   = LootedItems.Count;
+					Global.Log("player victory", Colors.Green, Level.Debug);
+					var lootCount = LootedItems.Count;
+					Global.Log($"{lootCount} items looted", Colors.Green, Level.Debug);
 					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
 					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
 					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
@@ -582,7 +582,8 @@
 
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
 				}
-				else if (missionResult == null || !missionResult.BattleResolved || missionResult.EnemyRetreated) {
+				else if (missionResult == null || !missionResult.BattleResolved || !missionResult.PlayerDefeated) {
+					Global.Log("mission ended with player not defeated", Colors.Green, Level.Debug);
 					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
 				}
 			}

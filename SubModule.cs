@@ -27,20 +27,6 @@
 			harmony.PatchAll();
 
 			// 获取 Mod 目录的路径
-
-			/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-			在此之前:
-					var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			在此之后:
-					string? modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			*/
-
-			/* 项目“Bannerlord.DynamicTroop (netcoreapp3.1)”的未合并的更改
-			在此之前:
-					var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			在此之后:
-					string? modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			*/
 			var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 			// 构建 log4net 配置文件的完整路径
