@@ -72,12 +72,24 @@
 				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
 				_ = ProcessedAgents.Add(affectedAgent);
 
+				// 获取受击部位
+				var hitBodyPart = blow.VictimBodyPart;
+
+				// 获取受击部位的护甲
+				var armors   = Global.GetAgentArmors(affectedAgent);
+				var hitArmor = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);
+
 				Global.ProcessAgentEquipment(affectedAgent,
 											 item => {
-												 LootedItems.Add(item);
-												 Global.Log($"{item.StringId} added to LootedItems",
-															Colors.Green,
-															Level.Debug);
+												 if (hitArmor == null || item.StringId != hitArmor.StringId) {
+													 LootedItems.Add(item);
+													 Global.Log($"{item.StringId} added to LootedItems",
+																Colors.Green,
+																Level.Debug);
+												 }
+												 else if (item.StringId == hitArmor.StringId) {
+													 Global.Log($"{item.StringId} damaged", Colors.Red, Level.Debug);
+												 }
 											 });
 			}
 

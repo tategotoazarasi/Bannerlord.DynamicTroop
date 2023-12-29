@@ -42,6 +42,14 @@
 																  EquipmentIndex.HorseHarness
 															  };
 
+		public static EquipmentIndex[] ArmourSlots = {
+														 EquipmentIndex.Head,
+														 EquipmentIndex.Body,
+														 EquipmentIndex.Leg,
+														 EquipmentIndex.Gloves,
+														 EquipmentIndex.Cape
+													 };
+
 		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
 
 		public static List<WeaponClass> GetWeaponClass(ItemObject item) {
@@ -247,5 +255,15 @@
 				   IsWeapon(mw.Value.Item)                             &&
 				   (mw.Value.IsAnyAmmo() || IsThrowing(mw.Value.Item)) &&
 				   mw.Value.Amount == 0;
+		}
+
+		public static List<ItemObject> GetAgentArmors(Agent agent) {
+			List<ItemObject> armors = new();
+			foreach (var slot in ArmourAndHorsesSlots) {
+				var element = agent.SpawnEquipment.GetEquipmentFromSlot(slot);
+				if (!element.IsEmpty && element.Item != null && element.Item.HasArmorComponent) armors.Add(element.Item);
+			}
+
+			return armors;
 		}
 	}
