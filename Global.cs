@@ -211,4 +211,41 @@
 
 			return false;
 		}
+
+		public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {
+			if (!IsAgentValid(agent)) return;
+
+			var missionEquipment = agent.Equipment;
+			var spawnEquipment   = agent.SpawnEquipment;
+
+			if (missionEquipment == null || spawnEquipment == null) return;
+
+			// 处理武器槽装备
+			foreach (var slot in Assignment.WeaponSlots) {
+				var element = missionEquipment[slot];
+				if (!element.IsEmpty && element.Item != null) {
+					if (IsAmmoAndEmpty(element)) {
+						Log($"Empty Ammo {element.Item.StringId}", Colors.Green, Level.Debug);
+						continue;
+					}
+
+					processEquipmentItem(element.Item);
+				}
+			}
+
+			// 处理装甲和马匹槽装备
+			foreach (var slot in ArmourAndHorsesSlots) {
+				var element = spawnEquipment[slot];
+				if (!element.IsEmpty && element.Item != null) processEquipmentItem(element.Item);
+			}
+		}
+
+		private static bool IsAmmoAndEmpty(MissionWeapon? mw) {
+			return mw != null                                          &&
+				   !mw.Value.IsEmpty                                   &&
+				   mw.Value.Item != null                               &&
+				   IsWeapon(mw.Value.Item)                             &&
+				   (mw.Value.IsAnyAmmo() || IsThrowing(mw.Value.Item)) &&
+				   mw.Value.Amount == 0;
+		}
 	}

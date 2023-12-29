@@ -71,27 +71,14 @@
 				 affectedAgent.Origin.IsUnderPlayersCommand)) {
 				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
 				_ = ProcessedAgents.Add(affectedAgent);
-				var missionEquipment = affectedAgent.Equipment;
-				var spawnEquipment   = affectedAgent.SpawnEquipment;
-				if (missionEquipment == null) return;
 
-				if (spawnEquipment == null) return;
-
-				foreach (var slot in Assignment.WeaponSlots) {
-					var element = missionEquipment[slot];
-					if (!element.IsEmpty && element.Item != null) {
-						LootedItems.Add(element.Item);
-						Global.Log($"{element.Item.StringId} added to LootedItems", Colors.Green, Level.Debug);
-					}
-				}
-
-				foreach (var slot in Global.ArmourAndHorsesSlots) {
-					var element = spawnEquipment[slot];
-					if (!element.IsEmpty && element.Item != null) {
-						LootedItems.Add(element.Item);
-						Global.Log($"{element.Item.StringId} added to LootedItems", Colors.Green, Level.Debug);
-					}
-				}
+				Global.ProcessAgentEquipment(affectedAgent,
+											 item => {
+												 LootedItems.Add(item);
+												 Global.Log($"{item.StringId} added to LootedItems",
+															Colors.Green,
+															Level.Debug);
+											 });
 			}
 
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
@@ -343,21 +330,6 @@
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !referenceWeapon.IsEmpty && referenceWeapon.Item != null) {
 				var weaponClass = Global.GetWeaponClass(referenceWeapon.Item);
-				/*foreach (var cls in weaponClass)
-					Global.Log($"weapon class for {referenceWeapon.Item.StringId} is {cls}", Colors.Green, Level.Debug);
-
-				if (Global.IsWeaponCouchable(referenceWeapon.Item))
-					Global.Log($"weapon {referenceWeapon.Item.StringId} is couchable", Colors.Green, Level.Debug);
-				else
-					Global.Log($"weapon {referenceWeapon.Item.StringId} is not couchable", Colors.Green, Level.Debug);
-
-				if (Global.IsSuitableForMount(referenceWeapon.Item))
-					Global.Log($"weapon {referenceWeapon.Item.StringId} is SuitableForMount", Colors.Green, Level.Debug);
-				else
-					Global.Log($"weapon {referenceWeapon.Item.StringId} is not SuitableForMount",
-							   Colors.Green,
-							   Level.Debug);*/
-
 				var availableWeapon = equipmentToAssign
 									  .Where(equipment => IsWeaponSuitable(equipment.Key, weaponClass, mounted, strict))
 									  .OrderByDescending(equipment =>
@@ -366,7 +338,6 @@
 									  .ThenByDescending(equipment => equipment.Key.Item.Value)
 									  .Take(1)
 									  .ToList();
-
 				AssignWeaponIfAvailable(slot, assignment, availableWeapon);
 			}
 		}
