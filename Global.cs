@@ -46,7 +46,10 @@
 
 		public static List<WeaponClass> GetWeaponClass(ItemObject item) {
 			return IsWeapon(item)
-					   ? item.WeaponComponent.Weapons.Select(weapon => weapon.WeaponClass).ToList()
+					   ? item.WeaponComponent.Weapons.Select(weapon => weapon.WeaponClass)
+							 .Distinct()
+							 .OrderBy(weaponClass => weaponClass)
+							 .ToList()
 					   : new List<WeaponClass>();
 		}
 
@@ -118,6 +121,18 @@
 					return true;
 
 			return false;
+		}
+
+		public static bool FullySameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
+			if (list1.Count != list2.Count) return false;
+
+			list1.Sort();
+			list2.Sort();
+			for (var i = 0; i < list1.Count; i++)
+				if (list1[i] != list2[i])
+					return false;
+
+			return true;
 		}
 
 		public static bool IsWeaponCouchable(ItemObject weapon) {
