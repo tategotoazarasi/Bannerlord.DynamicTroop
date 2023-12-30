@@ -20,7 +20,7 @@
 				agentBuildData.AgentFormation != null                             &&
 				agentBuildData.AgentTeam      != null                             &&
 				agentBuildData.AgentOrigin    != null                             &&
-				agentBuildData.AgentOrigin.IsUnderPlayersCommand                  &&
+				Global.IsInPlayerParty(agentBuildData.AgentOrigin)                &&
 				agentBuildData.AgentTeam.IsValid                                  &&
 				agentBuildData.AgentTeam.IsPlayerTeam                             &&
 				!agentBuildData.AgentCharacter.IsHero) {

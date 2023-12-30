@@ -54,7 +54,10 @@
 							Global.Log($"GetRecruitEquipments {item.Item.StringId} Added to list",
 									   Colors.Green,
 									   Level.Debug);
-							weaponList.Add(item);
+							if (Global.IsConsumableWeapon(item.Item))
+								equipmentElements.Add(item); // 直接添加消耗品类型武器
+							else
+								weaponList.Add(item); // 非消耗品类型武器添加到列表
 						}
 					}
 
@@ -80,6 +83,9 @@
 
 		public class EquipmentElementComparer : IEqualityComparer<EquipmentElement> {
 			public bool Equals(EquipmentElement x, EquipmentElement y) {
+				// 检查消耗品类型武器，始终返回不相等
+				if (Global.IsConsumableWeapon(x.Item) || Global.IsConsumableWeapon(y.Item)) return false;
+
 				var weaponClassesX = Global.GetWeaponClass(x.Item);
 				var weaponClassesY = Global.GetWeaponClass(y.Item);
 
@@ -87,6 +93,9 @@
 			}
 
 			public int GetHashCode(EquipmentElement obj) {
+				// 对消耗品类型武器，返回不同的哈希值
+				if (Global.IsConsumableWeapon(obj.Item)) return obj.GetHashCode(); // 使用对象本身的哈希值
+
 				var weaponClasses = Global.GetWeaponClass(obj.Item);
 				weaponClasses.Sort();
 

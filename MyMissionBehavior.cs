@@ -67,8 +67,8 @@
 				!ProcessedAgents.Contains(affectedAgent)                                  &&
 				!affectedAgent.Character.IsHero                                           &&
 				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
-				  affectorAgent.Origin.IsUnderPlayersCommand) ||
-				 affectedAgent.Origin.IsUnderPlayersCommand)) {
+				  Global.IsInPlayerParty(affectorAgent.Origin)) ||
+				 Global.IsInPlayerParty(affectedAgent.Origin))) {
 				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
 				_ = ProcessedAgents.Add(affectedAgent);
 
@@ -551,7 +551,7 @@
 																	 agent.Team.IsPlayerTeam          &&
 																	 agent.State == AgentState.Active &&
 																	 !agent.IsHero                    &&
-																	 agent.Origin.IsUnderPlayersCommand)
+																	 Global.IsInPlayerParty(agent.Origin))
 											  .ToList();
 				Global.Log($"{myAgents.Count} player active agent remains on the battlefield", Colors.Green, Level.Debug);
 				if (missionResult != null && missionResult.BattleResolved && missionResult.PlayerVictory) {

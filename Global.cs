@@ -7,6 +7,9 @@
 	using System.Linq;
 	using log4net;
 	using log4net.Core;
+	using TaleWorlds.CampaignSystem;
+	using TaleWorlds.CampaignSystem.AgentOrigins;
+	using TaleWorlds.CampaignSystem.Party;
 	using TaleWorlds.CampaignSystem.ViewModelCollection;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
@@ -265,5 +268,28 @@
 			}
 
 			return armors;
+		}
+
+		public static bool IsConsumableWeapon(ItemObject item) {
+			return item.ItemType is ItemObject.ItemTypeEnum.Arrows
+									or ItemObject.ItemTypeEnum.Bolts
+									or ItemObject.ItemTypeEnum.Thrown;
+		}
+
+		public static bool IsInPlayerParty(IAgentOriginBase? agentOrigin) {
+			if (agentOrigin == null) return false;
+
+			PartyBase? party = null;
+			if (agentOrigin is PartyAgentOrigin partyAgentOrigin)
+				party = partyAgentOrigin.Party;
+			else if (agentOrigin is PartyGroupAgentOrigin partyGroupAgentOrigin)
+				party                                                          = partyGroupAgentOrigin.Party;
+			else if (agentOrigin is SimpleAgentOrigin simpleAgentOrigin) party = simpleAgentOrigin.Party;
+
+			return party != null ? IsPartyInPlayerCommand(party) : agentOrigin.IsUnderPlayersCommand;
+		}
+
+		private static bool IsPartyInPlayerCommand(PartyBase? party) {
+			return party != null && (party == PartyBase.MainParty || party.Owner == Hero.MainHero);
 		}
 	}
