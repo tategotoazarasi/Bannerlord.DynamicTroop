@@ -84,12 +84,9 @@
 		public class EquipmentElementComparer : IEqualityComparer<EquipmentElement> {
 			public bool Equals(EquipmentElement x, EquipmentElement y) {
 				// 检查消耗品类型武器，始终返回不相等
-				if (Global.IsConsumableWeapon(x.Item) || Global.IsConsumableWeapon(y.Item)) return false;
-
-				var weaponClassesX = Global.GetWeaponClass(x.Item);
-				var weaponClassesY = Global.GetWeaponClass(y.Item);
-
-				return Global.FullySameWeaponClass(weaponClassesX, weaponClassesY);
+				return !Global.IsConsumableWeapon(x.Item) &&
+					   !Global.IsConsumableWeapon(y.Item) &&
+					   Global.FullySameWeaponClass(x.Item, y.Item);
 			}
 
 			public int GetHashCode(EquipmentElement obj) {

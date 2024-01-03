@@ -53,7 +53,7 @@
 														 EquipmentIndex.Cape
 													 };
 
-		public static bool IsWeapon(ItemObject item) { return item.HasWeaponComponent; }
+		public static bool IsWeapon(ItemObject? item) { return item != null && item.HasWeaponComponent; }
 
 		public static List<WeaponClass> GetWeaponClass(ItemObject item) {
 			return IsWeapon(item)
@@ -134,13 +134,17 @@
 			return false;
 		}
 
-		public static bool FullySameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
+		public static bool FullySameWeaponClass(ItemObject weapon1, ItemObject weapon2) {
+			var list1 = GetWeaponClass(weapon1);
+			var list2 = GetWeaponClass(weapon2);
 			if (list1.Count != list2.Count) return false;
 
-			list1.Sort();
-			list2.Sort();
-			for (var i = 0; i < list1.Count; i++)
-				if (list1[i] != list2[i])
+			weapon1.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
+			weapon2.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
+			for (var i = 0; i < weapon1.Weapons.Count; i++)
+				if (weapon1.Weapons[i].WeaponClass      != weapon2.Weapons[i].WeaponClass     ||
+					weapon1.Weapons[i].SwingDamageType  != weapon2.Weapons[i].SwingDamageType ||
+					weapon1.Weapons[i].ThrustDamageType != weapon2.Weapons[i].ThrustDamageType)
 					return false;
 
 			return true;
@@ -151,10 +155,18 @@
 		}
 
 		public static bool IsSuitableForMount(ItemObject weapon) {
-			return IsWeapon(weapon) &&
-				   CheckWeaponFlag(weapon,
-								   flag => !flag.Contains("cant_use_on_horseback") &&
-										   !flag.Contains("cant_reload_on_horseback"));
+			if (!IsWeapon(weapon)) return false;
+
+			if (weapon.Weapons == null) return false;
+
+			foreach (var weaponComponentData in weapon.Weapons)
+				if (weaponComponentData != null)
+					if (MBItem.GetItemUsageSetFlags(weaponComponentData.ItemUsage)
+							  .HasFlag(ItemObject.ItemUsageSetFlags.RequiresNoMount) ||
+						weaponComponentData.WeaponFlags.HasFlag(WeaponFlags.CantReloadOnHorseback))
+						return false;
+
+			return true;
 		}
 
 		public static bool IsWeaponBracable(ItemObject weapon) {
@@ -177,12 +189,36 @@
 			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("throwing"));
 		}
 
-		public static bool IsBow(ItemObject weapon) {
-			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("WeaponFlagIcons\\\\bow"));
+		public static bool IsBow(ItemObject? weapon) {
+			if (weapon == null) return false;
+
+			if (weapon.ItemType == ItemObject.ItemTypeEnum.Bow) return true;
+
+			if (!IsWeapon(weapon)) return false;
+
+			if (weapon.Weapons == null) return false;
+
+			foreach (var weaponComponentData in weapon.Weapons)
+				if (weaponComponentData != null && weaponComponentData.WeaponClass == WeaponClass.Bow)
+					return true;
+
+			return false;
 		}
 
-		public static bool IsCrossBow(ItemObject weapon) {
-			return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("crossbow"));
+		public static bool IsCrossBow(ItemObject? weapon) {
+			if (weapon == null) return false;
+
+			if (weapon.ItemType == ItemObject.ItemTypeEnum.Crossbow) return true;
+
+			if (!IsWeapon(weapon)) return false;
+
+			if (weapon.Weapons == null) return false;
+
+			foreach (var weaponComponentData in weapon.Weapons)
+				if (weaponComponentData != null && weaponComponentData.WeaponClass == WeaponClass.Crossbow)
+					return true;
+
+			return false;
 		}
 
 		public static bool IsBonusAgainstShield(ItemObject weapon) {
@@ -291,5 +327,39 @@
 
 		private static bool IsPartyInPlayerCommand(PartyBase? party) {
 			return party != null && (party == PartyBase.MainParty || party.Owner == Hero.MainHero);
+		}
+
+		public static bool IsSuitableForCharacter(ItemObject? item, CharacterObject? character) {
+			return item      != null &&
+				   character != null &&
+				   (item.Difficulty <= 0 || item.Difficulty <= character.GetSkillValue(item.RelevantSkill));
+		}
+
+		public static bool IsArrow(ItemObject? equipment) {
+			if (equipment == null) return false;
+
+			if (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows) return true;
+
+			if (equipment.Weapons == null) return false;
+
+			foreach (var weaponComponentData in equipment.Weapons)
+				if (weaponComponentData != null && weaponComponentData.WeaponClass == WeaponClass.Arrow)
+					return true;
+
+			return false;
+		}
+
+		public static bool IsBolt(ItemObject? equipment) {
+			if (equipment == null) return false;
+
+			if (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows) return true;
+
+			if (equipment.Weapons == null) return false;
+
+			foreach (var weaponComponentData in equipment.Weapons)
+				if (weaponComponentData != null && weaponComponentData.WeaponClass == WeaponClass.Bolt)
+					return true;
+
+			return false;
 		}
 	}

@@ -10,7 +10,7 @@
 
 	[HarmonyPatch(typeof(CharacterObject), "get_UpgradeRequiresItemFromCategory")]
 	public class GetUpgradeRequiresItemFromCategoryPatch {
-		public static bool Prefix(CharacterObject __instance, ref ItemCategory __result) {
+		public static bool Prefix(CharacterObject __instance, ref ItemCategory? __result) {
 			// 设置自定义返回值
 			__result = null;
 

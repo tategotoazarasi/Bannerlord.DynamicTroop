@@ -137,7 +137,7 @@
 			foreach (var assignment in assignments)
 				if (assignment.IsUnarmed()) {
 					Global.Log($"Found unarmed unit Index {assignment.Index}", Colors.Red, Level.Warn);
-					var weapon = GetOneRandomMeleeWeapon(assignment.IsMounted);
+					var weapon = GetOneRandomMeleeWeapon(assignment);
 					if (weapon.HasValue) {
 						assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weapon.Value);
 						equipmentToAssign[weapon.Value]--;
@@ -224,10 +224,10 @@
 			Global.Log("AssignExtraArrows", Colors.Green, Level.Debug);
 
 			static bool arrowFilter(KeyValuePair<EquipmentElement, int> equipment) {
-				return !equipment.Key.IsEmpty                                        &&
-					   equipment.Key.Item          != null                           &&
-					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Arrows &&
-					   equipment.Value             > 0;
+				return !equipment.Key.IsEmpty             &&
+					   equipment.Key.Item != null         &&
+					   Global.IsArrow(equipment.Key.Item) &&
+					   equipment.Value > 0;
 			}
 
 			static bool arrowAssignmentFilter(Assignment assignment) { return assignment.IsArcher; }
@@ -239,10 +239,10 @@
 			Global.Log("AssignExtraBolts", Colors.Green, Level.Debug);
 
 			static bool boltFilter(KeyValuePair<EquipmentElement, int> equipment) {
-				return !equipment.Key.IsEmpty                                       &&
-					   equipment.Key.Item          != null                          &&
-					   equipment.Key.Item.ItemType == ItemObject.ItemTypeEnum.Bolts &&
-					   equipment.Value             > 0;
+				return !equipment.Key.IsEmpty            &&
+					   equipment.Key.Item != null        &&
+					   Global.IsBolt(equipment.Key.Item) &&
+					   equipment.Value > 0;
 			}
 
 			static bool boltAssignmentFilter(Assignment assignment) { return assignment.IsCrossBowMan; }
@@ -265,17 +265,20 @@
 			AssignExtraEquipment(filter, assignmentFilter);
 		}
 
-		private EquipmentElement? GetOneRandomMeleeWeapon(bool mounted) {
+		private EquipmentElement? GetOneRandomMeleeWeapon(Assignment assignment) {
 			var weapons = equipmentToAssign.Where(equipment =>
 													  !equipment.Key.IsEmpty                   &&
 													  equipment.Key.Item               != null &&
 													  equipmentToAssign[equipment.Key] > 0     &&
 													  Global.IsWeapon(equipment.Key.Item)      &&
-													  !Global.IsThrowing(equipment.Key.Item)   &&
+													  Global.IsSuitableForCharacter(equipment.Key.Item,
+																						assignment.Character) &&
+													  !Global.IsThrowing(equipment.Key.Item)                  &&
 													  (Global.IsTwoHanded(equipment.Key.Item) ||
 													   Global.IsOneHanded(equipment.Key.Item) ||
 													   Global.IsPolearm(equipment.Key.Item)) &&
-													  (!mounted || Global.IsSuitableForMount(equipment.Key.Item)))
+													  (!assignment.IsMounted ||
+													   Global.IsSuitableForMount(equipment.Key.Item)))
 										   .ToList();
 			if (weapons.Any()) {
 				Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned", Colors.Green, Level.Debug);
@@ -341,9 +344,9 @@
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !referenceWeapon.IsEmpty && referenceWeapon.Item != null) {
-				var weaponClass = Global.GetWeaponClass(referenceWeapon.Item);
 				var availableWeapon = equipmentToAssign
-									  .Where(equipment => IsWeaponSuitable(equipment.Key, weaponClass, mounted, strict))
+									  .Where(equipment =>
+												 IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
 									  .OrderByDescending(equipment =>
 															 (int)equipment.Key.Item.Tier +
 															 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
@@ -377,7 +380,7 @@
 									  .Where(equipment =>
 												 IsWeaponSuitableByType(equipment,
 																		referenceWeapon.Item.ItemType,
-																		mounted,
+																		assignment,
 																		strict))
 									  .OrderByDescending(equipment =>
 															 (int)equipment.Key.Item.Tier +
@@ -411,22 +414,25 @@
 		}
 
 		// 封装判断逻辑
-		private bool IsWeaponSuitable(EquipmentElement  equipment,
-									  List<WeaponClass> weaponClasses,
-									  bool              mounted,
-									  bool              strict) {
-			if (equipment.IsEmpty                 ||
-				equipment.Item == null            ||
-				!Global.IsWeapon(equipment.Item)  ||
-				equipmentToAssign[equipment] <= 0 ||
-				!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), weaponClasses))
+		private bool IsWeaponSuitable(EquipmentElement equipment,
+									  ItemObject       referenceWeapon,
+									  Assignment       assignment,
+									  bool             strict) {
+			if (equipment.IsEmpty                                                    ||
+				equipment.Item == null                                               ||
+				!Global.IsWeapon(equipment.Item)                                     ||
+				equipmentToAssign[equipment] <= 0                                    ||
+				!Global.IsSuitableForCharacter(equipment.Item, assignment.Character) ||
+				!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), Global.GetWeaponClass(referenceWeapon)))
 				return false;
 
 			var isSuitableForMount = Global.IsSuitableForMount(equipment.Item);
 			var isCouchable        = Global.IsWeaponCouchable(equipment.Item);
 
 			if (strict) {
-				if (mounted)
+				if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) return false;
+
+				if (assignment.IsMounted)
 					// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 					return isSuitableForMount && (!Global.IsPolearm(equipment.Item) || isCouchable);
 
@@ -435,26 +441,27 @@
 			}
 
 			// 非严格模式下：骑马的不能选择不适合骑乘的武器，非骑马的可以选择任意武器
-			return !mounted || isSuitableForMount;
+			return !assignment.IsMounted || isSuitableForMount;
 		}
 
 		// 封装判断逻辑
 		private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
 											ItemObject.ItemTypeEnum             itemType,
-											bool                                mounted,
+											Assignment                          assignment,
 											bool                                strict) {
-			if (equipment.Key.IsEmpty                 ||
-				equipment.Key.Item == null            ||
-				!Global.IsWeapon(equipment.Key.Item)  ||
-				equipmentToAssign[equipment.Key] <= 0 ||
-				equipment.Key.Item.ItemType      != itemType)
+			if (equipment.Key.IsEmpty                                                    ||
+				equipment.Key.Item == null                                               ||
+				!Global.IsWeapon(equipment.Key.Item)                                     ||
+				equipmentToAssign[equipment.Key] <= 0                                    ||
+				!Global.IsSuitableForCharacter(equipment.Key.Item, assignment.Character) ||
+				equipment.Key.Item.ItemType != itemType)
 				return false;
 
 			var isSuitableForMount = Global.IsSuitableForMount(equipment.Key.Item);
 			var isCouchable        = Global.IsWeaponCouchable(equipment.Key.Item);
 
 			if (strict) {
-				if (mounted)
+				if (assignment.IsMounted)
 					// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 					return isSuitableForMount && (!Global.IsPolearm(equipment.Key.Item) || isCouchable);
 
@@ -463,7 +470,7 @@
 			}
 
 			// 非严格模式下：骑马的不能选择不适合骑乘的武器，非骑马的可以选择任意武器
-			return !mounted || isSuitableForMount;
+			return !assignment.IsMounted || isSuitableForMount;
 		}
 
 		// 封装武器分配逻辑
