@@ -135,10 +135,11 @@
 		}
 
 		public static bool FullySameWeaponClass(ItemObject weapon1, ItemObject weapon2) {
-			var list1 = GetWeaponClass(weapon1);
-			var list2 = GetWeaponClass(weapon2);
-			if (list1.Count != list2.Count) return false;
-
+			//var list1 = GetWeaponClass(weapon1);
+			//var list2 = GetWeaponClass(weapon2);
+			//if (list1.Count != list2.Count) return false;
+			if (weapon1.Weapons == null || weapon2.Weapons == null || weapon1.Weapons.Count != weapon2.Weapons.Count)
+				return false;
 			weapon1.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
 			weapon2.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
 			for (var i = 0; i < weapon1.Weapons.Count; i++)
