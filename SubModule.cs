@@ -8,6 +8,7 @@
 	using log4net.Appender;
 	using log4net.Config;
 	using log4net.Repository.Hierarchy;
+	using SandBox.CampaignBehaviors;
 	using SandBox.Tournaments.MissionLogics;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
@@ -90,7 +91,8 @@
 
 		private void AddBehaviors(CampaignGameStarter gameStarterObject) {
 			gameStarterObject?.AddBehavior(new ArmyArmoryBehavior());
-		}
+			gameStarterObject?.AddBehavior(new EveryoneCampaignBehavior());
+	}
 
 		public override void OnMissionBehaviorInitialize(Mission mission) {
 			base.OnMissionBehaviorInitialize(mission);

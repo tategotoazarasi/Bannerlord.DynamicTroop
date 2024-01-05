@@ -330,6 +330,23 @@
 			return party != null ? IsPartyInPlayerCommand(party) : agentOrigin.IsUnderPlayersCommand;
 		}
 
+		public static MobileParty? GetAgentParty(Agent? agent) {
+			if (agent == null) return null;
+			if (!IsAgentValid(agent)) return null;
+
+			var agentOrigin = agent.Origin;
+			if (agentOrigin == null) return null;
+
+			if (agentOrigin is PartyAgentOrigin partyAgentOrigin)
+				return partyAgentOrigin.Party?.MobileParty;
+			if (agentOrigin is PartyGroupAgentOrigin partyGroupAgentOrigin)
+				return partyGroupAgentOrigin.Party?.MobileParty;
+			if (agentOrigin is SimpleAgentOrigin simpleAgentOrigin)
+				return simpleAgentOrigin.Party?.MobileParty;
+
+			return null;
+		}
+
 		private static bool IsPartyInPlayerCommand(PartyBase? party) {
 			return party != null && (party == PartyBase.MainParty || party.Owner == Hero.MainHero);
 		}

@@ -24,7 +24,32 @@
 
 		private bool IsMissionEnded;
 
+		public override void OnAfterMissionCreated() {
+			Global.Log("OnAfterMissionCreated", Colors.Green, Level.Debug);
+			base.OnAfterMissionCreated();
+			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		}
+
+		public override void OnBehaviorInitialize() {
+			Global.Log("OnBehaviorInitialize", Colors.Green, Level.Debug);
+			base.OnBehaviorInitialize();
+			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		}
+
+		public override void OnCreated() {
+			Global.Log("OnCreated", Colors.Green, Level.Debug);
+			base.OnCreated();
+			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		}
+
+		public override void EarlyStart() {
+			Global.Log("EarlyStart", Colors.Green, Level.Debug);
+			base.EarlyStart();
+			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		}
+
 		public override void AfterStart() {
+			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
 			base.AfterStart();
 			Global.Log("AfterStart", Colors.Green, Level.Debug);
 			if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat) {

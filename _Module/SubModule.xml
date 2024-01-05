@@ -4,7 +4,7 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd">
 	<Id value="$moduleid$" />
 	<Name value="$modulename$" />
-	<Version value="v1.0.16" />
+	<Version value="v1.0.17" />
 	<DefaultModule value="false" />
 	<ModuleCategory value="Singleplayer" />
 	<ModuleType value="Community" />

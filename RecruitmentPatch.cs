@@ -38,22 +38,19 @@
 			foreach (var slot in Global.ArmourAndHorsesSlots) {
 				var item = armorAndHorse.GetEquipmentFromSlot(slot);
 				if (!item.IsEmpty && item.Item != null) {
-					Global.Log($"GetRecruitEquipments {item.Item.StringId} Added", Colors.Green, Level.Debug);
+					//Global.Log($"GetRecruitEquipments {item.Item.StringId} Added", Colors.Green, Level.Debug);
 					equipmentElements.Add(item);
 				}
 			}
 
-			Global.Log($"GetRecruitEquipments equipmentElements.Count={equipmentElements.Count}",
-					   Colors.Green,
-					   Level.Debug);
 			foreach (var equipment in character.BattleEquipments)
 				if (equipment.IsValid)
 					foreach (var slot in Assignment.WeaponSlots) {
 						var item = equipment.GetEquipmentFromSlot(slot);
 						if (!item.IsEmpty && item.Item != null && Global.IsWeapon(item.Item)) {
-							Global.Log($"GetRecruitEquipments {item.Item.StringId} Added to list",
+							/*Global.Log($"GetRecruitEquipments {item.Item.StringId} Added to list",
 									   Colors.Green,
-									   Level.Debug);
+									   Level.Debug);*/
 							if (Global.IsConsumableWeapon(item.Item))
 								equipmentElements.Add(item); // 直接添加消耗品类型武器
 							else
@@ -61,22 +58,22 @@
 						}
 					}
 
-			Global.Log($"GetRecruitEquipments weaponList.Count={weaponList.Count}", Colors.Green, Level.Debug);
+			//Global.Log($"GetRecruitEquipments weaponList.Count={weaponList.Count}", Colors.Green, Level.Debug);
 			weaponList.Shuffle();
 			foreach (var weapon in weaponList)
 				if (!weaponSet.Contains(weapon)) {
-					Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} Added to set",
+					/*Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} Added to set",
 							   Colors.Green,
-							   Level.Debug);
+							   Level.Debug);*/
 					_ = weaponSet.Add(weapon);
 				}
-				else {
+				/*else {
 					Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} already exists",
 							   Colors.Green,
 							   Level.Debug);
-				}
+				}*/
 
-			Global.Log($"GetRecruitEquipments weaponSet.Count={weaponSet.Count}", Colors.Green, Level.Debug);
+			//Global.Log($"GetRecruitEquipments weaponSet.Count={weaponSet.Count}", Colors.Green, Level.Debug);
 			equipmentElements.AddRange(weaponSet);
 			return equipmentElements;
 		}

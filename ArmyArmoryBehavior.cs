@@ -50,18 +50,12 @@
 				}
 
 			i.Dispose();
-			/*InformationManager
-	.DisplayMessage(new
-	InformationMessage($"Saving {i.Current.EquipmentElement.Item.StringId} x{i.Current.Amount}",
-			   Colors.Green));*/
 		}
 
 		private void Load() {
 			//InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
 			foreach (var item in data.Armory)
 				_ = ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
-			/*InformationManager.DisplayMessage(new InformationMessage($"Loading {item.Key} x{item.Value}",
-	Colors.Green));*/
 		}
 
 		private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
