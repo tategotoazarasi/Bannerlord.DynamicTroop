@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+ <tags>
+  <tag language="简体中文"/>
+ </tags>
+ <strings>
+  <string id="armory_view_option" text="查看部队军火库"/>
+  <string id="loot_added_message" text="已添加 {ITEM_COUNT} 件战利品到部队军火库。" />
+ </strings>
+</base>
