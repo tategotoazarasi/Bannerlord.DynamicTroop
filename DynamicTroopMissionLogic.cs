@@ -21,7 +21,8 @@
 		private bool IsMissionEnded;
 
 		public Dictionary<MBGUID, PartyBattleRecord> PartyBattleRecords = new();
-		public Dictionary<MBGUID, BattleSideEnum>    PartyBattleSides   = new();
+
+		public Dictionary<MBGUID, BattleSideEnum> PartyBattleSides = new();
 
 		public override void AfterStart() {
 			base.AfterStart();
@@ -52,10 +53,13 @@
 				var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;
 				var affectorPartyId = Global.GetAgentParty(affectorAgent.Origin)?.Id;
 				if (!affectedPartyId.HasValue || !affectorPartyId.HasValue) return;
+
 				if (!PartyBattleRecords.ContainsKey(affectedPartyId.Value))
 					PartyBattleRecords.Add(affectedPartyId.Value, new PartyBattleRecord());
+
 				if (!PartyBattleRecords.ContainsKey(affectorPartyId.Value))
 					PartyBattleRecords.Add(affectorPartyId.Value, new PartyBattleRecord());
+
 				var affectedBattleRecord = PartyBattleRecords[affectedPartyId.Value];
 				var affectorBattleRecord = PartyBattleRecords[affectorPartyId.Value];
 
@@ -121,6 +125,7 @@
 		private void OnMissionEnded(MissionResult? missionResult) {
 			Global.Log("OnMissionEnded() called", Colors.Green, Level.Debug);
 			if (IsMissionEnded) return;
+
 			IsMissionEnded = true;
 
 			var playerVictory    = missionResult?.PlayerVictory  ?? false;
@@ -144,10 +149,10 @@
 
 			// 回收场上士兵的装备
 			foreach (var kvPartyBattleSides in PartyBattleSides) {
-				var partyAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent) &&
-																agent.IsActive()           &&
-																Global.GetAgentParty(agent.Origin)?.Id ==
-																kvPartyBattleSides.Key);
+				IEnumerable<Agent> partyAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent) &&
+																			   agent.IsActive()           &&
+																			   Global.GetAgentParty(agent.Origin)?.Id ==
+																			   kvPartyBattleSides.Key);
 				ReturnEquipmentFromAgents(kvPartyBattleSides.Key, partyAgents);
 			}
 		}
@@ -160,6 +165,7 @@
 				ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
 			}
 			else if (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }
+
 			// 被击败的一方不获取任何物品
 		}
 

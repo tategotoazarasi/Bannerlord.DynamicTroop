@@ -98,6 +98,7 @@
 				!mission.HasMissionBehavior<TournamentBehavior>()      &&
 				!mission.HasMissionBehavior<CustomBattleAgentLogic>())
 				mission.AddMissionBehavior(new DynamicTroopMissionLogic());
+
 			base.OnMissionBehaviorInitialize(mission);
 		}
 	}

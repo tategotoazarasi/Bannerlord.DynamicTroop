@@ -154,6 +154,7 @@
 				weapon2.Weapons.IsEmpty() ||
 				weapon1.Weapons.Count != weapon2.Weapons.Count)
 				return false;
+
 			weapon1.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
 			weapon2.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
 			for (var i = 0; i < weapon1.Weapons.Count; i++)
@@ -341,13 +342,10 @@
 		}
 
 		public static MobileParty? GetAgentParty(IAgentOriginBase? origin) {
-			if (origin == null) return null;
-
-			if (origin is PartyAgentOrigin partyAgentOrigin) return partyAgentOrigin.Party?.MobileParty;
-			if (origin is PartyGroupAgentOrigin partyGroupAgentOrigin) return partyGroupAgentOrigin.Party?.MobileParty;
-			if (origin is SimpleAgentOrigin simpleAgentOrigin) return simpleAgentOrigin.Party?.MobileParty;
-
-			return null;
+			return origin == null                                        ? null :
+				   origin is PartyAgentOrigin partyAgentOrigin           ? partyAgentOrigin.Party?.MobileParty :
+				   origin is PartyGroupAgentOrigin partyGroupAgentOrigin ? partyGroupAgentOrigin.Party?.MobileParty :
+				   origin is SimpleAgentOrigin simpleAgentOrigin         ? simpleAgentOrigin.Party?.MobileParty : null;
 		}
 
 		private static bool IsPartyInPlayerCommand(PartyBase? party) {

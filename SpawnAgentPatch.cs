@@ -21,6 +21,7 @@
 				agentBuildData.AgentFormation != null                             &&
 				agentBuildData.AgentTeam      != null                             &&
 				agentBuildData.AgentOrigin    != null                             &&
+
 				//Global.IsInPlayerParty(agentBuildData.AgentOrigin)                &&
 				Global.GetAgentParty(agentBuildData.AgentOrigin) != null &&
 				agentBuildData.AgentTeam.IsValid) {
@@ -35,6 +36,7 @@
 				if (party == null ||
 					!(EveryoneCampaignBehavior.IsMobilePartyValid(party) || party == MobileParty.MainParty))
 					return;
+
 				if (!agentBuildData.AgentCharacter.IsHero) {
 					Global.Log($"spawning agent {agentBuildData.AgentCharacter.Name}#{agentBuildData.AgentIndex} for {party.Name}",
 							   Colors.Green,
@@ -61,6 +63,7 @@
 							ArmyArmory.AssignEquipment(assignment.Equipment);
 						else
 							missionLogic.Distributors[party.Id].Spawn(assignment.Equipment);
+
 						assignment.IsAssigned = true;
 					}
 					else {

@@ -15,10 +15,14 @@
 
 	public class PartyEquipmentDistributor {
 		private readonly Dictionary<EquipmentElement, int> _equipmentToAssign;
-		private readonly ItemRoster?                       _itemRoster;
-		private readonly Mission                           _mission;
-		private readonly MobileParty                       _party;
-		public           List<Assignment>                  assignments = new();
+
+		private readonly ItemRoster? _itemRoster;
+
+		private readonly Mission _mission;
+
+		private readonly MobileParty _party;
+
+		public List<Assignment> assignments = new();
 
 		public PartyEquipmentDistributor(Mission mission, MobileParty party, ItemRoster itemRoster) {
 			_mission           = mission;
@@ -46,7 +50,7 @@
 
 			foreach (var kv in objectToAssign)
 				if (kv.Key != null) {
-					var element = new EquipmentElement(kv.Key);
+					EquipmentElement element = new(kv.Key);
 
 					if (_equipmentToAssign.TryGetValue(element, out var existingCount))
 						_equipmentToAssign[element] = existingCount + kv.Value;
@@ -527,14 +531,10 @@
 			}
 
 			// 如果武器库中已经有这个物品，增加数量；否则，添加新的条目
-			if (partyArmory.TryGetValue(item, out var existingCount))
-				partyArmory[item] = existingCount + count;
-			else
-				partyArmory[item] = count;
+			partyArmory[item] = partyArmory.TryGetValue(item, out var existingCount) ? existingCount + count : count;
 
 			Global.Log($"Returned {count} of item {item.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
 		}
-
 
 		private delegate bool EquipmentFilter(KeyValuePair<EquipmentElement, int> equipment);
 

@@ -37,10 +37,9 @@
 			HashSet<EquipmentElement> weaponSet         = new(new EquipmentElementComparer());
 			foreach (var slot in Global.ArmourAndHorsesSlots) {
 				var item = armorAndHorse.GetEquipmentFromSlot(slot);
-				if (!item.IsEmpty && item.Item != null) {
+				if (!item.IsEmpty && item.Item != null)
 					//Global.Log($"GetRecruitEquipments {item.Item.StringId} Added", Colors.Green, Level.Debug);
 					equipmentElements.Add(item);
-				}
 			}
 
 			foreach (var equipment in character.BattleEquipments)
@@ -61,17 +60,16 @@
 			//Global.Log($"GetRecruitEquipments weaponList.Count={weaponList.Count}", Colors.Green, Level.Debug);
 			weaponList.Shuffle();
 			foreach (var weapon in weaponList)
-				if (!weaponSet.Contains(weapon)) {
+				if (!weaponSet.Contains(weapon))
 					/*Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} Added to set",
 							   Colors.Green,
 							   Level.Debug);*/
 					_ = weaponSet.Add(weapon);
-				}
-				/*else {
-					Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} already exists",
-							   Colors.Green,
-							   Level.Debug);
-				}*/
+			/*else {
+		Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} already exists",
+				   Colors.Green,
+				   Level.Debug);
+	}*/
 
 			//Global.Log($"GetRecruitEquipments weaponSet.Count={weaponSet.Count}", Colors.Green, Level.Debug);
 			equipmentElements.AddRange(weaponSet);

@@ -16,7 +16,7 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class EveryoneCampaignBehavior : CampaignBehaviorBase {
-		public readonly static Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+		public static readonly Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
 
 		public override void RegisterEvents() {
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnMobilePartyCreated);
@@ -37,6 +37,7 @@
 				var list = GetItemsFromParty(mobileParty);
 				foreach (var element in list) {
 					if (!itemDict.TryGetValue(element.Item, out var count)) count = 0;
+
 					itemDict[element.Item] = count + 1;
 				}
 
@@ -48,7 +49,7 @@
 
 		public void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase partyBase) {
 			if (IsMobilePartyValid(mobileParty)) {
-				PartyArmories.Remove(mobileParty.Id);
+				_ = PartyArmories.Remove(mobileParty.Id);
 				Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
 						   Colors.Green,
 						   Level.Debug);
@@ -57,8 +58,7 @@
 
 		public void OnMapEventEnded(MapEvent mapEvent) {
 			Global.Log($"Map Event ended with state {mapEvent.BattleState}", Colors.Green, Level.Debug);
-			if (mapEvent.BattleState == BattleState.AttackerVictory ||
-				mapEvent.BattleState == BattleState.DefenderVictory) {
+			if (mapEvent.BattleState is BattleState.AttackerVictory or BattleState.DefenderVictory) {
 				var winner = mapEvent.BattleState == BattleState.AttackerVictory
 								 ? mapEvent.AttackerSide
 								 : mapEvent.DefenderSide;
@@ -89,7 +89,6 @@
 			}
 		}
 
-
 		public void OnTroopRecruited(Hero            recruiterHero,
 									 Settlement      recruitmentSettlement,
 									 Hero            recruitmentSource,
@@ -108,6 +107,7 @@
 					foreach (var element in list) {
 						// 确保partyInventory包含element.Item键
 						if (!partyInventory.TryGetValue(element.Item, out var count)) count = 0;
+
 						partyInventory[element.Item] = count + amount;
 					}
 
@@ -120,24 +120,24 @@
 
 		private List<EquipmentElement> GetItemsFromParty(MobileParty party) {
 			List<EquipmentElement> listToReturn = new();
-			foreach (var element in party.MemberRoster.GetTroopRoster()) {
+			foreach (var element in party.MemberRoster.GetTroopRoster())
 				if (element.Character != null && !element.Character.IsHero) {
 					var list = RecruitmentPatch.GetRecruitEquipments(element.Character);
 					for (var i = 0; i < element.Number; i++) listToReturn.AddRange(list);
 				}
-			}
 
 			return listToReturn;
 		}
 
 		private int CalculateTotalValue(MBReadOnlyList<MapEventParty> parties) {
 			if (parties == null) return 0;
+
 			var totalValue = 0;
 
 			// 确定未被摧毁的部队
-			var undestroyedPartyIds =
-				new HashSet<MBGUID>(parties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
-										   .Select(party => party.Party.MobileParty.Id));
+			HashSet<MBGUID> undestroyedPartyIds =
+				new(parties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
+						   .Select(party => party.Party.MobileParty.Id));
 
 			foreach (var party in parties)
 				if (IsMapEventPartyValid(party) && !undestroyedPartyIds.Contains(party.Party.MobileParty.Id))
@@ -151,17 +151,19 @@
 
 		private float CalculateTotalStrength(MBReadOnlyList<MapEventParty> parties) {
 			if (parties == null) return 0;
+
 			float totalStrength = 0;
 			foreach (var party in parties)
 				if (IsMapEventPartyValid(party))
 					totalStrength += party.Party.TotalStrength;
+
 			return totalStrength;
 		}
 
 		private Dictionary<MBGUID, float> AllocateLootShares(MBReadOnlyList<MapEventParty> parties,
 															 float                         totalStrength,
 															 int                           totalValue) {
-			var shares = new Dictionary<MBGUID, float>();
+			Dictionary<MBGUID, float> shares = new();
 			foreach (var party in parties)
 				if (IsMapEventPartyValid(party)) {
 					var share = party.Party.TotalStrength * totalValue / totalStrength; // 分配的份额
@@ -172,13 +174,12 @@
 		}
 
 		private void DistributeLoot(Dictionary<MBGUID, float> lootShares, MBReadOnlyList<MapEventParty> loserParties) {
-			var tempArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(PartyArmories);
+			Dictionary<MBGUID, Dictionary<ItemObject, int>> tempArmories = new(PartyArmories);
 
 			// 获取战败但未被摧毁的部队的ID
-			var undestroyedLoserPartyIds =
-				new HashSet<MBGUID>(loserParties
-									.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
-									.Select(party => party.Party.MobileParty.Id));
+			HashSet<MBGUID> undestroyedLoserPartyIds =
+				new(loserParties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
+								.Select(party => party.Party.MobileParty.Id));
 
 			foreach (var share in lootShares) {
 				var partyId          = share.Key;
@@ -215,7 +216,6 @@
 			}
 		}
 
-
 		private void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
 			if (!PartyArmories.TryGetValue(partyId, out var inventory)) {
 				inventory              = new Dictionary<ItemObject, int>();
@@ -223,6 +223,7 @@
 			}
 
 			if (!inventory.TryGetValue(item, out var currentCount)) currentCount = 0;
+
 			inventory[item] = currentCount + count;
 		}
 
@@ -234,7 +235,7 @@
 				if (inventory.TryGetValue(item, out var currentCount)) {
 					var newCount = currentCount - count;
 					if (newCount <= 0)
-						inventory.Remove(item);
+						_ = inventory.Remove(item);
 					else
 						inventory[item] = newCount;
 				}
@@ -256,7 +257,7 @@
 					 party.LeaderHero.CharacterObject != null &&
 					 party.LeaderHero.CharacterObject.IsHero  &&
 					 party.LeaderHero.IsPartyLeader           &&
-					 party.MemberRoster!=null &&
+					 party.MemberRoster != null               &&
 					 !party.Owner.IsHumanPlayerCharacter));
 		}
 
@@ -267,5 +268,13 @@
 				   party.MobileParty.IsActive                           &&
 				   party.MobileParty.MemberRoster               != null &&
 				   party.MobileParty.MemberRoster.TotalManCount > 0;
+		}
+
+		private bool IsPlayerInvolved(MapEvent? mapEvent) {
+			return mapEvent != null &&
+				   ((mapEvent.AttackerSide != null &&
+					 mapEvent.AttackerSide.Parties.Any(party => party.Party.LeaderHero == Hero.MainHero)) ||
+					(mapEvent.DefenderSide != null &&
+					 mapEvent.DefenderSide.Parties.Any(party => party.Party.LeaderHero == Hero.MainHero)));
 		}
 	}
