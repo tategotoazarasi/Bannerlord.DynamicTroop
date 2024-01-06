@@ -15,12 +15,15 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class DynamicTroopMissionLogic : MissionLogic {
-		public static   Dictionary<MBGUID, PartyEquipmentDistributor> Distributors    = new();
-		public readonly HashSet<Agent>                                ProcessedAgents = new();
+		public readonly HashSet<Agent> ProcessedAgents = new();
+
+		public Dictionary<MBGUID, PartyEquipmentDistributor> Distributors = new();
 
 		private bool IsMissionEnded;
 
 		public List<ItemObject> LootedItems = new();
+
+		public Dictionary<MBGUID, PartyBattleRecord> PartyBattleRecords = new();
 
 		public override void AfterStart() {
 			base.AfterStart();
@@ -32,19 +35,17 @@
 		}
 
 		public override void OnAgentCreated(Agent agent) {
-			/*if (agent != null && agent.Character != null && agent.Origin!=null) {
+			if (Global.IsAgentValid(agent)) {
 				Global.Log($"agent {agent.Character.Name}#{agent.Index} created", Colors.Green, Level.Debug);
 				var party = Global.GetAgentParty(agent.Origin);
 				if (EveryoneCampaignBehavior.IsMobilePartyValid(party) && !Distributors.ContainsKey(party.Id)) {
 					Distributors.Add(party.Id,
-									 									 new PartyEquipmentDistributor(Mission, party, EveryoneCampaignBehavior.PartyArmories[party.Id]));
+									 new PartyEquipmentDistributor(Mission,
+																   party,
+																   EveryoneCampaignBehavior.PartyArmories[party.Id]));
+					Global.Log($"party {party.Name} involved", Colors.Green, Level.Debug);
 				}
-			}*/
-		}
-
-		public override void OnAgentBuild(Agent agent, Banner banner) {
-			if (agent != null && agent.Character != null)
-				Global.Log($"agent {agent.Character.Name}#{agent.Index} built", Colors.Green, Level.Debug);
+			}
 		}
 
 		public override void OnAgentRemoved(Agent       affectedAgent,
@@ -60,12 +61,10 @@
 				Mission.PlayerTeam != null                                                &&
 				Mission.PlayerTeam.IsValid                                                &&
 				!ProcessedAgents.Contains(affectedAgent)                                  &&
-				!affectedAgent.Character.IsHero                                           &&
-				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
-				  Global.IsInPlayerParty(affectorAgent.Origin)) ||
-				 Global.IsInPlayerParty(affectedAgent.Origin))) {
+				!affectedAgent.Character.IsHero) {
 				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
 				_ = ProcessedAgents.Add(affectedAgent);
+				var partyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;
 
 				// 获取受击部位
 				var hitBodyPart = blow.VictimBodyPart;

@@ -38,6 +38,25 @@
 			Init();
 		}
 
+		public PartyEquipmentDistributor(Mission mission, MobileParty party, Dictionary<ItemObject, int> objectToAssign) {
+			_mission           = mission;
+			_party             = party;
+			_itemRoster        = null;
+			_equipmentToAssign = new Dictionary<EquipmentElement, int>(new EquipmentElementComparer());
+
+			foreach (var kv in objectToAssign)
+				if (kv.Key != null) {
+					var element = new EquipmentElement(kv.Key);
+
+					if (_equipmentToAssign.TryGetValue(element, out var existingCount))
+						_equipmentToAssign[element] = existingCount + kv.Value;
+					else
+						_equipmentToAssign.Add(element, kv.Value);
+				}
+
+			Init();
+		}
+
 		private void Init() {
 			foreach (var troop in _party.MemberRoster.GetTroopRoster())
 				for (var i = 0; i < troop.Number - troop.WoundedNumber; i++)
@@ -77,36 +96,40 @@
 		}
 
 		private void AssignArmour() {
-			Global.Log("Assigning HeadArmor", Colors.Green, Level.Debug);
+			Global.Log($"Assigning HeadArmor for {_party.Name}", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.HeadArmor);
-			Global.Log("Assigning HandArmor", Colors.Green, Level.Debug);
+			Global.Log($"Assigning HandArmor for {_party.Name}", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.HandArmor);
-			Global.Log("Assigning BodyArmor", Colors.Green, Level.Debug);
+			Global.Log($"Assigning BodyArmor for {_party.Name}", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.BodyArmor);
-			Global.Log("Assigning LegArmor", Colors.Green, Level.Debug);
+			Global.Log($"Assigning LegArmor for {_party.Name}", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.LegArmor);
-			Global.Log("Assigning Cape", Colors.Green, Level.Debug);
+			Global.Log($"Assigning Cape for {_party.Name}", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
 			if (!_mission.IsSiegeBattle) {
-				Global.Log("Assigning Horse", Colors.Green, Level.Debug);
+				Global.Log($"Assigning Horse for {_party.Name}", Colors.Green, Level.Debug);
 				AssignEquipmentType(ItemObject.ItemTypeEnum.Horse);
-				Global.Log("Assigning HorseHarness", Colors.Green, Level.Debug);
+				Global.Log($"Assigning HorseHarness for {_party.Name}", Colors.Green, Level.Debug);
 				AssignEquipmentType(ItemObject.ItemTypeEnum.HorseHarness);
 			}
 		}
 
 		private void AssignWeaponToUnarmed() {
-			Global.Log("AssignWeaponToUnarmed", Colors.Green, Level.Debug);
+			Global.Log($"AssignWeaponToUnarmed for {_party.Name}", Colors.Green, Level.Debug);
 
 			foreach (var assignment in assignments)
 				if (assignment.IsUnarmed()) {
-					Global.Log($"Found unarmed unit Index {assignment.Index}", Colors.Red, Level.Warn);
+					Global.Log($"Found unarmed unit Index {assignment.Index} for {_party.Name}", Colors.Red, Level.Warn);
 					var weapon = GetOneRandomMeleeWeapon(assignment);
 					if (weapon.HasValue) {
 						assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weapon.Value);
 						_equipmentToAssign[weapon.Value]--;
 					}
-					else { Global.Log($"Cannot find random melee weapon for {assignment.Index}", Colors.Red, Level.Warn); }
+					else {
+						Global.Log($"Cannot find random melee weapon for {assignment.Index} for {_party.Name}",
+								   Colors.Red,
+								   Level.Warn);
+					}
 				}
 		}
 
@@ -134,7 +157,7 @@
 						var equipmentItemCount = equipment.Value;
 
 						assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot.Value, equipmentItem);
-						Global.Log($"extra equipment {equipmentItem} assigned to {assignment.Character.StringId}#{assignment.Index} on slot {slot.Value}",
+						Global.Log($"extra equipment {equipmentItem} assigned to {assignment.Character.StringId}#{assignment.Index} on slot {slot.Value} for {_party.Name}",
 								   Colors.Green,
 								   Level.Debug);
 						equipmentItemCount--;
@@ -153,7 +176,7 @@
 
 		// 使用示例
 		private void AssignExtraShield() {
-			Global.Log("AssignExtraShield", Colors.Green, Level.Debug);
+			Global.Log($"AssignExtraShield for {_party.Name}", Colors.Green, Level.Debug);
 
 			static bool shieldFilter(KeyValuePair<EquipmentElement, int> equipment) {
 				return !equipment.Key.IsEmpty                                        &&
@@ -170,7 +193,7 @@
 		}
 
 		private void AssignExtraThrownWeapon() {
-			Global.Log("AssignExtraThrownWeapon", Colors.Green, Level.Debug);
+			Global.Log($"AssignExtraThrownWeapon for {_party.Name}", Colors.Green, Level.Debug);
 
 			static bool thrownFilter(KeyValuePair<EquipmentElement, int> equipment) {
 				return !equipment.Key.IsEmpty                &&
@@ -185,7 +208,7 @@
 		}
 
 		private void AssignExtraArrows() {
-			Global.Log("AssignExtraArrows", Colors.Green, Level.Debug);
+			Global.Log($"AssignExtraArrows for {_party.Name}", Colors.Green, Level.Debug);
 
 			static bool arrowFilter(KeyValuePair<EquipmentElement, int> equipment) {
 				return !equipment.Key.IsEmpty             &&
@@ -200,7 +223,7 @@
 		}
 
 		private void AssignExtraBolts() {
-			Global.Log("AssignExtraBolts", Colors.Green, Level.Debug);
+			Global.Log($"AssignExtraBolts for {_party.Name}", Colors.Green, Level.Debug);
 
 			static bool boltFilter(KeyValuePair<EquipmentElement, int> equipment) {
 				return !equipment.Key.IsEmpty            &&
@@ -215,7 +238,7 @@
 		}
 
 		private void AssignExtraTwoHandedWeaponOrPolearms() {
-			Global.Log("AssignExtraTwoHandedWeaponOrPolearms", Colors.Green, Level.Debug);
+			Global.Log($"AssignExtraTwoHandedWeaponOrPolearms for {_party.Name}", Colors.Green, Level.Debug);
 
 			static bool filter(KeyValuePair<EquipmentElement, int> equipment) {
 				return !equipment.Key.IsEmpty                                                           &&
@@ -245,7 +268,9 @@
 														Global.IsSuitableForMount(equipment.Key.Item)))
 											.ToList();
 			if (weapons.Any()) {
-				Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned", Colors.Green, Level.Debug);
+				Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned for {_party.Name}",
+						   Colors.Green,
+						   Level.Debug);
 				_equipmentToAssign[weapons.First().Key]--;
 				return weapons.First().Key;
 			}
@@ -278,7 +303,7 @@
 
 				if (index.HasValue) {
 					assignment.Equipment.AddEquipmentToSlotWithoutAgent(index.Value, currentItem.Key);
-					Global.Log($"assign equipment {currentItem.Key.Item.StringId} type {itemType} to {assignment.Character.StringId}#{assignment.Index} on slot {index.Value}",
+					Global.Log($"assign equipment {currentItem.Key.Item.StringId} type {itemType} to {assignment.Character.StringId}#{assignment.Index} on slot {index.Value} for {_party.Name}",
 							   Colors.Green,
 							   Level.Debug);
 
@@ -291,7 +316,7 @@
 		}
 
 		private void AssignWeaponByWeaponClass(bool strict) {
-			Global.Log($"AssignWeaponByWeaponClass strict={strict}", Colors.Green, Level.Debug);
+			Global.Log($"AssignWeaponByWeaponClass strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 			foreach (var assignment in assignments) {
 				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
 				AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.IsMounted, strict);
@@ -302,7 +327,7 @@
 
 		private void
 			AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
-			Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict}",
+			Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}",
 					   Colors.Green,
 					   Level.Debug);
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
@@ -322,7 +347,7 @@
 		}
 
 		private void AssignWeaponByItemEnumType(bool strict) {
-			Global.Log($"AssignWeaponByItemEnumType strict={strict}", Colors.Green, Level.Debug);
+			Global.Log($"AssignWeaponByItemEnumType strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
 			foreach (var assignment in assignments) {
 				AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
@@ -334,7 +359,7 @@
 
 		private void
 			AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
-			Global.Log($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict}",
+			Global.Log($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}",
 					   Colors.Green,
 					   Level.Debug);
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
@@ -435,7 +460,7 @@
 											 Assignment                                assignment,
 											 List<KeyValuePair<EquipmentElement, int>> availableWeapon) {
 			if (availableWeapon.Any()) {
-				Global.Log($"weapon {availableWeapon.First().Key.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index}",
+				Global.Log($"weapon {availableWeapon.First().Key.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}",
 						   Colors.Green,
 						   Level.Debug);
 				assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
