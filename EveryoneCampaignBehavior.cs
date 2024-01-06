@@ -16,7 +16,7 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class EveryoneCampaignBehavior : CampaignBehaviorBase {
-		private readonly Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+		public readonly static Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
 
 		public override void RegisterEvents() {
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnMobilePartyCreated);
@@ -28,68 +28,76 @@
 		public override void SyncData(IDataStore dataStore) { }
 
 		public void OnMobilePartyCreated(MobileParty mobileParty) {
-			if (!PartyArmories.TryGetValue(mobileParty.Id, out var itemDict)) {
-				itemDict                      = new Dictionary<ItemObject, int>();
-				PartyArmories[mobileParty.Id] = itemDict;
-			}
+			if (IsMobilePartyValid(mobileParty)) {
+				if (!PartyArmories.TryGetValue(mobileParty.Id, out var itemDict)) {
+					itemDict                      = new Dictionary<ItemObject, int>();
+					PartyArmories[mobileParty.Id] = itemDict;
+				}
 
-			var list = GetItemsFromParty(mobileParty);
-			foreach (var element in list) {
-				if (!itemDict.TryGetValue(element.Item, out var count)) count = 0;
-				itemDict[element.Item] = count + 1;
-			}
+				var list = GetItemsFromParty(mobileParty);
+				foreach (var element in list) {
+					if (!itemDict.TryGetValue(element.Item, out var count)) count = 0;
+					itemDict[element.Item] = count + 1;
+				}
 
-			Global.Log($"Mobile party {mobileParty.Name} created, {list.Count} start equipment added",
-					   Colors.Green,
-					   Level.Debug);
+				Global.Log($"Mobile party {mobileParty.Name} created, {list.Count} start equipment added",
+						   Colors.Green,
+						   Level.Debug);
+			}
 		}
 
 		public void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase partyBase) {
-			PartyArmories.Remove(mobileParty.Id);
-			Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
-					   Colors.Green,
-					   Level.Debug);
+			if (IsMobilePartyValid(mobileParty)) {
+				PartyArmories.Remove(mobileParty.Id);
+				Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
+						   Colors.Green,
+						   Level.Debug);
+			}
 		}
 
-	public void OnMapEventEnded(MapEvent mapEvent) {
-		Global.Log($"Map Event ended with state {mapEvent.BattleState}", Colors.Green, Level.Debug);
-		if (mapEvent.BattleState == BattleState.AttackerVictory ||
-			mapEvent.BattleState == BattleState.DefenderVictory) {
-			var winner = mapEvent.BattleState == BattleState.AttackerVictory
-							 ? mapEvent.AttackerSide
-							 : mapEvent.DefenderSide;
-			var loser = mapEvent.BattleState == BattleState.AttackerVictory
-							? mapEvent.DefenderSide
-							: mapEvent.AttackerSide;
+		public void OnMapEventEnded(MapEvent mapEvent) {
+			Global.Log($"Map Event ended with state {mapEvent.BattleState}", Colors.Green, Level.Debug);
+			if (mapEvent.BattleState == BattleState.AttackerVictory ||
+				mapEvent.BattleState == BattleState.DefenderVictory) {
+				var winner = mapEvent.BattleState == BattleState.AttackerVictory
+								 ? mapEvent.AttackerSide
+								 : mapEvent.DefenderSide;
+				var loser = mapEvent.BattleState == BattleState.AttackerVictory
+								? mapEvent.DefenderSide
+								: mapEvent.AttackerSide;
 
-			// 记录胜方部队
-			foreach (var party in winner.Parties) {
-				Global.Log($"Winning party: {party.Party.Name}#{party.Party.MobileParty.Id}", Colors.Green, Level.Debug);
+				// 记录胜方部队
+				foreach (var party in winner.Parties)
+					if (IsMapEventPartyValid(party))
+						Global.Log($"Winning party: {party.Party.Name}#{party.Party.MobileParty.Id}",
+								   Colors.Green,
+								   Level.Debug);
+
+				// 记录败方部队
+				foreach (var party in loser.Parties)
+					if (IsMapEventPartyValid(party))
+						Global.Log($"Defeated party: {party.Party.Name}#{party.Party.MobileParty.Id}",
+								   Colors.Green,
+								   Level.Debug);
+
+				var totalLoserValue     = CalculateTotalValue(loser.Parties);
+				var totalWinnerStrength = CalculateTotalStrength(winner.Parties);
+
+				var winnerLootShares = AllocateLootShares(winner.Parties, totalWinnerStrength, totalLoserValue);
+
+				DistributeLoot(winnerLootShares, loser.Parties);
 			}
-
-			// 记录败方部队
-			foreach (var party in loser.Parties) {
-				Global.Log($"Defeated party: {party.Party.Name}#{party.Party.MobileParty.Id}", Colors.Green, Level.Debug);
-			}
-
-			var totalLoserValue     = CalculateTotalValue(loser.Parties);
-			var totalWinnerStrength = CalculateTotalStrength(winner.Parties);
-
-			var winnerLootShares = AllocateLootShares(winner.Parties, totalWinnerStrength, totalLoserValue);
-
-			DistributeLoot(winnerLootShares);
 		}
-	}
 
 
-	public void OnTroopRecruited(Hero            recruiterHero,
+		public void OnTroopRecruited(Hero            recruiterHero,
 									 Settlement      recruitmentSettlement,
 									 Hero            recruitmentSource,
 									 CharacterObject troop,
 									 int             amount) {
 			if (recruiterHero != null) {
 				var party = recruiterHero.PartyBelongedTo;
-				if (party != null) {
+				if (IsMobilePartyValid(party)) {
 					// 确保PartyArmories包含party.Id键
 					if (!PartyArmories.TryGetValue(party.Id, out var partyInventory)) {
 						partyInventory          = new Dictionary<ItemObject, int>();
@@ -107,28 +115,16 @@
 							   Colors.Green,
 							   Level.Debug);
 				}
-				else {
-					Global.Log($"troop {troop.Name}x{amount} recruited by recruiterHero={recruiterHero.Name}",
-							   Colors.Green,
-							   Level.Debug);
-				}
 			}
-
-			if (recruitmentSource != null)
-				Global.Log($"troop {troop.Name}x{amount} recruited by recruitmentSource={recruitmentSource.Name}",
-						   Colors.Green,
-						   Level.Debug);
-			if (recruitmentSettlement != null)
-				Global.Log($"troop {troop.Name}x{amount} recruited by recruitmentSettlement={recruitmentSettlement.Name}",
-						   Colors.Green,
-						   Level.Debug);
 		}
 
 		private List<EquipmentElement> GetItemsFromParty(MobileParty party) {
 			List<EquipmentElement> listToReturn = new();
 			foreach (var element in party.MemberRoster.GetTroopRoster()) {
-				var list = RecruitmentPatch.GetRecruitEquipments(element.Character);
-				listToReturn.AddRange(list);
+				if (element.Character != null && !element.Character.IsHero) {
+					var list = RecruitmentPatch.GetRecruitEquipments(element.Character);
+					for (var i = 0; i < element.Number; i++) listToReturn.AddRange(list);
+				}
 			}
 
 			return listToReturn;
@@ -137,11 +133,19 @@
 		private int CalculateTotalValue(MBReadOnlyList<MapEventParty> parties) {
 			if (parties == null) return 0;
 			var totalValue = 0;
+
+			// 确定未被摧毁的部队
+			var undestroyedPartyIds =
+				new HashSet<MBGUID>(parties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
+										   .Select(party => party.Party.MobileParty.Id));
+
 			foreach (var party in parties)
-				if (IsMapEventPartyValid(party) && PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
-					foreach (var item in inventory)
-						if (item.Key != null)
-							totalValue += item.Key.Value * item.Value; // item.Key是ItemObject，item.Value是数量
+				if (IsMapEventPartyValid(party) && !undestroyedPartyIds.Contains(party.Party.MobileParty.Id))
+					if (PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
+						foreach (var item in inventory)
+							if (item.Key != null)
+								totalValue += item.Key.Value * item.Value; // item.Key是ItemObject，item.Value是数量
+
 			return totalValue;
 		}
 
@@ -149,7 +153,7 @@
 			if (parties == null) return 0;
 			float totalStrength = 0;
 			foreach (var party in parties)
-				if (party.Party != null && party.Party.MobileParty != null && party.Party.MobileParty.Id != null)
+				if (IsMapEventPartyValid(party))
 					totalStrength += party.Party.TotalStrength;
 			return totalStrength;
 		}
@@ -167,8 +171,14 @@
 			return shares;
 		}
 
-		private void DistributeLoot(Dictionary<MBGUID, float> lootShares) {
+		private void DistributeLoot(Dictionary<MBGUID, float> lootShares, MBReadOnlyList<MapEventParty> loserParties) {
 			var tempArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(PartyArmories);
+
+			// 获取战败但未被摧毁的部队的ID
+			var undestroyedLoserPartyIds =
+				new HashSet<MBGUID>(loserParties
+									.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
+									.Select(party => party.Party.MobileParty.Id));
 
 			foreach (var share in lootShares) {
 				var partyId          = share.Key;
@@ -178,6 +188,9 @@
 				if (!PartyArmories.ContainsKey(partyId)) PartyArmories[partyId] = new Dictionary<ItemObject, int>();
 
 				foreach (var loserPartyId in tempArmories.Keys) {
+					// 跳过未被摧毁的败方部队
+					if (undestroyedLoserPartyIds.Contains(loserPartyId)) continue;
+
 					var loserInventory = tempArmories[loserPartyId];
 
 					foreach (var item in loserInventory.ToList()) {
@@ -228,9 +241,31 @@
 		}
 
 		private bool IsMapEventPartyValid(MapEventParty? party) {
-			return party                      != null &&
-				   party.Party                != null &&
-				   party.Party.MobileParty    != null &&
-				   party.Party.MobileParty.Id != null;
+			return party != null && party.Party != null && IsMobilePartyValid(party.Party.MobileParty);
+		}
+
+		public static bool IsMobilePartyValid(MobileParty? party) {
+			return party    != null &&
+				   party.Id != null &&
+				   (PartyArmories.ContainsKey(party.Id) ||
+					(party.Owner                 != null      &&
+					 party.Owner.CharacterObject != null      &&
+					 party.Owner.CharacterObject.IsHero       &&
+					 party.Owner.IsPartyLeader                &&
+					 party.LeaderHero                 != null &&
+					 party.LeaderHero.CharacterObject != null &&
+					 party.LeaderHero.CharacterObject.IsHero  &&
+					 party.LeaderHero.IsPartyLeader           &&
+					 party.MemberRoster!=null &&
+					 !party.Owner.IsHumanPlayerCharacter));
+		}
+
+		private bool IsPartyUndestroyed(PartyBase? party) {
+			// 根据游戏逻辑判断部队是否未被摧毁，例如检查其兵力数量等
+			return party             != null                            &&
+				   party.MobileParty != null                            &&
+				   party.MobileParty.IsActive                           &&
+				   party.MobileParty.MemberRoster               != null &&
+				   party.MobileParty.MemberRoster.TotalManCount > 0;
 		}
 	}

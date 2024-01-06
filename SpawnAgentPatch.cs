@@ -21,14 +21,17 @@
 				agentBuildData.AgentTeam      != null                             &&
 				agentBuildData.AgentOrigin    != null                             &&
 				Global.IsInPlayerParty(agentBuildData.AgentOrigin)                &&
+				Global.GetAgentParty(agentBuildData.AgentOrigin) != null          &&
 				agentBuildData.AgentTeam.IsValid                                  &&
 				agentBuildData.AgentTeam.IsPlayerTeam                             &&
 				!agentBuildData.AgentCharacter.IsHero) {
 				//Global.Log("creating agent");
 				var characterStringId = agentBuildData.AgentCharacter.StringId;
-				var assignment =
-					MyMissionBehavior.assignments.FirstOrDefault(a => !a.IsAssigned &&
-																	  a.Character.StringId == characterStringId);
+
+				var assignment = DynamicTroopMissionLogic.Distributors[Global.GetAgentParty(agentBuildData.AgentOrigin).Id]
+														 .assignments
+														 .FirstOrDefault(a => !a.IsAssigned &&
+																			  a.Character.StringId == characterStringId);
 
 				if (assignment != null) {
 					// 确保equipment不为空

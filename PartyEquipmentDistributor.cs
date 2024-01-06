@@ -3,122 +3,63 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using log4net.Core;
-	using TaleWorlds.CampaignSystem;
+	using TaleWorlds.CampaignSystem.Party;
+	using TaleWorlds.CampaignSystem.Roster;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
-	using TaleWorlds.Localization;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
 
 	namespace Bannerlord.DynamicTroop;
 
-	public class MyMissionBehavior : MissionLogic {
-		private static readonly Dictionary<EquipmentElement, int> equipmentToAssign = new(new EquipmentElementComparer());
+	public class PartyEquipmentDistributor {
+		private readonly Dictionary<EquipmentElement, int> _equipmentToAssign;
+		private readonly ItemRoster?                       _itemRoster;
+		private readonly Mission                           _mission;
+		private readonly MobileParty                       _party;
+		public           List<Assignment>                  assignments = new();
 
-		public static List<Assignment> assignments = new();
-
-		public static readonly HashSet<Agent> ProcessedAgents = new();
-
-		public static List<ItemObject> LootedItems = new();
-
-		private bool IsMissionEnded;
-
-		public override void OnAfterMissionCreated() {
-			Global.Log("OnAfterMissionCreated", Colors.Green, Level.Debug);
-			base.OnAfterMissionCreated();
-			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		public PartyEquipmentDistributor(Mission mission, MobileParty party, ItemRoster itemRoster) {
+			_mission           = mission;
+			_party             = party;
+			_itemRoster        = itemRoster;
+			_equipmentToAssign = new Dictionary<EquipmentElement, int>(new EquipmentElementComparer());
+			Init();
 		}
 
-		public override void OnBehaviorInitialize() {
-			Global.Log("OnBehaviorInitialize", Colors.Green, Level.Debug);
-			base.OnBehaviorInitialize();
-			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
+		public PartyEquipmentDistributor(Mission                           mission,
+										 MobileParty                       party,
+										 Dictionary<EquipmentElement, int> equipmentToAssign) {
+			_mission           = mission;
+			_party             = party;
+			_itemRoster        = null;
+			_equipmentToAssign = equipmentToAssign;
+			Init();
 		}
 
-		public override void OnCreated() {
-			Global.Log("OnCreated", Colors.Green, Level.Debug);
-			base.OnCreated();
-			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
-		}
+		private void Init() {
+			foreach (var troop in _party.MemberRoster.GetTroopRoster())
+				for (var i = 0; i < troop.Number - troop.WoundedNumber; i++)
+					if (!troop.Character.IsHero)
+						assignments.Add(new Assignment(troop.Character));
 
-		public override void EarlyStart() {
-			Global.Log("EarlyStart", Colors.Green, Level.Debug);
-			base.EarlyStart();
-			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
-		}
-
-		public override void AfterStart() {
-			Global.Log($"Agents count = {Mission.AllAgents.Count}", Colors.Green, Level.Debug);
-			base.AfterStart();
-			Global.Log("AfterStart", Colors.Green, Level.Debug);
-			if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat) {
-				foreach (var troop in Campaign.Current.MainParty.MemberRoster.GetTroopRoster())
-					for (var i = 0; i < troop.Number - troop.WoundedNumber; i++)
-						if (!troop.Character.IsHero)
-							assignments.Add(new Assignment(troop.Character));
-
-				assignments = assignments.OrderByDescending(assignment => assignment.Character.Tier)
-										 .ThenByDescending(assignment => assignment.Character.Level)
-										 .ToList();
-
-				foreach (var kv in ArmyArmory.Armory)
+			assignments = assignments.OrderByDescending(assignment => assignment.Character.Tier)
+									 .ThenByDescending(assignment => assignment.Character.Level)
+									 .ToList();
+			if (_itemRoster != null)
+				foreach (var kv in _itemRoster)
 					if (!kv.IsEmpty && !kv.EquipmentElement.IsEmpty) {
 						// 尝试获取已存在的数量
-						if (!equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount))
+						if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount))
 							// 如果键不存在，添加新的键值对
-							equipmentToAssign.Add(kv.EquipmentElement, kv.Amount);
+							_equipmentToAssign.Add(kv.EquipmentElement, kv.Amount);
 						else
 							// 如果键已存在，更新数量
-							equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
+							_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
 					}
 
-				DoAssign();
-			}
-		}
-
-		public override void OnAgentRemoved(Agent       affectedAgent,
-											Agent       affectorAgent,
-											AgentState  agentState,
-											KillingBlow blow) {
-			if (Mission.CombatType == Mission.MissionCombatType.Combat                    &&
-				agentState         != null                                                &&
-				(agentState == AgentState.Killed || agentState == AgentState.Unconscious) &&
-				Global.IsAgentValid(affectedAgent)                                        &&
-				Global.IsAgentValid(affectorAgent)                                        &&
-				Mission            != null                                                &&
-				Mission.PlayerTeam != null                                                &&
-				Mission.PlayerTeam.IsValid                                                &&
-				!ProcessedAgents.Contains(affectedAgent)                                  &&
-				!affectedAgent.Character.IsHero                                           &&
-				((!(affectedAgent.Team.IsPlayerTeam || affectedAgent.Team.IsPlayerAlly) &&
-				  Global.IsInPlayerParty(affectorAgent.Origin)) ||
-				 Global.IsInPlayerParty(affectedAgent.Origin))) {
-				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
-				_ = ProcessedAgents.Add(affectedAgent);
-
-				// 获取受击部位
-				var hitBodyPart = blow.VictimBodyPart;
-
-				// 获取受击部位的护甲
-				var armors   = Global.GetAgentArmors(affectedAgent);
-				var hitArmor = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);
-
-				Global.ProcessAgentEquipment(affectedAgent,
-											 item => {
-												 if (hitArmor == null || item.StringId != hitArmor.StringId) {
-													 LootedItems.Add(item);
-													 Global.Log($"{item.StringId} added to LootedItems",
-																Colors.Green,
-																Level.Debug);
-												 }
-												 else if (item.StringId == hitArmor.StringId) {
-													 Global.Log($"{item.StringId} damaged", Colors.Red, Level.Debug);
-												 }
-											 });
-			}
-
-			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
+			DoAssign();
 		}
 
 		private void DoAssign() {
@@ -133,8 +74,6 @@
 			AssignExtraShield();
 			AssignExtraThrownWeapon();
 			AssignExtraTwoHandedWeaponOrPolearms();
-
-			//CopyToArmory();
 		}
 
 		private void AssignArmour() {
@@ -148,7 +87,7 @@
 			AssignEquipmentType(ItemObject.ItemTypeEnum.LegArmor);
 			Global.Log("Assigning Cape", Colors.Green, Level.Debug);
 			AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
-			if (!Mission.IsSiegeBattle) {
+			if (!_mission.IsSiegeBattle) {
 				Global.Log("Assigning Horse", Colors.Green, Level.Debug);
 				AssignEquipmentType(ItemObject.ItemTypeEnum.Horse);
 				Global.Log("Assigning HorseHarness", Colors.Green, Level.Debug);
@@ -165,14 +104,14 @@
 					var weapon = GetOneRandomMeleeWeapon(assignment);
 					if (weapon.HasValue) {
 						assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weapon.Value);
-						equipmentToAssign[weapon.Value]--;
+						_equipmentToAssign[weapon.Value]--;
 					}
 					else { Global.Log($"Cannot find random melee weapon for {assignment.Index}", Colors.Red, Level.Warn); }
 				}
 		}
 
 		private void AssignExtraEquipment(EquipmentFilter equipmentFilter, AssignmentFilter assignmentFilter) {
-			var equipmentQuery = equipmentToAssign
+			var equipmentQuery = _equipmentToAssign
 								 .Where(equipment =>
 											!equipment.Key.IsEmpty     &&
 											equipment.Key.Item != null &&
@@ -199,7 +138,7 @@
 								   Colors.Green,
 								   Level.Debug);
 						equipmentItemCount--;
-						if (equipmentToAssign[equipmentItem] > 0) equipmentToAssign[equipmentItem]--;
+						if (_equipmentToAssign[equipmentItem] > 0) _equipmentToAssign[equipmentItem]--;
 
 						if (equipmentItemCount > 0)
 							equipmentNode.Value =
@@ -291,23 +230,23 @@
 		}
 
 		private EquipmentElement? GetOneRandomMeleeWeapon(Assignment assignment) {
-			var weapons = equipmentToAssign.Where(equipment =>
-													  !equipment.Key.IsEmpty                   &&
-													  equipment.Key.Item               != null &&
-													  equipmentToAssign[equipment.Key] > 0     &&
-													  Global.IsWeapon(equipment.Key.Item)      &&
-													  Global.IsSuitableForCharacter(equipment.Key.Item,
-																						assignment.Character) &&
-													  !Global.IsThrowing(equipment.Key.Item)                  &&
-													  (Global.IsTwoHanded(equipment.Key.Item) ||
-													   Global.IsOneHanded(equipment.Key.Item) ||
-													   Global.IsPolearm(equipment.Key.Item)) &&
-													  (!assignment.IsMounted ||
-													   Global.IsSuitableForMount(equipment.Key.Item)))
-										   .ToList();
+			var weapons = _equipmentToAssign.Where(equipment =>
+													   !equipment.Key.IsEmpty                    &&
+													   equipment.Key.Item                != null &&
+													   _equipmentToAssign[equipment.Key] > 0     &&
+													   Global.IsWeapon(equipment.Key.Item)       &&
+													   Global.IsSuitableForCharacter(equipment.Key.Item,
+														   assignment.Character)              &&
+													   !Global.IsThrowing(equipment.Key.Item) &&
+													   (Global.IsTwoHanded(equipment.Key.Item) ||
+														Global.IsOneHanded(equipment.Key.Item) ||
+														Global.IsPolearm(equipment.Key.Item)) &&
+													   (!assignment.IsMounted ||
+														Global.IsSuitableForMount(equipment.Key.Item)))
+											.ToList();
 			if (weapons.Any()) {
 				Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned", Colors.Green, Level.Debug);
-				equipmentToAssign[weapons.First().Key]--;
+				_equipmentToAssign[weapons.First().Key]--;
 				return weapons.First().Key;
 			}
 
@@ -315,7 +254,7 @@
 		}
 
 		private void AssignEquipmentType(ItemObject.ItemTypeEnum itemType) {
-			var armours = equipmentToAssign
+			var armours = _equipmentToAssign
 						  .Where(kv => kv.Value > 0                 &&
 									   !kv.Key.IsEmpty              &&
 									   kv.Key.Item          != null &&
@@ -346,7 +285,7 @@
 					// 减少当前物品的数量
 					var newValue = currentItem.Value - 1;
 					armours[currentItemIndex] = new KeyValuePair<EquipmentElement, int>(currentItem.Key, newValue);
-					equipmentToAssign[currentItem.Key]--;
+					_equipmentToAssign[currentItem.Key]--;
 				}
 			}
 		}
@@ -369,7 +308,7 @@
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !referenceWeapon.IsEmpty && referenceWeapon.Item != null) {
-				var availableWeapon = equipmentToAssign
+				var availableWeapon = _equipmentToAssign
 									  .Where(equipment =>
 												 IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
 									  .OrderByDescending(equipment =>
@@ -401,7 +340,7 @@
 			var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
 			var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
 			if ((weapon.IsEmpty || weapon.Item == null) && !(referenceWeapon.IsEmpty || referenceWeapon.Item == null)) {
-				var availableWeapon = equipmentToAssign
+				var availableWeapon = _equipmentToAssign
 									  .Where(equipment =>
 												 IsWeaponSuitableByType(equipment,
 																		referenceWeapon.Item.ItemType,
@@ -431,13 +370,6 @@
 				   };
 		}
 
-		public static void Clear() {
-			equipmentToAssign.Clear();
-			assignments.Clear();
-			LootedItems.Clear();
-			ProcessedAgents.Clear();
-		}
-
 		// 封装判断逻辑
 		private bool IsWeaponSuitable(EquipmentElement equipment,
 									  ItemObject       referenceWeapon,
@@ -446,7 +378,7 @@
 			if (equipment.IsEmpty                                                    ||
 				equipment.Item == null                                               ||
 				!Global.IsWeapon(equipment.Item)                                     ||
-				equipmentToAssign[equipment] <= 0                                    ||
+				_equipmentToAssign[equipment] <= 0                                   ||
 				!Global.IsSuitableForCharacter(equipment.Item, assignment.Character) ||
 				!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), Global.GetWeaponClass(referenceWeapon)))
 				return false;
@@ -477,7 +409,7 @@
 			if (equipment.Key.IsEmpty                                                    ||
 				equipment.Key.Item == null                                               ||
 				!Global.IsWeapon(equipment.Key.Item)                                     ||
-				equipmentToAssign[equipment.Key] <= 0                                    ||
+				_equipmentToAssign[equipment.Key] <= 0                                   ||
 				!Global.IsSuitableForCharacter(equipment.Key.Item, assignment.Character) ||
 				equipment.Key.Item.ItemType != itemType)
 				return false;
@@ -507,7 +439,7 @@
 						   Colors.Green,
 						   Level.Debug);
 				assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
-				equipmentToAssign[availableWeapon.First().Key]--;
+				_equipmentToAssign[availableWeapon.First().Key]--;
 			}
 		}
 
@@ -532,85 +464,6 @@
 			if (Global.IsWeaponBracable(weapon)) bonus++;
 
 			return bonus;
-		}
-
-		public override void OnRetreatMission() {
-			Global.Log("OnRetreatMission() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			base.OnRetreatMission();
-		}
-
-		public override void OnSurrenderMission() {
-			Global.Log("OnSurrenderMission() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			base.OnSurrenderMission();
-		}
-
-		public override void OnMissionResultReady(MissionResult missionResult) {
-			Global.Log("OnMissionResultReady() called", Colors.Green, Level.Debug);
-			OnMissionEnded(missionResult);
-			base.OnMissionResultReady(missionResult);
-		}
-
-		public override InquiryData OnEndMissionRequest(out bool canLeave) {
-			Global.Log("OnEndMissionRequest() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			return base.OnEndMissionRequest(out canLeave);
-		}
-
-		public override void ShowBattleResults() {
-			Global.Log("ShowBattleResults() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			base.ShowBattleResults();
-		}
-
-		public override void OnBattleEnded() {
-			Global.Log("OnBattleEnded() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			base.OnBattleEnded();
-		}
-
-		private void OnMissionEnded(MissionResult? missionResult) {
-			Global.Log("OnMissionEnded() called", Colors.Green, Level.Debug);
-			if (IsMissionEnded) return;
-
-			missionResult ??= Mission.MissionResult;
-			if (Mission.CombatType == Mission.MissionCombatType.Combat &&
-				Mission.PlayerTeam != null                             &&
-				Mission.PlayerTeam.IsValid                             &&
-				Mission.Current.PlayerTeam != null) {
-				List<Agent> myAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent)       &&
-																	 agent.Team.IsPlayerTeam          &&
-																	 agent.State == AgentState.Active &&
-																	 !agent.IsHero                    &&
-																	 Global.IsInPlayerParty(agent.Origin))
-											  .ToList();
-				Global.Log($"{myAgents.Count} player active agent remains on the battlefield", Colors.Green, Level.Debug);
-				if (missionResult != null && missionResult.BattleResolved && missionResult.PlayerVictory) {
-					Global.Log("player victory", Colors.Green, Level.Debug);
-					var lootCount = LootedItems.Count;
-					Global.Log($"{lootCount} items looted", Colors.Green, Level.Debug);
-					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
-					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
-					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
-					foreach (var item in LootedItems) ArmyArmory.AddItemToArmory(item);
-
-					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
-				}
-				else if (missionResult == null || !missionResult.BattleResolved || !missionResult.PlayerDefeated) {
-					Global.Log("mission ended with player not defeated", Colors.Green, Level.Debug);
-					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
-				}
-			}
-
-			IsMissionEnded = true;
-			Clear();
-		}
-
-		protected override void OnEndMission() {
-			Global.Log("OnEndMission() called", Colors.Green, Level.Debug);
-			OnMissionEnded(null);
-			base.OnEndMission();
 		}
 
 		private delegate bool EquipmentFilter(KeyValuePair<EquipmentElement, int> equipment);
