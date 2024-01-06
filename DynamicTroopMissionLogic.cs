@@ -1,6 +1,7 @@
 ﻿#region
 
 	using System.Collections.Generic;
+	using System.Linq;
 	using log4net.Core;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
@@ -140,6 +141,15 @@
 
 				HandlePartyItems(kvPartyBattleSides.Key, isPlayerParty, isVictorious, isDefeated);
 			}
+
+			// 回收场上士兵的装备
+			foreach (var kvPartyBattleSides in PartyBattleSides) {
+				var partyAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent) &&
+																agent.IsActive()           &&
+																Global.GetAgentParty(agent.Origin)?.Id ==
+																kvPartyBattleSides.Key);
+				ReturnEquipmentFromAgents(kvPartyBattleSides.Key, partyAgents);
+			}
 		}
 
 		private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
@@ -154,13 +164,46 @@
 		}
 
 		private void ReturnItemsToDestination(MBGUID partyId, Dictionary<ItemObject, int> items, bool isPlayerParty) {
+			var totalItemCount = 0; // 用于累计物品总数
+
 			foreach (var item in items) {
-				if (item.Key == null) continue;
+				if (item.Key == null || item.Value <= 0) continue;
+
+				totalItemCount += item.Value;
 
 				if (isPlayerParty)
 					ArmyArmory.AddItemToArmory(item.Key, item.Value);
 				else if (Distributors.TryGetValue(partyId, out var distributor))
 					distributor.ReturnItem(item.Key, item.Value);
+			}
+
+			if (totalItemCount > 0) {
+				var partyType = isPlayerParty ? "Player party" : "Party";
+				Global.Log($"{partyType} {partyId} processed a total of {totalItemCount} items", Colors.Green, Level.Debug);
+			}
+		}
+
+		private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents) {
+			var isPlayerParty  = partyId == Campaign.Current.MainParty.Id;
+			var totalItemCount = 0;
+
+			foreach (var agent in agents)
+				Global.ProcessAgentEquipment(agent,
+											 item => {
+												 if (item != null) {
+													 totalItemCount++;
+													 if (isPlayerParty)
+														 ArmyArmory.AddItemToArmory(item);
+													 else if (Distributors.TryGetValue(partyId, out var distributor))
+														 distributor.ReturnItem(item, 1);
+												 }
+											 });
+
+			if (totalItemCount > 0) {
+				var partyType = isPlayerParty ? "Player party" : "Party";
+				Global.Log($"{partyType} {partyId} reclaimed {totalItemCount} items from agents",
+						   Colors.Green,
+						   Level.Debug);
 			}
 		}
 
