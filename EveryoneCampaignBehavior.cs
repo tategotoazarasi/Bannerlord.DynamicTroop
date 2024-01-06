@@ -1,5 +1,6 @@
 ﻿#region
 
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using log4net.Core;
@@ -16,7 +17,8 @@
 	namespace Bannerlord.DynamicTroop;
 
 	public class EveryoneCampaignBehavior : CampaignBehaviorBase {
-		public static readonly Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+		public static  Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+		private static Data                                            data = new();
 
 		public override void RegisterEvents() {
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnMobilePartyCreated);
@@ -25,7 +27,19 @@
 			CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, OnTroopRecruited);
 		}
 
-		public override void SyncData(IDataStore dataStore) { }
+		public override void SyncData(IDataStore dataStore) {
+			if (dataStore.IsSaving) {
+				data.PartyArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(PartyArmories);
+				dataStore.SyncData("DynamicTroopPartyArmories", ref data);
+				data.PartyArmories.Clear();
+			}
+			else if (dataStore.IsLoading) {
+				data.PartyArmories.Clear();
+				dataStore.SyncData("DynamicTroopPartyArmories", ref data);
+				PartyArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(data.PartyArmories);
+				data.PartyArmories.Clear();
+			}
+		}
 
 		public void OnMobilePartyCreated(MobileParty mobileParty) {
 			if (IsMobilePartyValid(mobileParty)) {
@@ -276,5 +290,10 @@
 					 mapEvent.AttackerSide.Parties.Any(party => party.Party.LeaderHero == Hero.MainHero)) ||
 					(mapEvent.DefenderSide != null &&
 					 mapEvent.DefenderSide.Parties.Any(party => party.Party.LeaderHero == Hero.MainHero)));
+		}
+
+		[Serializable]
+		private class Data {
+			public Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
 		}
 	}
