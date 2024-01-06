@@ -1,12 +1,10 @@
 ﻿#region
 
 	using System.Collections.Generic;
-	using System.Linq;
 	using log4net.Core;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
-	using TaleWorlds.Localization;
 	using TaleWorlds.MountAndBlade;
 	using TaleWorlds.ObjectSystem;
 
@@ -21,31 +19,15 @@
 
 		private bool IsMissionEnded;
 
-		public List<ItemObject> LootedItems = new();
-
 		public Dictionary<MBGUID, PartyBattleRecord> PartyBattleRecords = new();
+		public Dictionary<MBGUID, BattleSideEnum>    PartyBattleSides   = new();
 
 		public override void AfterStart() {
 			base.AfterStart();
-			Clear();
 			Global.Log("AfterStart", Colors.Green, Level.Debug);
 			if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat)
 				Distributors.Add(Campaign.Current.MainParty.Id,
 								 new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
-		}
-
-		public override void OnAgentCreated(Agent agent) {
-			if (Global.IsAgentValid(agent)) {
-				Global.Log($"agent {agent.Character.Name}#{agent.Index} created", Colors.Green, Level.Debug);
-				var party = Global.GetAgentParty(agent.Origin);
-				if (EveryoneCampaignBehavior.IsMobilePartyValid(party) && !Distributors.ContainsKey(party.Id)) {
-					Distributors.Add(party.Id,
-									 new PartyEquipmentDistributor(Mission,
-																   party,
-																   EveryoneCampaignBehavior.PartyArmories[party.Id]));
-					Global.Log($"party {party.Name} involved", Colors.Green, Level.Debug);
-				}
-			}
 		}
 
 		public override void OnAgentRemoved(Agent       affectedAgent,
@@ -62,9 +44,19 @@
 				Mission.PlayerTeam.IsValid                                                &&
 				!ProcessedAgents.Contains(affectedAgent)                                  &&
 				!affectedAgent.Character.IsHero) {
-				Global.Log($"agent {affectedAgent.Character.StringId} removed", Colors.Green, Level.Debug);
+				Global.Log($"agent {affectedAgent.Character.Name}#{affectedAgent.Index} removed",
+						   Colors.Green,
+						   Level.Debug);
 				_ = ProcessedAgents.Add(affectedAgent);
-				var partyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;
+				var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;
+				var affectorPartyId = Global.GetAgentParty(affectorAgent.Origin)?.Id;
+				if (!affectedPartyId.HasValue || !affectorPartyId.HasValue) return;
+				if (!PartyBattleRecords.ContainsKey(affectedPartyId.Value))
+					PartyBattleRecords.Add(affectedPartyId.Value, new PartyBattleRecord());
+				if (!PartyBattleRecords.ContainsKey(affectorPartyId.Value))
+					PartyBattleRecords.Add(affectorPartyId.Value, new PartyBattleRecord());
+				var affectedBattleRecord = PartyBattleRecords[affectedPartyId.Value];
+				var affectorBattleRecord = PartyBattleRecords[affectorPartyId.Value];
 
 				// 获取受击部位
 				var hitBodyPart = blow.VictimBodyPart;
@@ -76,10 +68,9 @@
 				Global.ProcessAgentEquipment(affectedAgent,
 											 item => {
 												 if (hitArmor == null || item.StringId != hitArmor.StringId) {
-													 LootedItems.Add(item);
-													 Global.Log($"{item.StringId} added to LootedItems",
-																Colors.Green,
-																Level.Debug);
+													 affectedBattleRecord.AddItemToRecover(item);
+													 affectorBattleRecord.AddLootedItem(item);
+													 Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
 												 }
 												 else if (item.StringId == hitArmor.StringId) {
 													 Global.Log($"{item.StringId} damaged", Colors.Red, Level.Debug);
@@ -88,12 +79,6 @@
 			}
 
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
-		}
-
-		public void Clear() {
-			Distributors.Clear();
-			LootedItems.Clear();
-			ProcessedAgents.Clear();
 		}
 
 		public override void OnRetreatMission() {
@@ -135,38 +120,48 @@
 		private void OnMissionEnded(MissionResult? missionResult) {
 			Global.Log("OnMissionEnded() called", Colors.Green, Level.Debug);
 			if (IsMissionEnded) return;
-
-			missionResult ??= Mission.MissionResult;
-			if (Mission.CombatType == Mission.MissionCombatType.Combat &&
-				Mission.PlayerTeam != null                             &&
-				Mission.PlayerTeam.IsValid                             &&
-				Mission.Current.PlayerTeam != null) {
-				List<Agent> myAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent)       &&
-																	 agent.Team.IsPlayerTeam          &&
-																	 agent.State == AgentState.Active &&
-																	 !agent.IsHero                    &&
-																	 Global.IsInPlayerParty(agent.Origin))
-											  .ToList();
-				Global.Log($"{myAgents.Count} player active agent remains on the battlefield", Colors.Green, Level.Debug);
-				if (missionResult != null && missionResult.BattleResolved && missionResult.PlayerVictory) {
-					Global.Log("player victory", Colors.Green, Level.Debug);
-					var lootCount = LootedItems.Count;
-					Global.Log($"{lootCount} items looted", Colors.Green, Level.Debug);
-					TextObject messageText = new("{=loot_added_message}Added {ITEM_COUNT} items to the army armory.");
-					_ = messageText.SetTextVariable("ITEM_COUNT", lootCount);
-					InformationManager.DisplayMessage(new InformationMessage(messageText.ToString(), Colors.Green));
-					foreach (var item in LootedItems) ArmyArmory.AddItemToArmory(item);
-
-					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
-				}
-				else if (missionResult == null || !missionResult.BattleResolved || !missionResult.PlayerDefeated) {
-					Global.Log("mission ended with player not defeated", Colors.Green, Level.Debug);
-					ArmyArmory.ReturnEquipmentToArmoryFromAgents(myAgents);
-				}
-			}
-
 			IsMissionEnded = true;
-			Clear();
+
+			var playerVictory    = missionResult?.PlayerVictory  ?? false;
+			var playerDefeat     = missionResult?.PlayerDefeated ?? false;
+			var unresolvedBattle = missionResult == null || !missionResult.BattleResolved;
+
+			// 确定玩家方
+			var playerPartyId = Campaign.Current.MainParty.Id;
+
+			foreach (var kvPartyBattleSides in PartyBattleSides) {
+				var isPlayerParty = kvPartyBattleSides.Key == playerPartyId;
+				var isVictorious = !unresolvedBattle &&
+								   ((playerVictory && kvPartyBattleSides.Value == Mission.PlayerTeam.Side) ||
+									(playerDefeat  && kvPartyBattleSides.Value != Mission.PlayerTeam.Side));
+				var isDefeated = !unresolvedBattle &&
+								 ((playerDefeat  && kvPartyBattleSides.Value == Mission.PlayerTeam.Side) ||
+								  (playerVictory && kvPartyBattleSides.Value != Mission.PlayerTeam.Side));
+
+				HandlePartyItems(kvPartyBattleSides.Key, isPlayerParty, isVictorious, isDefeated);
+			}
+		}
+
+		private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
+			var battleRecord = PartyBattleRecords[partyId];
+
+			if (isVictorious) {
+				ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);
+				ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
+			}
+			else if (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }
+			// 被击败的一方不获取任何物品
+		}
+
+		private void ReturnItemsToDestination(MBGUID partyId, Dictionary<ItemObject, int> items, bool isPlayerParty) {
+			foreach (var item in items) {
+				if (item.Key == null) continue;
+
+				if (isPlayerParty)
+					ArmyArmory.AddItemToArmory(item.Key, item.Value);
+				else if (Distributors.TryGetValue(partyId, out var distributor))
+					distributor.ReturnItem(item.Key, item.Value);
+			}
 		}
 
 		protected override void OnEndMission() {

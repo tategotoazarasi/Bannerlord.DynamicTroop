@@ -34,7 +34,7 @@
 			_mission           = mission;
 			_party             = party;
 			_itemRoster        = null;
-			_equipmentToAssign = equipmentToAssign;
+			_equipmentToAssign = new Dictionary<EquipmentElement, int>(equipmentToAssign, new EquipmentElementComparer());
 			Init();
 		}
 
@@ -490,6 +490,51 @@
 
 			return bonus;
 		}
+
+		public void Spawn(Equipment equipment) {
+			// 确保 PartyArmories 包含特定的 _party.Id
+			if (!EveryoneCampaignBehavior.PartyArmories.TryGetValue(_party.Id, out var partyArmory)) {
+				partyArmory                                       = new Dictionary<ItemObject, int>();
+				EveryoneCampaignBehavior.PartyArmories[_party.Id] = partyArmory;
+			}
+
+			foreach (var slot in Global.EquipmentSlots) {
+				var element = equipment.GetEquipmentFromSlot(slot);
+				if (!element.IsEmpty && element.Item != null) {
+					if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
+						// 武器库中有足够的物品，分配一个并减少数量
+						partyArmory[element.Item] = itemCount - 1;
+						Global.Log($"Spawned item {element.Item.StringId}", Colors.Green, Level.Debug);
+					}
+					else {
+						// 武器库中没有足够的物品或者该物品不存在
+						Global.Log($"Insufficient or no items to spawn {element.Item.StringId}", Colors.Red, Level.Warn);
+					}
+				}
+			}
+		}
+
+		public void ReturnItem(ItemObject? item, int count) {
+			if (item == null || count <= 0) {
+				Global.Log("Invalid item or count for return.", Colors.Red, Level.Warn);
+				return;
+			}
+
+			// 确保 PartyArmories 包含特定的 _party.Id
+			if (!EveryoneCampaignBehavior.PartyArmories.TryGetValue(_party.Id, out var partyArmory)) {
+				partyArmory                                       = new Dictionary<ItemObject, int>();
+				EveryoneCampaignBehavior.PartyArmories[_party.Id] = partyArmory;
+			}
+
+			// 如果武器库中已经有这个物品，增加数量；否则，添加新的条目
+			if (partyArmory.TryGetValue(item, out var existingCount))
+				partyArmory[item] = existingCount + count;
+			else
+				partyArmory[item] = count;
+
+			Global.Log($"Returned {count} of item {item.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
+		}
+
 
 		private delegate bool EquipmentFilter(KeyValuePair<EquipmentElement, int> equipment);
 

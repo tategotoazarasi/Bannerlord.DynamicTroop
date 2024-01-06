@@ -98,6 +98,16 @@
 			}
 		}
 
+		public static void Debug(string message) { Log(message, Colors.Green, Level.Debug); }
+
+		public static void Info(string message) { Log(message, Colors.Blue, Level.Info); }
+
+		public static void Warn(string message) { Log(message, Colors.Yellow, Level.Warn); }
+
+		public static void Error(string message) { Log(message, Colors.Red, Level.Error); }
+
+		public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal); }
+
 		public static bool IsAgentValid(Agent? agent) {
 			return agent           != null &&
 				   agent.Formation != null &&
@@ -333,12 +343,9 @@
 		public static MobileParty? GetAgentParty(IAgentOriginBase? origin) {
 			if (origin == null) return null;
 
-			if (origin is PartyAgentOrigin partyAgentOrigin)
-				return partyAgentOrigin.Party?.MobileParty;
-			if (origin is PartyGroupAgentOrigin partyGroupAgentOrigin)
-				return partyGroupAgentOrigin.Party?.MobileParty;
-			if (origin is SimpleAgentOrigin simpleAgentOrigin)
-				return simpleAgentOrigin.Party?.MobileParty;
+			if (origin is PartyAgentOrigin partyAgentOrigin) return partyAgentOrigin.Party?.MobileParty;
+			if (origin is PartyGroupAgentOrigin partyGroupAgentOrigin) return partyGroupAgentOrigin.Party?.MobileParty;
+			if (origin is SimpleAgentOrigin simpleAgentOrigin) return simpleAgentOrigin.Party?.MobileParty;
 
 			return null;
 		}
