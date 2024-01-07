@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Bannerlord.ButterLib.SaveSystem.Extensions;
 	using log4net.Core;
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.CampaignSystem.MapEvents;
@@ -11,14 +12,16 @@
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
 	using TaleWorlds.ObjectSystem;
+	using TaleWorlds.SaveSystem;
 
 #endregion
 
 	namespace Bannerlord.DynamicTroop;
 
 	public class EveryoneCampaignBehavior : CampaignBehaviorBase {
-		public static  Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
-		private static Data                                            data = new();
+		public static Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+
+		private static Data data = new();
 
 		public override void RegisterEvents() {
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnMobilePartyCreated);
@@ -29,15 +32,23 @@
 
 		public override void SyncData(IDataStore dataStore) {
 			if (dataStore.IsSaving) {
-				data.PartyArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(PartyArmories);
-				dataStore.SyncData("DynamicTroopPartyArmories", ref data);
-				data.PartyArmories.Clear();
+				data.PartyArmories = ConvertToUIntGuidDict(PartyArmories);
+				_                  = dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref data);
+				if (data != null) {
+					Global.Debug($"saved {PartyArmories.Count} entries");
+					data.PartyArmories.Clear();
+				}
+				else { Global.Error("Save Error"); }
 			}
 			else if (dataStore.IsLoading) {
 				data.PartyArmories.Clear();
-				dataStore.SyncData("DynamicTroopPartyArmories", ref data);
-				PartyArmories = new Dictionary<MBGUID, Dictionary<ItemObject, int>>(data.PartyArmories);
-				data.PartyArmories.Clear();
+				_ = dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref data);
+				if (data != null) {
+					PartyArmories = ConvertToGuidDict(data.PartyArmories);
+					data.PartyArmories.Clear();
+					Global.Debug($"loaded {PartyArmories.Count} entries");
+				}
+				else { Global.Error("Load Error"); }
 			}
 		}
 
@@ -73,34 +84,87 @@
 		public void OnMapEventEnded(MapEvent mapEvent) {
 			Global.Log($"Map Event ended with state {mapEvent.BattleState}", Colors.Green, Level.Debug);
 			if (mapEvent.BattleState is BattleState.AttackerVictory or BattleState.DefenderVictory) {
-				var winner = mapEvent.BattleState == BattleState.AttackerVictory
-								 ? mapEvent.AttackerSide
-								 : mapEvent.DefenderSide;
-				var loser = mapEvent.BattleState == BattleState.AttackerVictory
-								? mapEvent.DefenderSide
-								: mapEvent.AttackerSide;
+				var validWinnerParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
+																? mapEvent.AttackerSide.Parties
+																: mapEvent.DefenderSide.Parties);
+				var validLoserParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
+															   ? mapEvent.DefenderSide.Parties
+															   : mapEvent.AttackerSide.Parties);
 
-				// 记录胜方部队
-				foreach (var party in winner.Parties)
-					if (IsMapEventPartyValid(party))
-						Global.Log($"Winning party: {party.Party.Name}#{party.Party.MobileParty.Id}",
-								   Colors.Green,
-								   Level.Debug);
+				LogParties(validWinnerParties, "Winning");
+				LogParties(validLoserParties,  "Defeated");
 
-				// 记录败方部队
-				foreach (var party in loser.Parties)
-					if (IsMapEventPartyValid(party))
-						Global.Log($"Defeated party: {party.Party.Name}#{party.Party.MobileParty.Id}",
-								   Colors.Green,
-								   Level.Debug);
-
-				var totalLoserValue     = CalculateTotalValue(loser.Parties);
-				var totalWinnerStrength = CalculateTotalStrength(winner.Parties);
-
-				var winnerLootShares = AllocateLootShares(winner.Parties, totalWinnerStrength, totalLoserValue);
-
-				DistributeLoot(winnerLootShares, loser.Parties);
+				var totalWinnerStrength = CalculateTotalStrength(validWinnerParties);
+				DistributeLootRandomly(validWinnerParties, totalWinnerStrength, validLoserParties);
 			}
+		}
+
+		private List<MapEventParty> FilterValidParties(IEnumerable<MapEventParty> parties) {
+			return parties.Where(IsMapEventPartyValid).ToList();
+		}
+
+		private void LogParties(IEnumerable<MapEventParty> parties, string label) {
+			foreach (var party in parties)
+				Global.Log($"{label} party: {party.Party.Name}#{party.Party.MobileParty.Id}", Colors.Green, Level.Debug);
+		}
+
+		private float CalculateTotalStrength(IEnumerable<MapEventParty> parties) {
+			return parties.Sum(party => party.Party.TotalStrength);
+		}
+
+		private void DistributeLootRandomly(IEnumerable<MapEventParty> winnerParties,
+											float                      totalWinnerStrength,
+											IEnumerable<MapEventParty> loserParties) {
+			Random                  random             = new();
+			var                     lootItemsWithCount = GetAllLootItems(loserParties);
+			Dictionary<MBGUID, int> partyLootCount     = new(); // 用于统计每个party获得的物品数量
+
+			foreach (var lootItem in lootItemsWithCount) {
+				var item      = lootItem.Key;
+				var itemCount = lootItem.Value;
+
+				for (var i = 0; i < itemCount; i++) {
+					var chosenParty = ChoosePartyRandomly(winnerParties, totalWinnerStrength, random);
+					if (chosenParty != null) {
+						AddItemToPartyArmory(chosenParty.Id, item, 1);
+
+						// 更新统计信息
+						if (partyLootCount.ContainsKey(chosenParty.Id))
+							partyLootCount[chosenParty.Id]++;
+						else
+							partyLootCount[chosenParty.Id] = 1;
+					}
+				}
+			}
+
+			// 记录每个party获得的物品总数
+			foreach (var partyCount in partyLootCount)
+				Global.Debug($"Party {partyCount.Key} looted {partyCount.Value} items");
+		}
+
+		private Dictionary<ItemObject, int> GetAllLootItems(IEnumerable<MapEventParty> parties) {
+			Dictionary<ItemObject, int> itemsWithCount = new();
+			foreach (var party in parties)
+				if (PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
+					foreach (var item in inventory)
+						if (itemsWithCount.ContainsKey(item.Key))
+							itemsWithCount[item.Key] += item.Value;
+						else
+							itemsWithCount.Add(item.Key, item.Value);
+
+			return itemsWithCount;
+		}
+
+		private MobileParty? ChoosePartyRandomly(IEnumerable<MapEventParty> parties, float totalStrength, Random random) {
+			var randomValue        = random.NextDouble() * totalStrength;
+			var cumulativeStrength = 0f;
+
+			foreach (var party in parties) {
+				cumulativeStrength += party.Party.TotalStrength;
+				if (cumulativeStrength >= randomValue) return party.Party.MobileParty;
+			}
+
+			return null;
 		}
 
 		public void OnTroopRecruited(Hero            recruiterHero,
@@ -143,26 +207,6 @@
 			return listToReturn;
 		}
 
-		private int CalculateTotalValue(MBReadOnlyList<MapEventParty> parties) {
-			if (parties == null) return 0;
-
-			var totalValue = 0;
-
-			// 确定未被摧毁的部队
-			HashSet<MBGUID> undestroyedPartyIds =
-				new(parties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
-						   .Select(party => party.Party.MobileParty.Id));
-
-			foreach (var party in parties)
-				if (IsMapEventPartyValid(party) && !undestroyedPartyIds.Contains(party.Party.MobileParty.Id))
-					if (PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
-						foreach (var item in inventory)
-							if (item.Key != null)
-								totalValue += item.Key.Value * item.Value; // item.Key是ItemObject，item.Value是数量
-
-			return totalValue;
-		}
-
 		private float CalculateTotalStrength(MBReadOnlyList<MapEventParty> parties) {
 			if (parties == null) return 0;
 
@@ -174,62 +218,6 @@
 			return totalStrength;
 		}
 
-		private Dictionary<MBGUID, float> AllocateLootShares(MBReadOnlyList<MapEventParty> parties,
-															 float                         totalStrength,
-															 int                           totalValue) {
-			Dictionary<MBGUID, float> shares = new();
-			foreach (var party in parties)
-				if (IsMapEventPartyValid(party)) {
-					var share = party.Party.TotalStrength * totalValue / totalStrength; // 分配的份额
-					shares[party.Party.MobileParty.Id] = share;
-				}
-
-			return shares;
-		}
-
-		private void DistributeLoot(Dictionary<MBGUID, float> lootShares, MBReadOnlyList<MapEventParty> loserParties) {
-			Dictionary<MBGUID, Dictionary<ItemObject, int>> tempArmories = new(PartyArmories);
-
-			// 获取战败但未被摧毁的部队的ID
-			HashSet<MBGUID> undestroyedLoserPartyIds =
-				new(loserParties.Where(party => IsMapEventPartyValid(party) && IsPartyUndestroyed(party.Party))
-								.Select(party => party.Party.MobileParty.Id));
-
-			foreach (var share in lootShares) {
-				var partyId          = share.Key;
-				var lootValueTarget  = share.Value;
-				var currentLootValue = 0f;
-
-				if (!PartyArmories.ContainsKey(partyId)) PartyArmories[partyId] = new Dictionary<ItemObject, int>();
-
-				foreach (var loserPartyId in tempArmories.Keys) {
-					// 跳过未被摧毁的败方部队
-					if (undestroyedLoserPartyIds.Contains(loserPartyId)) continue;
-
-					var loserInventory = tempArmories[loserPartyId];
-
-					foreach (var item in loserInventory.ToList()) {
-						var itemValue = item.Key.Value;
-						var itemCount = item.Value;
-
-						if (currentLootValue + itemValue <= lootValueTarget && itemCount > 0) {
-							AddItemToPartyArmory(partyId, item.Key, 1);
-							RemoveItemFromTempArmory(tempArmories, loserPartyId, item.Key, 1);
-
-							currentLootValue += itemValue;
-
-							if (currentLootValue >= lootValueTarget) break;
-						}
-					}
-
-					if (currentLootValue >= lootValueTarget) break;
-				}
-
-				// 记录分配给该party的总价值
-				Global.Log($"Party {partyId} looted total value of {currentLootValue}", Colors.Green, Level.Debug);
-			}
-		}
-
 		private void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
 			if (!PartyArmories.TryGetValue(partyId, out var inventory)) {
 				inventory              = new Dictionary<ItemObject, int>();
@@ -239,20 +227,6 @@
 			if (!inventory.TryGetValue(item, out var currentCount)) currentCount = 0;
 
 			inventory[item] = currentCount + count;
-		}
-
-		private void RemoveItemFromTempArmory(Dictionary<MBGUID, Dictionary<ItemObject, int>> tempArmories,
-											  MBGUID                                          partyId,
-											  ItemObject                                      item,
-											  int                                             count) {
-			if (tempArmories.TryGetValue(partyId, out var inventory))
-				if (inventory.TryGetValue(item, out var currentCount)) {
-					var newCount = currentCount - count;
-					if (newCount <= 0)
-						_ = inventory.Remove(item);
-					else
-						inventory[item] = newCount;
-				}
 		}
 
 		private bool IsMapEventPartyValid(MapEventParty? party) {
@@ -292,8 +266,50 @@
 					 mapEvent.DefenderSide.Parties.Any(party => party.Party.LeaderHero == Hero.MainHero)));
 		}
 
+		public Dictionary<uint, Dictionary<string, int>> ConvertToUIntGuidDict(
+			Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict) {
+			Dictionary<uint, Dictionary<string, int>> uintDict = new();
+			foreach (var pair in guidDict) {
+				if (!uintDict.TryGetValue(pair.Key.InternalValue, out var innerDict)) {
+					innerDict = new Dictionary<string, int>();
+					uintDict.Add(pair.Key.InternalValue, innerDict);
+				}
+
+				foreach (var innerPair in pair.Value)
+					if (innerDict.ContainsKey(innerPair.Key.StringId))
+						innerDict[innerPair.Key.StringId] += innerPair.Value;
+					else
+						innerDict.Add(innerPair.Key.StringId, innerPair.Value);
+			}
+
+			return uintDict;
+		}
+
+		public Dictionary<MBGUID, Dictionary<ItemObject, int>> ConvertToGuidDict(
+			Dictionary<uint, Dictionary<string, int>> uintDict) {
+			Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict = new();
+			foreach (var pair in uintDict) {
+				if (!guidDict.TryGetValue(new MBGUID(pair.Key), out var innerDict)) {
+					innerDict = new Dictionary<ItemObject, int>();
+					guidDict.Add(new MBGUID(pair.Key), innerDict);
+				}
+
+				foreach (var innerPair in pair.Value) {
+					var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(innerPair.Key);
+					if (itemObject != null) {
+						if (innerDict.ContainsKey(itemObject))
+							innerDict[itemObject] += innerPair.Value;
+						else
+							innerDict.Add(itemObject, innerPair.Value);
+					}
+				}
+			}
+
+			return guidDict;
+		}
+
 		[Serializable]
 		private class Data {
-			public Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+			[SaveableField(2)] public Dictionary<uint, Dictionary<string, int>> PartyArmories = new();
 		}
 	}

@@ -20,10 +20,10 @@
 				if (!troop.IsTroopEmpty && troop.Character != null) {
 					Global.Log($"recruiting {troop.Character.StringId}", Colors.Green, Level.Debug);
 					var equipments = GetRecruitEquipments(troop.Character);
+					Global.Debug($"{equipments.Count} starting equipments added");
 					foreach (var equipment in equipments)
 						if (!equipment.IsEmpty && equipment.Item != null)
 							ArmyArmory.AddItemToArmory(equipment.Item);
-					//ArmyArmory.AddSoldierEquipmentToArmory(troop.Character); //else { InformationManager.DisplayMessage(new InformationMessage("FAILED RECRUITMENT", Colors.Red)); }
 				}
 		}
 
@@ -37,9 +37,7 @@
 			HashSet<EquipmentElement> weaponSet         = new(new EquipmentElementComparer());
 			foreach (var slot in Global.ArmourAndHorsesSlots) {
 				var item = armorAndHorse.GetEquipmentFromSlot(slot);
-				if (!item.IsEmpty && item.Item != null)
-					//Global.Log($"GetRecruitEquipments {item.Item.StringId} Added", Colors.Green, Level.Debug);
-					equipmentElements.Add(item);
+				if (!item.IsEmpty && item.Item != null) equipmentElements.Add(item);
 			}
 
 			foreach (var equipment in character.BattleEquipments)
@@ -47,9 +45,6 @@
 					foreach (var slot in Assignment.WeaponSlots) {
 						var item = equipment.GetEquipmentFromSlot(slot);
 						if (!item.IsEmpty && item.Item != null && Global.IsWeapon(item.Item)) {
-							/*Global.Log($"GetRecruitEquipments {item.Item.StringId} Added to list",
-									   Colors.Green,
-									   Level.Debug);*/
 							if (Global.IsConsumableWeapon(item.Item))
 								equipmentElements.Add(item); // 直接添加消耗品类型武器
 							else
@@ -57,21 +52,11 @@
 						}
 					}
 
-			//Global.Log($"GetRecruitEquipments weaponList.Count={weaponList.Count}", Colors.Green, Level.Debug);
 			weaponList.Shuffle();
 			foreach (var weapon in weaponList)
 				if (!weaponSet.Contains(weapon))
-					/*Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} Added to set",
-							   Colors.Green,
-							   Level.Debug);*/
 					_ = weaponSet.Add(weapon);
-			/*else {
-		Global.Log($"GetRecruitEquipments new weapon {weapon.Item.StringId} already exists",
-				   Colors.Green,
-				   Level.Debug);
-	}*/
 
-			//Global.Log($"GetRecruitEquipments weaponSet.Count={weaponSet.Count}", Colors.Green, Level.Debug);
 			equipmentElements.AddRange(weaponSet);
 			return equipmentElements;
 		}

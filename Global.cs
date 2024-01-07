@@ -349,7 +349,7 @@
 		}
 
 		private static bool IsPartyInPlayerCommand(PartyBase? party) {
-			return party != null && (party == PartyBase.MainParty || party.Owner == Hero.MainHero);
+			return party != null && party == PartyBase.MainParty;
 		}
 
 		public static bool IsSuitableForCharacter(ItemObject? item, CharacterObject? character) {

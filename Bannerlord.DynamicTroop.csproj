@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>0.0.1</Version>
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net472;net6</TargetFrameworks>
     <Platforms>x64</Platforms>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
@@ -22,7 +22,7 @@
     <!-- Steam/GOG/Epic versions of the game -->
     <BuildForWindows>true</BuildForWindows>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework) == 'netcoreapp3.1'">
+  <PropertyGroup Condition="$(TargetFramework) == 'net6'">
     <!-- Xbox Game Pass PC version of the game -->
     <BuildForWindowsStore>false</BuildForWindowsStore>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

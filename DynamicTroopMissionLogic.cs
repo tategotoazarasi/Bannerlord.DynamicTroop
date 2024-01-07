@@ -158,7 +158,11 @@
 		}
 
 		private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
-			var battleRecord = PartyBattleRecords[partyId];
+			// 检查是否存在对应的battleRecord
+			if (!PartyBattleRecords.TryGetValue(partyId, out var battleRecord)) {
+				Global.Warn($"No battle record found for party {partyId}");
+				return;
+			}
 
 			if (isVictorious) {
 				ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);

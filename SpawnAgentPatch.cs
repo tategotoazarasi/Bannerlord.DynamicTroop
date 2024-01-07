@@ -1,10 +1,10 @@
 ﻿#region
 
+	using System.Collections.Generic;
 	using System.Linq;
 	using HarmonyLib;
-	using log4net.Core;
 	using TaleWorlds.CampaignSystem.Party;
-	using TaleWorlds.Library;
+	using TaleWorlds.Core;
 	using TaleWorlds.MountAndBlade;
 
 #endregion
@@ -14,66 +14,83 @@
 	[HarmonyPatch(typeof(Mission), "SpawnAgent")]
 	public class SpawnAgentPatch {
 		private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData) {
-			// 确保当前任务是战斗类型的，并且AgentBuildData及其属性已初始化
-			if (__instance.CombatType         == Mission.MissionCombatType.Combat &&
-				__instance.PlayerTeam         != null                             &&
-				agentBuildData.AgentCharacter != null                             &&
-				agentBuildData.AgentFormation != null                             &&
-				agentBuildData.AgentTeam      != null                             &&
-				agentBuildData.AgentOrigin    != null                             &&
+			if (!IsCombatMissionWithValidData(__instance, agentBuildData)) return;
 
-				//Global.IsInPlayerParty(agentBuildData.AgentOrigin)                &&
-				Global.GetAgentParty(agentBuildData.AgentOrigin) != null &&
-				agentBuildData.AgentTeam.IsValid) {
-				var missionLogic = __instance.GetMissionBehavior<DynamicTroopMissionLogic>();
-				if (missionLogic == null) {
-					Global.Log("missionLogic is null", Colors.Red, Level.Error);
-					return;
-				}
+			var party = Global.GetAgentParty(agentBuildData.AgentOrigin);
+			if (!IsPartyValidForProcessing(party)) return;
 
-				var characterStringId = agentBuildData.AgentCharacter.StringId;
-				var party             = Global.GetAgentParty(agentBuildData.AgentOrigin);
-				if (party == null ||
-					!(EveryoneCampaignBehavior.IsMobilePartyValid(party) || party == MobileParty.MainParty))
-					return;
-
-				if (!agentBuildData.AgentCharacter.IsHero) {
-					Global.Log($"spawning agent {agentBuildData.AgentCharacter.Name}#{agentBuildData.AgentIndex} for {party.Name}",
-							   Colors.Green,
-							   Level.Debug);
-					if (EveryoneCampaignBehavior.IsMobilePartyValid(party) &&
-						!missionLogic.Distributors.ContainsKey(party.Id)) {
-						missionLogic.Distributors.Add(party.Id,
-													  new PartyEquipmentDistributor(__instance,
-																						party,
-																						EveryoneCampaignBehavior
-																							.PartyArmories[party.Id]));
-						Global.Log($"party {party.Name} involved", Colors.Green, Level.Debug);
-					}
-
-					var assignment = missionLogic.Distributors[party.Id]
-												 .assignments
-												 .FirstOrDefault(a => !a.IsAssigned &&
-																	  a.Character.StringId == characterStringId);
-
-					if (assignment != null) {
-						// 确保equipment不为空
-						agentBuildData = agentBuildData.Equipment(assignment.Equipment);
-						if (Global.IsInPlayerParty(agentBuildData.AgentOrigin))
-							ArmyArmory.AssignEquipment(assignment.Equipment);
-						else
-							missionLogic.Distributors[party.Id].Spawn(assignment.Equipment);
-
-						assignment.IsAssigned = true;
-					}
-					else {
-						Global.Log($"assignment not found for {agentBuildData.AgentCharacter.StringId}",
-								   Colors.Red,
-								   Level.Error);
-					}
-				}
-
-				missionLogic.PartyBattleSides[party.Id] = agentBuildData.AgentTeam.Side;
+			var missionLogic = __instance.GetMissionBehavior<DynamicTroopMissionLogic>();
+			if (missionLogic == null) {
+				Global.Error("missionLogic is null");
+				return;
 			}
+
+			ProcessAgentSpawn(agentBuildData, party, missionLogic);
+			UpdateBattleSides(missionLogic, party, agentBuildData.AgentTeam.Side);
+		}
+
+		private static bool IsCombatMissionWithValidData(Mission mission, AgentBuildData agentBuildData) {
+			return mission.CombatType            == Mission.MissionCombatType.Combat &&
+				   mission.PlayerTeam            != null                             &&
+				   agentBuildData.AgentCharacter != null                             &&
+				   agentBuildData.AgentFormation != null                             &&
+				   agentBuildData.AgentTeam      != null                             &&
+				   agentBuildData.AgentOrigin    != null                             &&
+
+				   //Global.IsInPlayerParty(agentBuildData.AgentOrigin)                &&
+				   Global.GetAgentParty(agentBuildData.AgentOrigin) != null &&
+				   agentBuildData.AgentTeam.IsValid;
+		}
+
+		private static bool IsPartyValidForProcessing(MobileParty? party) {
+			return party != null && (EveryoneCampaignBehavior.IsMobilePartyValid(party) || party == MobileParty.MainParty);
+		}
+
+		private static void ProcessAgentSpawn(AgentBuildData           agentBuildData,
+											  MobileParty              party,
+											  DynamicTroopMissionLogic missionLogic) {
+			if (!agentBuildData.AgentCharacter.IsHero) {
+				EnsureDistributorExists(missionLogic, party);
+
+				var assignment = GetAssignmentForCharacter(missionLogic, party, agentBuildData.AgentCharacter.StringId);
+				if (assignment != null) {
+					agentBuildData = agentBuildData.Equipment(assignment.Equipment);
+					AssignOrSpawnEquipment(agentBuildData, assignment, missionLogic, party);
+					assignment.IsAssigned = true;
+				}
+				else { Global.Error($"Assignment not found for {agentBuildData.AgentCharacter.StringId}"); }
+			}
+		}
+
+		private static void EnsureDistributorExists(DynamicTroopMissionLogic missionLogic, MobileParty party) {
+			if (!missionLogic.Distributors.ContainsKey(party.Id)) {
+				var partyArmory = EveryoneCampaignBehavior.PartyArmories.TryGetValue(party.Id, out var armory)
+									  ? armory
+									  : new Dictionary<ItemObject, int>();
+				missionLogic.Distributors.Add(party.Id, new PartyEquipmentDistributor(Mission.Current, party, partyArmory));
+				Global.Debug($"Party {party.Name} involved");
+			}
+		}
+
+		private static Assignment?
+			GetAssignmentForCharacter(DynamicTroopMissionLogic missionLogic, MobileParty party, string characterStringId) {
+			return missionLogic.Distributors[party.Id]
+							   .assignments.FirstOrDefault(a => !a.IsAssigned && a.Character.StringId == characterStringId);
+		}
+
+		private static void AssignOrSpawnEquipment(AgentBuildData           agentBuildData,
+												   Assignment               assignment,
+												   DynamicTroopMissionLogic missionLogic,
+												   MobileParty              party) {
+			if (Global.IsInPlayerParty(agentBuildData.AgentOrigin))
+				ArmyArmory.AssignEquipment(assignment.Equipment);
+			else
+				missionLogic.Distributors[party.Id].Spawn(assignment.Equipment);
+		}
+
+		private static void UpdateBattleSides(DynamicTroopMissionLogic missionLogic,
+											  MobileParty              party,
+											  BattleSideEnum           side) {
+			if (!missionLogic.PartyBattleSides.ContainsKey(party.Id)) missionLogic.PartyBattleSides.Add(party.Id, side);
 		}
 	}
