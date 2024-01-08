@@ -375,7 +375,7 @@
 		public static bool IsBolt(ItemObject? equipment) {
 			if (equipment == null) return false;
 
-			if (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows) return true;
+			if (equipment.ItemType == ItemObject.ItemTypeEnum.Bolts) return true;
 
 			if (equipment.Weapons == null) return false;
 

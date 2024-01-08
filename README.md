@@ -1,61 +1,93 @@
 # Bannerlord.DynamicTroop
 
-## Description
+The Dynamic Troop Equipment System mod introduces a sophisticated armory and equipment distribution system in Mount & Blade II: Bannerlord, focusing exclusively on player-controlled troops.
 
-Embark on a more immersive and strategic journey in Mount & Blade II: Bannerlord with the Dynamic Troop Equipment System mod. This innovative modification changes the way your troops equip for battle, making every victory more rewarding and every decision more impactful.
+## Armory System
 
-### **Key Features:**
+- Soldiers no longer magically receive new equipment upon leveling up.
+- Troops access a dynamic army armory where equipment from defeated enemy soldiers (excluding hero units) is added.
+- Soldiers choose their equipment from the armory based on availability, including recruits who add their initial gear to the armory.
+- Armory management accessible from town menus; note that equipment crafting may have bugs.
 
-1. **Integrated Armoury:** Troops now have access to a dynamic army armoury. By defeating or incapacitating enemy soldiers (except hero units), a complete set of the fallen enemy's equipment will be added to your armoury upon victory.
-  
-2. **Realistic equipment upgrades:** Troops no longer magically receive new equipment when they level up. Instead, they will select appropriate equipment from their armoury.
-  
-3. **Strategic Equipment Selection:** Soldiers will prioritise equipment based on their level and the value of the item. Weapon selection is limited to the types traditionally wielded by their respective unit types (e.g. one-handed staffs, two-handed swords, throwing axes). If no suitable weapons are available, a random melee weapon will be selected.
-  
-4. **Equipment Recovery:** Even if your troops are killed in battle, their equipment can be recovered if you emerge victorious.
-  
-5. **Standard Loot System Unaffected:** You'll still receive loot according to the original game mechanics, which can be considered loot from the enemy armoury.
-  
-6. **Player-centric equipment system:** This dynamic equipment system will only affect player troops and will not affect NPC units, including family NPCs.
-  
-7. **New recruit equipment:** When you recruit new soldiers, their starter equipment is automatically added to your armoury (including multiple sets if available).
-  
-8. **Armory Management:** Access and manage your armory from the town menus. Note: Crafting equipment may be subject to bugs.
+## Equipment Distribution Logic
 
-### **More information:**
+- Distribution occurs in four distinct rounds:
+  - **First Round:** Requires an exact match in weapon type and function. For example, a slashing-only one-handed sword matches only another slashing-only one-handed sword. When distributing polearms to mounted troops, only lances suitable for mounted combat are considered.
+  - **Second Round:** Matches one weapon subtype across categories. For example, both weapons categorized as “one-handed polearms” can match, even if one can also be used as a two-handed polearm. Throwing and melee weapons are not considered the same category.
+  - **Third Round:** Broad type matching (e.g., both being “one-handed weapons”). For mounted troops, polearms must be suitable for mounted combat, and infantry cannot receive such lances.
+  - **Fourth Round:** General matching based on broad weapon categories without specific subtype requirements.
+  - Each round only fills slots left empty from the previous round.
+- Soldiers without weapons are allocated a random melee weapon.
+- Higher-tier soldiers are prioritized, with weapons sorted by tier, then price. For infantry, weapon attributes like bonus against shields, dismounting, knockdown, or bracing count as +1 tier.
+- Surplus arrows, shields, throwing weapons, and two-handed/polearms are allocated based on existing equipment.
+- Mounted units, including archers, won't receive weapons unsuitable for use on horseback.
 
-9. **Compatibility:** The mod is compatible with other mods that do not introduce new equipment types.
-  
-10. **Open Source:** Access the mod's source code on GitHub: [GitHub repository link](https://github.com/tategotoazarasi/Bannerlord.DynamicTroop).
-  
-11. **Recommended Launcher:** Use the BUTR launcher for optimal performance.
+## Additional Mechanics
 
-------------------------------------
+- Consumable weapons (arrows, bolts, throwing weapons) are only recoverable if not completely used up.
+- Cavalry upgrades do not require horses.
+- Soldiers are limited to using weapons within their skill level.
+- Broken shields and used ammunition are not collected.
+- Armor receiving fatal or critical hits may not be salvageable.
+- Standard loot system remains unaffected.
 
-## **Future update plans for the Dynamic Troop Equipment System Mod**.
+## Compatibility and Requirements
 
-### 1. Bug fixes:**.
+- Should be compatible with mods not introducing new equipment types.
+- Recommended to use the BLSE launcher for optimal performance.
+- Requires Harmony, UIExtenderEx, ButterLib and MCM.
 
-- Continued efforts to identify and fix existing bugs in the mod for a smoother gameplay experience.
+## Links
 
-### 2. Detailed Loot Acquisition Improvements:**.
+- [NexusMods - Standard & Beta Version](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files) (Beta Version: Now extends to AI parties led by heroes. Requires starting a new game. For a more stable experience, download the standard version.)
+- [GitHub Repository](https://github.com/tategotoazarasi/Bannerlord.DynamicTroop)
+- [Discord](https://discord.gg/NybRg85KVK)
+- [骑砍中文站](https://bbs.mountblade.com.cn/download_1436.html)
+- QQ Group: 698615206
 
-- Horses and horse armour that are killed or flee in battle are no longer recoverable.
-- Broken shields will no longer be collected.
-- Armour that takes a fatal or critical hit may not be salvageable.
-- Realistic arrow and bullet usage in combat.
-- When recruiting mercenaries, their equipment will be available (or they will always use their own equipment).
-- When recruiting, only one set of armour is added at first, then identical types of equipment from different sets are combined in the armoury.
+-------
 
-### 3. Detailed improvements to soldier equipment selection:**.
+这个Mod为《骑马与砍杀II：霸主》带来了一个先进的军械库和装备分配系统，专注于玩家控制的部队。
 
-- Allocation of surplus shields to unshielded troops with one-handed weapons and available equipment slots.
-- Allocation of surplus throwing weapons to melee troops with available slots.
-- Allocate surplus arrows to ranged units with available slots.
-- Equip troops with available slots and no two-handed/poly-armed weapons from the surplus of such weapons.
-- Prioritise cavalry for weapons suitable for lance charges.
-- Give more consideration to the original equipment characteristics of soldiers, such as bonuses against shields or spear bracing capabilities.
+## 军械库系统
 
-### Long term goals:**.
+- 士兵升级时不再凭空获得新装备
+- 部队现在有一个动态军械库，战场上杀死的敌人（除了英雄单位）的装备会加入到这里，战斗开始时，军械库会将其中的装备分配给士兵
+- 新招募的士兵会将自己的初始装备加入军械库
+- 可以从城镇菜单中访问和管理军械库；请注意，装备打造可能存在bug。
 
-- Extend the functionality of the mod to all NPC troops, fully integrating the dynamic equipment system throughout the game.
+## 装备分配逻辑
+
+- 分配过程分为四个不同的阶段：
+  - **第一轮：** 要求武器类型和功能的精确匹配。例如，一把只能用于劈砍的单手剑只能与另一把同样的单手剑匹配。对于骑兵，分配长杆武器时只考虑骑枪，步兵不会获得骑枪。
+  - **第二轮：** 在类别内匹配一种武器的子类型。例如，可以将归类为“单手长杆”的两种武器匹配，即使其中一种也可以作为双手长杆使用。投掷武器和近战武器不被视为同一类别。
+  - **第三轮：** 广泛类型匹配（例如，都是“单手武器”）。对于骑兵，分配长杆武器时只考虑骑枪，步兵不会获得骑枪。
+  - **第四轮：** 广泛类型匹配（例如，都是“单手武器”）。
+  - 每一轮只填补上一轮留下的空缺。
+- 没有武器的士兵将被分配一种随机近战武器。
+- 优先考虑高等级士兵，武器按照等级和价格排序。对于步兵，特殊的武器属性（对盾加成、坠马、击倒、架矛）相当于增加一级。
+- 如果四轮之后仍有空槽位，则将根据士兵已有的装备分配多余的箭矢、盾牌、投掷武器和双手/长杆武器。
+- 骑兵单位不会获得无法在马上使用的武器。
+
+## 额外机制
+
+- 消耗性武器（箭矢、弩矢、投掷武器）如果用完则无法被回收，如果没用用完，哪怕只剩一支箭，也可以全部回收。
+- 骑兵升级不需要马匹。
+- 士兵只能使用要求不超过他们的技能等级的武器。
+- 破损的盾牌不会被回收。
+- 士兵被击晕/死亡时，给受到致命一击部位提供保护的护甲会损坏（如果有多个护甲对同一部位提供保护，则按照提供的护甲值加权随机一件损坏）。
+- 原版战利品系统保持不变。
+
+## 兼容性和要求
+
+- 与不引入新装备类型的模组兼容。
+- 推荐使用BLSE启动器以获得最佳性能。
+- 需要Harmony、UIExtenderEx、ButterLib和MCM。
+
+## 链接
+
+- [NexusMods - 标准和测试版](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files)（测试版：现在扩展到由英雄领导的AI队伍。需要开始新游戏。为了更稳定的体验，请下载标准版本。）
+- [Steam创意工坊](https://steamcommunity.com/sharedfiles/filedetails/?id=3119116807)
+- [GitHub仓库](https://github.com/tategotoazarasi/Bannerlord.DynamicTroop)
+- [Discord](https://discord.gg/NybRg85KVK)
+- QQ群：698615206
