@@ -28,6 +28,7 @@
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, OnMobilePartyDestroyed);
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, OnMapEventEnded);
 			CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, OnTroopRecruited);
+			CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(this, DailyTickParty);
 		}
 
 		public override void SyncData(IDataStore dataStore) {
@@ -52,6 +53,29 @@
 			}
 		}
 
+		public void DailyTickParty(MobileParty mobileParty) {
+			if (IsMobilePartyValid(mobileParty)) {
+				if (mobileParty.MemberRoster == null ||
+					//mobileParty.MemberRoster.Count            <= 1    ||
+					mobileParty.MemberRoster.GetTroopRoster() == null ||
+					mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
+					return;
+				var randomMember = mobileParty.MemberRoster.GetTroopRoster().GetRandomElement();
+				if (randomMember.Character == null                  ||
+					randomMember.Character.IsHero                   ||
+					randomMember.Character.BattleEquipments == null ||
+					randomMember.Character.BattleEquipments.IsEmpty())
+					return;
+				var randomEquipment = randomMember.Character.BattleEquipments.GetRandomElementInefficiently();
+				if (randomEquipment == null || randomEquipment.IsEmpty() || !randomEquipment.IsValid) return;
+				var ei            = Global.EquipmentSlots.GetRandomElement();
+				var randomElement = randomEquipment.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());
+				if (randomElement.IsEmpty || randomElement.Item == null) return;
+				AddItemToPartyArmory(mobileParty.Id, randomElement.Item, 1);
+				Global.Debug($"{randomElement.Item.Name} added to {mobileParty.Name}");
+			}
+		}
+
 		public void OnMobilePartyCreated(MobileParty mobileParty) {
 			if (IsMobilePartyValid(mobileParty)) {
 				if (!PartyArmories.TryGetValue(mobileParty.Id, out var itemDict)) {
@@ -73,12 +97,12 @@
 		}
 
 		public void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase partyBase) {
-			if (IsMobilePartyValid(mobileParty)) {
-				_ = PartyArmories.Remove(mobileParty.Id);
-				Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
-						   Colors.Green,
-						   Level.Debug);
-			}
+			if (mobileParty != null && mobileParty.Id != null) PartyArmories.Remove(mobileParty.Id);
+			if (IsMobilePartyValid(mobileParty))
+				if (mobileParty.Name != null && partyBase != null && partyBase.Name != null)
+					Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
+							   Colors.Green,
+							   Level.Debug);
 		}
 
 		public void OnMapEventEnded(MapEvent mapEvent) {
@@ -181,7 +205,7 @@
 						PartyArmories[party.Id] = partyInventory;
 					}
 
-					var list = RecruitmentPatch.GetRecruitEquipments(troop);
+					var list = RecruitmentPatch.GetAllRecruitEquipments(troop);
 					foreach (var element in list) {
 						// 确保partyInventory包含element.Item键
 						if (!partyInventory.TryGetValue(element.Item, out var count)) count = 0;
@@ -200,22 +224,11 @@
 			List<EquipmentElement> listToReturn = new();
 			foreach (var element in party.MemberRoster.GetTroopRoster())
 				if (element.Character != null && !element.Character.IsHero) {
-					var list = RecruitmentPatch.GetRecruitEquipments(element.Character);
+					var list = RecruitmentPatch.GetAllRecruitEquipments(element.Character);
 					for (var i = 0; i < element.Number; i++) listToReturn.AddRange(list);
 				}
 
 			return listToReturn;
-		}
-
-		private float CalculateTotalStrength(MBReadOnlyList<MapEventParty> parties) {
-			if (parties == null) return 0;
-
-			float totalStrength = 0;
-			foreach (var party in parties)
-				if (IsMapEventPartyValid(party))
-					totalStrength += party.Party.TotalStrength;
-
-			return totalStrength;
 		}
 
 		private void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {

@@ -61,6 +61,20 @@
 			return equipmentElements;
 		}
 
+		public static List<EquipmentElement> GetAllRecruitEquipments(CharacterObject? character) {
+			List<EquipmentElement> list = new();
+			if (character == null || character.BattleEquipments == null || character.BattleEquipments.IsEmpty())
+				return list;
+			foreach (var equipment in character.BattleEquipments)
+				if (equipment != null && equipment.IsValid)
+					foreach (var slot in Global.EquipmentSlots) {
+						var item = equipment.GetEquipmentFromSlot(slot);
+						if (!item.IsEmpty && item.Item != null) list.Add(item);
+					}
+
+			return list;
+		}
+
 		public class EquipmentElementComparer : IEqualityComparer<EquipmentElement> {
 			public bool Equals(EquipmentElement x, EquipmentElement y) {
 				// 检查消耗品类型武器，始终返回不相等
