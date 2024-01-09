@@ -13,6 +13,7 @@
 	using TaleWorlds.Library;
 	using TaleWorlds.ObjectSystem;
 	using TaleWorlds.SaveSystem;
+	using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, (int, int)>;
 
 #endregion
 
@@ -23,13 +24,20 @@
 
 		private static Data data = new();
 
-		public static readonly ItemObject.ItemTypeEnum[] ArmorTypes = {
-																		  ItemObject.ItemTypeEnum.BodyArmor,
-																		  ItemObject.ItemTypeEnum.LegArmor,
-																		  ItemObject.ItemTypeEnum.HeadArmor,
-																		  ItemObject.ItemTypeEnum.HandArmor,
-																		  ItemObject.ItemTypeEnum.Cape
-																	  };
+		public static readonly Dictionary<ItemObject.ItemTypeEnum, Func<int, int>> EquipmentAndThresholds = new() {
+			{ ItemObject.ItemTypeEnum.BodyArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.LegArmor, memberCnt => Math.Max(2        * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.HeadArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.HandArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.Cape, memberCnt => Math.Max(2            * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.Horse, memberCnt => Math.Max(2           * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.HorseHarness, memberCnt => Math.Max(2    * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.Bow, memberCnt => Math.Max(2             * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.Crossbow, memberCnt => Math.Max(2        * memberCnt, memberCnt     + 100) },
+			{ ItemObject.ItemTypeEnum.OneHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400) },
+			{ ItemObject.ItemTypeEnum.TwoHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400) },
+			{ ItemObject.ItemTypeEnum.Polearm, memberCnt => Math.Max(8         * memberCnt, 4 * memberCnt + 400) }
+		};
 
 		public override void RegisterEvents() {
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, OnMobilePartyCreated);
@@ -64,16 +72,22 @@
 
 
 		public void WeeklyTick() {
-			GarbageCollectParties();
-			GarbageCollectEquipments();
+			//GarbageCollectParties();
+			//GarbageCollectEquipments();
 		}
 
 		public void GarbageCollectParties() {
 			var keysToRemove = PartyArmories.Keys.Where(id => {
 															var obj = MBObjectManager.Instance.GetObject(id);
 															if (obj == null) return true;
-															if (obj is MobileParty mobileParty)
-																return !mobileParty.IsActive;
+															if (obj is MobileParty mobileParty) {
+																if (mobileParty.MemberRoster == null) return true;
+																if (mobileParty.MemberRoster.GetTroopRoster() == null)
+																	return true;
+																if (mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
+																	return true;
+															}
+
 															return false;
 														})
 											.ToList();
@@ -82,44 +96,62 @@
 			Global.Debug($"Garbage collected {keysToRemove.Count} parties");
 		}
 
-		public void GarbageCollectEquipments() { GarbageCollectArmors(); }
+		//public void GarbageCollectEquipments() { GarbageCollectArmors(); }
 
-		public void GarbageCollectArmors() {
-			foreach (var armorType in ArmorTypes) {
-				foreach (var partyArmory in PartyArmories) {
-					var obj = MBObjectManager.Instance.GetObject(partyArmory.Key);
-					if (obj is MobileParty mobileParty && mobileParty.MemberRoster?.GetTroopRoster() != null) {
-						var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
-												   .Where(element => element.Character != null && !element.Character.IsHero)
-												   .Sum(element => element.Number);
-						var armorTotalCount = partyArmory.Value
-														 .Where(kv => kv.Key.ItemType == armorType)
-														 .Sum(kv => kv.Value);
-						var surplusCount = armorTotalCount - Math.Max(2 * memberCnt, memberCnt + 100);
-						if (surplusCount <= 0) continue;
+		public void GarbageCollectArmors(MobileParty mobileParty) {
+			foreach (var equipmentAndThreshold in EquipmentAndThresholds)
+				if (IsMobilePartyValid(mobileParty) && mobileParty.MemberRoster?.GetTroopRoster() != null) {
+					var partyArmory = PartyArmories[mobileParty.Id];
+					if (partyArmory == null) return;
+					var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
+											   .Where(element => element.Character != null && !element.Character.IsHero)
+											   .Sum(element => element.Number);
+					var armorTotalCount = partyArmory.Where(kv => kv.Key.ItemType == equipmentAndThreshold.Key)
+													 .Sum(kv => kv.Value);
+					var surplusCount = armorTotalCount - equipmentAndThreshold.Value(memberCnt);
+					if (surplusCount <= 0) continue;
+					var surplusCountCpy = surplusCount;
 
-						// 创建优先级队列
-						var armorQueue = new TaleWorlds.Library.PriorityQueue<ItemObject, (int, int)>(new ArmorComparer());
-						foreach (var kv in partyArmory.Value.Where(kv => kv.Key.ItemType == armorType))
-							armorQueue.Enqueue(kv.Key, ((int)kv.Key.Tier, kv.Key.Value));
+					// 创建优先级队列
+					var armorQueue = new ItemPriorityQueue(new ArmorComparer());
+					foreach (var kv in partyArmory.Where(kv => kv.Key.ItemType == equipmentAndThreshold.Key))
+						armorQueue.Enqueue(kv.Key, ((int)kv.Key.Tier, kv.Key.Value));
 
-						// 移除多余的盔甲
-						while (surplusCount > 0 && armorQueue.Count > 0) {
-							var lowestArmor   = armorQueue.Dequeue();
-							var countToRemove = Math.Min(partyArmory.Value[lowestArmor.Key], surplusCount);
-							partyArmory.Value[lowestArmor.Key] -= countToRemove;
-							surplusCount                       -= countToRemove;
-							if (partyArmory.Value[lowestArmor.Key] == 0) partyArmory.Value.Remove(lowestArmor.Key);
-						}
-
-						Global.Debug($"Garbage collected {surplusCount}x{armorType} armors from party {mobileParty.Name}");
+					// 移除多余的盔甲
+					while (surplusCount > 0 && armorQueue.Count > 0) {
+						var lowestArmor   = armorQueue.Dequeue();
+						var countToRemove = Math.Min(partyArmory[lowestArmor.Key], surplusCount);
+						partyArmory[lowestArmor.Key] -= countToRemove;
+						surplusCount                 -= countToRemove;
+						if (partyArmory[lowestArmor.Key] == 0) partyArmory.Remove(lowestArmor.Key);
 					}
+
+					Global.Debug($"Garbage collected {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} armors from party {mobileParty.Name}");
 				}
-			}
 		}
 
+		public void ReplenishBasicTroopEquipments(MobileParty mobileParty) {
+			/*foreach (var equipmentAndThreshold in EquipmentAndThresholds)
+				if (IsMobilePartyValid(mobileParty) && mobileParty.MemberRoster?.GetTroopRoster() != null) {
+					var partyArmory = PartyArmories[mobileParty.Id];
+					var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
+											   .Where(element => element.Character != null && !element.Character.IsHero)
+											   .Sum(element => element.Number);
+					var armorTotalCount = partyArmory.Where(kv => kv.Key.ItemType == equipmentAndThreshold.Key)
+													 .Sum(kv => kv.Value);
+					if (armorTotalCount < memberCnt)
+						mobileParty.MemberRoster.GetTroopRoster().Where(member => member.Character.IsMounted)
+				}*/
+		}
+
+
 		public void DailyTickParty(MobileParty mobileParty) {
-			if (IsMobilePartyValid(mobileParty)) AllocateRandomEquipmentToPartyArmory(mobileParty);
+			if (IsMobilePartyValid(mobileParty)) {
+				AllocateRandomEquipmentToPartyArmory(mobileParty);
+				if (CampaignTime.Now.GetDayOfWeek % 7 == mobileParty.Id.InternalValue % 7)
+					GarbageCollectArmors(mobileParty);
+				ReplenishBasicTroopEquipments(mobileParty);
+			}
 		}
 
 		public void AllocateRandomEquipmentToPartyArmory(MobileParty mobileParty) {
