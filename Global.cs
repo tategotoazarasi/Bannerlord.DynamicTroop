@@ -54,7 +54,6 @@
 														 EquipmentIndex.Cape
 													 };
 
-
 		private static readonly Dictionary<ItemObject.ItemTypeEnum, CraftingTemplate[]> CraftingTemplatesByItemType = new();
 
 		public static void InitializeCraftingTemplatesByItemType() {
@@ -412,7 +411,7 @@
 			var prosperitySum = clan.Fiefs?.Sum(fief => (int)(fief?.GetProsperityLevel() + 1 ?? 0)) ?? 0;
 
 			// 计算因子：氏族等级 + 繁荣度加权
-			var factor = (clan.Tier + 1) * Math.Min(1, prosperitySum);
+			var factor = (clan.Tier + 1) * Math.Max(1, prosperitySum);
 
 			return factor;
 		}
@@ -433,7 +432,6 @@
 			return max;
 		}
 
-
 		public static List<ItemObject> CreateRandomCraftedItemsByItemType(ItemObject.ItemTypeEnum? type,
 																		  BasicCultureObject?      culture,
 																		  int                      num = 0) {
@@ -448,7 +446,7 @@
 				var crafting = new Crafting(randomElement, culture, textObject);
 				crafting.Init();
 				crafting.Randomize();
-				var hashedCode = crafting.GetCurrentCraftedItemObject().WeaponDesign.HashedCode;
+				var hashedCode = crafting.CurrentWeaponDesign.HashedCode;
 				crafting.GetCurrentCraftedItemObject().StringId = hashedCode;
 				var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(hashedCode);
 				if (itemObject == null) {
@@ -456,6 +454,25 @@
 					items.Add(itemObject);
 				}
 			}
+
 			return items;
+		}
+
+		public static int GetPartyClanTier(MobileParty? party) {
+			if (!EveryoneCampaignBehavior.IsMobilePartyValid(party)) {
+				var hero = party.Owner ?? party.LeaderHero;
+				if (hero != null) return hero.Clan?.Tier ?? 0;
+			}
+
+			return 0;
+		}
+
+		public static CultureObject? GetPartyCulture(MobileParty? party) {
+			if (!EveryoneCampaignBehavior.IsMobilePartyValid(party)) {
+				var hero = party.Owner ?? party.LeaderHero;
+				if (hero != null) return hero.Culture;
+			}
+
+			return null;
 		}
 	}

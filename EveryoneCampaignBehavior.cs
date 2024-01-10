@@ -8,6 +8,7 @@
 	using TaleWorlds.CampaignSystem;
 	using TaleWorlds.CampaignSystem.MapEvents;
 	using TaleWorlds.CampaignSystem.Party;
+	using TaleWorlds.CampaignSystem.Roster;
 	using TaleWorlds.CampaignSystem.Settlements;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
@@ -76,6 +77,8 @@
 			CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(this, DailyTickParty);
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, WeeklyTick);
 			InitializeItemListByType();
+
+			//Global.InitializeCraftingTemplatesByItemType();
 		}
 
 		public override void SyncData(IDataStore dataStore) {
@@ -99,7 +102,6 @@
 				else { Global.Error("Load Error"); }
 			}
 		}
-
 
 		public void WeeklyTick() {
 			//GarbageCollectParties();
@@ -128,7 +130,7 @@
 
 		//public void GarbageCollectEquipments() { GarbageCollectArmors(); }
 
-		public void GarbageCollectArmors(MobileParty mobileParty) {
+		public void GarbageCollectEquipments(MobileParty mobileParty) {
 			foreach (var equipmentAndThreshold in EquipmentAndThresholds)
 				if (IsMobilePartyValid(mobileParty) && mobileParty.MemberRoster?.GetTroopRoster() != null) {
 					var partyArmory = PartyArmories[mobileParty.Id];
@@ -161,86 +163,128 @@
 		}
 
 		public void ReplenishBasicTroopEquipments(MobileParty mobileParty) {
-			foreach (var typeKv in ItemListByType)
-				if (IsMobilePartyValid(mobileParty) && mobileParty.MemberRoster?.GetTroopRoster() != null) {
-					var partyArmory = PartyArmories[mobileParty.Id];
-					int requiredNum;
-					var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
-											   .Where(element => element.Character != null && !element.Character.IsHero)
-											   .Sum(element => element.Number);
-					var validRoster = mobileParty.MemberRoster.GetTroopRoster()
-												 .Where(element => element.Character != null && !element.Character.IsHero);
+			if (!IsMobilePartyValid(mobileParty) || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
 
-					switch (typeKv.Key) {
-						case ItemObject.ItemTypeEnum.Horse:
-						case ItemObject.ItemTypeEnum.HorseHarness:
-							requiredNum = validRoster.Where(element => element.Character.IsMounted)
-													 .Sum(element => element.Number);
-							break;
-						case ItemObject.ItemTypeEnum.Bow:
-						case ItemObject.ItemTypeEnum.Crossbow:
-						case ItemObject.ItemTypeEnum.OneHandedWeapon:
-						case ItemObject.ItemTypeEnum.TwoHandedWeapon:
-						case ItemObject.ItemTypeEnum.Polearm:
-							requiredNum = validRoster.Where(element => element.Character.IsMounted)
-													 .Sum(element => element.Number *
-																	 Global.CountCharacterEquipmentItemTypes(element
-																			 .Character,
-																		 typeKv.Key));
-							break;
-						default:
-							requiredNum = memberCnt;
-							break;
-					}
+			var partyArmory = PartyArmories[mobileParty.Id];
+			var memberCnt   = CountNonHeroMembers(mobileParty.MemberRoster);
 
-					var armorTotalCount = partyArmory.Where(kv => kv.Key.ItemType == typeKv.Key).Sum(kv => kv.Value);
-					var ownerCulture    = mobileParty.Owner?.Culture;
-					var leaderCulture   = mobileParty.LeaderHero?.Culture;
-					if (ownerCulture == null && leaderCulture == null) continue;
-					if (armorTotalCount < requiredNum) {
-						if (typeKv.Key == ItemObject.ItemTypeEnum.OneHandedWeapon ||
-							typeKv.Key == ItemObject.ItemTypeEnum.TwoHandedWeapon ||
-							typeKv.Key == ItemObject.ItemTypeEnum.Polearm) {
-							var craftedWeapons = Global.CreateRandomCraftedItemsByItemType(typeKv.Key,
-								ownerCulture ?? leaderCulture,
-								Math.Max(requiredNum, memberCnt));
-							foreach (var weapon in craftedWeapons)
-								if (weapon != null) {
-									AddItemToPartyArmory(mobileParty.Id, weapon, 1);
-									Global.Debug($"Replenished 1x{weapon.Name} weapon for party {mobileParty.Name}");
-								}
-						}
-						else {
-							var itemToAdd = ItemListByType[typeKv.Key]
-											?.Where(item => item != null &&
-															(item.Culture == null                                    ||
-															 (ownerCulture  != null && item.Culture == ownerCulture) ||
-															 (leaderCulture != null && item.Culture == leaderCulture)))
-											.FirstOrDefault();
-							if (itemToAdd != null) {
-								AddItemToPartyArmory(mobileParty.Id,
-													 itemToAdd,
-													 EquipmentAndThresholds[typeKv.Key](requiredNum) - armorTotalCount);
-								Global.Debug($"Replenished {EquipmentAndThresholds[typeKv.Key](requiredNum) - armorTotalCount}x{itemToAdd.Name} armors for party {mobileParty.Name}");
-							}
-						}
-					}
-				}
+			foreach (var typeKv in ItemListByType) {
+				var requiredNum = CalculateRequiredItemCount(mobileParty.MemberRoster, typeKv.Key, memberCnt);
+				ReplenishItemTypeInArmory(mobileParty, partyArmory, typeKv.Key, requiredNum, memberCnt);
+			}
 		}
 
+		private int CountNonHeroMembers(TroopRoster roster) {
+			return roster.GetTroopRoster()
+						 .Where(element => element.Character != null && !element.Character.IsHero)
+						 .Sum(element => element.Number);
+		}
+
+		private int CalculateRequiredItemCount(TroopRoster roster, ItemObject.ItemTypeEnum itemType, int memberCnt) {
+			switch (itemType) {
+				case ItemObject.ItemTypeEnum.Horse:
+				case ItemObject.ItemTypeEnum.HorseHarness:
+					return roster.GetTroopRoster()
+								 .Where(element => element.Character.IsMounted)
+								 .Sum(element => element.Number);
+
+				case ItemObject.ItemTypeEnum.Bow:
+				case ItemObject.ItemTypeEnum.Crossbow:
+				case ItemObject.ItemTypeEnum.OneHandedWeapon:
+				case ItemObject.ItemTypeEnum.TwoHandedWeapon:
+				case ItemObject.ItemTypeEnum.Polearm:
+					return roster.GetTroopRoster()
+								 .Where(element => element.Character.IsMounted)
+								 .Sum(element => element.Number *
+												 Global.CountCharacterEquipmentItemTypes(element.Character, itemType));
+
+				default: return memberCnt;
+			}
+		}
+
+		private void ReplenishItemTypeInArmory(MobileParty                 party,
+											   Dictionary<ItemObject, int> armory,
+											   ItemObject.ItemTypeEnum     itemType,
+											   int                         requiredNum,
+											   int                         memberCnt) {
+			var culture         = GetPartyCulture(party);
+			var armorTotalCount = armory.Where(kv => kv.Key.ItemType == itemType).Sum(kv => kv.Value);
+			if (armorTotalCount < requiredNum)
+				AddItemsToArmoryBasedOnItemType(party, itemType, culture, requiredNum, armorTotalCount, memberCnt);
+		}
+
+		private CultureObject? GetPartyCulture(MobileParty? party) {
+			return party?.Owner?.Culture ?? party?.LeaderHero?.Culture;
+		}
+
+		private void AddItemsToArmoryBasedOnItemType(MobileParty             party,
+													 ItemObject.ItemTypeEnum itemType,
+													 CultureObject?          culture,
+													 int                     requiredNum,
+													 int                     currentNum,
+													 int                     memberCnt) {
+			/*if (itemType == ItemObject.ItemTypeEnum.OneHandedWeapon ||
+				itemType == ItemObject.ItemTypeEnum.TwoHandedWeapon ||
+				itemType == ItemObject.ItemTypeEnum.Polearm) {
+				var craftedWeapons =
+					Global.CreateRandomCraftedItemsByItemType(itemType, culture, Math.Max(requiredNum, memberCnt));
+				foreach (var weapon in craftedWeapons)
+					if (weapon != null) {
+						AddItemToPartyArmory(partyId, weapon, 1);
+						Global.Debug($"Replenished 1x{weapon.Name} weapon for party {partyId}");
+					}
+			}*/
+			var itemToAdd = ItemListByType[itemType]
+				?.FirstOrDefault(item => item != null && (item.Culture == null || item.Culture == culture));
+			if (itemToAdd != null) {
+				AddItemToPartyArmory(party.Id, itemToAdd, EquipmentAndThresholds[itemType](requiredNum) - currentNum);
+				Global.Debug($"Replenished {EquipmentAndThresholds[itemType](requiredNum) - currentNum}x{itemToAdd.Name} armors for party {party.Name}");
+			}
+		}
 
 		public void DailyTickParty(MobileParty mobileParty) {
 			if (IsMobilePartyValid(mobileParty)) {
 				AllocateRandomEquipmentToPartyArmory(mobileParty);
 				if (CampaignTime.Now.GetDayOfWeek == mobileParty.Id.InternalValue % 7) {
-					GarbageCollectArmors(mobileParty);
+					GarbageCollectEquipments(mobileParty);
 					ReplenishBasicTroopEquipments(mobileParty);
+					MoveRosterToArmory(mobileParty);
 				}
 			}
 		}
 
+		public void MoveRosterToArmory(MobileParty mobileParty) {
+			var elements =
+				mobileParty.ItemRoster.Where(element => (element.EquipmentElement.Item?.HasArmorComponent  ?? false) ||
+														(element.EquipmentElement.Item?.HasWeaponComponent ?? false));
+			foreach (var element in elements)
+				if (element.EquipmentElement.Item != null) {
+					AddItemToPartyArmory(mobileParty.Id, element.EquipmentElement.Item, element.Amount);
+					Global.Debug($"equipment {element.EquipmentElement.Item.Name}x{element.Amount} moved to armory from {mobileParty.Name}");
+					mobileParty.ItemRoster.Remove(element);
+					var hero                    = mobileParty.LeaderHero ?? mobileParty.Owner;
+					if (hero != null) hero.Gold += element.EquipmentElement.Item.Value * element.Amount;
+				}
+		}
+
 		public void AllocateRandomEquipmentToPartyArmory(MobileParty mobileParty) {
+			var itemTypes = new[] {
+									  ItemObject.ItemTypeEnum.BodyArmor,
+									  ItemObject.ItemTypeEnum.LegArmor,
+									  ItemObject.ItemTypeEnum.HeadArmor,
+									  ItemObject.ItemTypeEnum.HandArmor,
+									  ItemObject.ItemTypeEnum.Cape,
+									  ItemObject.ItemTypeEnum.Horse,
+									  ItemObject.ItemTypeEnum.HorseHarness,
+									  ItemObject.ItemTypeEnum.Bow,
+									  ItemObject.ItemTypeEnum.Crossbow,
+									  ItemObject.ItemTypeEnum.OneHandedWeapon,
+									  ItemObject.ItemTypeEnum.TwoHandedWeapon,
+									  ItemObject.ItemTypeEnum.Polearm
+								  };
+
 			if (mobileParty.MemberRoster == null ||
+
 				//mobileParty.MemberRoster.Count            <= 1    ||
 				mobileParty.MemberRoster.GetTroopRoster() == null ||
 				mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
@@ -256,14 +300,22 @@
 					return;
 				var randomEquipment = randomMember.Character.BattleEquipments.GetRandomElementInefficiently();
 				if (randomEquipment == null || randomEquipment.IsEmpty() || !randomEquipment.IsValid) return;
-				var randomElement = randomEquipment.GetEquipmentFromSlot(Global.ArmourSlots.GetRandomElement());
+				var randomElement = randomEquipment.GetEquipmentFromSlot(Global.ArmourAndHorsesSlots.GetRandomElement());
 				if (randomElement.IsEmpty || randomElement.Item == null) return;
 				AddItemToPartyArmory(mobileParty.Id, randomElement.Item, 1);
-				Global.Debug($"random armor {randomElement.Item.Name} added to {mobileParty.Name}");
-				var weapon = Crafting.CreateRandomCraftedItem(mobileParty.LeaderHero.Culture);
+				Global.Debug($"random equipment (troop) {randomElement.Item.Name} added to {mobileParty.Name}");
+				/*var weapon = Crafting.CreateRandomCraftedItem(mobileParty.LeaderHero.Culture);
 				if (weapon != null) {
 					AddItemToPartyArmory(mobileParty.Id, weapon, 1);
 					Global.Debug($"random weapon {weapon.Name} added to {mobileParty.Name}");
+				}*/
+				var randomByCultureAndTier = ItemListByType[itemTypes.GetRandomElement()]
+					.GetRandomElementWithPredicate(item => (int)item.Tier <= Global.GetPartyClanTier(mobileParty) &&
+														   (item.Culture == null ||
+															item.Culture == GetPartyCulture(mobileParty)));
+				if (randomByCultureAndTier != null) {
+					AddItemToPartyArmory(mobileParty.Id, randomByCultureAndTier, 1);
+					Global.Debug($"random equipment (tier) {randomByCultureAndTier.Name} added to {mobileParty.Name}");
 				}
 			}
 		}
@@ -500,13 +552,15 @@
 				}
 
 				foreach (var innerPair in pair.Value) {
-					var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(innerPair.Key);
+					var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(innerPair.Key) ??
+									 ItemObject.GetCraftedItemObjectFromHashedCode(innerPair.Key);
 					if (itemObject != null) {
 						if (innerDict.ContainsKey(itemObject))
 							innerDict[itemObject] += innerPair.Value;
 						else
 							innerDict.Add(itemObject, innerPair.Value);
 					}
+					else { Global.Warn($"cannot get object {innerPair.Key}"); }
 				}
 			}
 

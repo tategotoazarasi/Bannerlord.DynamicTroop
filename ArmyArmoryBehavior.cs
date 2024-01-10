@@ -54,8 +54,14 @@
 
 		private void Load() {
 			//InformationManager.DisplayMessage(new InformationMessage("Loading Started", Colors.Green));
-			foreach (var item in data.Armory)
-				_ = ArmyArmory.Armory.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>(item.Key), item.Value);
+			foreach (var item in data.Armory) {
+				var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ??
+								ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
+				if (equipment != null)
+					_ = ArmyArmory.Armory.AddToCounts(equipment, item.Value);
+				else
+					Global.Warn($"cannot get object {item.Key}");
+			}
 		}
 
 		private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
