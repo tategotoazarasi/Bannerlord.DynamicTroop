@@ -15,6 +15,7 @@
 	using TaleWorlds.Library;
 	using TaleWorlds.Localization;
 	using TaleWorlds.MountAndBlade;
+	using TaleWorlds.ObjectSystem;
 
 #endregion
 
@@ -52,6 +53,22 @@
 														 EquipmentIndex.Gloves,
 														 EquipmentIndex.Cape
 													 };
+
+
+		private static readonly Dictionary<ItemObject.ItemTypeEnum, CraftingTemplate[]> CraftingTemplatesByItemType = new();
+
+		public static void InitializeCraftingTemplatesByItemType() {
+			var itemTypes = new[] {
+									  ItemObject.ItemTypeEnum.OneHandedWeapon,
+									  ItemObject.ItemTypeEnum.TwoHandedWeapon,
+									  ItemObject.ItemTypeEnum.Polearm
+								  };
+
+			foreach (var itemType in itemTypes) {
+				var templates = CraftingTemplate.All.Where(template => template.ItemType == itemType).ToArray();
+				CraftingTemplatesByItemType[itemType] = templates;
+			}
+		}
 
 		public static bool IsWeapon(ItemObject? item) { return item != null && item.HasWeaponComponent; }
 
@@ -384,5 +401,61 @@
 					return true;
 
 			return false;
+		}
+
+		public static int CalculateClanProsperityFactor(MobileParty mobileParty) {
+			if (!EveryoneCampaignBehavior.IsMobilePartyValid(mobileParty) || mobileParty.LeaderHero?.Clan == null) return 0;
+
+			var clan = mobileParty.LeaderHero.Clan;
+
+			// 计算领地繁荣度总和
+			var prosperitySum = clan.Fiefs?.Sum(fief => (int)(fief?.GetProsperityLevel() + 1 ?? 0)) ?? 0;
+
+			// 计算因子：氏族等级 + 繁荣度加权
+			var factor = (clan.Tier + 1) * Math.Min(1, prosperitySum);
+
+			return factor;
+		}
+
+		public static int CountCharacterEquipmentItemTypes(CharacterObject? character, ItemObject.ItemTypeEnum? itemType) {
+			if (character == null || itemType == null || character.BattleEquipments == null) return 0;
+			var max = 0;
+			foreach (var equipment in character.BattleEquipments) {
+				var sum = 0;
+				foreach (var slot in Assignment.WeaponSlots) {
+					var weapon = equipment.GetEquipmentFromSlot(slot);
+					if (weapon.Item?.ItemType == itemType) sum++;
+				}
+
+				max = Math.Max(max, sum);
+			}
+
+			return max;
+		}
+
+
+		public static List<ItemObject> CreateRandomCraftedItemsByItemType(ItemObject.ItemTypeEnum? type,
+																		  BasicCultureObject?      culture,
+																		  int                      num = 0) {
+			List<ItemObject> items  = new();
+			var              random = new Random();
+			if (type == null || culture == null) return items;
+			var templates = CraftingTemplatesByItemType[type.Value];
+			for (var i = 0; i < num; i++) {
+				var randomElement = templates[random.Next() % templates.Length];
+				var textObject    = new TextObject("{=uZhHh7pm}Crafted {CURR_TEMPLATE_NAME}");
+				textObject.SetTextVariable("CURR_TEMPLATE_NAME", randomElement.TemplateName);
+				var crafting = new Crafting(randomElement, culture, textObject);
+				crafting.Init();
+				crafting.Randomize();
+				var hashedCode = crafting.GetCurrentCraftedItemObject().WeaponDesign.HashedCode;
+				crafting.GetCurrentCraftedItemObject().StringId = hashedCode;
+				var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(hashedCode);
+				if (itemObject == null) {
+					itemObject = MBObjectManager.Instance.RegisterObject(crafting.GetCurrentCraftedItemObject());
+					items.Add(itemObject);
+				}
+			}
+			return items;
 		}
 	}
