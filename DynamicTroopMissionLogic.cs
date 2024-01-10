@@ -151,6 +151,7 @@
 			foreach (var kvPartyBattleSides in PartyBattleSides) {
 				IEnumerable<Agent> partyAgents = Mission.Agents.Where(agent => Global.IsAgentValid(agent) &&
 																			   agent.IsActive()           &&
+																			   !agent.IsHero              &&
 																			   Global.GetAgentParty(agent.Origin)?.Id ==
 																			   kvPartyBattleSides.Key);
 				ReturnEquipmentFromAgents(kvPartyBattleSides.Key, partyAgents);
