@@ -65,6 +65,7 @@
 			List<EquipmentElement> list = new();
 			if (character == null || character.BattleEquipments == null || character.BattleEquipments.IsEmpty())
 				return list;
+
 			foreach (var equipment in character.BattleEquipments)
 				if (equipment != null && equipment.IsValid)
 					foreach (var slot in Global.EquipmentSlots) {

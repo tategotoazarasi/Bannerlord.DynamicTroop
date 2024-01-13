@@ -12,6 +12,7 @@
 	using TaleWorlds.CampaignSystem.Settlements;
 	using TaleWorlds.Core;
 	using TaleWorlds.Library;
+	using TaleWorlds.LinQuick;
 	using TaleWorlds.ObjectSystem;
 	using TaleWorlds.SaveSystem;
 	using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, (int, int)>;
@@ -43,27 +44,27 @@
 		public static readonly Dictionary<ItemObject.ItemTypeEnum, List<ItemObject>> ItemListByType = new();
 
 		private static void InitializeItemListByType() {
-			var itemTypes = new[] {
-									  ItemObject.ItemTypeEnum.BodyArmor,
-									  ItemObject.ItemTypeEnum.LegArmor,
-									  ItemObject.ItemTypeEnum.HeadArmor,
-									  ItemObject.ItemTypeEnum.HandArmor,
-									  ItemObject.ItemTypeEnum.Cape,
-									  ItemObject.ItemTypeEnum.Horse,
-									  ItemObject.ItemTypeEnum.HorseHarness,
-									  ItemObject.ItemTypeEnum.Bow,
-									  ItemObject.ItemTypeEnum.Crossbow,
-									  ItemObject.ItemTypeEnum.OneHandedWeapon,
-									  ItemObject.ItemTypeEnum.TwoHandedWeapon,
-									  ItemObject.ItemTypeEnum.Polearm
-								  };
+			ItemObject.ItemTypeEnum[] itemTypes = {
+													  ItemObject.ItemTypeEnum.BodyArmor,
+													  ItemObject.ItemTypeEnum.LegArmor,
+													  ItemObject.ItemTypeEnum.HeadArmor,
+													  ItemObject.ItemTypeEnum.HandArmor,
+													  ItemObject.ItemTypeEnum.Cape,
+													  ItemObject.ItemTypeEnum.Horse,
+													  ItemObject.ItemTypeEnum.HorseHarness,
+													  ItemObject.ItemTypeEnum.Bow,
+													  ItemObject.ItemTypeEnum.Crossbow,
+													  ItemObject.ItemTypeEnum.OneHandedWeapon,
+													  ItemObject.ItemTypeEnum.TwoHandedWeapon,
+													  ItemObject.ItemTypeEnum.Polearm
+												  };
 
 			foreach (var itemType in itemTypes) {
 				var items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-										   ?.Where(item => item != null && item.ItemType == itemType)
-										   ?.OrderBy(item => item.Tier)
+										   ?.WhereQ(item => item != null && item.ItemType == itemType)
+										   ?.OrderByQ(item => item.Tier)
 										   ?.ThenBy(item => item.Value)
-										   .ToList();
+										   .ToListQ();
 
 				ItemListByType[itemType] = items ?? new List<ItemObject>();
 			}
@@ -76,9 +77,20 @@
 			CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, OnTroopRecruited);
 			CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(this, DailyTickParty);
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, WeeklyTick);
+			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, OnGameLoaded);
 			InitializeItemListByType();
 
 			//Global.InitializeCraftingTemplatesByItemType();
+		}
+
+		private void OnGameLoaded(CampaignGameStarter starter) {
+			Global.Debug("OnGameLoaded() called");
+			IEnumerable<MobileParty>? validParties =
+				Campaign.Current?.MobileParties?.Where(party => IsMobilePartyValid(party));
+			if (validParties != null)
+				foreach (var validParty in validParties)
+					if (!PartyArmories.ContainsKey(validParty.Id))
+						OnMobilePartyCreated(validParty);
 		}
 
 		public override void SyncData(IDataStore dataStore) {
@@ -112,10 +124,13 @@
 			var keysToRemove = PartyArmories.Keys.Where(id => {
 															var obj = MBObjectManager.Instance.GetObject(id);
 															if (obj == null) return true;
+
 															if (obj is MobileParty mobileParty) {
 																if (mobileParty.MemberRoster == null) return true;
+
 																if (mobileParty.MemberRoster.GetTroopRoster() == null)
 																	return true;
+
 																if (mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
 																	return true;
 															}
@@ -124,7 +139,8 @@
 														})
 											.ToList();
 
-			foreach (var key in keysToRemove) PartyArmories.Remove(key);
+			foreach (var key in keysToRemove) _ = PartyArmories.Remove(key);
+
 			Global.Debug($"Garbage collected {keysToRemove.Count} parties");
 		}
 
@@ -135,6 +151,7 @@
 				if (IsMobilePartyValid(mobileParty) && mobileParty.MemberRoster?.GetTroopRoster() != null) {
 					var partyArmory = PartyArmories[mobileParty.Id];
 					if (partyArmory == null) return;
+
 					var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
 											   .Where(element => element.Character != null && !element.Character.IsHero)
 											   .Sum(element => element.Number);
@@ -142,10 +159,11 @@
 													 .Sum(kv => kv.Value);
 					var surplusCount = armorTotalCount - equipmentAndThreshold.Value(memberCnt);
 					if (surplusCount <= 0) continue;
+
 					var surplusCountCpy = surplusCount;
 
 					// 创建优先级队列
-					var armorQueue = new ItemPriorityQueue(new ArmorComparer());
+					ItemPriorityQueue armorQueue = new(new ArmorComparer());
 					foreach (var kv in partyArmory.Where(kv => kv.Key.ItemType == equipmentAndThreshold.Key))
 						armorQueue.Enqueue(kv.Key, ((int)kv.Key.Tier, kv.Key.Value));
 
@@ -155,7 +173,7 @@
 						var countToRemove = Math.Min(partyArmory[lowestArmor.Key], surplusCount);
 						partyArmory[lowestArmor.Key] -= countToRemove;
 						surplusCount                 -= countToRemove;
-						if (partyArmory[lowestArmor.Key] == 0) partyArmory.Remove(lowestArmor.Key);
+						if (partyArmory[lowestArmor.Key] == 0) _ = partyArmory.Remove(lowestArmor.Key);
 					}
 
 					Global.Debug($"Garbage collected {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} armors from party {mobileParty.Name}");
@@ -181,25 +199,23 @@
 		}
 
 		private int CalculateRequiredItemCount(TroopRoster roster, ItemObject.ItemTypeEnum itemType, int memberCnt) {
-			switch (itemType) {
-				case ItemObject.ItemTypeEnum.Horse:
-				case ItemObject.ItemTypeEnum.HorseHarness:
-					return roster.GetTroopRoster()
-								 .Where(element => element.Character.IsMounted)
-								 .Sum(element => element.Number);
-
-				case ItemObject.ItemTypeEnum.Bow:
-				case ItemObject.ItemTypeEnum.Crossbow:
-				case ItemObject.ItemTypeEnum.OneHandedWeapon:
-				case ItemObject.ItemTypeEnum.TwoHandedWeapon:
-				case ItemObject.ItemTypeEnum.Polearm:
-					return roster.GetTroopRoster()
-								 .Where(element => element.Character.IsMounted)
-								 .Sum(element => element.Number *
-												 Global.CountCharacterEquipmentItemTypes(element.Character, itemType));
-
-				default: return memberCnt;
-			}
+			return itemType switch {
+					   ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness => roster.GetTroopRoster()
+						   .Where(element => element.Character.IsMounted)
+						   .Sum(element => element.Number),
+					   ItemObject.ItemTypeEnum.Bow
+						   or ItemObject.ItemTypeEnum.Crossbow
+						   or ItemObject.ItemTypeEnum.OneHandedWeapon
+						   or ItemObject.ItemTypeEnum.TwoHandedWeapon
+						   or ItemObject.ItemTypeEnum.Polearm => roster.GetTroopRoster()
+																	   .Where(element => element.Character.IsMounted)
+																	   .Sum(element => element.Number *
+																				Global
+																					.CountCharacterEquipmentItemTypes(element
+																							.Character,
+																						itemType)),
+					   _ => memberCnt
+				   };
 		}
 
 		private void ReplenishItemTypeInArmory(MobileParty                 party,
@@ -268,20 +284,20 @@
 		}
 
 		public void AllocateRandomEquipmentToPartyArmory(MobileParty mobileParty) {
-			var itemTypes = new[] {
-									  ItemObject.ItemTypeEnum.BodyArmor,
-									  ItemObject.ItemTypeEnum.LegArmor,
-									  ItemObject.ItemTypeEnum.HeadArmor,
-									  ItemObject.ItemTypeEnum.HandArmor,
-									  ItemObject.ItemTypeEnum.Cape,
-									  ItemObject.ItemTypeEnum.Horse,
-									  ItemObject.ItemTypeEnum.HorseHarness,
-									  ItemObject.ItemTypeEnum.Bow,
-									  ItemObject.ItemTypeEnum.Crossbow,
-									  ItemObject.ItemTypeEnum.OneHandedWeapon,
-									  ItemObject.ItemTypeEnum.TwoHandedWeapon,
-									  ItemObject.ItemTypeEnum.Polearm
-								  };
+			ItemObject.ItemTypeEnum[] itemTypes = {
+													  ItemObject.ItemTypeEnum.BodyArmor,
+													  ItemObject.ItemTypeEnum.LegArmor,
+													  ItemObject.ItemTypeEnum.HeadArmor,
+													  ItemObject.ItemTypeEnum.HandArmor,
+													  ItemObject.ItemTypeEnum.Cape,
+													  ItemObject.ItemTypeEnum.Horse,
+													  ItemObject.ItemTypeEnum.HorseHarness,
+													  ItemObject.ItemTypeEnum.Bow,
+													  ItemObject.ItemTypeEnum.Crossbow,
+													  ItemObject.ItemTypeEnum.OneHandedWeapon,
+													  ItemObject.ItemTypeEnum.TwoHandedWeapon,
+													  ItemObject.ItemTypeEnum.Polearm
+												  };
 
 			if (mobileParty.MemberRoster == null ||
 
@@ -298,10 +314,13 @@
 					randomMember.Character.BattleEquipments == null ||
 					randomMember.Character.BattleEquipments.IsEmpty())
 					return;
+
 				var randomEquipment = randomMember.Character.BattleEquipments.GetRandomElementInefficiently();
 				if (randomEquipment == null || randomEquipment.IsEmpty() || !randomEquipment.IsValid) return;
+
 				var randomElement = randomEquipment.GetEquipmentFromSlot(Global.ArmourAndHorsesSlots.GetRandomElement());
 				if (randomElement.IsEmpty || randomElement.Item == null) return;
+
 				AddItemToPartyArmory(mobileParty.Id, randomElement.Item, 1);
 				Global.Debug($"random equipment (troop) {randomElement.Item.Name} added to {mobileParty.Name}");
 				/*var weapon = Crafting.CreateRandomCraftedItem(mobileParty.LeaderHero.Culture);
@@ -309,10 +328,11 @@
 					AddItemToPartyArmory(mobileParty.Id, weapon, 1);
 					Global.Debug($"random weapon {weapon.Name} added to {mobileParty.Name}");
 				}*/
-				var randomByCultureAndTier = ItemListByType[itemTypes.GetRandomElement()]
-					.GetRandomElementWithPredicate(item => (int)item.Tier <= Global.GetPartyClanTier(mobileParty) &&
-														   (item.Culture == null ||
-															item.Culture == GetPartyCulture(mobileParty)));
+				var randomByCultureAndTier =
+					Cache.GetItemsByTierAndCulture(itemTypes.GetRandomElement(),
+												   Global.GetPartyClanTier(mobileParty),
+												   GetPartyCulture(mobileParty))
+						 .GetRandomElement();
 				if (randomByCultureAndTier != null) {
 					AddItemToPartyArmory(mobileParty.Id, randomByCultureAndTier, 1);
 					Global.Debug($"random equipment (tier) {randomByCultureAndTier.Name} added to {mobileParty.Name}");
@@ -341,7 +361,8 @@
 		}
 
 		public void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase partyBase) {
-			if (mobileParty != null && mobileParty.Id != null) PartyArmories.Remove(mobileParty.Id);
+			if (mobileParty != null && mobileParty.Id != null) _ = PartyArmories.Remove(mobileParty.Id);
+
 			if (IsMobilePartyValid(mobileParty))
 				if (mobileParty.Name != null && partyBase != null && partyBase.Name != null)
 					Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
@@ -570,8 +591,7 @@
 		public class ArmorComparer : IComparer<ItemObject> {
 			public int Compare(ItemObject x, ItemObject y) {
 				var tierComparison = x.Tier.CompareTo(y.Tier);
-				if (tierComparison != 0) return tierComparison;
-				return x.Value.CompareTo(y.Value);
+				return tierComparison != 0 ? tierComparison : x.Value.CompareTo(y.Value);
 			}
 		}
 

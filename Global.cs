@@ -57,14 +57,15 @@
 		private static readonly Dictionary<ItemObject.ItemTypeEnum, CraftingTemplate[]> CraftingTemplatesByItemType = new();
 
 		public static void InitializeCraftingTemplatesByItemType() {
-			var itemTypes = new[] {
-									  ItemObject.ItemTypeEnum.OneHandedWeapon,
-									  ItemObject.ItemTypeEnum.TwoHandedWeapon,
-									  ItemObject.ItemTypeEnum.Polearm
-								  };
+			ItemObject.ItemTypeEnum[] itemTypes = {
+													  ItemObject.ItemTypeEnum.OneHandedWeapon,
+													  ItemObject.ItemTypeEnum.TwoHandedWeapon,
+													  ItemObject.ItemTypeEnum.Polearm
+												  };
 
 			foreach (var itemType in itemTypes) {
-				var templates = CraftingTemplate.All.Where(template => template.ItemType == itemType).ToArray();
+				CraftingTemplate[] templates =
+					CraftingTemplate.All.Where(template => template.ItemType == itemType).ToArray();
 				CraftingTemplatesByItemType[itemType] = templates;
 			}
 		}
@@ -418,6 +419,7 @@
 
 		public static int CountCharacterEquipmentItemTypes(CharacterObject? character, ItemObject.ItemTypeEnum? itemType) {
 			if (character == null || itemType == null || character.BattleEquipments == null) return 0;
+
 			var max = 0;
 			foreach (var equipment in character.BattleEquipments) {
 				var sum = 0;
@@ -436,14 +438,15 @@
 																		  BasicCultureObject?      culture,
 																		  int                      num = 0) {
 			List<ItemObject> items  = new();
-			var              random = new Random();
+			Random           random = new();
 			if (type == null || culture == null) return items;
+
 			var templates = CraftingTemplatesByItemType[type.Value];
 			for (var i = 0; i < num; i++) {
-				var randomElement = templates[random.Next() % templates.Length];
-				var textObject    = new TextObject("{=uZhHh7pm}Crafted {CURR_TEMPLATE_NAME}");
-				textObject.SetTextVariable("CURR_TEMPLATE_NAME", randomElement.TemplateName);
-				var crafting = new Crafting(randomElement, culture, textObject);
+				var        randomElement = templates[random.Next() % templates.Length];
+				TextObject textObject    = new("{=uZhHh7pm}Crafted {CURR_TEMPLATE_NAME}");
+				_ = textObject.SetTextVariable("CURR_TEMPLATE_NAME", randomElement.TemplateName);
+				Crafting crafting = new(randomElement, culture, textObject);
 				crafting.Init();
 				crafting.Randomize();
 				var hashedCode = crafting.CurrentWeaponDesign.HashedCode;
