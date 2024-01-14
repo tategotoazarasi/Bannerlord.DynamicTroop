@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-
 using log4net;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -138,7 +137,7 @@ public static class Global {
 													  or WeaponClass.ThrowingAxe
 													  or WeaponClass.Stone
 													  or WeaponClass.Javelin)
-						   .ToListQ();
+						   .ToArrayQ();
 		if (!thrown1.IsEmpty()) return list2.AnyQ(weaponClass => thrown1.Contains(weaponClass));
 
 		var thrown2 = list2.WhereQ(weaponClass =>
@@ -146,7 +145,7 @@ public static class Global {
 													  or WeaponClass.ThrowingAxe
 													  or WeaponClass.Stone
 													  or WeaponClass.Javelin)
-						   .ToListQ();
+						   .ToArrayQ();
 
 		// 直接返回判断条件的结果
 		return !thrown2.IsEmpty() && list1.AnyQ(weaponClass => thrown2.Contains(weaponClass));
@@ -359,7 +358,7 @@ public static class Global {
 			   (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows ||
 				(equipment.Weapons != null &&
 				 equipment.Weapons.AnyQ(weaponComponentData =>
-										   weaponComponentData is { WeaponClass: WeaponClass.Arrow })));
+											weaponComponentData is { WeaponClass: WeaponClass.Arrow })));
 	}
 
 	public static bool IsBolt(ItemObject? equipment) {

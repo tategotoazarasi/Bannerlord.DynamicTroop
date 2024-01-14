@@ -142,11 +142,11 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 														 return false;
 													 })
-										.ToListQ();
+										.ToArrayQ();
 
 		foreach (var key in keysToRemove) _ = PartyArmories.Remove(key);
 
-		Global.Debug($"Garbage collected {keysToRemove.Count} parties");
+		Global.Debug($"Garbage collected {keysToRemove.Length} parties");
 	}
 
 	//public void GarbageCollectEquipments() { GarbageCollectArmors(); }
@@ -396,8 +396,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		DistributeLootRandomly(validWinnerParties, totalWinnerStrength, validLoserParties);
 	}
 
-	private List<MapEventParty> FilterValidParties(IEnumerable<MapEventParty> parties) {
-		return parties.WhereQ(IsMapEventPartyValid).ToListQ();
+	private MapEventParty[] FilterValidParties(IEnumerable<MapEventParty> parties) {
+		return parties.WhereQ(IsMapEventPartyValid).ToArrayQ();
 	}
 
 	private static void LogParties(IEnumerable<MapEventParty> parties, string label) {

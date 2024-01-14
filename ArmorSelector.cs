@@ -47,7 +47,7 @@ public static class ArmorSelector {
 		var choice      = Random.Next(totalWeight);
 		var sum         = 0;
 
-		foreach ((var armor, var weight) in weightedArmors) {
+		foreach (var (armor, weight) in weightedArmors) {
 			sum += weight;
 			if (choice < sum) return armor;
 		}
