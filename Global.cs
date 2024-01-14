@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Bannerlord.DynamicTroop.Extensions;
 using log4net;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
@@ -67,10 +67,8 @@ public static class Global {
 		}
 	}
 
-	public static bool IsWeapon(ItemObject? item) { return item is { HasWeaponComponent: true }; }
-
 	public static List<WeaponClass> GetWeaponClass(ItemObject item) {
-		return IsWeapon(item)
+		return item is { HasWeaponComponent: true }
 				   ? item.WeaponComponent.Weapons.SelectQ(weapon => weapon.WeaponClass)
 						 .Distinct()
 						 .OrderByQ(weaponClass => weaponClass)
@@ -122,15 +120,6 @@ public static class Global {
 
 	public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal); }
 
-	public static bool IsAgentValid(Agent? agent) {
-		return agent is {
-							Formation: not null,
-							Character: not null,
-							Team     : { MBTeam: { }, IsValid: true },
-							Origin   : not null
-						};
-	}
-
 	public static bool HaveSameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
 		var thrown1 = list1.WhereQ(weaponClass =>
 									   weaponClass is WeaponClass.ThrowingKnife
@@ -170,103 +159,8 @@ public static class Global {
 									 weapon1.Weapons[i].ThrustDamageType != weapon2.Weapons[i].ThrustDamageType);
 	}
 
-	public static bool IsWeaponCouchable(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_couchable"));
-	}
-
-	public static bool IsSuitableForMount(ItemObject weapon) {
-		return IsWeapon(weapon)       &&
-			   weapon.Weapons != null &&
-			   !weapon.Weapons.AnyQ(weaponComponentData =>
-										weaponComponentData != null &&
-										(MBItem.GetItemUsageSetFlags(weaponComponentData.ItemUsage)
-											   .HasFlag(ItemObject.ItemUsageSetFlags.RequiresNoMount) ||
-										 weaponComponentData.WeaponFlags.HasFlag(WeaponFlags.CantReloadOnHorseback)));
-	}
-
-	public static bool IsWeaponBracable(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("braceable"));
-	}
-
-	public static bool IsPolearm(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("polearm"));
-	}
-
-	public static bool IsOneHanded(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("one_handed"));
-	}
-
-	public static bool IsTwoHanded(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("two_handed"));
-	}
-
-	public static bool IsThrowing(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("throwing"));
-	}
-
-	public static bool IsBow(ItemObject? weapon) {
-		if (weapon == null) return false;
-
-		if (weapon.ItemType == ItemObject.ItemTypeEnum.Bow) return true;
-
-		if (!IsWeapon(weapon)) return false;
-
-		if (weapon.Weapons == null) return false;
-
-		foreach (var weaponComponentData in weapon.Weapons)
-			if (weaponComponentData is { WeaponClass: WeaponClass.Bow })
-				return true;
-
-		return false;
-	}
-
-	public static bool IsCrossBow(ItemObject? weapon) {
-		if (weapon == null) return false;
-
-		if (weapon.ItemType == ItemObject.ItemTypeEnum.Crossbow) return true;
-
-		if (!IsWeapon(weapon)) return false;
-
-		if (weapon.Weapons == null) return false;
-
-		foreach (var weaponComponentData in weapon.Weapons)
-			if (weaponComponentData is { WeaponClass: WeaponClass.Crossbow })
-				return true;
-
-		return false;
-	}
-
-	public static bool IsBonusAgainstShield(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("bonus_against_shield"));
-	}
-
-	public static bool CanKnockdown(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_knockdown"));
-	}
-
-	public static bool CanDismount(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => flag.Contains("can_dismount"));
-	}
-
-	public static bool CantUseWithShields(ItemObject weapon) {
-		return IsWeapon(weapon) && CheckWeaponFlag(weapon, flag => !flag.Contains("cant_use_with_shields"));
-	}
-
-	private static bool CheckWeaponFlag(ItemObject? weapon, Func<string, bool> flagCondition) {
-		return weapon?.Weapons != null &&
-			   weapon.Weapons.WhereQ(weaponComponentData => weaponComponentData != null)
-					 .SelectMany(weaponComponentData =>
-									 CampaignUIHelper.GetFlagDetailsForWeapon(weaponComponentData,
-																			  MBItem
-																				  .GetItemUsageSetFlags(weaponComponentData
-																					  .ItemUsage)))
-					 .AnyQ(flagDetail => flagDetail.Item1 != null    &&
-										 !flagDetail.Item1.IsEmpty() &&
-										 flagCondition(flagDetail.Item1));
-	}
-
 	public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {
-		if (!IsAgentValid(agent)) return;
+		if (!agent.IsValid()) return;
 
 		var missionEquipment = agent.Equipment;
 		var spawnEquipment   = agent.SpawnEquipment;
@@ -296,28 +190,12 @@ public static class Global {
 	}
 
 	private static bool IsAmmoAndEmpty(MissionWeapon? mw) {
-		return mw != null                                          &&
-			   !mw.Value.IsEmpty                                   &&
-			   mw.Value.Item != null                               &&
-			   IsWeapon(mw.Value.Item)                             &&
-			   (mw.Value.IsAnyAmmo() || IsThrowing(mw.Value.Item)) &&
+		return mw != null                                           &&
+			   !mw.Value.IsEmpty                                    &&
+			   mw.Value.Item != null                                &&
+			   mw.Value.Item.HasWeaponComponent                     &&
+			   (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing()) &&
 			   mw.Value.Amount == 0;
-	}
-
-	public static List<ItemObject> GetAgentArmors(Agent agent) {
-		List<ItemObject> armors = new();
-		foreach (var slot in ArmourAndHorsesSlots) {
-			var element = agent.SpawnEquipment.GetEquipmentFromSlot(slot);
-			if (element is { IsEmpty: false, Item: { HasArmorComponent: true } item }) armors.Add(item);
-		}
-
-		return armors;
-	}
-
-	public static bool IsConsumableWeapon(ItemObject item) {
-		return item.ItemType is ItemObject.ItemTypeEnum.Arrows
-								or ItemObject.ItemTypeEnum.Bolts
-								or ItemObject.ItemTypeEnum.Thrown;
 	}
 
 	public static bool IsInPlayerParty(IAgentOriginBase? agentOrigin) {
@@ -345,42 +223,6 @@ public static class Global {
 
 	private static bool IsPartyInPlayerCommand(PartyBase? party) {
 		return party != null && party == PartyBase.MainParty;
-	}
-
-	public static bool IsSuitableForCharacter(ItemObject? item, CharacterObject? character) {
-		return item      != null &&
-			   character != null &&
-			   (item.Difficulty <= 0 || item.Difficulty <= character.GetSkillValue(item.RelevantSkill));
-	}
-
-	public static bool IsArrow(ItemObject? equipment) {
-		return equipment != null &&
-			   (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows ||
-				(equipment.Weapons != null &&
-				 equipment.Weapons.AnyQ(weaponComponentData =>
-											weaponComponentData is { WeaponClass: WeaponClass.Arrow })));
-	}
-
-	public static bool IsBolt(ItemObject? equipment) {
-		return equipment != null &&
-			   (equipment.ItemType == ItemObject.ItemTypeEnum.Bolts ||
-				(equipment.Weapons != null &&
-				 equipment.Weapons.Any(weaponComponentData =>
-										   weaponComponentData is { WeaponClass: WeaponClass.Bolt })));
-	}
-
-	public static int CalculateClanProsperityFactor(MobileParty mobileParty) {
-		if (!EveryoneCampaignBehavior.IsMobilePartyValid(mobileParty) || mobileParty.LeaderHero?.Clan == null) return 0;
-
-		var clan = mobileParty.LeaderHero.Clan;
-
-		// 计算领地繁荣度总和
-		var prosperitySum = clan.Fiefs?.SumQ(fief => (int)(fief?.GetProsperityLevel() + 1 ?? 0)) ?? 0;
-
-		// 计算因子：氏族等级 + 繁荣度加权
-		var factor = (clan.Tier + 1) * Math.Max(1, prosperitySum);
-
-		return factor;
 	}
 
 	public static int CountCharacterEquipmentItemTypes(CharacterObject? character, ItemObject.ItemTypeEnum? itemType) {
@@ -418,12 +260,5 @@ public static class Global {
 		}
 
 		return items;
-	}
-
-	public static int GetPartyClanTier(MobileParty? party) {
-		if (!EveryoneCampaignBehavior.IsMobilePartyValid(party)) return 0;
-
-		var hero = party?.Owner ?? party?.LeaderHero;
-		return hero != null ? hero.Clan?.Tier ?? 0 : 0;
 	}
 }

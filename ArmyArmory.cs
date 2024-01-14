@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
@@ -17,7 +18,7 @@ public static class ArmyArmory {
 		Global.Log("ReturnEquipmentToArmoryFromAgents", Colors.Green, Level.Debug);
 		var count = 0;
 		foreach (var agent in agents)
-			if (Global.IsAgentValid(agent)) {
+			if (agent.IsValid()) {
 				Global.Log($"Returning equipment of agent {agent.Character.StringId}", Colors.Green, Level.Debug);
 
 				Global.ProcessAgentEquipment(agent,
@@ -31,14 +32,6 @@ public static class ArmyArmory {
 			}
 
 		Global.Log($"{count} equipment reclaimed", Colors.Green, Level.Debug);
-	}
-
-	public static Equipment CreateEmptyEquipment() {
-		Equipment emptyEquipment = new();
-		foreach (var slot in Global.EquipmentSlots)
-			emptyEquipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement());
-
-		return emptyEquipment;
 	}
 
 	public static void AssignEquipment(Equipment equipment) {

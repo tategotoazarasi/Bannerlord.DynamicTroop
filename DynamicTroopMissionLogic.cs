@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -34,8 +35,8 @@ public class DynamicTroopMissionLogic : MissionLogic {
 										KillingBlow blow) {
 		if (Mission is { CombatType: Mission.MissionCombatType.Combat, PlayerTeam.IsValid: true } &&
 			agentState is AgentState.Killed or AgentState.Unconscious                             &&
-			Global.IsAgentValid(affectedAgent)                                                    &&
-			Global.IsAgentValid(affectorAgent)                                                    &&
+			affectedAgent.IsValid()                                                               &&
+			affectorAgent.IsValid()                                                               &&
 			!_processedAgents.Contains(affectedAgent)                                             &&
 			affectedAgent.Character is { IsHero: false }) {
 			Global.Log($"agent {affectedAgent.Character.Name}#{affectedAgent.Index} removed",
@@ -59,7 +60,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			var hitBodyPart = blow.VictimBodyPart;
 
 			// 获取受击部位的护甲
-			var armors   = Global.GetAgentArmors(affectedAgent);
+			var armors   = affectedAgent.GetAgentArmors();
 			var hitArmor = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);
 
 			Global.ProcessAgentEquipment(affectedAgent,
@@ -141,9 +142,9 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 		// 回收场上士兵的装备
 		foreach (var kvPartyBattleSides in PartyBattleSides) {
-			IEnumerable<Agent> partyAgents = Mission.Agents.WhereQ(agent => Global.IsAgentValid(agent) &&
-																			agent.IsActive()           &&
-																			!agent.IsHero              &&
+			IEnumerable<Agent> partyAgents = Mission.Agents.WhereQ(agent => agent.IsValid()  &&
+																			agent.IsActive() &&
+																			!agent.IsHero    &&
 																			Global.GetAgentParty(agent.Origin)?.Id ==
 																			kvPartyBattleSides.Key);
 			ReturnEquipmentFromAgents(kvPartyBattleSides.Key, partyAgents);

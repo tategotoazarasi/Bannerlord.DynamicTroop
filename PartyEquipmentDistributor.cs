@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bannerlord.DynamicTroop.Comparers;
+using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
@@ -119,7 +121,7 @@ public class PartyEquipmentDistributor {
 
 	private void AssignWeaponToUnarmed() {
 		Global.Log($"AssignWeaponToUnarmed for {_party.Name}", Colors.Green, Level.Debug);
-		var unarmedAssignments = Assignments.WhereQ(assignment => assignment.IsUnarmed()).ToListQ();
+		var unarmedAssignments = Assignments.WhereQ(assignment => assignment.IsUnarmed).ToListQ();
 		foreach (var assignment in unarmedAssignments) {
 			Global.Warn($"Found unarmed unit Index {assignment.Index} for {_party.Name}");
 			var weapon = GetOneRandomMeleeWeapon(assignment);
@@ -190,9 +192,7 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool ThrownFilter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item: { } item } &&
-				   Global.IsThrowing(item)                             &&
-				   equipment.Value > 0;
+			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsThrowing() && equipment.Value > 0;
 		}
 
 		static bool ThrownAssignmentFilter(Assignment assignment) { return !assignment.HaveThrown; }
@@ -205,7 +205,7 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool ArrowFilter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item: { } item } && Global.IsArrow(item) && equipment.Value > 0;
+			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsArrow() && equipment.Value > 0;
 		}
 
 		static bool ArrowAssignmentFilter(Assignment assignment) { return assignment.IsArcher; }
@@ -218,7 +218,7 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool BoltFilter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item: { } item } && Global.IsBolt(item) && equipment.Value > 0;
+			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsBolt() && equipment.Value > 0;
 		}
 
 		static bool BoltAssignmentFilter(Assignment assignment) { return assignment.IsCrossBowMan; }
@@ -231,8 +231,8 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool Filter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item: { } item }  &&
-				   (Global.IsTwoHanded(item) || Global.IsPolearm(item)) &&
+			return equipment.Key is { IsEmpty: false, Item: { } item } &&
+				   (item.IsTwoHanded() || item.IsPolearm())            &&
 				   equipment.Value > 0;
 		}
 
@@ -241,15 +241,13 @@ public class PartyEquipmentDistributor {
 
 	private EquipmentElement? GetOneRandomMeleeWeapon(Assignment assignment) {
 		var weapons = _equipmentToAssign.WhereQ(equipment =>
-													equipment.Key is { IsEmpty: false, Item: { } item }       &&
-													_equipmentToAssign[equipment.Key] > 0                     &&
-													Global.IsWeapon(item)                                     &&
-													Global.IsSuitableForCharacter(item, assignment.Character) &&
-													!Global.IsThrowing(item)                                  &&
-													(Global.IsTwoHanded(item) ||
-													 Global.IsOneHanded(item) ||
-													 Global.IsPolearm(item)) &&
-													(!assignment.IsMounted || Global.IsSuitableForMount(item)))
+													equipment.Key is { IsEmpty: false, Item: { } item }               &&
+													_equipmentToAssign[equipment.Key] > 0                             &&
+													item.HasWeaponComponent                                           &&
+													item.IsSuitableForCharacter(assignment.Character)                 &&
+													!item.IsThrowing()                                                &&
+													(item.IsTwoHanded()    || item.IsOneHanded() || item.IsPolearm()) &&
+													(!assignment.IsMounted || item.IsSuitableForMount()))
 										.ToArrayQ();
 		if (!weapons.AnyQ()) return null;
 
@@ -279,7 +277,7 @@ public class PartyEquipmentDistributor {
 			if (currentItemIndex == -1) break; // 没有更多可用装备时退出循环
 
 			var currentItem = armours[currentItemIndex];
-			var index       = ItemEnumTypeToEquipmentIndex(itemType);
+			var index       = Helper.ItemEnumTypeToEquipmentIndex(itemType);
 			if (!index.HasValue) continue;
 
 			assignment.Equipment.AddEquipmentToSlotWithoutAgent(index.Value, currentItem.Key);
@@ -319,7 +317,7 @@ public class PartyEquipmentDistributor {
 										  IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
 							  .OrderByDescending(equipment =>
 													 (int)equipment.Key.Item.Tier +
-													 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
+													 equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
 							  .ToListQ();
@@ -356,7 +354,7 @@ public class PartyEquipmentDistributor {
 																 strict))
 							  .OrderByDescending(equipment =>
 													 (int)equipment.Key.Item.Tier +
-													 CalculateWeaponTierBonus(equipment.Key.Item, mounted))
+													 equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
 							  .ToListQ();
@@ -364,41 +362,28 @@ public class PartyEquipmentDistributor {
 		AssignWeaponIfAvailable(slot, assignment, availableWeapon);
 	}
 
-	private static EquipmentIndex? ItemEnumTypeToEquipmentIndex(ItemObject.ItemTypeEnum itemType) {
-		return itemType switch {
-				   ItemObject.ItemTypeEnum.HeadArmor    => EquipmentIndex.Head,
-				   ItemObject.ItemTypeEnum.HandArmor    => EquipmentIndex.Gloves,
-				   ItemObject.ItemTypeEnum.BodyArmor    => EquipmentIndex.Body,
-				   ItemObject.ItemTypeEnum.LegArmor     => EquipmentIndex.Leg,
-				   ItemObject.ItemTypeEnum.Cape         => EquipmentIndex.Cape,
-				   ItemObject.ItemTypeEnum.Horse        => EquipmentIndex.Horse,
-				   ItemObject.ItemTypeEnum.HorseHarness => EquipmentIndex.HorseHarness,
-				   _                                    => null
-			   };
-	}
-
 	// 封装判断逻辑
 	private bool IsWeaponSuitable(EquipmentElement equipment,
 								  ItemObject       referenceWeapon,
 								  Assignment       assignment,
 								  bool             strict) {
-		if (equipment.IsEmpty                                                    ||
-			equipment.Item == null                                               ||
-			!Global.IsWeapon(equipment.Item)                                     ||
-			_equipmentToAssign[equipment] <= 0                                   ||
-			!Global.IsSuitableForCharacter(equipment.Item, assignment.Character) ||
+		if (equipment.IsEmpty                                            ||
+			equipment.Item == null                                       ||
+			!equipment.Item.HasWeaponComponent                           ||
+			_equipmentToAssign[equipment] <= 0                           ||
+			!equipment.Item.IsSuitableForCharacter(assignment.Character) ||
 			!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), Global.GetWeaponClass(referenceWeapon)))
 			return false;
 
-		var isSuitableForMount = Global.IsSuitableForMount(equipment.Item);
-		var isCouchable        = Global.IsWeaponCouchable(equipment.Item);
+		var isSuitableForMount = equipment.Item.IsSuitableForMount();
+		var isCouchable        = equipment.Item.IsCouchable();
 
 		if (strict) {
 			if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) return false;
 
 			if (assignment.IsMounted)
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
-				return isSuitableForMount && (!Global.IsPolearm(equipment.Item) || isCouchable);
+				return isSuitableForMount && (!equipment.Item.IsPolearm() || isCouchable);
 
 			// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
 			return !isCouchable;
@@ -413,21 +398,21 @@ public class PartyEquipmentDistributor {
 										ItemObject.ItemTypeEnum             itemType,
 										Assignment                          assignment,
 										bool                                strict) {
-		if (equipment.Key.IsEmpty                                                    ||
-			equipment.Key.Item == null                                               ||
-			!Global.IsWeapon(equipment.Key.Item)                                     ||
-			_equipmentToAssign[equipment.Key] <= 0                                   ||
-			!Global.IsSuitableForCharacter(equipment.Key.Item, assignment.Character) ||
+		if (equipment.Key.IsEmpty                                            ||
+			equipment.Key.Item == null                                       ||
+			!equipment.Key.Item.HasWeaponComponent                           ||
+			_equipmentToAssign[equipment.Key] <= 0                           ||
+			!equipment.Key.Item.IsSuitableForCharacter(assignment.Character) ||
 			equipment.Key.Item.ItemType != itemType)
 			return false;
 
-		var isSuitableForMount = Global.IsSuitableForMount(equipment.Key.Item);
-		var isCouchable        = Global.IsWeaponCouchable(equipment.Key.Item);
+		var isSuitableForMount = equipment.Key.Item.IsSuitableForMount();
+		var isCouchable        = equipment.Key.Item.IsCouchable();
 
 		if (strict) {
 			if (assignment.IsMounted)
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
-				return isSuitableForMount && (!Global.IsPolearm(equipment.Key.Item) || isCouchable);
+				return isSuitableForMount && (!equipment.Key.Item.IsPolearm() || isCouchable);
 
 			// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
 			return !isCouchable;
@@ -448,28 +433,6 @@ public class PartyEquipmentDistributor {
 				   Level.Debug);
 		assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
 		_equipmentToAssign[availableWeapon.First().Key]--;
-	}
-
-	// 计算基于武器属性的Tier加成
-	private static int CalculateWeaponTierBonus(ItemObject weapon, bool mounted) {
-		if (mounted) return 0; // 如果骑马，则不应用任何加成
-
-		var bonus = 0;
-		MBReadOnlyList<WeaponComponentData> weaponFlags = weapon.WeaponComponent.Weapons;
-		var weaponFlag = (WeaponFlags)weaponFlags.Aggregate(0u, (current, flag) => current | (uint)flag.WeaponFlags);
-
-		// 为每个匹配的WeaponFlag增加加成
-		if (weaponFlag.HasFlag(WeaponFlags.BonusAgainstShield)) bonus++;
-
-		if (weaponFlag.HasFlag(WeaponFlags.CanKnockDown)) bonus++;
-
-		if (weaponFlag.HasFlag(WeaponFlags.CanDismount)) bonus++;
-
-		if (weaponFlag.HasFlag(WeaponFlags.MultiplePenetration)) bonus++;
-
-		if (Global.IsWeaponBracable(weapon)) bonus++;
-
-		return bonus;
 	}
 
 	public void Spawn(Equipment equipment) {

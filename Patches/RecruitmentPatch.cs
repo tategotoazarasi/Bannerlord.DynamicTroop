@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -7,7 +8,7 @@ using TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace Bannerlord.DynamicTroop;
+namespace Bannerlord.DynamicTroop.Patches;
 
 [HarmonyPatch(typeof(RecruitmentVM), "ExecuteDone")]
 public class RecruitmentPatch {
@@ -40,9 +41,9 @@ public class RecruitmentPatch {
 			if (equipment.IsValid)
 				foreach (var slot in Assignment.WeaponSlots) {
 					var item = equipment.GetEquipmentFromSlot(slot);
-					if (item is not { IsEmpty: false, Item: not null } || !Global.IsWeapon(item.Item)) continue;
+					if (item is not { IsEmpty: false, Item: not null } || !item.Item.HasWeaponComponent) continue;
 
-					if (Global.IsConsumableWeapon(item.Item))
+					if (item.Item.IsConsumable())
 						equipmentElements.Add(item); // 直接添加消耗品类型武器
 					else
 						weaponList.Add(item); // 非消耗品类型武器添加到列表
@@ -73,14 +74,12 @@ public class RecruitmentPatch {
 	private class EquipmentElementComparer : IEqualityComparer<EquipmentElement> {
 		public bool Equals(EquipmentElement x, EquipmentElement y) {
 			// 检查消耗品类型武器，始终返回不相等
-			return !Global.IsConsumableWeapon(x.Item) &&
-				   !Global.IsConsumableWeapon(y.Item) &&
-				   Global.FullySameWeaponClass(x.Item, y.Item);
+			return !x.Item.IsConsumable() && !y.Item.IsConsumable() && Global.FullySameWeaponClass(x.Item, y.Item);
 		}
 
 		public int GetHashCode(EquipmentElement obj) {
 			// 对消耗品类型武器，返回不同的哈希值
-			if (Global.IsConsumableWeapon(obj.Item)) return obj.GetHashCode(); // 使用对象本身的哈希值
+			if (obj.Item.IsConsumable()) return obj.GetHashCode(); // 使用对象本身的哈希值
 
 			var weaponClasses = Global.GetWeaponClass(obj.Item);
 			weaponClasses.Sort();

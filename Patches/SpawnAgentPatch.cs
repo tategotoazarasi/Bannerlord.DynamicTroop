@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
@@ -6,7 +7,7 @@ using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
-namespace Bannerlord.DynamicTroop;
+namespace Bannerlord.DynamicTroop.Patches;
 
 [HarmonyPatch(typeof(Mission), "SpawnAgent")]
 public class SpawnAgentPatch {
@@ -38,7 +39,7 @@ public class SpawnAgentPatch {
 	}
 
 	private static bool IsPartyValidForProcessing(MobileParty? party) {
-		return party != null && (EveryoneCampaignBehavior.IsMobilePartyValid(party) || party == MobileParty.MainParty);
+		return party != null && (party.IsValid() || party == MobileParty.MainParty);
 	}
 
 	private static void ProcessAgentSpawn(AgentBuildData           agentBuildData,

@@ -1,4 +1,5 @@
-﻿using TaleWorlds.CampaignSystem;
+﻿using Bannerlord.DynamicTroop.Extensions;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.LinQuick;
 using static TaleWorlds.Core.ItemObject;
@@ -20,7 +21,7 @@ public class Assignment {
 	public Assignment(CharacterObject character) {
 		Index              = ++_counter;
 		Character          = character;
-		Equipment          = ArmyArmory.CreateEmptyEquipment();
+		Equipment          = CreateEmptyEquipment();
 		ReferenceEquipment = character.RandomBattleEquipment.Clone();
 	}
 
@@ -46,23 +47,23 @@ public class Assignment {
 																					 .OneHandedWeapon
 																			 } item
 																		 } &&
-								 !Global.CantUseWithShields(item));
+								 !item.CantUseWithShields());
 
 	public bool IsArcher =>
 		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 Global.IsBow(item));
+								 item.IsBow());
 
 	public bool IsCrossBowMan =>
 		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 Global.IsCrossBow(item));
+								 item.IsCrossBow());
 
 	public bool HaveThrown =>
 		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 Global.IsThrowing(item));
+								 item.IsThrowing());
 
 	public bool HaveTwoHandedWeaponOrPolearms =>
 		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 (Global.IsTwoHanded(item) || Global.IsPolearm(item)));
+								 (item.IsTwoHanded() || item.IsPolearm()));
 
 	public EquipmentIndex? EmptyWeaponSlot {
 		get {
@@ -81,14 +82,21 @@ public class Assignment {
 		}
 	}
 
-	public bool IsUnarmed() {
-		return (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
-				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
-			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty ||
-				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
-			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty ||
-				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
-			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
-				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+	public bool IsUnarmed =>
+		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
+		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
+		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty ||
+		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
+		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty ||
+		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
+		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
+		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+
+	private static Equipment CreateEmptyEquipment() {
+		Equipment emptyEquipment = new();
+		foreach (var slot in Global.EquipmentSlots)
+			emptyEquipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement());
+
+		return emptyEquipment;
 	}
 }

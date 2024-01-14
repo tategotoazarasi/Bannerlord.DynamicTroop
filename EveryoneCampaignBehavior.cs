@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
+using Bannerlord.DynamicTroop.Comparers;
+using Bannerlord.DynamicTroop.Extensions;
+using Bannerlord.DynamicTroop.Patches;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -82,7 +85,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 	private void OnGameLoaded(CampaignGameStarter starter) {
 		Global.Debug("OnGameLoaded() called");
-		IEnumerable<MobileParty>? validParties = Campaign.Current?.MobileParties?.WhereQ(IsMobilePartyValid);
+		IEnumerable<MobileParty>? validParties = Campaign.Current?.MobileParties?.WhereQ(party => party.IsValid());
 		if (validParties == null) return;
 
 		foreach (var validParty in validParties)
@@ -152,7 +155,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	//public void GarbageCollectEquipments() { GarbageCollectArmors(); }
 
 	private void GarbageCollectEquipments(MobileParty mobileParty) {
-		if (!IsMobilePartyValid(mobileParty) || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
+		if (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
 
 		var memberCnt = mobileParty.MemberRoster.GetTroopRoster()
 								   .WhereQ(element => element.Character is { IsHero: false })
@@ -187,7 +190,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void ReplenishBasicTroopEquipments(MobileParty mobileParty) {
-		if (!IsMobilePartyValid(mobileParty) || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
+		if (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
 
 		var partyArmory = PartyArmories[mobileParty.Id];
 		var memberCnt   = CountNonHeroMembers(mobileParty.MemberRoster);
@@ -265,7 +268,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void DailyTickParty(MobileParty mobileParty) {
-		if (!IsMobilePartyValid(mobileParty)) return;
+		if (!mobileParty.IsValid()) return;
 
 		AllocateRandomEquipmentToPartyArmory(mobileParty);
 		if (CampaignTime.Now.GetDayOfWeek != mobileParty.Id.InternalValue % 7) return;
@@ -312,7 +315,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
 			return;
 
-		var factor = Global.CalculateClanProsperityFactor(mobileParty);
+		var factor = mobileParty.CalculateClanProsperityFactor();
 		for (var i = 0; i < factor; i++) {
 			var randomMember = mobileParty.MemberRoster.GetTroopRoster().GetRandomElement();
 			if (randomMember.Character == null                  ||
@@ -336,7 +339,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			}*/
 			var randomByCultureAndTier =
 				Cache.GetItemsByTierAndCulture(itemTypes.GetRandomElement(),
-											   Global.GetPartyClanTier(mobileParty),
+											   mobileParty.GetClanTier(),
 											   GetPartyCulture(mobileParty))
 					 ?.GetRandomElement();
 			if (randomByCultureAndTier == null) return;
@@ -347,14 +350,14 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void OnMobilePartyCreated(MobileParty mobileParty) {
-		if (!IsMobilePartyValid(mobileParty)) return;
+		if (!mobileParty.IsValid()) return;
 
 		if (!PartyArmories.TryGetValue(mobileParty.Id, out var itemDict)) {
 			itemDict                      = new Dictionary<ItemObject, int>();
 			PartyArmories[mobileParty.Id] = itemDict;
 		}
 
-		var list = GetItemsFromParty(mobileParty);
+		var list = mobileParty.GetItems();
 		foreach (var element in list) {
 			if (!itemDict.TryGetValue(element.Item, out var count)) count = 0;
 
@@ -369,7 +372,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void OnMobilePartyDestroyed(MobileParty mobileParty, PartyBase partyBase) {
 		if (mobileParty?.Id != null) _ = PartyArmories.Remove(mobileParty.Id);
 
-		if (!IsMobilePartyValid(mobileParty)) return;
+		if (!mobileParty.IsValid()) return;
 
 		if (mobileParty is { Name: not null } && partyBase is { Name: not null })
 			Global.Log($"Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}",
@@ -474,7 +477,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		if (recruiterHero == null) return;
 
 		var party = recruiterHero.PartyBelongedTo;
-		if (!IsMobilePartyValid(party)) return;
+		if (!party.IsValid()) return;
 
 		// 确保PartyArmories包含party.Id键
 		if (!PartyArmories.TryGetValue(party.Id, out var partyInventory)) {
@@ -495,17 +498,6 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 				   Level.Debug);
 	}
 
-	private static List<EquipmentElement> GetItemsFromParty(MobileParty party) {
-		List<EquipmentElement> listToReturn = new();
-		foreach (var element in party.MemberRoster.GetTroopRoster())
-			if (element.Character is { IsHero: false }) {
-				var list = RecruitmentPatch.GetAllRecruitEquipments(element.Character);
-				for (var i = 0; i < element.Number; i++) listToReturn.AddRange(list);
-			}
-
-		return listToReturn;
-	}
-
 	private static void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
 		if (!PartyArmories.TryGetValue(partyId, out var inventory)) {
 			inventory              = new Dictionary<ItemObject, int>();
@@ -518,35 +510,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private static bool IsMapEventPartyValid(MapEventParty? party) {
-		return party is { Party.MobileParty: var mobileParty } && IsMobilePartyValid(mobileParty);
-	}
-
-	public static bool IsMobilePartyValid(MobileParty? party) {
-		return party is { Id: { } } &&
-			   (PartyArmories.ContainsKey(party.Id) ||
-				party is {
-							 Owner       : { CharacterObject.IsHero: true, IsPartyLeader: true },
-							 LeaderHero  : { CharacterObject.IsHero: true, IsPartyLeader: true },
-							 MemberRoster: not null,
-							 Owner       : not { IsHumanPlayerCharacter: true }
-						 });
-	}
-
-	private bool IsPartyUndestroyed(PartyBase? party) {
-		// 根据游戏逻辑判断部队是否未被摧毁，例如检查其兵力数量等
-		return party             != null                            &&
-			   party.MobileParty != null                            &&
-			   party.MobileParty.IsActive                           &&
-			   party.MobileParty.MemberRoster               != null &&
-			   party.MobileParty.MemberRoster.TotalManCount > 0;
-	}
-
-	private bool IsPlayerInvolved(MapEvent? mapEvent) {
-		return mapEvent != null &&
-			   ((mapEvent.AttackerSide != null &&
-				 mapEvent.AttackerSide.Parties.AnyQ(party => party.Party.LeaderHero == Hero.MainHero)) ||
-				(mapEvent.DefenderSide != null &&
-				 mapEvent.DefenderSide.Parties.AnyQ(party => party.Party.LeaderHero == Hero.MainHero)));
+		return party is { Party.MobileParty: var mobileParty } && mobileParty.IsValid();
 	}
 
 	private static Dictionary<uint, Dictionary<string, int>> ConvertToUIntGuidDict(
@@ -591,13 +555,6 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		}
 
 		return guidDict;
-	}
-
-	private class ArmorComparer : IComparer<ItemObject> {
-		public int Compare(ItemObject x, ItemObject y) {
-			var tierComparison = x.Tier.CompareTo(y.Tier);
-			return tierComparison != 0 ? tierComparison : x.Value.CompareTo(y.Value);
-		}
 	}
 
 	[Serializable]

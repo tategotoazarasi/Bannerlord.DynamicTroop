@@ -2,7 +2,7 @@
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop;
+namespace Bannerlord.DynamicTroop.Patches;
 
 [HarmonyPatch(typeof(CharacterObject), "get_UpgradeRequiresItemFromCategory")]
 public class GetUpgradeRequiresItemFromCategoryPatch {
