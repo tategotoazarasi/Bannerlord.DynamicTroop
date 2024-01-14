@@ -1,141 +1,94 @@
-﻿#region
+﻿using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.LinQuick;
+using static TaleWorlds.Core.ItemObject;
 
-	using TaleWorlds.CampaignSystem;
-	using TaleWorlds.Core;
-	using static TaleWorlds.Core.ItemObject;
+namespace Bannerlord.DynamicTroop;
 
-#endregion
+public class Assignment {
+	public static readonly EquipmentIndex[] WeaponSlots = {
+															  EquipmentIndex.Weapon0,
+															  EquipmentIndex.Weapon1,
+															  EquipmentIndex.Weapon2,
+															  EquipmentIndex.Weapon3
+														  };
 
-	namespace Bannerlord.DynamicTroop;
+	private static int _counter;
 
-	public class Assignment {
-		public static readonly EquipmentIndex[] WeaponSlots = {
-																  EquipmentIndex.Weapon0,
-																  EquipmentIndex.Weapon1,
-																  EquipmentIndex.Weapon2,
-																  EquipmentIndex.Weapon3
-															  };
+	public readonly Equipment Equipment;
 
-		private static int counter;
+	public Assignment(CharacterObject character) {
+		Index              = ++_counter;
+		Character          = character;
+		Equipment          = ArmyArmory.CreateEmptyEquipment();
+		ReferenceEquipment = character.RandomBattleEquipment.Clone();
+	}
 
-		public Equipment Equipment;
+	public int Index { get; }
 
-		public Assignment(CharacterObject character) {
-			Index              = ++counter;
-			Character          = character;
-			Equipment          = ArmyArmory.CreateEmptyEquipment();
-			ReferenceEquipment = character.RandomBattleEquipment.Clone();
+	public bool IsAssigned { get; set; }
 
-			//Global.Log($"agent {Index} select {ReferenceEquipment.CalculateEquipmentCode()} as equipment");
-		}
+	public CharacterObject Character { get; }
 
-		public int Index { get; }
+	public Equipment ReferenceEquipment { get; }
 
-		public bool IsAssigned { get; set; }
+	public bool IsShielded =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is {
+																			 IsEmpty      : false,
+																			 Item.ItemType: ItemTypeEnum.Shield
+																		 });
 
-		public CharacterObject Character { get; }
+	public bool CanBeShielded =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is {
+																			 IsEmpty: false,
+																			 Item: {
+																				 ItemType: ItemTypeEnum
+																					 .OneHandedWeapon
+																			 } item
+																		 } &&
+								 !Global.CantUseWithShields(item));
 
-		public Equipment ReferenceEquipment { get; }
+	public bool IsArcher =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
+								 Global.IsBow(item));
 
-		public bool IsShielded {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && element.Item.ItemType == ItemTypeEnum.Shield)
-						return true;
-				}
+	public bool IsCrossBowMan =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
+								 Global.IsCrossBow(item));
 
-				return false;
-			}
-		}
+	public bool HaveThrown =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
+								 Global.IsThrowing(item));
 
-		public bool CanBeShielded {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty                                      &&
-						element.Item          != null                         &&
-						element.Item.ItemType == ItemTypeEnum.OneHandedWeapon &&
-						!Global.CantUseWithShields(element.Item))
-						return true;
-				}
+	public bool HaveTwoHandedWeaponOrPolearms =>
+		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
+								 (Global.IsTwoHanded(item) || Global.IsPolearm(item)));
 
-				return false;
-			}
-		}
+	public EquipmentIndex? EmptyWeaponSlot {
+		get {
+			foreach (var slot in WeaponSlots)
+				if (Equipment.GetEquipmentFromSlot(slot).IsEmpty || Equipment.GetEquipmentFromSlot(slot).Item == null)
+					return slot;
 
-		public bool IsArcher {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && Global.IsBow(element.Item)) return true;
-				}
-
-				return false;
-			}
-		}
-
-		public bool IsCrossBowMan {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && Global.IsCrossBow(element.Item)) return true;
-				}
-
-				return false;
-			}
-		}
-
-		public bool HaveThrown {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty && element.Item != null && Global.IsThrowing(element.Item)) return true;
-				}
-
-				return false;
-			}
-		}
-
-		public bool HaveTwoHandedWeaponOrPolearms {
-			get {
-				foreach (var slot in WeaponSlots) {
-					var element = Equipment.GetEquipmentFromSlot(slot);
-					if (!element.IsEmpty     &&
-						element.Item != null &&
-						(Global.IsTwoHanded(element.Item) || Global.IsPolearm(element.Item)))
-						return true;
-				}
-
-				return false;
-			}
-		}
-
-		public EquipmentIndex? EmptyWeaponSlot {
-			get {
-				foreach (var slot in WeaponSlots)
-					if (Equipment.GetEquipmentFromSlot(slot).IsEmpty || Equipment.GetEquipmentFromSlot(slot).Item == null)
-						return slot;
-
-				return null;
-			}
-		}
-
-		public bool IsMounted {
-			get {
-				var horse = ReferenceEquipment.GetEquipmentFromSlot(EquipmentIndex.Horse);
-				return !horse.IsEmpty && horse.Item != null;
-			}
-		}
-
-		public bool IsUnarmed() {
-			return (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
-					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
-				   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty ||
-					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
-				   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty ||
-					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
-				   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
-					Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+			return null;
 		}
 	}
+
+	public bool IsMounted {
+		get {
+			var horse = ReferenceEquipment.GetEquipmentFromSlot(EquipmentIndex.Horse);
+			return horse is { IsEmpty: false, Item: not null };
+		}
+	}
+
+	public bool IsUnarmed() {
+		return (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
+				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
+			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty ||
+				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
+			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty ||
+				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
+			   (Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
+				Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+	}
+}

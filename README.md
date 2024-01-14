@@ -1,13 +1,14 @@
-# Bannerlord.DynamicTroop
+# Dynamic Troop Equipment System 动态部队装备
 
-The Dynamic Troop Equipment System mod introduces a sophisticated armory and equipment distribution system in Mount & Blade II: Bannerlord, focusing exclusively on player-controlled troops.
+The Dynamic Troop Equipment System mod revolutionizes the game's troop upgrade and equipment system by replacing it with a dynamic army armory and equipment distribution system.
 
 ## Armory System
 
 - Soldiers no longer magically receive new equipment upon leveling up.
-- Troops access a dynamic army armory where equipment from defeated enemy soldiers (excluding hero units) is added.
-- Soldiers choose their equipment from the armory based on availability, including recruits who add their initial gear to the armory.
-- Armory management accessible from town menus; note that equipment crafting may have bugs.
+- Parties now have dynamic armory. Equipment from defeated non-hero enemy units is added to this armory.
+- Each soldier's equipment is no longer fixed; instead, they select the most suitable gear from the army's armory when entering the battlefield, and return it to the armory upon leaving the battlefield or falling in battle.
+- Newly recruited soldiers contribute their initial gear to the armory.
+- The armory can be accessed and managed from the town menus. Note that there may be bugs related to equipment crafting.
 
 ## Equipment Distribution Logic
 
@@ -21,6 +22,13 @@ The Dynamic Troop Equipment System mod introduces a sophisticated armory and equ
 - Higher-tier soldiers are prioritized, with weapons sorted by tier, then price. For infantry, weapon attributes like bonus against shields, dismounting, knockdown, or bracing count as +1 tier.
 - Surplus arrows, shields, throwing weapons, and two-handed/polearms are allocated based on existing equipment.
 - Mounted units, including archers, won't receive weapons unsuitable for use on horseback.
+
+## Functionality for AI Parties
+
+- AI parties led by heroes will have access to an armory mechanism.
+- Daily, AI parties receive random equipment that their soldiers would normally have.
+- Additionally, AI parties daily receive random equipment up to their clan's tier, favoring gear matching the leader's culture or neutral culture.
+- The quantity of equipment AI parties receive each day is influenced by the clan's tier, the number of their fiefs, and the prosperity of those fiefs.
 
 ## Additional Mechanics
 
@@ -39,7 +47,8 @@ The Dynamic Troop Equipment System mod introduces a sophisticated armory and equ
 
 ## Links
 
-- [NexusMods - Standard & Beta Version](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files) (Beta Version: Now extends to AI parties led by heroes. Requires starting a new game. For a more stable experience, download the standard version.)
+- [NexusMods](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files)
+- [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3119116807)
 - [GitHub Repository](https://github.com/tategotoazarasi/Bannerlord.DynamicTroop)
 - [Discord](https://discord.gg/NybRg85KVK)
 - [骑砍中文站](https://bbs.mountblade.com.cn/download_1436.html)
@@ -47,12 +56,13 @@ The Dynamic Troop Equipment System mod introduces a sophisticated armory and equ
 
 -------
 
-这个Mod为《骑马与砍杀II：霸主》带来了一个先进的军械库和装备分配系统，专注于玩家控制的部队。
+这个Mod重置了游戏的兵种升级和兵种装备系统，取而代之的是部队军械库和装备分配系统。
 
 ## 军械库系统
 
 - 士兵升级时不再凭空获得新装备
-- 部队现在有一个动态军械库，战场上杀死的敌人（除了英雄单位）的装备会加入到这里，战斗开始时，军械库会将其中的装备分配给士兵
+- 部队现在有一个动态军械库，战场上杀死的敌人（除了英雄单位）的装备会加入到这里。
+- 士兵不再拥有固定的装备；战斗开始时，士兵会从军械库中选取最合适的装备，战斗结束或阵亡时会将装备归还到军械库。
 - 新招募的士兵会将自己的初始装备加入军械库
 - 可以从城镇菜单中访问和管理军械库；请注意，装备打造可能存在bug。
 
@@ -68,6 +78,13 @@ The Dynamic Troop Equipment System mod introduces a sophisticated armory and equ
 - 优先考虑高等级士兵，武器按照等级和价格排序。对于步兵，特殊的武器属性（对盾加成、坠马、击倒、架矛）相当于增加一级。
 - 如果四轮之后仍有空槽位，则将根据士兵已有的装备分配多余的箭矢、盾牌、投掷武器和双手/长杆武器。
 - 骑兵单位不会获得无法在马上使用的武器。
+
+## AI机制
+
+- 由英雄领导的AI部队都拥有军械库机制。
+- AI部队每日会随机获得其部队中士兵本应有的装备。
+- AI部队每日会随机获得不超过其所属家族等级且同文化（或无文化）的装备。
+- AI部队每日获得的装备数量由家族等级、封地数量和繁荣度共同决定。
 
 ## 额外机制
 
@@ -86,8 +103,9 @@ The Dynamic Troop Equipment System mod introduces a sophisticated armory and equ
 
 ## 链接
 
-- [NexusMods - 标准和测试版](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files)（测试版：现在扩展到由英雄领导的AI队伍。需要开始新游戏。为了更稳定的体验，请下载标准版本。）
+- [NexusMods](https://www.nexusmods.com/mountandblade2bannerlord/mods/6223?tab=files)
 - [Steam创意工坊](https://steamcommunity.com/sharedfiles/filedetails/?id=3119116807)
 - [GitHub仓库](https://github.com/tategotoazarasi/Bannerlord.DynamicTroop)
 - [Discord](https://discord.gg/NybRg85KVK)
+- [骑砍中文站](https://bbs.mountblade.com.cn/download_1436.html)
 - QQ群：698615206

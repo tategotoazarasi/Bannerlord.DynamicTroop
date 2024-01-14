@@ -1,27 +1,23 @@
-﻿#region
+﻿using System.Collections.Generic;
+using TaleWorlds.Core;
 
-	using System.Collections.Generic;
-	using TaleWorlds.Core;
+namespace Bannerlord.DynamicTroop;
 
-#endregion
+public class PartyBattleRecord {
+	public readonly Dictionary<ItemObject, int> ItemsToRecover = new();
 
-	namespace Bannerlord.DynamicTroop;
+	public readonly Dictionary<ItemObject, int> LootedItems = new();
 
-	public class PartyBattleRecord {
-		public Dictionary<ItemObject, int> ItemsToRecover = new();
+	public void AddItemToRecover(ItemObject item) { AddItemToDictionary(ItemsToRecover, item, 1); }
 
-		public Dictionary<ItemObject, int> LootedItems = new();
+	public void AddItemToRecover(ItemObject item, int count) { AddItemToDictionary(ItemsToRecover, item, count); }
 
-		public void AddItemToRecover(ItemObject item) { AddItemToDictionary(ItemsToRecover, item, 1); }
+	public void AddLootedItem(ItemObject item) { AddItemToDictionary(LootedItems, item, 1); }
 
-		public void AddItemToRecover(ItemObject item, int count) { AddItemToDictionary(ItemsToRecover, item, count); }
+	public void AddLootedItem(ItemObject item, int count) { AddItemToDictionary(LootedItems, item, count); }
 
-		public void AddLootedItem(ItemObject item) { AddItemToDictionary(LootedItems, item, 1); }
-
-		public void AddLootedItem(ItemObject item, int count) { AddItemToDictionary(LootedItems, item, count); }
-
-		private void AddItemToDictionary(Dictionary<ItemObject, int> dictionary, ItemObject item, int count) {
-			if (item != null)
-				dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;
-		}
+	private static void AddItemToDictionary(Dictionary<ItemObject, int> dictionary, ItemObject? item, int count) {
+		if (item != null)
+			dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;
 	}
+}

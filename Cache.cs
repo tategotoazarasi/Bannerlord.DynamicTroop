@@ -1,34 +1,30 @@
-﻿#region
+﻿using System.Collections.Generic;
+using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.LinQuick;
 
-	using System.Collections.Generic;
-	using System.Linq;
-	using TaleWorlds.CampaignSystem;
-	using TaleWorlds.Core;
+namespace Bannerlord.DynamicTroop;
 
-#endregion
+public static class Cache {
+	private static readonly Dictionary<(ItemObject.ItemTypeEnum, int, CultureObject?), ItemObject[]>
+		CachedItems = new();
 
-	namespace Bannerlord.DynamicTroop;
+	public static ItemObject[]? GetItemsByTierAndCulture(ItemObject.ItemTypeEnum itemType,
+														 int                     tier,
+														 CultureObject?          culture) {
+		var key = (itemType, tier, culture);
 
-	public static class Cache {
-		private static readonly Dictionary<(ItemObject.ItemTypeEnum, int, CultureObject?), ItemObject[]>
-			CachedItems = new();
+		if (!CachedItems.TryGetValue(key, out var items)) {
+			// If not cached, generate and cache the list
+			items = EveryoneCampaignBehavior.ItemListByType[itemType]
+											.WhereQ(item => item           != null &&
+															(int)item.Tier <= tier &&
+															(item.Culture == null || item.Culture == culture))
+											.ToArrayQ();
 
-		public static ItemObject[] GetItemsByTierAndCulture(ItemObject.ItemTypeEnum itemType,
-															int                     tier,
-															CultureObject?          culture) {
-			var key = (itemType, tier, culture);
-
-			if (!CachedItems.TryGetValue(key, out var items)) {
-				// If not cached, generate and cache the list
-				items = EveryoneCampaignBehavior.ItemListByType[itemType]
-												.Where(item => item           != null &&
-															   (int)item.Tier <= tier &&
-															   (item.Culture == null || item.Culture == culture))
-												.ToArray();
-
-				CachedItems[key] = items;
-			}
-
-			return items;
+			CachedItems[key] = items;
 		}
+
+		return items;
 	}
+}

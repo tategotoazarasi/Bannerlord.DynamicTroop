@@ -1,31 +1,27 @@
-﻿#region
+﻿using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Base.Global;
 
-	using MCM.Abstractions.Attributes;
-	using MCM.Abstractions.Attributes.v2;
-	using MCM.Abstractions.Base.Global;
+namespace Bannerlord.DynamicTroop;
 
-#endregion
+public class ModSettings : AttributeGlobalSettings<ModSettings> {
+	private bool _debugMode; // 默认禁用调试模式
 
-	namespace Bannerlord.DynamicTroop;
+	public override string Id => "bannerlord.dynamictroop";
 
-	public class ModSettings : AttributeGlobalSettings<ModSettings> {
-		private bool _debugMode; // 默认禁用调试模式
+	public override string FormatType => "json";
 
-		public override string Id => "bannerlord.dynamictroop";
+	public override string DisplayName => "Dynamic Troop";
 
-		public override string FormatType => "json";
-
-		public override string DisplayName => "Dynamic Troop";
-
-		[SettingPropertyBool("Debug Mode", Order = 1, RequireRestart = false, HintText = "Debug mode. For Devs only.")]
-		[SettingPropertyGroup("General")]
-		public bool DebugMode {
-			get => _debugMode;
-			set {
-				if (_debugMode != value) {
-					_debugMode = value;
-					OnPropertyChanged();
-				}
+	[SettingPropertyBool("Debug Mode", Order = 1, RequireRestart = false, HintText = "Debug mode. For Devs only.")]
+	[SettingPropertyGroup("General")]
+	public bool DebugMode {
+		get => _debugMode;
+		set {
+			if (_debugMode != value) {
+				_debugMode = value;
+				OnPropertyChanged();
 			}
 		}
 	}
+}
