@@ -444,16 +444,15 @@ public class PartyEquipmentDistributor {
 
 		foreach (var slot in Global.EquipmentSlots) {
 			var element = equipment.GetEquipmentFromSlot(slot);
-			if (!element.IsEmpty && element.Item != null) {
-				if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
-					// 武器库中有足够的物品，分配一个并减少数量
-					partyArmory[element.Item] = itemCount - 1;
-					Global.Log($"Spawned item {element.Item.StringId}", Colors.Green, Level.Debug);
-				}
-				else {
-					// 武器库中没有足够的物品或者该物品不存在
-					Global.Log($"Insufficient or no items to spawn {element.Item.StringId}", Colors.Red, Level.Warn);
-				}
+			if (element is not { IsEmpty: false, Item: not null }) continue;
+			if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
+				// 武器库中有足够的物品，分配一个并减少数量
+				partyArmory[element.Item] = itemCount - 1;
+				Global.Log($"Spawned item {element.Item.StringId}", Colors.Green, Level.Debug);
+			}
+			else {
+				// 武器库中没有足够的物品或者该物品不存在
+				Global.Log($"Insufficient or no items to spawn {element.Item.StringId}", Colors.Red, Level.Warn);
 			}
 		}
 	}

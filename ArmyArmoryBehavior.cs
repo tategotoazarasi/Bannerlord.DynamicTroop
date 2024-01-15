@@ -34,9 +34,9 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 			var tempData = _data;
 			_ = dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData);
-			Load();
 
 			if (tempData != null) {
+				Load(tempData);
 				_data = tempData;
 				_data.Armory.Clear();
 			}
@@ -61,8 +61,8 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		i.Dispose();
 	}
 
-	private void Load() {
-		foreach (var item in _data.Armory) {
+	private void Load(Data tempData) {
+		foreach (var item in tempData.Armory) {
 			var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ??
 							ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
 			if (equipment != null)
@@ -70,6 +70,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 			else
 				Global.Warn($"cannot get object {item.Key}");
 		}
+		Global.Debug($"loaded {tempData.Armory.Count} entries for player");
 	}
 
 	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }

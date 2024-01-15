@@ -170,7 +170,7 @@ public static class Global {
 		// 处理武器槽装备
 		foreach (var slot in Assignment.WeaponSlots) {
 			var element = missionEquipment[slot];
-			if (element is not { IsEmpty: false, Item: not null }) return;
+			if (element.IsEmpty || element.Item==null) continue;
 
 			if (IsAmmoAndEmpty(element)) {
 				Log($"Empty Ammo {element.Item.StringId}", Colors.Green, Level.Debug);
@@ -183,7 +183,7 @@ public static class Global {
 		// 处理装甲和马匹槽装备
 		foreach (var slot in ArmourAndHorsesSlots) {
 			var element = spawnEquipment[slot];
-			if (element is not { IsEmpty: false, Item: not null }) continue;
+			if (element.IsEmpty || element.Item == null) continue;
 
 			processEquipmentItem(element.Item);
 		}

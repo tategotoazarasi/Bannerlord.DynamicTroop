@@ -194,7 +194,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		foreach (var agent in agents)
 			Global.ProcessAgentEquipment(agent,
 										 item => {
-											 if (item == null) return;
+											 if (item is not {}) return;
 
 											 totalItemCount++;
 											 if (isPlayerParty)
