@@ -4,7 +4,6 @@ using Bannerlord.ButterLib.SaveSystem.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
-using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
@@ -70,17 +69,17 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 			else
 				Global.Warn($"cannot get object {item.Key}");
 		}
+
 		Global.Debug($"loaded {tempData.Armory.Count} entries for player");
 	}
 
 	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
 
 	private void AddTownMenuOptions(CampaignGameStarter starter) {
-		starter.AddGameMenuOption("town",             // Town menu
-								  "army_armory_view", // Unique identifier for this menu item
-								  new TextObject("{=armory_view_option}View Army Armory")
-									  .ToString(), // Localized text for the menu item
-								  args => true,    // Conditions for showing this option
+		starter.AddGameMenuOption("town",                                    // Town menu
+								  "army_armory_view",                        // Unique identifier for this menu item
+								  LocalizedTexts.ArmorViewOption.ToString(), // Localized text for the menu item
+								  args => true,                              // Conditions for showing this option
 								  args => {
 									  // Action to execute when this option is selected
 									  InventoryManager.OpenScreenAsStash(ArmyArmory.Armory);

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+	<tags>
+		<tag language="English" />
+	</tags>
+	<strings>
+		<string id="mod_name" text="Dynamic Troop Equipment System" />
+		<string id="armory_view_option" text="View Army Armory" />
+		<!--<string id="loot_added_message" text="{ITEM_COUNT} items looted" />-->
+		<string id="toggle_debug_mode" text="Debug Mode" />
+		<string id="toggle_debug_mode_hint" text="For Devs only." />
+		<string id="debug" text="Debug" />
+		<string id="log_level" text="Log Level" />
+		<string id="drop_rate" text="Drop Rate" />
+		<string id="drop_rate_hint" text="Equipment drop rate on enemy down." />
+		<string id="settings" text="Settings" />
+		<string id="same_cultural_preference" text="Same Cultural Preference" />
+		<string id="same_cultural_preference_hint" text="Soldiers will prefer weapons from their own culture but can still use other cultural weapons." />
+		<string id="setting_easy" text="Easy" />
+		<string id="setting_normal" text="Normal" />
+		<string id="setting_hard" text="Hard" />
+		<string id="setting_very_hard" text="Very Hard" />
+		<string id="difficulty" text="Difficulty" />
+		<string id="difficulty_hint" text="Adjusts the quantity and quality of daily equipment received by all AI troops." />
+	</strings>
+</base>

@@ -1,10 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
- <tags>
-  <tag language="简体中文"/>
- </tags>
- <strings>
-  <string id="armory_view_option" text="查看部队军火库"/>
-  <string id="loot_added_message" text="已添加 {ITEM_COUNT} 件战利品到部队军火库。" />
- </strings>
+	<tags>
+		<tag language="简体中文" />
+	</tags>
+	<strings>
+		<string id="mod_name" text="动态部队装备" />
+		<string id="armory_view_option" text="查看部队军火库" />
+		<string id="loot_added_message" text="已添加 {ITEM_COUNT} 件战利品到部队军火库。" />
+		<string id="toggle_debug_mode" text="调试模式" />
+		<string id="toggle_debug_mode_hint" text="供开发人员使用" />
+		<string id="debug" text="调试" />
+		<string id="log_level" text="日志级别" />
+		<string id="drop_rate" text="装备爆率" />
+		<string id="drop_rate_hint" text="敌人被击倒时的装备爆率" />
+		<string id="settings" text="设置" />
+		<string id="same_cultural_preference" text="同文化偏好" />
+		<string id="same_cultural_preference_hint" text="士兵会更倾向选择同文化的装备，这并不代表他们就不会使用其他文化的装备" />
+		<string id="setting_easy" text="简单" />
+		<string id="setting_normal" text="中等" />
+		<string id="setting_hard" text="困难" />
+		<string id="setting_very_hard" text="非常困难" />
+		<string id="difficulty" text="难度" />
+		<string id="difficulty_hint" text="此选项会影响AI部队每日获得的装备的数量和质量" />
+	</strings>
 </base>
