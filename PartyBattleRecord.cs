@@ -4,7 +4,8 @@ using TaleWorlds.Core;
 namespace Bannerlord.DynamicTroop;
 
 public class PartyBattleRecord {
-	public readonly Dictionary<ItemObject, int> ItemsToRecover = new();
+	private static readonly object                      LockObject     = new();
+	public readonly         Dictionary<ItemObject, int> ItemsToRecover = new();
 
 	public readonly Dictionary<ItemObject, int> LootedItems = new();
 
@@ -16,8 +17,15 @@ public class PartyBattleRecord {
 
 	public void AddLootedItem(ItemObject item, int count) { AddItemToDictionary(LootedItems, item, count); }
 
-	private static void AddItemToDictionary(Dictionary<ItemObject, int> dictionary, ItemObject? item, int count) {
-		if (item != null)
-			dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;
+	private static void AddItemToDictionary(IDictionary<ItemObject, int> dictionary, ItemObject? item, int count) {
+		if (item == null) return;
+
+		lock (LockObject) {
+			if (dictionary.TryGetValue(item, out var existingCount)) {
+				dictionary[item] = existingCount + count;
+			} else {
+				dictionary[item] = count;
+			}
+		}
 	}
 }
