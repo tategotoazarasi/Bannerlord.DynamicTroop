@@ -16,6 +16,8 @@ namespace Bannerlord.DynamicTroop;
 public class PartyEquipmentDistributor {
 	private readonly Dictionary<EquipmentElement, int> _equipmentToAssign;
 
+	private readonly List<HorseAndHarness> _horseAndHarnesses = new();
+
 	private readonly ItemRoster? _itemRoster;
 
 	private readonly Mission _mission;
@@ -83,11 +85,77 @@ public class PartyEquipmentDistributor {
 					_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
 			}
 
+		GenerateHorseAndHarnessList();
 		DoAssign();
+	}
+
+	private void GenerateHorseAndHarnessList() {
+		var horsesDict = _equipmentToAssign
+						 .WhereQ(kv => kv.Key is {
+													 Item: {
+															   HasHorseComponent: true,
+															   ItemType         : ItemObject.ItemTypeEnum.Horse
+														   }
+												 })
+						 .GroupBy(kv => kv.Key.Item.HorseComponent?.Monster?.FamilyType)
+						 .ToDictionary(group => group.Key ?? -1,
+									   group => group.OrderByDescending(kv => kv.Key.Item.Tier)
+													 .ThenByDescending(kv => kv.Key.Item.Value)
+													 .SelectQ(kv => (kv.Key, Cnt: kv.Value))
+													 .ToArrayQ());
+		var harnessDict = _equipmentToAssign
+						  .WhereQ(kv => kv.Key is {
+													  Item: {
+																HasArmorComponent: true,
+																ItemType         : ItemObject.ItemTypeEnum.HorseHarness
+															}
+												  })
+						  .GroupBy(kv => kv.Key.Item.ArmorComponent?.FamilyType)
+						  .ToDictionary(group => group.Key ?? -1,
+										group => group.OrderByDescending(kv => kv.Key.Item.Tier)
+													  .ThenByDescending(kv => kv.Key.Item.Value)
+													  .SelectQ(kv => (kv.Key, Cnt: kv.Value))
+													  .ToArrayQ());
+
+		foreach (var kvp in horsesDict) {
+			var familyType = kvp.Key;
+			var horses     = kvp.Value;
+
+			if (!harnessDict.TryGetValue(familyType, out var harnesses)) continue;
+
+			int horseIndex = 0, harnessIndex = 0;
+			while (horseIndex < horses.Length) {
+				var (horseItem, horseCnt) = horses[horseIndex];
+				var harnessItem = harnessIndex < harnesses.Length
+									  ? harnesses[harnessIndex].Key
+									  : new EquipmentElement(null);
+				var harnessCnt = harnessIndex < harnesses.Length ? harnesses[harnessIndex].Cnt : 0;
+
+				if (horseCnt > 0) {
+					var hah = new HorseAndHarness(horseItem, harnessItem);
+					Global.Debug($"New horse {horseItem.Item.Name} and harness {harnessItem.Item?.StringId ?? "null"} pair");
+					_horseAndHarnesses.Add(hah);
+					horses[horseIndex].Cnt--;
+
+					// 如果马具有剩余，则减少其数量
+					if (harnessCnt > 0) {
+						harnessCnt--;
+						harnesses[harnessIndex].Cnt--;
+					}
+				}
+
+				// 如果当前马匹用完，则移动到下一个马匹
+				if (horses[horseIndex].Cnt == 0) horseIndex++;
+
+				// 如果当前马具用完且还有更多马具，则移动到下一个马具
+				if (harnessCnt == 0 && harnessIndex < harnesses.Length) harnessIndex++;
+			}
+		}
 	}
 
 	private void DoAssign() {
 		AssignArmour();
+		if (!_mission.IsSiegeBattle) AssignHorseAndHarness();
 		AssignWeaponByWeaponClass(true);
 		AssignWeaponByWeaponClass(false);
 		AssignWeaponByItemEnumType(true);
@@ -111,11 +179,24 @@ public class PartyEquipmentDistributor {
 		AssignEquipmentType(ItemObject.ItemTypeEnum.LegArmor);
 		Global.Log($"Assigning Cape for {_party.Name}", Colors.Green, Level.Debug);
 		AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
-		if (!_mission.IsSiegeBattle) {
-			Global.Log($"Assigning Horse for {_party.Name}", Colors.Green, Level.Debug);
-			AssignEquipmentType(ItemObject.ItemTypeEnum.Horse);
-			Global.Log($"Assigning HorseHarness for {_party.Name}", Colors.Green, Level.Debug);
-			AssignEquipmentType(ItemObject.ItemTypeEnum.HorseHarness);
+	}
+
+	private void AssignHorseAndHarness() {
+		Global.Debug($"Assigning Horse and Harness for {_party.Name}");
+		var horseAndHarnessesArr = _horseAndHarnesses.OrderByDescending(hoh => hoh.Tier)
+													 .ThenByDescending(hoh => hoh.Value)
+													 .ToArrayQ();
+		var currentIndex = 0;
+		foreach (var assignment in Assignments) {
+			if (!assignment.IsMounted) continue;
+			if (currentIndex >= horseAndHarnessesArr.Length) break;
+			var horseAndHarness = horseAndHarnessesArr[currentIndex++];
+			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, horseAndHarness.Horse);
+			Global.Debug($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
+			if (!horseAndHarness.Harness.HasValue) continue;
+			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.HorseHarness,
+																horseAndHarness.Harness.Value);
+			Global.Debug($"assign horse harness {horseAndHarness.Harness.Value.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
 		}
 	}
 

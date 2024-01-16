@@ -154,4 +154,11 @@ public static class ItemObjectExtension {
 			   character != null &&
 			   (item.Difficulty <= 0 || item.Difficulty <= character.GetSkillValue(item.RelevantSkill));
 	}
+
+	public static bool MatchHarness(this ItemObject? horse, ItemObject? harness) {
+		if (horse is { HasHorseComponent  : true, ItemType: ItemObject.ItemTypeEnum.Horse } &&
+			harness is { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness })
+			return horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType;
+		return false;
+	}
 }

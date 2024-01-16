@@ -66,8 +66,6 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 	[SettingPropertyDropdown("{=log_level}Log Level", Order = 2, RequireRestart = false, HintText = "")]
 	[SettingPropertyGroup("{=debug}Debug")]
 	public Dropdown<Level> LogLevel { get; set; } = new(new[] {
-																  Level.Off,
-																  Level.Trace,
 																  Level.Debug,
 																  Level.Info,
 																  Level.Warn,
@@ -75,5 +73,5 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 																  Level.Fatal,
 																  Level.All
 															  },
-														7);
+														5);
 }
