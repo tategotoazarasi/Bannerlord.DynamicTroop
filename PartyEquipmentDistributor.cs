@@ -78,9 +78,11 @@ public class PartyEquipmentDistributor {
 
 				// 尝试获取已存在的数量
 				if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount))
+
 					// 如果键不存在，添加新的键值对
 					_equipmentToAssign.Add(kv.EquipmentElement, kv.Amount);
 				else
+
 					// 如果键已存在，更新数量
 					_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
 			}
@@ -90,38 +92,80 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void GenerateHorseAndHarnessList() {
-		var horsesDict = _equipmentToAssign
-						 .WhereQ(kv => kv.Key is {
-													 Item: {
-															   HasHorseComponent: true,
-															   ItemType         : ItemObject.ItemTypeEnum.Horse
-														   }
-												 })
-						 .GroupBy(kv => kv.Key.Item.HorseComponent?.Monster?.FamilyType)
-						 .ToDictionary(group => group.Key ?? -1,
-									   group => group.OrderByDescending(kv => kv.Key.Item.Tier)
-													 .ThenByDescending(kv => kv.Key.Item.Value)
-													 .SelectQ(kv => (kv.Key, Cnt: kv.Value))
-													 .ToArrayQ());
-		var harnessDict = _equipmentToAssign
-						  .WhereQ(kv => kv.Key is {
-													  Item: {
-																HasArmorComponent: true,
-																ItemType         : ItemObject.ItemTypeEnum.HorseHarness
-															}
-												  })
-						  .GroupBy(kv => kv.Key.Item.ArmorComponent?.FamilyType)
-						  .ToDictionary(group => group.Key ?? -1,
-										group => group.OrderByDescending(kv => kv.Key.Item.Tier)
-													  .ThenByDescending(kv => kv.Key.Item.Value)
-													  .SelectQ(kv => (kv.Key, Cnt: kv.Value))
-													  .ToArrayQ());
+		var horsesDict  = new Dictionary<int, List<(EquipmentElement Key, int Cnt)>>();
+		var harnessDict = new Dictionary<int, List<(EquipmentElement Key, int Cnt)>>();
+		var saddles     = new List<(EquipmentElement Key, int Cnt)>();
 
+		PopulateDictionaries(_equipmentToAssign, horsesDict, harnessDict, saddles);
+		SortEquipmentDictionaries(horsesDict, harnessDict, saddles);
+		GenerateHorseAndHarnessPairs(horsesDict, harnessDict, saddles);
+	}
+
+	private static void PopulateDictionaries(IEnumerable<KeyValuePair<EquipmentElement, int>>        equipment,
+											 IDictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict,
+											 IDictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
+											 ICollection<(EquipmentElement Key, int Cnt)>            saddles) {
+		foreach (var kvp in equipment)
+			switch (kvp.Key.Item) {
+				case { HasHorseComponent: true, ItemType: ItemObject.ItemTypeEnum.Horse }:
+					AddToDict(horsesDict, kvp.Key, kvp.Value);
+					break;
+
+				case { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness }:
+					AddToDict(harnessDict, kvp.Key, kvp.Value);
+					break;
+
+				case {
+						 HasArmorComponent : false,
+						 HasSaddleComponent: true,
+						 ItemType          : ItemObject.ItemTypeEnum.HorseHarness
+					 }:
+					saddles.Add((kvp.Key, kvp.Value));
+					break;
+			}
+	}
+
+	private static void AddToDict(IDictionary<int, List<(EquipmentElement Key, int Cnt)>> dict,
+								  EquipmentElement                                        element,
+								  int                                                     cnt) {
+		var familyType = element.Item.HorseComponent?.Monster?.FamilyType ??
+						 element.Item.ArmorComponent?.FamilyType ?? -1;
+		if (!dict.TryGetValue(familyType, out var list)) {
+			list             = new List<(EquipmentElement Key, int Cnt)>();
+			dict[familyType] = list;
+		}
+
+		list.Add((element, cnt));
+	}
+
+	private static void SortEquipmentDictionaries(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict,
+												  Dictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
+												  List<(EquipmentElement Key, int Cnt)>                  saddles) {
+		SortDict(horsesDict,  CompareEquipment);
+		SortDict(harnessDict, CompareEquipment);
+		saddles.Sort(CompareEquipment);
+		return;
+
+		static int CompareEquipment((EquipmentElement Key, int Cnt) x, (EquipmentElement Key, int Cnt) y) {
+			var tierCompare = y.Key.Item.Tier.CompareTo(x.Key.Item.Tier);
+			return tierCompare != 0 ? tierCompare : y.Key.Item.Value.CompareTo(x.Key.Item.Value);
+		}
+	}
+
+	private static void SortDict(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> dict,
+								 Comparison<(EquipmentElement Key, int Cnt)>            comparer) {
+		foreach (var key in dict.Keys) dict[key].Sort(comparer);
+	}
+
+	private void GenerateHorseAndHarnessPairs(Dictionary<int, List<(EquipmentElement Key, int Cnt)>>  horsesDict,
+											  IDictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
+											  IList<(EquipmentElement Key, int Cnt)>                  saddles) {
 		foreach (var kvp in horsesDict) {
 			var familyType = kvp.Key;
-			var horses     = kvp.Value;
-
-			if (!harnessDict.TryGetValue(familyType, out var harnesses)) continue;
+			var horses     = kvp.Value.ToArrayQ();
+			var harnesses = harnessDict.TryGetValue(familyType, out var harnessesList)
+								? harnessesList.ToArrayQ()
+								: Array.Empty<(EquipmentElement Key, int Cnt)>();
 
 			int horseIndex = 0, harnessIndex = 0;
 			while (horseIndex < horses.Length) {
@@ -133,23 +177,31 @@ public class PartyEquipmentDistributor {
 
 				if (horseCnt > 0) {
 					var hah = new HorseAndHarness(horseItem, harnessItem);
-					Global.Debug($"New horse {horseItem.Item.Name} and harness {harnessItem.Item?.StringId ?? "null"} pair");
 					_horseAndHarnesses.Add(hah);
-					horses[horseIndex].Cnt--;
+					horses[horseIndex] = (horseItem, --horseCnt);
 
-					// 如果马具有剩余，则减少其数量
-					if (harnessCnt > 0) {
-						harnessCnt--;
-						harnesses[harnessIndex].Cnt--;
-					}
+					if (harnessCnt > 0) harnesses[harnessIndex] = (harnessItem, --harnessCnt);
 				}
 
-				// 如果当前马匹用完，则移动到下一个马匹
-				if (horses[horseIndex].Cnt == 0) horseIndex++;
-
-				// 如果当前马具用完且还有更多马具，则移动到下一个马具
+				if (horseCnt == 0) horseIndex++;
 				if (harnessCnt == 0 && harnessIndex < harnesses.Length) harnessIndex++;
 			}
+		}
+
+		AssignSaddlesToHorseAndHarnesses(_horseAndHarnesses, saddles);
+		_horseAndHarnesses.Sort((x, y) => y.CompareTo(x));
+	}
+
+	private static void AssignSaddlesToHorseAndHarnesses(IEnumerable<HorseAndHarness>           horseAndHarnesses,
+														 IList<(EquipmentElement Key, int Cnt)> saddles) {
+		var saddleIndex = 0;
+		foreach (var hoh in horseAndHarnesses.WhereQ(h => h.Harness == null)) {
+			if (saddleIndex >= saddles.Count) break;
+			var (saddleItem, saddleCnt) = saddles[saddleIndex];
+			if (saddleCnt <= 0) continue;
+			hoh.Harness          = saddleItem;
+			saddles[saddleIndex] = (saddleItem, --saddleCnt);
+			if (saddleCnt == 0) saddleIndex++;
 		}
 	}
 
@@ -463,6 +515,7 @@ public class PartyEquipmentDistributor {
 			if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) return false;
 
 			if (assignment.IsMounted)
+
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Item.IsPolearm() || isCouchable);
 
@@ -492,6 +545,7 @@ public class PartyEquipmentDistributor {
 
 		if (strict) {
 			if (assignment.IsMounted)
+
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Key.Item.IsPolearm() || isCouchable);
 
