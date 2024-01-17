@@ -14,7 +14,7 @@ using TaleWorlds.MountAndBlade;
 namespace Bannerlord.DynamicTroop;
 
 public class SubModule : MBSubModuleBase {
-	public static ModSettings? settings;
+	public static ModSettings? Settings;
 
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
@@ -47,7 +47,7 @@ public class SubModule : MBSubModuleBase {
 
 	protected override void OnBeforeInitialModuleScreenSetAsRoot() {
 		base.OnBeforeInitialModuleScreenSetAsRoot();
-		settings = ModSettings.Instance;
+		Settings = ModSettings.Instance;
 	}
 
 	public override void OnGameLoaded(Game game, object initializerObject) {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -14,6 +15,8 @@ public class DynamicTroopMissionLogic : MissionLogic {
 	private readonly Dictionary<MBGUID, PartyBattleRecord> _partyBattleRecords = new();
 
 	private readonly HashSet<Agent> _processedAgents = new();
+
+	private readonly Random _random = new();
 
 	public readonly Dictionary<MBGUID, PartyEquipmentDistributor> Distributors = new();
 
@@ -65,6 +68,8 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 			Global.ProcessAgentEquipment(affectedAgent,
 										 item => {
+											 var dropChance = _random.NextFloat(); // 生成一个0到1之间的随机数
+											 if (dropChance > (SubModule.Settings?.DropRate ?? 1f)) return;
 											 if (hitArmor == null || item.StringId != hitArmor.StringId) {
 												 affectedBattleRecord.AddItemToRecover(item);
 												 affectorBattleRecord.AddLootedItem(item);

@@ -235,14 +235,11 @@ public class PartyEquipmentDistributor {
 
 	private void AssignHorseAndHarness() {
 		Global.Debug($"Assigning Horse and Harness for {_party.Name}");
-		var horseAndHarnessesArr = _horseAndHarnesses.OrderByDescending(hoh => hoh.Tier)
-													 .ThenByDescending(hoh => hoh.Value)
-													 .ToArrayQ();
 		var currentIndex = 0;
 		foreach (var assignment in Assignments) {
 			if (!assignment.IsMounted) continue;
-			if (currentIndex >= horseAndHarnessesArr.Length) break;
-			var horseAndHarness = horseAndHarnessesArr[currentIndex++];
+			if (currentIndex >= _horseAndHarnesses.Count) break;
+			var horseAndHarness = _horseAndHarnesses[currentIndex++];
 			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, horseAndHarness.Horse);
 			Global.Debug($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
 			if (!horseAndHarness.Harness.HasValue) continue;

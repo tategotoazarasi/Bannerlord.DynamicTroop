@@ -7,7 +7,9 @@ using MCM.Common;
 namespace Bannerlord.DynamicTroop;
 
 public class ModSettings : AttributeGlobalSettings<ModSettings> {
-	private bool _debugMode; // 默认禁用调试模式
+	private bool  _culturalPreference;
+	private bool  _debugMode; // 默认禁用调试模式
+	private float _dropRate = 1f;
 
 	public override string Id => "bannerlord.dynamictroop";
 
@@ -21,7 +23,15 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 						 HintText =
 							 "{=same_cultural_preference_hint}Soldiers will prefer weapons from their own culture but can still use other cultural weapons.")]
 	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool CulturalPreference { get; set; } = false;
+	public bool CulturalPreference {
+		get => _culturalPreference;
+		set {
+			if (_culturalPreference != value) {
+				_culturalPreference = value;
+				OnPropertyChanged();
+			}
+		}
+	}
 
 	[SettingPropertyFloatingInteger("{=drop_rate}Drop Rate",
 									0f,
@@ -31,7 +41,13 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 									RequireRestart = false,
 									HintText = "{=drop_rate_hint}Equipment drop rate on enemy down.")]
 	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public float DropRate { get; set; } = 1f;
+	public float DropRate {
+		get => _dropRate;
+		set {
+			_dropRate = value;
+			OnPropertyChanged();
+		}
+	}
 
 	[SettingPropertyDropdown("{=difficulty}Difficulty",
 							 Order = 3,

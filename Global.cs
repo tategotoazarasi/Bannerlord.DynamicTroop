@@ -77,7 +77,7 @@ public static class Global {
 	}
 
 	public static void Log(string message, Color color, Level level) {
-		if (SubModule.settings is { DebugMode: true }) {
+		if (SubModule.Settings is { DebugMode: true }) {
 			// 显示信息
 			InformationManager.DisplayMessage(new InformationMessage(message, color));
 
@@ -170,7 +170,7 @@ public static class Global {
 		// 处理武器槽装备
 		foreach (var slot in Assignment.WeaponSlots) {
 			var element = missionEquipment[slot];
-			if (element.IsEmpty || element.Item==null) continue;
+			if (element.IsEmpty || element.Item == null) continue;
 
 			if (IsAmmoAndEmpty(element)) {
 				Log($"Empty Ammo {element.Item.StringId}", Colors.Green, Level.Debug);

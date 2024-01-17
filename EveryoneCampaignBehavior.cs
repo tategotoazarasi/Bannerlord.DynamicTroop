@@ -339,7 +339,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			}*/
 			var randomByCultureAndTier =
 				Cache.GetItemsByTierAndCulture(itemTypes.GetRandomElement(),
-											   mobileParty.GetClanTier(),
+											   mobileParty.GetClanTier() +
+											   (SubModule.Settings?.Difficulty.SelectedIndex ?? 0 + 1),
 											   GetPartyCulture(mobileParty))
 					 ?.GetRandomElement();
 			if (randomByCultureAndTier == null) return;
