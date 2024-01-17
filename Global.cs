@@ -76,13 +76,13 @@ public static class Global {
 				   : new List<WeaponClass>();
 	}
 
-	public static void Log(string message, Color color, Level level) {
+	public static void Log(string message, Color color, Level level, int skipFrames = 1) {
 		if (SubModule.Settings is { DebugMode: true }) {
 			// 显示信息
 			InformationManager.DisplayMessage(new InformationMessage(message, color));
 
 			// 使用 log4net 记录日志
-			StackFrame frame = new(1, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
+			StackFrame frame = new(skipFrames, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
 
 			var method = frame.GetMethod(); // 获取方法信息
 
@@ -110,15 +110,15 @@ public static class Global {
 		}
 	}
 
-	public static void Debug(string message) { Log(message, Colors.Green, Level.Debug); }
+	public static void Debug(string message) { Log(message, Colors.Green, Level.Debug, 2); }
 
-	public static void Info(string message) { Log(message, Colors.Blue, Level.Info); }
+	public static void Info(string message) { Log(message, Colors.Blue, Level.Info, 2); }
 
-	public static void Warn(string message) { Log(message, Colors.Yellow, Level.Warn); }
+	public static void Warn(string message) { Log(message, Colors.Yellow, Level.Warn, 2); }
 
-	public static void Error(string message) { Log(message, Colors.Red, Level.Error); }
+	public static void Error(string message) { Log(message, Colors.Red, Level.Error, 2); }
 
-	public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal); }
+	public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal, 2); }
 
 	public static bool HaveSameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
 		var thrown1 = list1.WhereQ(weaponClass =>
