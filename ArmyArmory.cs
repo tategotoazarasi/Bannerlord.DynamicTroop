@@ -10,7 +10,7 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
-using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, (int, int)>;
+using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, int>;
 
 namespace Bannerlord.DynamicTroop;
 
@@ -100,8 +100,7 @@ public static class ArmyArmory {
 			// 创建优先级队列
 			ItemPriorityQueue armorQueue = new(new ArmorComparer());
 			foreach (var kv in Armory.WhereQ(kv => kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key))
-				armorQueue.Enqueue(kv.EquipmentElement.Item,
-								   ((int)kv.EquipmentElement.Item.Tier, kv.EquipmentElement.Item.Value));
+				armorQueue.Enqueue(kv.EquipmentElement.Item, kv.EquipmentElement.Item.Value);
 
 			// 移除多余的装备
 			while (surplusCount > 0 && armorQueue.Count > 0) {
@@ -110,6 +109,7 @@ public static class ArmyArmory {
 				_            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
 				surplusCount -= countToRemove;
 				excessValue  += countToRemove * lowestArmor.Key.Value;
+				Global.Debug($"Sold {countToRemove}x{lowestArmor.Key.Name} from player's armory");
 			}
 
 			Global.Debug($"Sold {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} items from player's armory");
