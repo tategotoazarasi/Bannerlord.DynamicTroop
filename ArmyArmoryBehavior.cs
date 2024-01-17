@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
@@ -76,17 +77,43 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
 
 	private void AddTownMenuOptions(CampaignGameStarter starter) {
-		starter.AddGameMenuOption("town",                                    // Town menu
-								  "army_armory_view",                        // Unique identifier for this menu item
-								  LocalizedTexts.ArmorViewOption.ToString(), // Localized text for the menu item
-								  args => true,                              // Conditions for showing this option
+		AddArmyArmorySubmenu(starter);
+		starter.AddGameMenuOption("town",
+								  "army_armory_manage",
+								  LocalizedTexts.ArmoryManageOption.ToString(),
+								  args => true,
 								  args => {
-									  // Action to execute when this option is selected
-									  InventoryManager.OpenScreenAsStash(ArmyArmory.Armory);
+									  // 打开子菜单
+									  GameMenu.SwitchToMenu("army_armory_submenu");
 								  },
-								  false, // Is this option shown at the bottom of the menu?
-								  4      // Order in the menu
-								 );
+								  false,
+								  4);
+	}
+
+	private void AddArmyArmorySubmenu(CampaignGameStarter starter) {
+		// 创建子菜单
+		starter.AddGameMenu("army_armory_submenu", LocalizedTexts.ArmoryManageOption.ToString(), args => { });
+
+		// 在子菜单中添加选项
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "view_armory",
+								  LocalizedTexts.ArmorViewOption.ToString(),
+								  args => true,
+								  args => { InventoryManager.OpenScreenAsStash(ArmyArmory.Armory); });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "sell_for_throwing",
+								  LocalizedTexts.SellForThrowing.ToString(),
+								  args => true,
+								  args => { ArmyArmory.SellExcessEquipmentForThrowingWeapons(); });
+
+		// 返回上一级菜单的选项
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "return_to_town",
+								  LocalizedTexts.ReturnToTown.ToString(),
+								  args => true,
+								  args => { GameMenu.SwitchToMenu("town"); },
+								  true);
 	}
 
 	[Serializable]

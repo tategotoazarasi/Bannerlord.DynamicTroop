@@ -26,7 +26,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 	private static Data _data = new();
 
-	private static readonly Dictionary<ItemObject.ItemTypeEnum, Func<int, int>> EquipmentAndThresholds = new() {
+	public static readonly Dictionary<ItemObject.ItemTypeEnum, Func<int, int>> EquipmentAndThresholds = new() {
 		{ ItemObject.ItemTypeEnum.BodyArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.LegArmor, memberCnt => Math.Max(2        * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.HeadArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
@@ -91,6 +91,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		foreach (var validParty in validParties)
 			if (!PartyArmories.ContainsKey(validParty.Id))
 				OnMobilePartyCreated(validParty);
+
+		CharacterObjectExtension.Init();
 	}
 
 	public override void SyncData(IDataStore dataStore) {

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
+
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
 	<tags>
 		<tag language="简体中文" />
@@ -22,5 +23,9 @@
 		<string id="setting_very_hard" text="非常困难" />
 		<string id="difficulty" text="难度" />
 		<string id="difficulty_hint" text="此选项会影响AI部队每日获得的装备的数量和质量" />
+		<string id="armory_manage_option" text="管理军火库" />
+		<string id="sell_for_throwing" text="出售多余装备以换取投掷武器" />
+		<string id="return_to_town" text="返回城镇菜单" />
+		<string id="sell_for_throwing_text" text="出售了价值{VALUE}的多余装备，换取了{COUNT}件投掷武器" />
 	</strings>
 </base>

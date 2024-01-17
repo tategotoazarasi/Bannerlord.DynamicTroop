@@ -97,6 +97,26 @@ public static class ItemObjectExtension {
 		return false;
 	}
 
+	public static bool IsThrowingWeaponCanBeAcquired(this ItemObject? weapon) {
+		if (weapon == null) return false;
+
+		if (weapon.ItemType != ItemObject.ItemTypeEnum.Thrown) return false;
+
+		if (!weapon.HasWeaponComponent) return false;
+
+		if (weapon.Weapons == null) return false;
+
+		foreach (var weaponComponentData in weapon.Weapons)
+			if (weaponComponentData is {
+										   WeaponClass: WeaponClass.ThrowingAxe
+														or WeaponClass.ThrowingKnife
+														or WeaponClass.Javelin
+									   })
+				return true;
+
+		return false;
+	}
+
 	public static bool IsBonusAgainstShield(this ItemObject? weapon) {
 		return weapon is { HasWeaponComponent: true } &&
 			   weapon.CheckWeaponFlag(flag => flag.Contains("bonus_against_shield"));
@@ -160,5 +180,39 @@ public static class ItemObjectExtension {
 			harness is { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness })
 			return horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType;
 		return false;
+	}
+
+	public static int CompareMaterial(this ItemObject? item, ItemObject? other) {
+		// null 永远排在非 null 前面
+		if (item == null && other != null) return -1;
+		if (item != null && other == null) return 1;
+		if (item == null && other == null) return 0;
+		if (item != null && other != null) {
+			// Tier 低的排在 Tier 高的前面
+			var tierComparison = item.Tier.CompareTo(other.Tier);
+			if (tierComparison != 0) return tierComparison;
+
+			// HasArmorComponent 为 false 的排在 HasArmorComponent 为 true 的前面
+			if (!item.HasArmorComponent && other.HasArmorComponent) return -1;
+			if (item.HasArmorComponent  && !other.HasArmorComponent) return 1;
+
+			// 如果两者都 HasArmorComponent，则调用 ArmorComponent.MaterialType 的 CompareTo 方法
+			if (item.HasArmorComponent && other.HasArmorComponent) {
+				var materialComparison = item.ArmorComponent.MaterialType.CompareTo(other.ArmorComponent.MaterialType);
+				if (materialComparison != 0) return materialComparison;
+			}
+
+			// Value 低的排在 Value 高的前面
+			var valueComparison = item.Value.CompareTo(other.Value);
+			if (valueComparison != 0) return valueComparison;
+
+			// Culture 为 null 的排在 Culture 不为 null 的前面
+			if (item.Culture == null && other.Culture != null) return -1;
+			if (item.Culture != null && other.Culture == null) return 1;
+
+			return 0; // 如果所有条件都相等，则认为两者相等
+		}
+
+		return 0;
 	}
 }

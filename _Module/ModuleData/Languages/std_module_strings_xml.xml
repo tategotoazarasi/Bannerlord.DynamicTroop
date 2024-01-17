@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
 	<tags>
 		<tag language="English" />
@@ -15,12 +16,17 @@
 		<string id="drop_rate_hint" text="Equipment drop rate on enemy down." />
 		<string id="settings" text="Settings" />
 		<string id="same_cultural_preference" text="Same Cultural Preference" />
-		<string id="same_cultural_preference_hint" text="Soldiers will prefer weapons from their own culture but can still use other cultural weapons." />
+		<string id="same_cultural_preference_hint"
+		        text="Soldiers will prefer weapons from their own culture but can still use other cultural weapons." />
 		<string id="setting_easy" text="Easy" />
 		<string id="setting_normal" text="Normal" />
 		<string id="setting_hard" text="Hard" />
 		<string id="setting_very_hard" text="Very Hard" />
 		<string id="difficulty" text="Difficulty" />
 		<string id="difficulty_hint" text="Adjusts the quantity and quality of daily equipment received by all AI troops." />
+		<string id="armory_manage_option" text="Manage Armory" />
+		<string id="sell_for_throwing" text="Sell Excess Equipment for Throwing Weapons" />
+		<string id="return_to_town" text="Return to Town Menu" />
+		<string id="sell_for_throwing_text" text="Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons" />
 	</strings>
 </base>

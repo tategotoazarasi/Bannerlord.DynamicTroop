@@ -392,9 +392,8 @@ public class PartyEquipmentDistributor {
 									!kv.Key.IsEmpty              &&
 									kv.Key.Item          != null &&
 									kv.Key.Item.ItemType == itemType)
-					  .OrderByDescending(kv => kv.Key.Item.Tier)
-					  .ThenByDescending(kv => kv.Key.Item.Value)
 					  .ToArrayQ();
+		Array.Sort(armours, (x, y) => y.Key.Item.CompareMaterial(x.Key.Item));
 
 		foreach (var assignment in Assignments) {
 			if (itemType is ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness &&
