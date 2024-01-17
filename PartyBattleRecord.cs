@@ -19,9 +19,6 @@ public class PartyBattleRecord {
 	private static void AddItemToDictionary(IDictionary<ItemObject, int> dictionary, ItemObject? item, int count) {
 		if (item == null) return;
 
-		if (dictionary.TryGetValue(item, out var existingCount))
-			dictionary[item] = existingCount + count;
-		else
-			dictionary[item] = count;
+		dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;
 	}
 }

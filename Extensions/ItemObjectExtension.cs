@@ -176,17 +176,19 @@ public static class ItemObjectExtension {
 	}
 
 	public static bool MatchHarness(this ItemObject? horse, ItemObject? harness) {
-		if (horse is { HasHorseComponent  : true, ItemType: ItemObject.ItemTypeEnum.Horse } &&
-			harness is { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness })
-			return horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType;
-		return false;
+		return horse is { HasHorseComponent  : true, ItemType: ItemObject.ItemTypeEnum.Horse }        &&
+			   harness is { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness } &&
+			   horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType;
 	}
 
-	public static int CompareMaterial(this ItemObject? item, ItemObject? other) {
+	public static int CompareArmor(this ItemObject? item, ItemObject? other) {
 		// null 永远排在非 null 前面
 		if (item == null && other != null) return -1;
+
 		if (item != null && other == null) return 1;
+
 		if (item == null && other == null) return 0;
+
 		if (item != null && other != null) {
 			// Tier 低的排在 Tier 高的前面
 			var tierComparison = item.Tier.CompareTo(other.Tier);
@@ -194,7 +196,8 @@ public static class ItemObjectExtension {
 
 			// HasArmorComponent 为 false 的排在 HasArmorComponent 为 true 的前面
 			if (!item.HasArmorComponent && other.HasArmorComponent) return -1;
-			if (item.HasArmorComponent  && !other.HasArmorComponent) return 1;
+
+			if (item.HasArmorComponent && !other.HasArmorComponent) return 1;
 
 			// 如果两者都 HasArmorComponent，则调用 ArmorComponent.MaterialType 的 CompareTo 方法
 			if (item.HasArmorComponent && other.HasArmorComponent) {
@@ -208,6 +211,7 @@ public static class ItemObjectExtension {
 
 			// Culture 为 null 的排在 Culture 不为 null 的前面
 			if (item.Culture == null && other.Culture != null) return -1;
+
 			if (item.Culture != null && other.Culture == null) return 1;
 
 			return 0; // 如果所有条件都相等，则认为两者相等

@@ -5,7 +5,5 @@ using TaleWorlds.Core;
 namespace Bannerlord.DynamicTroop.Comparers;
 
 public class ArmorComparer : IComparer<ItemObject> {
-	public int Compare(ItemObject x, ItemObject y) {
-		return x.CompareMaterial(y);
-	}
+	public int Compare(ItemObject x, ItemObject y) { return x.CompareArmor(y); }
 }

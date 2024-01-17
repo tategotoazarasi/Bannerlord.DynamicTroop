@@ -26,8 +26,8 @@ public static class LocalizedTexts {
 	public static readonly TextObject ReturnToTown = new("{=return_to_town}Return to Town Menu");
 
 	public static string GetSoldExcessEquipmentForThrowingWeapons(int value, int count) {
-		SoldExcessEquipmentForThrowingWeapons.SetTextVariable("VALUE", value);
-		SoldExcessEquipmentForThrowingWeapons.SetTextVariable("COUNT", count);
+		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("VALUE", value);
+		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("COUNT", count);
 		return SoldExcessEquipmentForThrowingWeapons.ToString();
 	}
 }

@@ -95,6 +95,7 @@ public class Assignment : IComparable {
 
 	public int CompareTo(object? obj) {
 		if (obj == null) return 1;
+
 		if (obj is not Assignment other) throw new ArgumentException("Object is not an Assignment");
 
 		var tierComparison = Character.Tier.CompareTo(other.Character.Tier);
@@ -108,10 +109,12 @@ public class Assignment : IComparable {
 
 		// 按 IsRanged 比较，IsRanged 排在 !IsRanged 前面
 		if (!Character.IsRanged && other.Character.IsRanged) return 1;
-		if (Character.IsRanged  && !other.Character.IsRanged) return -1;
+
+		if (Character.IsRanged && !other.Character.IsRanged) return -1;
 
 		// 按 IsMounted 比较，!IsMounted 排在 IsMounted 前面
-		if (Character.IsMounted  && !other.Character.IsMounted) return 1;
+		if (Character.IsMounted && !other.Character.IsMounted) return 1;
+
 		if (!Character.IsMounted && other.Character.IsMounted) return -1;
 
 		var skillValueComparison = Character.SkillValue().CompareTo(other.Character.SkillValue());
@@ -125,7 +128,6 @@ public class Assignment : IComparable {
 
 		return 0; // 如果所有条件都相等，则认为两者相等
 	}
-
 
 	private static Equipment CreateEmptyEquipment() {
 		Equipment emptyEquipment = new();

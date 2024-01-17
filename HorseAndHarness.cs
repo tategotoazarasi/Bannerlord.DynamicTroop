@@ -24,10 +24,12 @@ public class HorseAndHarness : IComparable {
 
 	public int CompareTo(object? obj) {
 		if (obj == null) return 1;
+
 		if (obj is not HorseAndHarness other) throw new ArgumentException("Object is not a HorseAndHarness");
 
 		// 规则 1: 没有马甲的排在有马甲的前面
 		if (Harness == null && other.Harness != null) return -1;
+
 		if (Harness != null && other.Harness == null) return 1;
 
 		// 规则 2: Tier 低的排在 Tier 高的前面

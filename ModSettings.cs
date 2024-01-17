@@ -7,8 +7,10 @@ using MCM.Common;
 namespace Bannerlord.DynamicTroop;
 
 public class ModSettings : AttributeGlobalSettings<ModSettings> {
-	private bool  _culturalPreference;
-	private bool  _debugMode; // 默认禁用调试模式
+	private bool _culturalPreference;
+
+	private bool _debugMode; // 默认禁用调试模式
+
 	private float _dropRate = 1f;
 
 	public override string Id => "bannerlord.dynamictroop";

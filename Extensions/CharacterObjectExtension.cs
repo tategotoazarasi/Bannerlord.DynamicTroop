@@ -18,27 +18,34 @@ public static class CharacterObjectExtension {
 		Elite
 	}
 
-	private static readonly Dictionary<CharacterObject, TroopType> TypeDict                      = new();
-	private static readonly Queue<(CharacterObject, TroopType)>    TroopQueue                    = new();
-	private static          MBReadOnlyList<SkillObject>            _cachedSkillValue             = new();
-	private static readonly Dictionary<CharacterObject, int>       CachedCharacterEquipmentValue = new();
-	private static readonly Dictionary<CharacterObject, int>       CachedCharacterSkillValue     = new();
+	private static readonly Dictionary<CharacterObject, TroopType> TypeDict = new();
+
+	private static readonly Queue<(CharacterObject, TroopType)> TroopQueue = new();
+
+	private static MBReadOnlyList<SkillObject> _cachedSkillValue = new();
+
+	private static readonly Dictionary<CharacterObject, int> CachedCharacterEquipmentValue = new();
+
+	private static readonly Dictionary<CharacterObject, int> CachedCharacterSkillValue = new();
 
 	public static TroopType GetTroopType(this CharacterObject? character) {
-		if (character == null) return TroopType.None;
-		return TypeDict.TryGetValue(character, out var typ) ? typ : TroopType.None;
+		return character == null                            ? TroopType.None :
+			   TypeDict.TryGetValue(character, out var typ) ? typ : TroopType.None;
 	}
 
 	private static int CalculateEquipmentValue(this CharacterObject? character) {
 		if (character == null) return 0;
-		var totalValue = 0;
-		var equipments = character.BattleEquipments;
+
+		var                    totalValue = 0;
+		IEnumerable<Equipment> equipments = character.BattleEquipments;
 		if (equipments == null) return 0;
+
 		var cnt = character.BattleEquipments.Count();
 		foreach (var equipment in equipments) {
 			foreach (var slot in Global.EquipmentSlots) {
 				var element = equipment.GetEquipmentFromSlot(slot);
 				if (element.IsEmpty || element.Item == null) continue;
+
 				totalValue += equipment.GetEquipmentFromSlot(slot).ItemValue;
 			}
 		}
@@ -76,7 +83,7 @@ public static class CharacterObjectExtension {
 		foreach (var culture in cultureList) {
 			Enqueue(culture?.EliteBasicTroop, TroopType.Elite);
 
-			var basicMercenaryTroops = culture?.BasicMercenaryTroops;
+			MBReadOnlyList<CharacterObject>? basicMercenaryTroops = culture?.BasicMercenaryTroops;
 			if (basicMercenaryTroops != null)
 				foreach (var troop in basicMercenaryTroops)
 					Enqueue(troop, TroopType.Mercenary);
@@ -99,8 +106,9 @@ public static class CharacterObjectExtension {
 		}
 
 		while (!TroopQueue.IsEmpty()) {
-			var (character, typ) = TroopQueue.Dequeue();
+			(var character, var typ) = TroopQueue.Dequeue();
 			if (TypeDict.ContainsKey(character)) continue;
+
 			TypeDict.Add(character, typ);
 			foreach (var next in character.UpgradeTargets) Enqueue(next, typ);
 		}
@@ -108,6 +116,7 @@ public static class CharacterObjectExtension {
 
 	private static void Enqueue(CharacterObject? character, TroopType typ) {
 		if (character == null) return;
+
 		TroopQueue.Enqueue((character, typ));
 	}
 }

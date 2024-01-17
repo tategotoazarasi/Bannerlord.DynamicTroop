@@ -50,6 +50,6 @@ public static class MobilePartyExtension {
 		// 计算因子：氏族等级 + 繁荣度加权
 		var factor = (clan.Tier + 1) * Math.Max(1, prosperitySum);
 
-		return factor*(SubModule.Settings?.Difficulty.SelectedIndex??0+1);
+		return factor * (SubModule.Settings?.Difficulty.SelectedIndex ?? 0 + 1);
 	}
 }

@@ -76,11 +76,9 @@ public class PartyEquipmentDistributor {
 
 				// 尝试获取已存在的数量
 				if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount))
-
 					// 如果键不存在，添加新的键值对
 					_equipmentToAssign.Add(kv.EquipmentElement, kv.Amount);
 				else
-
 					// 如果键已存在，更新数量
 					_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
 			}
@@ -90,9 +88,9 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void GenerateHorseAndHarnessList() {
-		var horsesDict  = new Dictionary<int, List<(EquipmentElement Key, int Cnt)>>();
-		var harnessDict = new Dictionary<int, List<(EquipmentElement Key, int Cnt)>>();
-		var saddles     = new List<(EquipmentElement Key, int Cnt)>();
+		Dictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict  = new();
+		Dictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict = new();
+		List<(EquipmentElement Key, int Cnt)>                  saddles     = new();
 
 		PopulateDictionaries(_equipmentToAssign, horsesDict, harnessDict, saddles);
 		SortEquipmentDictionaries(horsesDict, harnessDict, saddles);
@@ -167,14 +165,14 @@ public class PartyEquipmentDistributor {
 
 			int horseIndex = 0, harnessIndex = 0;
 			while (horseIndex < horses.Length) {
-				var (horseItem, horseCnt) = horses[horseIndex];
+				(var horseItem, var horseCnt) = horses[horseIndex];
 				var harnessItem = harnessIndex < harnesses.Length
 									  ? harnesses[harnessIndex].Key
 									  : new EquipmentElement(null);
 				var harnessCnt = harnessIndex < harnesses.Length ? harnesses[harnessIndex].Cnt : 0;
 
 				if (horseCnt > 0) {
-					var hah = new HorseAndHarness(horseItem, harnessItem);
+					HorseAndHarness hah = new(horseItem, harnessItem);
 					_horseAndHarnesses.Add(hah);
 					horses[horseIndex] = (horseItem, --horseCnt);
 
@@ -182,6 +180,7 @@ public class PartyEquipmentDistributor {
 				}
 
 				if (horseCnt == 0) horseIndex++;
+
 				if (harnessCnt == 0 && harnessIndex < harnesses.Length) harnessIndex++;
 			}
 		}
@@ -195,8 +194,10 @@ public class PartyEquipmentDistributor {
 		var saddleIndex = 0;
 		foreach (var hoh in horseAndHarnesses.WhereQ(h => h.Harness == null)) {
 			if (saddleIndex >= saddles.Count) break;
-			var (saddleItem, saddleCnt) = saddles[saddleIndex];
+
+			(var saddleItem, var saddleCnt) = saddles[saddleIndex];
 			if (saddleCnt <= 0) continue;
+
 			hoh.Harness          = saddleItem;
 			saddles[saddleIndex] = (saddleItem, --saddleCnt);
 			if (saddleCnt == 0) saddleIndex++;
@@ -206,6 +207,7 @@ public class PartyEquipmentDistributor {
 	private void DoAssign() {
 		AssignArmour();
 		if (!_mission.IsSiegeBattle) AssignHorseAndHarness();
+
 		AssignWeaponByWeaponClass(true);
 		AssignWeaponByWeaponClass(false);
 		AssignWeaponByItemEnumType(true);
@@ -236,11 +238,14 @@ public class PartyEquipmentDistributor {
 		var currentIndex = 0;
 		foreach (var assignment in Assignments) {
 			if (!assignment.IsMounted) continue;
+
 			if (currentIndex >= _horseAndHarnesses.Count) break;
+
 			var horseAndHarness = _horseAndHarnesses[currentIndex++];
 			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, horseAndHarness.Horse);
 			Global.Debug($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
 			if (!horseAndHarness.Harness.HasValue) continue;
+
 			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.HorseHarness,
 																horseAndHarness.Harness.Value);
 			Global.Debug($"assign horse harness {horseAndHarness.Harness.Value.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
@@ -393,7 +398,7 @@ public class PartyEquipmentDistributor {
 									kv.Key.Item          != null &&
 									kv.Key.Item.ItemType == itemType)
 					  .ToArrayQ();
-		Array.Sort(armours, (x, y) => y.Key.Item.CompareMaterial(x.Key.Item));
+		Array.Sort(armours, (x, y) => y.Key.Item.CompareArmor(x.Key.Item));
 
 		foreach (var assignment in Assignments) {
 			if (itemType is ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness &&
@@ -509,7 +514,6 @@ public class PartyEquipmentDistributor {
 			if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) return false;
 
 			if (assignment.IsMounted)
-
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Item.IsPolearm() || isCouchable);
 
@@ -539,7 +543,6 @@ public class PartyEquipmentDistributor {
 
 		if (strict) {
 			if (assignment.IsMounted)
-
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Key.Item.IsPolearm() || isCouchable);
 
@@ -574,6 +577,7 @@ public class PartyEquipmentDistributor {
 		foreach (var slot in Global.EquipmentSlots) {
 			var element = equipment.GetEquipmentFromSlot(slot);
 			if (element is not { IsEmpty: false, Item: not null }) continue;
+
 			if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
 				// 武器库中有足够的物品，分配一个并减少数量
 				partyArmory[element.Item] = itemCount - 1;

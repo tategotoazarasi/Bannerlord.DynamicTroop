@@ -15,8 +15,9 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemO
 namespace Bannerlord.DynamicTroop;
 
 public static class ArmyArmory {
-	public static readonly ItemRoster    Armory = new();
-	private static         ItemObject[]? _cachedThrownWeapons;
+	public static readonly ItemRoster Armory = new();
+
+	private static ItemObject[]? _cachedThrownWeapons;
 
 	public static void AddItemToArmory(ItemObject item, int count = 1) { _ = Armory.AddToCounts(item, count); }
 
@@ -57,7 +58,6 @@ public static class ArmyArmory {
 				Global.Log($"Assigning Empty item {element.Item.StringId}", Colors.Red, Level.Warn);
 		}
 	}
-
 
 	public static void SellExcessEquipmentForThrowingWeapons() {
 		var value         = SellExcessEquipment();
@@ -107,7 +107,7 @@ public static class ArmyArmory {
 			while (surplusCount > 0 && armorQueue.Count > 0) {
 				var lowestArmor   = armorQueue.Dequeue();
 				var countToRemove = Math.Min(Armory.GetItemNumber(lowestArmor.Key), surplusCount);
-				Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
+				_            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
 				surplusCount -= countToRemove;
 				excessValue  += countToRemove * lowestArmor.Key.Value;
 			}

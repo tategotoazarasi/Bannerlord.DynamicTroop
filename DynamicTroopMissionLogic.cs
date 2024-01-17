@@ -70,6 +70,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 										 item => {
 											 var dropChance = _random.NextFloat(); // 生成一个0到1之间的随机数
 											 if (dropChance > (SubModule.Settings?.DropRate ?? 1f)) return;
+
 											 if (hitArmor == null || item.StringId != hitArmor.StringId) {
 												 affectedBattleRecord.AddItemToRecover(item);
 												 affectorBattleRecord.AddLootedItem(item);
