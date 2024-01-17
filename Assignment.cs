@@ -1,4 +1,5 @@
-﻿using Bannerlord.DynamicTroop.Extensions;
+﻿using System;
+using Bannerlord.DynamicTroop.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.LinQuick;
@@ -6,7 +7,7 @@ using static TaleWorlds.Core.ItemObject;
 
 namespace Bannerlord.DynamicTroop;
 
-public class Assignment {
+public class Assignment : IComparable {
 	public static readonly EquipmentIndex[] WeaponSlots = {
 															  EquipmentIndex.Weapon0,
 															  EquipmentIndex.Weapon1,
@@ -91,6 +92,40 @@ public class Assignment {
 		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
 		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
 		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+
+	public int CompareTo(object? obj) {
+		if (obj == null) return 1;
+		if (obj is not Assignment other) throw new ArgumentException("Object is not an Assignment");
+
+		var tierComparison = Character.Tier.CompareTo(other.Character.Tier);
+		if (tierComparison != 0) return tierComparison;
+
+		// TroopType 比较，小的放在前面
+		var thisTroopType       = Character.GetTroopType();
+		var otherTroopType      = other.Character.GetTroopType();
+		var troopTypeComparison = thisTroopType.CompareTo(otherTroopType);
+		if (troopTypeComparison != 0) return troopTypeComparison;
+
+		// 按 IsRanged 比较，IsRanged 排在 !IsRanged 前面
+		if (!Character.IsRanged && other.Character.IsRanged) return 1;
+		if (Character.IsRanged  && !other.Character.IsRanged) return -1;
+
+		// 按 IsMounted 比较，!IsMounted 排在 IsMounted 前面
+		if (Character.IsMounted  && !other.Character.IsMounted) return 1;
+		if (!Character.IsMounted && other.Character.IsMounted) return -1;
+
+		var skillValueComparison = Character.SkillValue().CompareTo(other.Character.SkillValue());
+		if (skillValueComparison != 0) return skillValueComparison;
+
+		var equipmentValueComparison = Character.EquipmentValue().CompareTo(other.Character.EquipmentValue());
+		if (equipmentValueComparison != 0) return equipmentValueComparison;
+
+		var levelComparison = Character.Level.CompareTo(other.Character.Level);
+		if (levelComparison != 0) return levelComparison;
+
+		return 0; // 如果所有条件都相等，则认为两者相等
+	}
+
 
 	private static Equipment CreateEmptyEquipment() {
 		Equipment emptyEquipment = new();

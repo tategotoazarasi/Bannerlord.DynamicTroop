@@ -69,9 +69,7 @@ public class PartyEquipmentDistributor {
 				if (!troop.Character.IsHero)
 					Assignments.Add(new Assignment(troop.Character));
 
-		Assignments = Assignments.OrderByDescending(assignment => assignment.Character.Tier)
-								 .ThenByDescending(assignment => assignment.Character.Level)
-								 .ToListQ();
+		Assignments.Sort((x, y) => y.CompareTo(x));
 		if (_itemRoster != null)
 			foreach (var kv in _itemRoster) {
 				if (kv is not { IsEmpty: false, EquipmentElement.IsEmpty: false }) continue;
