@@ -77,7 +77,9 @@ public static class Global {
 	}
 
 	public static void Log(string message, Color color, Level level, int skipFrames = 1) {
-		if (SubModule.Settings is { DebugMode: true }) {
+		if (SubModule.Settings is { DebugMode: true } &&
+			(SubModule.Settings.LogLevel.SelectedValue == Level.All ||
+			 level                                     >= SubModule.Settings.LogLevel.SelectedValue)) {
 			// 显示信息
 			InformationManager.DisplayMessage(new InformationMessage(message, color));
 
