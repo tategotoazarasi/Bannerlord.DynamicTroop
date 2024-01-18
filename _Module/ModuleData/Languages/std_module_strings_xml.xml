@@ -25,7 +25,7 @@
 		<string id="difficulty" text="Difficulty" />
 		<string id="difficulty_hint" text="Adjusts the quantity and quality of daily equipment received by all AI troops." />
 		<string id="armory_manage_option" text="Manage Armory" />
-		<string id="sell_for_throwing" text="Sell Excess Equipment for Throwing Weapons" />
+		<string id="sell_for_throwing" text="Trade Excess Equipment for Throwing Weapons" />
 		<string id="return_to_town" text="Return to Town Menu" />
 		<string id="sell_for_throwing_text" text="Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons" />
 	</strings>

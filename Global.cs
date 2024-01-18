@@ -192,12 +192,8 @@ public static class Global {
 	}
 
 	private static bool IsAmmoAndEmpty(MissionWeapon? mw) {
-		return mw != null                                           &&
-			   !mw.Value.IsEmpty                                    &&
-			   mw.Value.Item != null                                &&
-			   mw.Value.Item.HasWeaponComponent                     &&
-			   (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing()) &&
-			   mw.Value.Amount == 0;
+		return mw is { IsEmpty: false, Item.HasWeaponComponent: true, Amount: 0 } &&
+			   (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing());
 	}
 
 	public static bool IsInPlayerParty(IAgentOriginBase? agentOrigin) {

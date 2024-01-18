@@ -7,7 +7,7 @@ using MCM.Common;
 namespace Bannerlord.DynamicTroop;
 
 public class ModSettings : AttributeGlobalSettings<ModSettings> {
-	private bool _culturalPreference;
+	private readonly bool _culturalPreference;
 
 	private bool _debugMode; // 默认禁用调试模式
 
@@ -19,7 +19,7 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	public override string DisplayName => LocalizedTexts.ModName.ToString();
 
-	[SettingPropertyBool("{=same_cultural_preference}Same Cultural Preference",
+	/*[SettingPropertyBool("{=same_cultural_preference}Same Cultural Preference",
 						 Order = 1,
 						 RequireRestart = false,
 						 HintText =
@@ -33,7 +33,7 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 				OnPropertyChanged();
 			}
 		}
-	}
+	}*/
 
 	[SettingPropertyFloatingInteger("{=drop_rate}Drop Rate",
 									0f,

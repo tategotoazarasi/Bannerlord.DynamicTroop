@@ -18,7 +18,7 @@ public static class LocalizedTexts {
 	public static readonly TextObject ArmoryManageOption = new("{=armory_manage_option}Manage Armory");
 
 	public static readonly TextObject SellForThrowing =
-		new("{=sell_for_throwing}Sell Excess Equipment for Throwing Weapons");
+		new("{=sell_for_throwing}Trade Excess Equipment for Throwing Weapons");
 
 	private static readonly TextObject SoldExcessEquipmentForThrowingWeapons =
 		new("{=sell_for_throwing_text}Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons");
