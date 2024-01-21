@@ -97,7 +97,8 @@ public static class Global {
 			var logMessage = $"[{method.DeclaringType?.FullName}.{method.Name}] [{fileName}:{lineNumber}] {message}";
 
 			// 获取 log4net 日志实例
-			var log = LogManager.GetLogger(method.DeclaringType);
+			//LogManager.GetLogger(method.DeclaringType);
+			var log = LogManager.GetLogger("dtes");
 
 			// 根据指定的日志级别记录日志
 			if (level == Level.Debug)

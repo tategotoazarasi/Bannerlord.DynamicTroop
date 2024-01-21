@@ -25,7 +25,7 @@ public class RecruitmentPatch {
 			}
 	}
 
-	private static List<EquipmentElement> GetRecruitEquipments(CharacterObject? character) {
+	public static List<EquipmentElement> GetRecruitEquipments(CharacterObject? character) {
 		if (character?.BattleEquipments?.IsEmpty() ?? true) return new List<EquipmentElement>();
 
 		var                       armorAndHorse     = character.RandomBattleEquipment;

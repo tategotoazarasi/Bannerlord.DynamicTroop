@@ -20,7 +20,7 @@ public class SubModule : MBSubModuleBase {
 		base.OnSubModuleLoad();
 
 		Harmony harmony = new("com.bannerlord.mod.dynamic_troop");
-		harmony.PatchAll();
+		harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 		// 获取 Mod 目录的路径
 		var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
