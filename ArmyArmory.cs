@@ -15,7 +15,7 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemO
 namespace Bannerlord.DynamicTroop;
 
 public static class ArmyArmory {
-	public static readonly ItemRoster Armory = new();
+	public static ItemRoster Armory = new();
 
 	private static ItemObject[]? _cachedThrownWeapons;
 
@@ -80,7 +80,7 @@ public static class ArmyArmory {
 																 Colors.Green));
 	}
 
-	public static int SellExcessEquipment() {
+	private static int SellExcessEquipment() {
 		var excessValue = 0;
 		var playerParty = MobileParty.MainParty;
 		if (playerParty?.MemberRoster?.GetTroopRoster() == null) return 0;
@@ -117,5 +117,31 @@ public static class ArmyArmory {
 
 		Global.Debug($"Sold {excessValue} denars worth of equipment from player's armory");
 		return excessValue;
+	}
+
+	public static void DebugClearEmptyItem() {
+		var toRemove = Armory
+					   .WhereQ(kv => kv is not {
+												   IsEmpty         : false,
+												   EquipmentElement: { IsEmpty: false, Item: not null },
+												   Amount          : > 0
+											   })
+					   .ToArrayQ();
+		if (toRemove == null) return;
+		foreach (var item in toRemove) Armory.Remove(item);
+		Global.Debug($"Removed {toRemove.Length} empty entries from player's armory");
+	}
+
+	public static void RebuildArmory() {
+		var toAdd = Armory.WhereQ(kv => kv is {
+												  IsEmpty         : false,
+												  EquipmentElement: { IsEmpty: false, Item: not null },
+												  Amount          : > 0
+											  })
+						  .ToArrayQ();
+		Armory = new ItemRoster();
+		if (toAdd == null) return;
+		Armory.Add(toAdd);
+		Global.Debug($"Armory has been rebuilt with {toAdd.Length} entries");
 	}
 }

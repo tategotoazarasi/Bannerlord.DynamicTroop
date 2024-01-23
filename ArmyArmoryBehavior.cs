@@ -107,6 +107,18 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  args => true,
 								  args => { ArmyArmory.SellExcessEquipmentForThrowingWeapons(); });
 
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_clear_invalid_items",
+								  "DEBUG: Clear invalid items",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => { ArmyArmory.DebugClearEmptyItem(); });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_rebuild_armory",
+								  "DEBUG: Rebuild player armory",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => { ArmyArmory.RebuildArmory(); });
+
 		// 返回上一级菜单的选项
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "return_to_town",
