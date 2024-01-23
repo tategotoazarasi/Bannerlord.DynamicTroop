@@ -9,10 +9,6 @@ namespace Bannerlord.DynamicTroop.Patches;
 
 [HarmonyPatch(typeof(TroopRoster), "AddToCounts")]
 public static class BuyMercenariesPatch {
-	/*public static MethodBase TargetMethod() {
-		return AccessTools.Method(typeof(RecruitmentCampaignBehavior), "buy_mercenaries_on_consequence");
-	}*/
-
 	public static void Prefix(TroopRoster     __instance,
 							  CharacterObject character,
 							  int             count,
@@ -25,11 +21,10 @@ public static class BuyMercenariesPatch {
 		// 获取当前方法的 StackTrace
 		var stackTrace = new StackTrace();
 		var frames     = stackTrace.GetFrames();
-		if (frames == null) return;
 		// 检查是否存在调用堆栈中的 buy_mercenaries_on_consequence 方法
 		foreach (var frame in frames) {
 			var method = frame.GetMethod();
-			if (method.Name is "buy_mercenaries_on_consequence" or "BuyMercenaries" &&
+			if (method?.Name is "buy_mercenaries_on_consequence" or "BuyMercenaries" &&
 				method.DeclaringType?.Name == "RecruitmentCampaignBehavior") {
 				Global.Log($"recruiting {count}x{character.Name}", Colors.Green, Level.Debug);
 				var equipments = RecruitmentPatch.GetRecruitEquipments(character);
