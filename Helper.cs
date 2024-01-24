@@ -17,6 +17,19 @@ public static class Helper {
 			   };
 	}
 
+	public static ItemObject.ItemTypeEnum? EquipmentIndexToItemEnumType(EquipmentIndex index) {
+		return index switch {
+				   EquipmentIndex.Head         => ItemObject.ItemTypeEnum.HeadArmor,
+				   EquipmentIndex.Gloves       => ItemObject.ItemTypeEnum.HandArmor,
+				   EquipmentIndex.Body         => ItemObject.ItemTypeEnum.BodyArmor,
+				   EquipmentIndex.Leg          => ItemObject.ItemTypeEnum.LegArmor,
+				   EquipmentIndex.Cape         => ItemObject.ItemTypeEnum.Cape,
+				   EquipmentIndex.Horse        => ItemObject.ItemTypeEnum.Horse,
+				   EquipmentIndex.HorseHarness => ItemObject.ItemTypeEnum.HorseHarness,
+				   _                           => null
+			   };
+	}
+
 	public static int GetArmorValueForBodyPart(ArmorComponent armorComponent, BoneBodyPartType bodyPart) {
 		return bodyPart switch {
 				   BoneBodyPartType.Head          => armorComponent.HeadArmor,

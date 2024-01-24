@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
+using SandBox.Tournaments.MissionLogics;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.LinQuick;
@@ -29,6 +30,9 @@ public class SpawnAgentPatch {
 
 	private static bool IsCombatMissionWithValidData(Mission mission, AgentBuildData agentBuildData) {
 		return mission is { CombatType: Mission.MissionCombatType.Combat, PlayerTeam: not null } &&
+			   !mission.HasMissionBehavior<TournamentBehavior>()                                 &&
+			   !mission.HasMissionBehavior<CustomBattleAgentLogic>()                             &&
+			   mission.HasMissionBehavior<DynamicTroopMissionLogic>()                            &&
 			   agentBuildData is {
 									 AgentCharacter   : not null,
 									 AgentFormation   : not null,
@@ -51,6 +55,7 @@ public class SpawnAgentPatch {
 
 		var assignment = GetAssignmentForCharacter(missionLogic, party, agentBuildData.AgentCharacter.StringId);
 		if (assignment != null) {
+			if (!Global.IsInPlayerParty(agentBuildData.AgentOrigin)) assignment.FillEmptySlots();
 			agentBuildData = agentBuildData.Equipment(assignment.Equipment);
 			AssignOrSpawnEquipment(agentBuildData, assignment, missionLogic, party);
 			assignment.IsAssigned = true;

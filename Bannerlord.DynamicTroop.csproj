@@ -18,9 +18,7 @@
     <!-- <OverrideGameVersion>v1.0.0</OverrideGameVersion> -->
   </PropertyGroup>
   <Target Name="CopyFilesToModuleFolder" BeforeTargets="Build">
-    <Copy SourceFiles="README.md;LICENSE.txt" 
-          DestinationFolder="$([System.IO.Path]::Combine($(MSBuildProjectDirectory), '_Module'))"
-          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="README.md;LICENSE.txt" DestinationFolder="$([System.IO.Path]::Combine($(MSBuildProjectDirectory), '_Module'))" SkipUnchangedFiles="true" />
   </Target>
 
   <PropertyGroup Condition="$(TargetFramework) == 'net472'">
