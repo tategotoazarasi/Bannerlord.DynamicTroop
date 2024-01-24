@@ -81,6 +81,7 @@ public static class ArmyArmory {
 	}
 
 	private static int SellExcessEquipment() {
+		RebuildArmory();
 		var excessValue = 0;
 		var playerParty = MobileParty.MainParty;
 		if (playerParty?.MemberRoster?.GetTroopRoster() == null) return 0;
