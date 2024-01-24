@@ -32,6 +32,13 @@ public class DynamicTroopMissionLogic : MissionLogic {
 							 new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
 	}
 
+	/// <summary>
+	///     当士兵在战斗中被移除（如被杀或被击晕）时触发的处理。
+	/// </summary>
+	/// <param name="affectedAgent"> 被移除的士兵。 </param>
+	/// <param name="affectorAgent"> 造成移除的士兵。 </param>
+	/// <param name="agentState">    被移除的士兵的状态（如被杀、失去意识等）。 </param>
+	/// <param name="blow">          造成移除的攻击详情。 </param>
 	public override void OnAgentRemoved(Agent       affectedAgent,
 										Agent       affectorAgent,
 										AgentState  agentState,
@@ -157,6 +164,13 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		}
 	}
 
+	/// <summary>
+	///     处理部队战后的物品管理。
+	/// </summary>
+	/// <param name="partyId">       部队的唯一标识符。 </param>
+	/// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
+	/// <param name="isVictorious">  部队是否胜利。 </param>
+	/// <param name="isDefeated">    部队是否被击败。 </param>
 	private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
 		// 检查是否存在对应的battleRecord
 		if (!_partyBattleRecords.TryGetValue(partyId, out var battleRecord)) {
@@ -173,6 +187,12 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		// 被击败的一方不获取任何物品
 	}
 
+	/// <summary>
+	///     将物品返回到指定部队。
+	/// </summary>
+	/// <param name="partyId">       部队的唯一标识符。 </param>
+	/// <param name="items">         要返回的物品及其数量。 </param>
+	/// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
 	private void ReturnItemsToDestination(MBGUID partyId, Dictionary<ItemObject, int> items, bool isPlayerParty) {
 		var totalItemCount = 0; // 用于累计物品总数
 
@@ -193,6 +213,11 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		Global.Log($"{partyType} {partyId} processed a total of {totalItemCount} items", Colors.Green, Level.Debug);
 	}
 
+	/// <summary>
+	///     从参与战斗的士兵那里回收装备。
+	/// </summary>
+	/// <param name="partyId"> 部队的唯一标识符。 </param>
+	/// <param name="agents">  参与战斗的士兵集合。 </param>
 	private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents) {
 		var isPlayerParty  = partyId == Campaign.Current.MainParty.Id;
 		var totalItemCount = 0;

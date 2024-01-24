@@ -209,6 +209,13 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 					 .SumQ(element => element.Number);
 	}
 
+	/// <summary>
+	///     根据兵种名册和物品类型计算所需物品数量。
+	/// </summary>
+	/// <param name="roster">    兵种名册，包含部队的详细信息。 </param>
+	/// <param name="itemType">  需要计算数量的物品类型。 </param>
+	/// <param name="memberCnt"> 部队成员总数。 </param>
+	/// <returns> 根据物品类型和部队情况计算出的所需物品数量。 </returns>
 	private static int CalculateRequiredItemCount(TroopRoster roster, ItemObject.ItemTypeEnum itemType, int memberCnt) {
 		return itemType switch {
 				   ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness => roster.GetTroopRoster()
@@ -229,6 +236,14 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			   };
 	}
 
+	/// <summary>
+	///     根据所需数量补充部队装备库中特定类型的物品。
+	/// </summary>
+	/// <param name="party">       部队。 </param>
+	/// <param name="armory">      装备库，包含不同物品及其数量。 </param>
+	/// <param name="itemType">    需要补充的物品类型。 </param>
+	/// <param name="requiredNum"> 所需的物品数量。 </param>
+	/// <param name="memberCnt">   部队成员总数。 </param>
 	private void ReplenishItemTypeInArmory(MobileParty                 party,
 										   Dictionary<ItemObject, int> armory,
 										   ItemObject.ItemTypeEnum     itemType,
@@ -244,6 +259,15 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return party?.Owner?.Culture ?? party?.LeaderHero?.Culture;
 	}
 
+	/// <summary>
+	///     根据物品类型为指定部队的装备库添加物品。
+	/// </summary>
+	/// <param name="party">       需要补充装备的部队。 </param>
+	/// <param name="itemType">    要添加的物品类型。 </param>
+	/// <param name="culture">     部队的文化，用于筛选符合文化特征的物品。 </param>
+	/// <param name="requiredNum"> 所需的物品总数量。 </param>
+	/// <param name="currentNum">  当前装备库中该类型物品的数量。 </param>
+	/// <param name="memberCnt">   部队成员总数。 </param>
 	private void AddItemsToArmoryBasedOnItemType(MobileParty             party,
 												 ItemObject.ItemTypeEnum itemType,
 												 CultureObject?          culture,
@@ -415,6 +439,12 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return parties.SumQ(party => party.Party.TotalStrength);
 	}
 
+	/// <summary>
+	///     根据战斗结果，随机分配战败方部队的战利品给胜利方的各个部队。
+	/// </summary>
+	/// <param name="winnerParties">       胜利方的部队数组。 </param>
+	/// <param name="totalWinnerStrength"> 胜利方部队的总力量。 </param>
+	/// <param name="loserParties">        战败方的部队集合。 </param>
 	private void DistributeLootRandomly(MapEventParty[]            winnerParties,
 										float                      totalWinnerStrength,
 										IEnumerable<MapEventParty> loserParties) {
@@ -458,6 +488,13 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return itemsWithCount;
 	}
 
+	/// <summary>
+	///     从一系列部队中根据其总力量随机选择一个部队。
+	/// </summary>
+	/// <param name="parties">       参与选择的部队集合。 </param>
+	/// <param name="totalStrength"> 所有部队的总力量。 </param>
+	/// <param name="random">        用于生成随机数的Random实例。 </param>
+	/// <returns> 根据力量加权随机选中的移动部队，如果没有选中则返回null。 </returns>
 	private static MobileParty? ChoosePartyRandomly(IEnumerable<MapEventParty> parties,
 													float                      totalStrength,
 													Random                     random) {
@@ -472,6 +509,14 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return null;
 	}
 
+	/// <summary>
+	///     当兵种被招募时的处理逻辑。
+	/// </summary>
+	/// <param name="recruiterHero">         进行招募的英雄。 </param>
+	/// <param name="recruitmentSettlement"> 招募发生的定居点。 </param>
+	/// <param name="recruitmentSource">     提供招募的英雄。 </param>
+	/// <param name="troop">                 被招募的兵种。 </param>
+	/// <param name="amount">                招募数量。 </param>
 	private static void OnTroopRecruited(Hero?           recruiterHero,
 										 Settlement      recruitmentSettlement,
 										 Hero            recruitmentSource,
@@ -501,6 +546,12 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 				   Level.Debug);
 	}
 
+	/// <summary>
+	///     向指定部队的装备库中添加物品。
+	/// </summary>
+	/// <param name="partyId"> 部队的唯一标识符。 </param>
+	/// <param name="item">    要添加的物品。 </param>
+	/// <param name="count">   添加的物品数量。 </param>
 	private static void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
 		if (!PartyArmories.TryGetValue(partyId, out var inventory)) {
 			inventory              = new Dictionary<ItemObject, int>();
@@ -516,6 +567,11 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return party is { Party.MobileParty: var mobileParty } && mobileParty.IsValid();
 	}
 
+	/// <summary>
+	///     将包含MBGUID键和物品字典的字典转换为使用uint键和字符串ID的字典。
+	/// </summary>
+	/// <param name="guidDict"> 以MBGUID为键，以物品和数量的字典为值的字典。 </param>
+	/// <returns> 转换后的字典，其中键为uint类型，值为以物品字符串ID和数量构成的字典。 </returns>
 	private static Dictionary<uint, Dictionary<string, int>> ConvertToUIntGuidDict(
 		Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict) {
 		Dictionary<uint, Dictionary<string, int>> uintDict = new();
@@ -535,6 +591,11 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return uintDict;
 	}
 
+	/// <summary>
+	///     将使用uint键和字符串ID的字典转换为包含MBGUID键和物品字典的字典。
+	/// </summary>
+	/// <param name="uintDict"> 以uint为键，以物品字符串ID和数量的字典为值的字典。 </param>
+	/// <returns> 转换后的字典，其中键为MBGUID类型，值为以物品对象和数量构成的字典。 </returns>
 	private static Dictionary<MBGUID, Dictionary<ItemObject, int>> ConvertToGuidDict(
 		Dictionary<uint, Dictionary<string, int>> uintDict) {
 		Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict = new();

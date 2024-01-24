@@ -266,6 +266,11 @@ public class PartyEquipmentDistributor {
 		}
 	}
 
+	/// <summary>
+	///     根据给定的装备筛选条件和分配筛选条件为角色分配额外装备。
+	/// </summary>
+	/// <param name="equipmentFilter">  装备筛选函数，用于决定哪些装备可以被分配。 </param>
+	/// <param name="assignmentFilter"> 分配筛选函数，用于决定哪些角色可以接收装备。 </param>
 	private void AssignExtraEquipment(EquipmentFilter equipmentFilter, AssignmentFilter assignmentFilter) {
 		var equipmentQuery = _equipmentToAssign
 							 .WhereQ(equipment => equipment.Key is { IsEmpty: false, Item: not null } &&
@@ -282,6 +287,7 @@ public class PartyEquipmentDistributor {
 			if (assignmentFilter(assignment)) {
 				var slot = assignment.EmptyWeaponSlot;
 				if (!slot.HasValue) continue;
+
 				var equipmentNode      = equipmentDeque.First;
 				var equipment          = equipmentNode.Value;
 				var equipmentItem      = equipment.Key;
@@ -434,6 +440,13 @@ public class PartyEquipmentDistributor {
 		}
 	}
 
+	/// <summary>
+	///     根据武器大类型和指定的装备槽位为角色分配武器。
+	/// </summary>
+	/// <param name="slot">       装备槽位，表示需要分配武器的具体位置。 </param>
+	/// <param name="assignment"> 包含角色和参考装备信息的分配对象。 </param>
+	/// <param name="mounted">    指示角色是否骑乘状态，影响武器选择。 </param>
+	/// <param name="strict">     是否启用严格模式。 </param>
 	private void
 		AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
 		Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}",

@@ -18,9 +18,11 @@ public static class BuyMercenariesPatch {
 							  bool            removeDepleted = true,
 							  int             index          = -1) {
 		if (__instance != Campaign.Current.MainParty.MemberRoster || count <= 0) return;
+
 		// 获取当前方法的 StackTrace
-		var stackTrace = new StackTrace();
-		var frames     = stackTrace.GetFrames();
+		StackTrace stackTrace = new();
+		var        frames     = stackTrace.GetFrames();
+
 		// 检查是否存在调用堆栈中的 buy_mercenaries_on_consequence 方法
 		foreach (var frame in frames) {
 			var method = frame.GetMethod();
@@ -32,6 +34,7 @@ public static class BuyMercenariesPatch {
 				foreach (var equipment in equipments)
 					if (equipment is { IsEmpty: false, Item: not null })
 						ArmyArmory.AddItemToArmory(equipment.Item, count);
+
 				return;
 			}
 		}

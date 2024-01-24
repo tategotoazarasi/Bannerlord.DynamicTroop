@@ -129,7 +129,9 @@ public static class ArmyArmory {
 											   })
 					   .ToArrayQ();
 		if (toRemove == null) return;
+
 		foreach (var item in toRemove) Armory.Remove(item);
+
 		Global.Debug($"Removed {toRemove.Length} empty entries from player's armory");
 	}
 
@@ -142,6 +144,7 @@ public static class ArmyArmory {
 						  .ToArrayQ();
 		Armory = new ItemRoster();
 		if (toAdd == null) return;
+
 		Armory.Add(toAdd);
 		Global.Debug($"Armory has been rebuilt with {toAdd.Length} entries");
 	}
