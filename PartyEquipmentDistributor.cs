@@ -287,7 +287,6 @@ public class PartyEquipmentDistributor {
 			if (assignmentFilter(assignment)) {
 				var slot = assignment.EmptyWeaponSlot;
 				if (!slot.HasValue) continue;
-
 				var equipmentNode      = equipmentDeque.First;
 				var equipment          = equipmentNode.Value;
 				var equipmentItem      = equipment.Key;

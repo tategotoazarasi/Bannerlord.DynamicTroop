@@ -25,7 +25,7 @@ public class SpawnAgentPatch {
 		if (!IsPartyValidForProcessing(party)) {
 			if ((ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? false) &&
 				agentBuildData.AgentCharacter is CharacterObject character) {
-				var assignment = new Assignment(character);
+				Assignment assignment = new(character);
 				assignment.FillEmptySlots();
 				agentBuildData = agentBuildData.Equipment(assignment.Equipment);
 			}
