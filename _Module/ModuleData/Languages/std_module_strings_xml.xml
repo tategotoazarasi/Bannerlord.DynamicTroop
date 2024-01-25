@@ -28,5 +28,8 @@
 		<string id="sell_for_throwing" text="Trade Excess Equipment for Throwing Weapons" />
 		<string id="return_to_town" text="Return to Town Menu" />
 		<string id="sell_for_throwing_text" text="Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons" />
+		<string id="randomized_non_hero_led_ai_parties_armor" text="Randomize Non-Hero-Led AI Parties Armor" />
+		<string id="randomized_non_hero_led_ai_parties_armor_hint"
+		        text="Soldiers in AI parties without armory system will be equipped with randomized armor in battle, determined by their tier and cultural origins." />
 	</strings>
 </base>

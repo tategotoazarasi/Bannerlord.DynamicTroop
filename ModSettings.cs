@@ -13,6 +13,8 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private float _dropRate = 1f;
 
+	private bool _randomizeNonHeroLedAiPartiesArmor;
+
 	public override string Id => "bannerlord.dynamictroop";
 
 	public override string FormatType => "json";
@@ -64,6 +66,22 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 																	 LocalizedTexts.SettingVeryHard.ToString()
 																 },
 														   1);
+
+	[SettingPropertyBool("{=randomized_non_hero_led_ai_parties_armor}Randomize Non-Hero-Led AI Parties Armor",
+						 Order = 4,
+						 RequireRestart = false,
+						 HintText =
+							 "{=randomized_non_hero_led_ai_parties_armor_hint}Soldiers in AI parties without armory system will be equipped with randomized armor in battle, determined by their tier and cultural origins.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool RandomizeNonHeroLedAiPartiesArmor {
+		get => _randomizeNonHeroLedAiPartiesArmor;
+		set {
+			if (_randomizeNonHeroLedAiPartiesArmor != value) {
+				_randomizeNonHeroLedAiPartiesArmor = value;
+				OnPropertyChanged();
+			}
+		}
+	}
 
 	[SettingPropertyBool("{=toggle_debug_mode}Debug Mode",
 						 Order = 1,

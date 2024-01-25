@@ -2,6 +2,7 @@
 using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
 using SandBox.Tournaments.MissionLogics;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.LinQuick;
@@ -21,7 +22,16 @@ public class SpawnAgentPatch {
 		if (!IsCombatMissionWithValidData(__instance, agentBuildData)) return;
 
 		var party = Global.GetAgentParty(agentBuildData.AgentOrigin);
-		if (!IsPartyValidForProcessing(party)) return;
+		if (!IsPartyValidForProcessing(party)) {
+			if ((ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? false) &&
+				agentBuildData.AgentCharacter is CharacterObject character) {
+				var assignment = new Assignment(character);
+				assignment.FillEmptySlots();
+				agentBuildData = agentBuildData.Equipment(assignment.Equipment);
+			}
+
+			return;
+		}
 
 		var missionLogic = __instance.GetMissionBehavior<DynamicTroopMissionLogic>();
 		if (missionLogic == null) {
