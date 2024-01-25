@@ -51,7 +51,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	private void Save() {
 		var i = ArmyArmory.Armory.GetEnumerator();
 		while (i.MoveNext())
-			if (!i.Current.IsEmpty) {
+			if (i.Current is { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: > 0 }) {
 				if (!_data.Armory.ContainsKey(i.Current.EquipmentElement.Item.StringId))
 					_data.Armory.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);
 				else
@@ -65,7 +65,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		foreach (var item in tempData.Armory) {
 			var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ??
 							ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
-			if (equipment != null)
+			if (equipment != null && item.Value > 0)
 				_ = ArmyArmory.Armory.AddToCounts(equipment, item.Value);
 			else
 				Global.Warn($"cannot get object {item.Key}");

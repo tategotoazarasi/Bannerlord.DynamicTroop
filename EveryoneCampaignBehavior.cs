@@ -582,10 +582,12 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			}
 
 			foreach (var innerPair in pair.Value)
-				if (innerDict.ContainsKey(innerPair.Key.StringId))
-					innerDict[innerPair.Key.StringId] += innerPair.Value;
-				else
-					innerDict.Add(innerPair.Key.StringId, innerPair.Value);
+				if (innerPair is { Key: not null, Value: > 0 }) {
+					if (innerDict.ContainsKey(innerPair.Key.StringId))
+						innerDict[innerPair.Key.StringId] += innerPair.Value;
+					else
+						innerDict.Add(innerPair.Key.StringId, innerPair.Value);
+				}
 		}
 
 		return uintDict;
@@ -608,7 +610,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			foreach (var innerPair in pair.Value) {
 				var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(innerPair.Key) ??
 								 ItemObject.GetCraftedItemObjectFromHashedCode(innerPair.Key);
-				if (itemObject != null) {
+				if (itemObject != null && innerPair.Value > 0) {
 					if (innerDict.ContainsKey(itemObject))
 						innerDict[itemObject] += innerPair.Value;
 					else
