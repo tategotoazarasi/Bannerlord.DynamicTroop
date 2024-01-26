@@ -10,7 +10,7 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
-using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, int>;
+using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.EquipmentElement, int>;
 
 namespace Bannerlord.DynamicTroop;
 
@@ -68,9 +68,11 @@ public static class ArmyArmory {
 		var cnt = 0;
 		while (value > 0) {
 			var item = _cachedThrownWeapons.GetRandomElement();
-			AddItemToArmory(item);
-			value -= item.Value;
-			cnt++;
+			if (item != null) {
+				AddItemToArmory(item);
+				value -= item.Value;
+				cnt++;
+			}
 		}
 
 		InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts
@@ -99,18 +101,19 @@ public static class ArmyArmory {
 			var surplusCountCpy = surplusCount;
 
 			// 创建优先级队列
-			ItemPriorityQueue armorQueue = new(new ArmorComparer());
+			ItemPriorityQueue armorQueue = new(new ArmorElementComparer());
 			foreach (var kv in Armory.WhereQ(kv => kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key))
-				armorQueue.Enqueue(kv.EquipmentElement.Item, kv.EquipmentElement.Item.Value);
+				armorQueue.Enqueue(kv.EquipmentElement, kv.EquipmentElement.ItemValue);
 
 			// 移除多余的装备
-			while (surplusCount > 0 && armorQueue.Count > 0) {
+			while (surplusCount > 0 && !armorQueue.IsEmpty) {
 				var lowestArmor   = armorQueue.Dequeue();
-				var countToRemove = Math.Min(Armory.GetItemNumber(lowestArmor.Key), surplusCount);
+				var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)), surplusCount);
+				//Global.Debug($"countToRemove={countToRemove}, lowestArmorNumber={Armory.GetItemNumber(lowestArmor.Key)}");
 				_            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
 				surplusCount -= countToRemove;
-				excessValue  += countToRemove * lowestArmor.Key.Value;
-				Global.Debug($"Sold {countToRemove}x{lowestArmor.Key.Name} from player's armory");
+				excessValue  += countToRemove * lowestArmor.Key.ItemValue;
+				Global.Debug($"Sold {countToRemove}x{lowestArmor.Key.ItemValue} from player's armory");
 			}
 
 			Global.Debug($"Sold {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} items from player's armory");
