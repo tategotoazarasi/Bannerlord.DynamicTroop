@@ -33,6 +33,13 @@ public static class Global {
 																 EquipmentIndex.HorseHarness
 															 };
 
+	public static readonly EquipmentIndex[] WeaponSLots = {
+															  EquipmentIndex.Weapon0,
+															  EquipmentIndex.Weapon1,
+															  EquipmentIndex.Weapon2,
+															  EquipmentIndex.Weapon3
+														  };
+
 	public static readonly EquipmentIndex[] ArmourAndHorsesSlots = {
 																	   EquipmentIndex.Head,
 																	   EquipmentIndex.Body,
