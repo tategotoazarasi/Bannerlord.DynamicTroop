@@ -21,6 +21,10 @@ public class Armory {
 		Party = party;
 	}
 
+	public Dictionary<EquipmentElement, int> GetDictCopy() {
+		return new(_dict);
+	}
+
 	public Armory(MobileParty party, Dictionary<(uint, uint), int> loadedData) {
 		_dict = new ConcurrentDictionary<EquipmentElement, int>();
 		try {

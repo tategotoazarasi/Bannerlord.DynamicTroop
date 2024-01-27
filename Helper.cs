@@ -44,4 +44,15 @@ public static class Helper {
 				   _                              => 0
 			   };
 	}
+
+	public static ItemObject.ItemTypeEnum SkillObjectToItemEnumType(SkillObject skill) {
+		if (skill == DefaultSkills.OneHanded) return ItemObject.ItemTypeEnum.OneHandedWeapon;
+		if (skill == DefaultSkills.TwoHanded) return ItemObject.ItemTypeEnum.TwoHandedWeapon;
+		if (skill == DefaultSkills.Polearm) return ItemObject.ItemTypeEnum.Polearm;
+		if (skill == DefaultSkills.Bow) return ItemObject.ItemTypeEnum.Bow;
+		if (skill == DefaultSkills.Crossbow) return ItemObject.ItemTypeEnum.Crossbow;
+		if (skill == DefaultSkills.Throwing) return ItemObject.ItemTypeEnum.Thrown;
+		if (skill == DefaultSkills.Riding) return ItemObject.ItemTypeEnum.Horse;
+		return ItemObject.ItemTypeEnum.Invalid;
+	}
 }

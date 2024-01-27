@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
@@ -6,7 +8,7 @@ namespace Bannerlord.DynamicTroop.TroopEquipmentStrategies;
 
 [Obsolete]
 public class MountedTroopEquipmentStrategy : TroopEquipmentStrategy {
-	public MountedTroopEquipmentStrategy(Armory armory) : base(armory) { }
+	public MountedTroopEquipmentStrategy(Dictionary<EquipmentElement, int> armory) : base(armory) { }
 
 	public override bool Matches(CharacterObject soldier) { return soldier.IsMounted; }
 

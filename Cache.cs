@@ -26,7 +26,8 @@ public static class Cache {
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]
 											.WhereQ(item => item           != null &&
 															(int)item.Tier <= tier &&
-															(item.Culture == null || item.Culture == culture))
+															(item.Culture == null || item.Culture == culture) &&
+															!item.IsCivilian)
 											.ToArrayQ();
 
 			CachedItems[key] = items;
