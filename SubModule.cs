@@ -1,11 +1,15 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using Bannerlord.DynamicTroop.Formatters;
 using HarmonyLib;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Repository.Hierarchy;
+using Metalama.Patterns.Caching;
+using Metalama.Patterns.Caching.Locking;
 using SandBox.Tournaments.MissionLogics;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -41,6 +45,29 @@ public class SubModule : MBSubModuleBase {
 			fileAppender.File = Path.Combine(modDirectory, "log.txt");
 			fileAppender.ActivateOptions(); // 应用新的配置
 		}
+
+		CachingService.Default = CachingService.Create(caching => {
+														   _ = caching.ConfigureFormatters(formatters => {
+															   formatters.AddFormatter(r =>
+																   new
+																	   EquipmentElementFormatter(r));
+															   formatters.AddFormatter(r =>
+																   new
+																	   WeaponComponentDataFormatter(r));
+														   });
+														   _ = caching.AddProfile(new CachingProfile("profile") {
+															   LockingStrategy =
+																   new LocalLockingStrategy(),
+
+															   //Capacity = -1, // 设置为-1表示无限空间
+															   SlidingExpiration =
+																   Timeout
+																	   .InfiniteTimeSpan, // 设置滑动过期为无限
+															   AbsoluteExpiration =
+																   Timeout
+																	   .InfiniteTimeSpan // 设置绝对过期为无限
+														   });
+													   });
 	}
 
 	protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }

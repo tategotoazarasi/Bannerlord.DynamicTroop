@@ -158,4 +158,19 @@ public class Assignment : IComparable {
 			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
 				Equipment.AddEquipmentToSlotWithoutAgent(slot, ReferenceEquipment.GetEquipmentFromSlot(slot));
 	}
+
+	public void AddEquipment(EquipmentIndex index, EquipmentElement equipment) {
+		if (equipment.IsEmpty || equipment.Item == null) return;
+
+		Equipment.AddEquipmentToSlotWithoutAgent(index, equipment);
+	}
+
+	public void AddHorseAndHarness(HorseAndHarness hah) {
+		if (hah.Horse.IsEmpty || hah.Horse.Item == null) return;
+
+		Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, hah.Horse);
+		if (hah.Harness is not { IsEmpty: false, Item: not null }) return;
+
+		Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.HorseHarness, hah.Harness.Value);
+	}
 }

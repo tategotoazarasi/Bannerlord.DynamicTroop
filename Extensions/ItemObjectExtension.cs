@@ -18,6 +18,17 @@ public static class ItemObjectExtension {
 											weaponComponentData is { WeaponClass: WeaponClass.Arrow })));
 	}
 
+	public static bool IsShield(this ItemObject? equipment) {
+		return equipment != null &&
+			   (equipment.ItemType == ItemObject.ItemTypeEnum.Shield ||
+				(equipment.Weapons != null &&
+				 equipment.Weapons.AnyQ(weaponComponentData =>
+											weaponComponentData is {
+																	   WeaponClass: WeaponClass.SmallShield
+																	   or WeaponClass.LargeShield
+																   })));
+	}
+
 	public static bool IsBolt(this ItemObject? equipment) {
 		return equipment != null &&
 			   (equipment.ItemType == ItemObject.ItemTypeEnum.Bolts ||
@@ -204,6 +215,9 @@ public static class ItemObjectExtension {
 				var materialComparison = item.ArmorComponent.MaterialType.CompareTo(other.ArmorComponent.MaterialType);
 				if (materialComparison != 0) return materialComparison;
 			}
+
+			var effectivenessComparison = item.Effectiveness.CompareTo(other.Effectiveness);
+			if (effectivenessComparison != 0) return effectivenessComparison;
 
 			// Value 低的排在 Value 高的前面
 			var valueComparison = item.Value.CompareTo(other.Value);

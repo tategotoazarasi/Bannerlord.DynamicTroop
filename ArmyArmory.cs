@@ -107,8 +107,10 @@ public static class ArmyArmory {
 
 			// 移除多余的装备
 			while (surplusCount > 0 && !armorQueue.IsEmpty) {
-				var lowestArmor   = armorQueue.Dequeue();
-				var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)), surplusCount);
+				var lowestArmor = armorQueue.Dequeue();
+				var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)),
+											 surplusCount);
+
 				//Global.Debug($"countToRemove={countToRemove}, lowestArmorNumber={Armory.GetItemNumber(lowestArmor.Key)}");
 				_            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
 				surplusCount -= countToRemove;

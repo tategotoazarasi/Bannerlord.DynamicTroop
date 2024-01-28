@@ -7,7 +7,6 @@ using TaleWorlds.CampaignSystem.Party;
 
 namespace Bannerlord.DynamicTroop;
 
-[Obsolete]
 public class Armories {
 	private readonly ConcurrentDictionary<MobileParty, Armory> _armories = new();
 
@@ -38,7 +37,7 @@ public class Armories {
 	public void Load(Dictionary<uint, Dictionary<(uint, uint), int>> data) {
 		//var partyObj = MBObjectManager.Instance.GetObject()
 		_armories.Clear();
-		var party = Campaign.Current.MobileParties.First(party=>party.Id.InternalValue==1);
+		var party = Campaign.Current.MobileParties.First(party => party.Id.InternalValue == 1);
 		throw new NotImplementedException();
 	}
 }

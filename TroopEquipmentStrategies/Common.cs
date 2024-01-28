@@ -9,16 +9,43 @@ using TaleWorlds.Core;
 namespace Bannerlord.DynamicTroop.TroopEquipmentStrategies;
 
 public partial class Common {
-	[Cache]
+	public enum WeaponFilterType {
+		Bow,
+		Arrow,
+		CrossBow,
+		Bolt,
+		Throwing,
+		Shield,
+		Melee
+	}
+
+	private static Common? _instance;
+
+	// 公共静态属性或方法提供全局访问点
+	public static Common Instance {
+		get {
+			_instance ??= new Common();
+			return _instance;
+		}
+	}
+
+	//[Cache]
 	public float CalcConsiderValue(CharacterObject soldier, EquipmentElement refEq, EquipmentElement eqToCalc) {
 		var factor = eqToCalc.Item.IsCivilian ? 0 : 1;
 		factor += 1 + (int)eqToCalc.Item.Tier;
-		factor += eqToCalc.Item.HasArmorComponent ? (int)eqToCalc.Item.ArmorComponent.MaterialType : 0;
-		if (soldier.IsMounted && eqToCalc.Item.IsCouchable()) factor++;
-		if (!soldier.IsMounted && eqToCalc.Item.IsBracable()) factor++;
+		if (soldier.IsMounted && eqToCalc.Item.IsCouchable()) { factor++; }
+		else if (!soldier.IsMounted) {
+			if (eqToCalc.Item.IsCouchable())
+				factor--;
+			else if (eqToCalc.Item.IsBracable()) factor++;
+		}
+
 		if (eqToCalc.Item.Culture == null) factor += 1;
+
 		if (soldier.Culture != null && soldier.Culture == eqToCalc.Item.Culture) factor += 1;
+
 		var similarity = CalcWeaponSimilarity(refEq.Item, eqToCalc.Item);
+
 		//var overallSkill = CalcOverallSkill(soldier, eqToCalc.Item);
 		var effectiveness = CalcItemObjectEffectiveness(eqToCalc.Item, soldier);
 		return factor * similarity * effectiveness;
@@ -43,45 +70,45 @@ public partial class Common {
 		return totalWeight > 0 ? totalWeightedSkill / totalWeight : 0;
 	}
 
-	[Cache]
-	public float CalcWeaponSimilarity(ItemObject refEq, ItemObject eqToCalc) {
+	//[Cache]
+	private float CalcWeaponSimilarity(ItemObject refEq, ItemObject eqToCalc) {
 		if (!refEq.HasWeaponComponent || !eqToCalc.HasWeaponComponent) return 0f;
 
-		var totalSimilarityScore = refEq.Weapons.Sum(weaponDataRef =>
-														 eqToCalc.Weapons.Max(weaponDataCalc =>
-																				  CompareWeaponData(weaponDataRef,
-																					  weaponDataCalc)));
-		var refWeaponCount = refEq.Weapons.Count;
-		return refWeaponCount > 0 ? totalSimilarityScore / refWeaponCount : 0f;
+		try {
+			var totalSimilarityScore = refEq.Weapons.Average(weaponDataRef =>
+																 eqToCalc.Weapons.Max(weaponDataCalc =>
+																	 CompareWeaponData(weaponDataRef,
+																		 weaponDataCalc)));
+			return totalSimilarityScore;
+		}
+		catch (Exception e) {
+			Global.Error(e.Message);
+			return 0f;
+		}
 	}
 
-	[Cache]
+	//[Cache]
 	private float CalcDamageTypeSimilarity(DamageTypes damageType1, DamageTypes damageType2) {
-		if (damageType1 == DamageTypes.Invalid || damageType2 == DamageTypes.Invalid)
-			return damageType1 == damageType2 ? 1f : 0f;
-		return damageType1 == damageType2 ? 1f : 0.5f;
+		return damageType1     == DamageTypes.Invalid || damageType2 == DamageTypes.Invalid ?
+				   damageType1 == damageType2 ? 1f : 0.5f :
+				   damageType1 == damageType2 ? 1f : 0.75f;
 	}
 
-	[Cache]
+	//[Cache]
 	private float CompareWeaponData(WeaponComponentData data1, WeaponComponentData data2) {
-		var classSimilarity = data1.WeaponClass == data2.WeaponClass ? 1f : 0f;
-		var typeSimilarity = Helper.SkillObjectToItemEnumType(data1.RelevantSkill) ==
-							 Helper.SkillObjectToItemEnumType(data2.RelevantSkill)
-								 ? 1f
+		var classSimilarity = data1.WeaponClass == data2.WeaponClass ? 0.5f : 0f;
+		var typeSimilarity = Helper.WeaponClassToItemEnumType(data1.WeaponClass) ==
+							 Helper.WeaponClassToItemEnumType(data2.WeaponClass)
+								 ? 0.5f
 								 : 0f;
-		var thrustDamageSimilarity = CalcDamageTypeSimilarity(data1.ThrustDamageType, data2.ThrustDamageType);
-		var swingDamageSimilarity  = CalcDamageTypeSimilarity(data1.SwingDamageType,  data2.SwingDamageType);
-		var weaponFlagSimilarity   = CalcWeaponFlagSimilarity(data1.WeaponFlags, data2.WeaponFlags);
+		var thrustSimilarity     = CalcDamageTypeSimilarity(data1.ThrustDamageType, data2.ThrustDamageType);
+		var swingSimilarity      = CalcDamageTypeSimilarity(data1.SwingDamageType,  data2.SwingDamageType);
+		var weaponFlagSimilarity = CalcWeaponFlagSimilarity(data1.WeaponFlags, data2.WeaponFlags);
 
-		return (classSimilarity        +
-				typeSimilarity         +
-				thrustDamageSimilarity +
-				swingDamageSimilarity  +
-				weaponFlagSimilarity) /
-			   5;
+		return (classSimilarity + typeSimilarity) * thrustSimilarity * swingSimilarity * weaponFlagSimilarity;
 	}
 
-	[Cache]
+	//[Cache]
 	private float CalcWeaponFlagSimilarity(WeaponFlags flags1, WeaponFlags flags2) {
 		var diff                = (ulong)flags1 ^ (ulong)flags2;
 		var numberOfDifferences = CountBits(diff);
@@ -95,10 +122,11 @@ public partial class Common {
 		foreach (ulong flag in Enum.GetValues(typeof(WeaponFlags)))
 			if (flag != 0 && (flag & (flag - 1)) == 0) // Check if the flag is a power of two
 				count++;
+
 		return count;
 	}
 
-	[Cache]
+	//[Cache]
 	private int CountBits(ulong number) {
 		var count = 0;
 		while (number != 0) {
@@ -216,7 +244,7 @@ public partial class Common {
 		return weaponClassModifier;
 	}
 
-	[Cache]
+	//[Cache]
 	private float CalcItemObjectEffectiveness(ItemObject item, CharacterObject character) {
 		return item.HasWeaponComponent
 				   ? item.Weapons.Sum(weaponComponent =>
@@ -227,8 +255,7 @@ public partial class Common {
 				   : item.Effectiveness;
 	}
 
-
-	[Cache]
+	//[Cache]
 	private float CalcWeaponComponentDataEffectiveness(WeaponComponentData wcd,
 													   float               weight,
 													   CharacterObject     character) {
@@ -236,21 +263,20 @@ public partial class Common {
 		var finalEffectiveness  = 1f;
 		var weaponClassModifier = GetWeaponClassEffectivenessModifer(wcd.WeaponClass);
 		if (wcd.IsRangedWeapon) {
-			if (wcd.IsConsumable)
-				finalEffectiveness =
-					(GetModifiedMissileDamage(wcd, character) * wcd.MissileSpeed * 1.775f +
-					 GetModifiedAccuracy(wcd, character)      * wcd.MaxDataValue * 25f    +
-					 wcd.WeaponLength                         * 4f) *
-					0.006944f                                       *
-					wcd.MaxDataValue                                *
-					weaponClassModifier;
-			else
-				finalEffectiveness =
-					(wcd.MissileSpeed                             * GetModifiedMissileDamage(wcd, character) * 1.75f +
-					 GetModifiedMelee(wcd, character, true, true) * GetModifiedAccuracy(wcd, character)      * 0.3f) *
-					0.01f                                                                                            *
-					wcd.MaxDataValue                                                                                 *
-					weaponClassModifier;
+			finalEffectiveness = wcd.IsConsumable
+									 ? (GetModifiedMissileDamage(wcd, character) * wcd.MissileSpeed * 1.775f +
+										GetModifiedAccuracy(wcd, character)      * wcd.MaxDataValue * 25f    +
+										wcd.WeaponLength                         * 4f) *
+									   0.006944f                                       *
+									   wcd.MaxDataValue                                *
+									   weaponClassModifier
+									 : (wcd.MissileSpeed * GetModifiedMissileDamage(wcd, character) * 1.75f +
+										GetModifiedMelee(wcd, character, true, true) *
+										GetModifiedAccuracy(wcd, character)          *
+										0.3f)           *
+									   0.01f            *
+									   wcd.MaxDataValue *
+									   weaponClassModifier;
 		}
 		else if (wcd.IsMeleeWeapon) {
 			var thrustEffectiveness = GetModifiedMelee(wcd, character, true,  true) *
@@ -289,7 +315,7 @@ public partial class Common {
 	}
 
 	private SkillEffect? GetSpeedSkillEffectByWeaponClass(WeaponComponentData wcd) {
-		return Helper.SkillObjectToItemEnumType(wcd.RelevantSkill) switch {
+		return Helper.WeaponClassToItemEnumType(wcd.WeaponClass) switch {
 				   ItemObject.ItemTypeEnum.OneHandedWeapon => DefaultSkillEffects.OneHandedSpeed,
 				   ItemObject.ItemTypeEnum.TwoHandedWeapon => DefaultSkillEffects.TwoHandedSpeed,
 				   ItemObject.ItemTypeEnum.Polearm         => DefaultSkillEffects.PolearmSpeed,
@@ -299,7 +325,7 @@ public partial class Common {
 	}
 
 	private SkillEffect? GetDamageSkillEffectByWeaponClass(WeaponComponentData wcd) {
-		return Helper.SkillObjectToItemEnumType(wcd.RelevantSkill) switch {
+		return Helper.WeaponClassToItemEnumType(wcd.WeaponClass) switch {
 				   ItemObject.ItemTypeEnum.OneHandedWeapon => DefaultSkillEffects.OneHandedDamage,
 				   ItemObject.ItemTypeEnum.TwoHandedWeapon => DefaultSkillEffects.TwoHandedDamage,
 				   ItemObject.ItemTypeEnum.Polearm         => DefaultSkillEffects.PolearmDamage,
@@ -310,10 +336,11 @@ public partial class Common {
 			   };
 	}
 
-	[Cache]
+	//[Cache]
 	private float GetModifiedMelee(WeaponComponentData wcd, CharacterObject character, bool isSpeed, bool isThrust) {
 		var skillEffect = isSpeed ? GetSpeedSkillEffectByWeaponClass(wcd) : GetDamageSkillEffectByWeaponClass(wcd);
 		if (skillEffect == null) return isThrust ? wcd.ThrustSpeed : wcd.SwingSpeed;
+
 		var skillValue = character.GetSkillValue(wcd.RelevantSkill);
 		var bonus = (100 +
 					 (skillEffect.PrimaryRole == SkillEffect.PerkRole.Personal
@@ -323,25 +350,27 @@ public partial class Common {
 		return bonus * (isThrust ? wcd.ThrustSpeed : wcd.SwingSpeed);
 	}
 
-	[Cache]
+	//[Cache]
 	private float GetModifiedMissileDamage(WeaponComponentData wcd, CharacterObject character) {
 		var damageSkillEffect = GetDamageSkillEffectByWeaponClass(wcd);
 		if (damageSkillEffect == null) return wcd.MissileDamage;
+
 		var skillValue  = character.GetSkillValue(wcd.RelevantSkill);
 		var damageBonus = (100 + damageSkillEffect.GetPrimaryValue(skillValue)) / 100;
 		return wcd.MissileDamage * damageBonus;
 	}
 
-	[Cache]
+	//[Cache]
 	private float GetModifiedMissileSpeed(WeaponComponentData wcd, CharacterObject character) {
 		var speedSkillEffect = GetSpeedSkillEffectByWeaponClass(wcd);
 		if (speedSkillEffect == null) return wcd.MissileSpeed;
+
 		var skillValue = character.GetSkillValue(wcd.RelevantSkill);
 		var speedBonus = (100 + speedSkillEffect.GetPrimaryValue(skillValue)) / 100;
 		return wcd.MissileSpeed * speedBonus;
 	}
 
-	[Cache]
+	//[Cache]
 	private float GetModifiedAccuracy(WeaponComponentData wcd, CharacterObject character) {
 		var accuracySkillEffect = wcd.WeaponClass switch {
 									  WeaponClass.Bow      => DefaultSkillEffects.BowAccuracy,
@@ -350,10 +379,24 @@ public partial class Common {
 									  WeaponClass.Bolt     => DefaultSkillEffects.CrossbowAccuracy,
 									  _                    => null
 								  };
-		if (wcd.RelevantSkill   == DefaultSkills.Throwing) accuracySkillEffect = DefaultSkillEffects.ThrowingAccuracy;
+		if (wcd.RelevantSkill == DefaultSkills.Throwing) accuracySkillEffect = DefaultSkillEffects.ThrowingAccuracy;
+
 		if (accuracySkillEffect == null) return wcd.Accuracy;
+
 		var skillValue    = character.GetSkillValue(wcd.RelevantSkill);
 		var accuracyBonus = (100 + accuracySkillEffect.GetPrimaryValue(skillValue)) / 100;
 		return wcd.Accuracy * accuracyBonus;
+	}
+
+	//[Cache]
+	public WeaponFilterType GetWeaponFilterType(ItemObject item) {
+		if (item.IsBow()) return WeaponFilterType.Bow;
+
+		if (item.IsArrow()) return WeaponFilterType.Arrow;
+
+		return item.IsCrossBow() ? WeaponFilterType.CrossBow :
+			   item.IsBolt()     ? WeaponFilterType.Bolt :
+			   item.IsThrowing() ? WeaponFilterType.Throwing :
+			   item.IsShield()   ? WeaponFilterType.Shield : WeaponFilterType.Melee;
 	}
 }

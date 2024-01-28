@@ -24,8 +24,8 @@ public static class Cache {
 		if (!CachedItems.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]
-											.WhereQ(item => item           != null &&
-															(int)item.Tier <= tier &&
+											.WhereQ(item => item           != null                            &&
+															(int)item.Tier <= tier                            &&
 															(item.Culture == null || item.Culture == culture) &&
 															!item.IsCivilian)
 											.ToArrayQ();
