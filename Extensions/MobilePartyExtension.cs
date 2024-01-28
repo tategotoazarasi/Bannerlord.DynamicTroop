@@ -32,7 +32,7 @@ public static class MobilePartyExtension {
 
 		foreach (var element in party.MemberRoster.GetTroopRoster())
 			if (element.Character is { IsHero: false }) {
-				var list = RecruitmentPatch.GetAllRecruitEquipments(element.Character);
+				var list = RecruitmentPatch.GetRecruitEquipments(element.Character);
 				for (var i = 0; i < element.Number; i++) listToReturn.AddRange(list);
 			}
 

@@ -300,7 +300,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		if (CampaignTime.Now.GetDayOfWeek != mobileParty.Id.InternalValue % 7) return;
 
 		GarbageCollectEquipments(mobileParty);
-		ReplenishBasicTroopEquipments(mobileParty);
+		//ReplenishBasicTroopEquipments(mobileParty);
 		MoveRosterToArmory(mobileParty);
 	}
 
@@ -533,7 +533,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			PartyArmories[party.Id] = partyInventory;
 		}
 
-		var list = RecruitmentPatch.GetAllRecruitEquipments(troop);
+		var list = RecruitmentPatch.GetRecruitEquipments(troop);
 		foreach (var element in list) {
 			// 确保partyInventory包含element.Item键
 			if (!partyInventory.TryGetValue(element.Item, out var count)) count = 0;

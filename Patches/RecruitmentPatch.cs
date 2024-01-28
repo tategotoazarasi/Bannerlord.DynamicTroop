@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
@@ -57,6 +58,7 @@ public class RecruitmentPatch {
 		return equipmentElements;
 	}
 
+	[Obsolete]
 	public static List<EquipmentElement> GetAllRecruitEquipments(CharacterObject? character) {
 		List<EquipmentElement> list = new();
 		if (character?.BattleEquipments?.IsEmpty() ?? true) return list;
