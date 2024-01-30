@@ -29,5 +29,7 @@
 		<string id="sell_for_throwing_text" text="出售了价值{VALUE}的多余装备，换取了{COUNT}件投掷武器" />
 		<string id="randomized_non_hero_led_ai_parties_armor" text="无军械库部队获得随机盔甲" />
 		<string id="randomized_non_hero_led_ai_parties_armor_hint" text="无军械库系统的部队的士兵在战斗中将装备基于其等级和文化的随机盔甲" />
+		<string id="use_vanilla_looting_system" text="使用原版战利品系统" />
+		<string id="use_vanilla_looting_system_hint" text="启用此选项以关闭本mod的战利品系统" />
 	</strings>
 </base>

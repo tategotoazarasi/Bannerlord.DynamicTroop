@@ -15,6 +15,8 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private bool _randomizeNonHeroLedAiPartiesArmor;
 
+	private bool _use_vanilla_looting_system;
+
 	public override string Id => "bannerlord.dynamictroop";
 
 	public override string FormatType => "json";
@@ -78,6 +80,22 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 		set {
 			if (_randomizeNonHeroLedAiPartiesArmor != value) {
 				_randomizeNonHeroLedAiPartiesArmor = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	[SettingPropertyBool("{=use_vanilla_looting_system}Use Vanilla Looting System",
+						 Order = 5,
+						 RequireRestart = false,
+						 HintText =
+							 "{=use_vanilla_looting_system_hint}Enable this option to use the game's default looting system instead of looting from the enemy's armory.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool UseVanillaLootingSystem {
+		get => _use_vanilla_looting_system;
+		set {
+			if (_use_vanilla_looting_system != value) {
+				_use_vanilla_looting_system = value;
 				OnPropertyChanged();
 			}
 		}

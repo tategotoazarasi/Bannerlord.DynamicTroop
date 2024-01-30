@@ -31,5 +31,7 @@
 		<string id="randomized_non_hero_led_ai_parties_armor" text="Randomize Non-Hero-Led AI Parties Armor" />
 		<string id="randomized_non_hero_led_ai_parties_armor_hint"
 		        text="Soldiers in AI parties without armory system will be equipped with randomized armor in battle, determined by their tier and cultural origins." />
+		<string id="use_vanilla_looting_system" text="Use Vanilla Looting System" />
+		<string id="use_vanilla_looting_system_hint" text="Enable this option to use the game's default looting system instead of looting from the enemy's armory." />
 	</strings>
 </base>

@@ -140,15 +140,11 @@ public class Assignment : IComparable {
 	public void FillEmptySlots() {
 		foreach (var slot in Global.ArmourSlots)
 			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null }) {
-				if (slot is EquipmentIndex.Horse or EquipmentIndex.HorseHarness &&
-					ReferenceEquipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
-					continue;
-
 				var itemType = Helper.EquipmentIndexToItemEnumType(slot);
 				if (!itemType.HasValue) continue;
 
-				var item = Cache.GetItemsByTierAndCulture(itemType.Value, Character.Tier, Character.Culture)
-								.GetRandomElement();
+				var item = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture)
+								?.GetRandomElement();
 				if (item == null) continue;
 
 				Equipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement(item));

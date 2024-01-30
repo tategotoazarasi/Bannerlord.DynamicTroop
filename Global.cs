@@ -51,6 +51,31 @@ public static class Global {
 													 EquipmentIndex.Cape
 												 };
 
+	public static ItemObject.ItemTypeEnum[] ItemTypes = {
+															ItemObject.ItemTypeEnum.BodyArmor,
+															ItemObject.ItemTypeEnum.LegArmor,
+															ItemObject.ItemTypeEnum.HeadArmor,
+															ItemObject.ItemTypeEnum.HandArmor,
+															ItemObject.ItemTypeEnum.Cape,
+															ItemObject.ItemTypeEnum.Horse,
+															ItemObject.ItemTypeEnum.HorseHarness,
+															ItemObject.ItemTypeEnum.Bow,
+															ItemObject.ItemTypeEnum.Crossbow,
+															ItemObject.ItemTypeEnum.OneHandedWeapon,
+															ItemObject.ItemTypeEnum.TwoHandedWeapon,
+															ItemObject.ItemTypeEnum.Polearm,
+															ItemObject.ItemTypeEnum.Arrows,
+															ItemObject.ItemTypeEnum.Bolts,
+															ItemObject.ItemTypeEnum.Thrown
+														};
+
+	public static WeaponClass[] InvalidWeaponClasses = {
+														   WeaponClass.Undefined,
+														   WeaponClass.Boulder,
+														   WeaponClass.Banner,
+														   WeaponClass.Stone
+													   };
+
 	private static readonly Dictionary<ItemObject.ItemTypeEnum, CraftingTemplate[]> CraftingTemplatesByItemType = new();
 
 	public static void InitializeCraftingTemplatesByItemType() {

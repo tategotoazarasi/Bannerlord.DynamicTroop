@@ -44,22 +44,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	public static readonly Dictionary<ItemObject.ItemTypeEnum, List<ItemObject>> ItemListByType = new();
 
 	private static void InitializeItemListByType() {
-		ItemObject.ItemTypeEnum[] itemTypes = {
-												  ItemObject.ItemTypeEnum.BodyArmor,
-												  ItemObject.ItemTypeEnum.LegArmor,
-												  ItemObject.ItemTypeEnum.HeadArmor,
-												  ItemObject.ItemTypeEnum.HandArmor,
-												  ItemObject.ItemTypeEnum.Cape,
-												  ItemObject.ItemTypeEnum.Horse,
-												  ItemObject.ItemTypeEnum.HorseHarness,
-												  ItemObject.ItemTypeEnum.Bow,
-												  ItemObject.ItemTypeEnum.Crossbow,
-												  ItemObject.ItemTypeEnum.OneHandedWeapon,
-												  ItemObject.ItemTypeEnum.TwoHandedWeapon,
-												  ItemObject.ItemTypeEnum.Polearm
-											  };
-
-		foreach (var itemType in itemTypes) {
+		foreach (var itemType in Global.ItemTypes) {
 			var items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
 									   ?.WhereQ(item => item != null && item.ItemType == itemType)
 									   ?.OrderByQ(item => item.Tier)
@@ -319,60 +304,27 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void AllocateRandomEquipmentToPartyArmory(MobileParty mobileParty) {
-		ItemObject.ItemTypeEnum[] itemTypes = {
-												  ItemObject.ItemTypeEnum.BodyArmor,
-												  ItemObject.ItemTypeEnum.LegArmor,
-												  ItemObject.ItemTypeEnum.HeadArmor,
-												  ItemObject.ItemTypeEnum.HandArmor,
-												  ItemObject.ItemTypeEnum.Cape,
-												  ItemObject.ItemTypeEnum.Horse,
-												  ItemObject.ItemTypeEnum.HorseHarness,
-												  ItemObject.ItemTypeEnum.Bow,
-												  ItemObject.ItemTypeEnum.Crossbow,
-												  ItemObject.ItemTypeEnum.OneHandedWeapon,
-												  ItemObject.ItemTypeEnum.TwoHandedWeapon,
-												  ItemObject.ItemTypeEnum.Polearm
-											  };
-
-		if (mobileParty.MemberRoster == null ||
-
-			//mobileParty.MemberRoster.Count            <= 1    ||
+		if (mobileParty.MemberRoster                  == null ||
 			mobileParty.MemberRoster.GetTroopRoster() == null ||
 			mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
 			return;
 
-		var factor = mobileParty.CalculateClanProsperityFactor();
-		for (var i = 0; i < factor; i++) {
-			var randomMember = mobileParty.MemberRoster.GetTroopRoster().GetRandomElement();
-			if (randomMember.Character == null                  ||
-				randomMember.Character.IsHero                   ||
-				randomMember.Character.BattleEquipments == null ||
-				randomMember.Character.BattleEquipments.IsEmpty())
-				return;
+		var randomEquipmentElementsFromTroop = mobileParty.GetRandomEquipmentsFromTroop();
+		foreach (var equipmentElement in randomEquipmentElementsFromTroop) {
+			AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, 1);
+			Global.Debug($"random equipment (troop) {equipmentElement.Item.Name} added to {mobileParty.Name}");
+		}
 
-			var randomEquipment = randomMember.Character.BattleEquipments.GetRandomElementInefficiently();
-			if (randomEquipment == null || randomEquipment.IsEmpty() || !randomEquipment.IsValid) return;
+		var randomItemsFromFiefs = mobileParty.GetDailyEquipmentFromFiefs();
+		foreach (var item in randomItemsFromFiefs) {
+			AddItemToPartyArmory(mobileParty.Id, item, 1);
+			Global.Debug($"random equipment (fief) {item.Name} added to {mobileParty.Name}");
+		}
 
-			var randomElement = randomEquipment.GetEquipmentFromSlot(Global.ArmourAndHorsesSlots.GetRandomElement());
-			if (randomElement.IsEmpty || randomElement.Item == null) return;
-
-			AddItemToPartyArmory(mobileParty.Id, randomElement.Item, 1);
-			Global.Debug($"random equipment (troop) {randomElement.Item.Name} added to {mobileParty.Name}");
-			/*var weapon = Crafting.CreateRandomCraftedItem(mobileParty.LeaderHero.Culture);
-			if (weapon != null) {
-				AddItemToPartyArmory(mobileParty.Id, weapon, 1);
-				Global.Debug($"random weapon {weapon.Name} added to {mobileParty.Name}");
-			}*/
-			var randomByCultureAndTier =
-				Cache.GetItemsByTierAndCulture(itemTypes.GetRandomElement(),
-											   mobileParty.GetClanTier() +
-											   (SubModule.Settings?.Difficulty.SelectedIndex ?? 0 + 1),
-											   GetPartyCulture(mobileParty))
-					 ?.GetRandomElement();
-			if (randomByCultureAndTier == null) return;
-
-			AddItemToPartyArmory(mobileParty.Id, randomByCultureAndTier, 1);
-			Global.Debug($"random equipment (tier) {randomByCultureAndTier.Name} added to {mobileParty.Name}");
+		var randomItemsFromClan = mobileParty.GetRandomEquipmentsFromClan();
+		foreach (var item in randomItemsFromClan) {
+			AddItemToPartyArmory(mobileParty.Id, item, 1);
+			Global.Debug($"random equipment (clan) {item.Name} added to {mobileParty.Name}");
 		}
 	}
 

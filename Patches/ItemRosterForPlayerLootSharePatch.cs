@@ -14,8 +14,9 @@ public static class ItemRosterForPlayerLootSharePatch {
 
 	public static bool Prefix(MapEventSide __instance, PartyBase playerParty, ref ItemRoster __result) {
 		Global.Debug("ItemRosterForPlayerLootSharePatch");
-		if (playerParty != PartyBase.MainParty    ||
-			!__instance.MapEvent.IsPlayerMapEvent ||
+		if ((ModSettings.Instance?.UseVanillaLootingSystem ?? false) ||
+			playerParty != PartyBase.MainParty                       ||
+			!__instance.MapEvent.IsPlayerMapEvent                    ||
 			playerParty.Side != __instance.MapEvent.WinningSide)
 			return true;
 

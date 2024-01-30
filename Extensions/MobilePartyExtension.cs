@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Bannerlord.DynamicTroop.Patches;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
@@ -39,17 +39,49 @@ public static class MobilePartyExtension {
 		return listToReturn;
 	}
 
-	public static int CalculateClanProsperityFactor(this MobileParty? mobileParty) {
-		if (!mobileParty.IsValid() || mobileParty?.LeaderHero?.Clan == null) return 0;
+	public static List<EquipmentElement> GetRandomEquipmentsFromTroop(this MobileParty? party) {
+		var list = new List<EquipmentElement>();
+		if (party == null) return list;
+		var batchSize = 50 - (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0) * 10;
+		var cnt       = party.MemberRoster?.TotalManCount ?? 0;
+		var rosterWithoutHeroes = party.MemberRoster?.GetTroopRoster()
+									   ?.Where(member => !member.Character?.IsHero ?? false)
+									   ?.ToArrayQ();
+		if (rosterWithoutHeroes == null) return list;
+		for (var i = 0; i <= cnt / batchSize; i++) {
+			var equipmentElement = rosterWithoutHeroes.GetRandomElement()
+													  .Character?.RandomBattleEquipment
+													  ?.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());
+			if (equipmentElement is not { IsEmpty: false, Item: not null }) continue;
+			list.Add(equipmentElement.Value);
+		}
 
-		var clan = mobileParty.LeaderHero.Clan;
+		return list;
+	}
 
-		// 计算领地繁荣度总和
-		var prosperitySum = clan.Fiefs?.SumQ(fief => (int)(fief?.GetProsperityLevel() + 1 ?? 0)) ?? 0;
+	public static List<ItemObject> GetRandomEquipmentsFromClan(this MobileParty? party) {
+		var list = new List<ItemObject>();
+		if (party == null) return list;
+		var clanTier = party.GetClanTier() + (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0);
+		for (var i = 0; i <= clanTier; i++) {
+			var items = Cache.GetItemsByTierAndCulture(clanTier,
+													   party.Owner?.Clan?.Culture ?? party.LeaderHero?.Clan?.Culture);
+			if (items == null) continue;
+			list.Add(items.GetRandomElement());
+		}
 
-		// 计算因子：氏族等级 + 繁荣度加权
-		var factor = (clan.Tier + 1) * Math.Max(1, prosperitySum);
+		return list;
+	}
 
-		return factor * (SubModule.Settings?.Difficulty.SelectedIndex ?? 0 + 1);
+	public static List<ItemObject> GetDailyEquipmentFromFiefs(this MobileParty? party) {
+		var list = new List<ItemObject>();
+		if (party == null) return list;
+		var fiefs = (party.LeaderHero?.Clan ?? party.Owner?.Clan)?.Fiefs;
+		if (fiefs == null) return list;
+		foreach (var town in fiefs)
+			if (town.IsTown || town.IsCastle)
+				list.AddRange(town.GetRandomEquipments());
+
+		return list;
 	}
 }
