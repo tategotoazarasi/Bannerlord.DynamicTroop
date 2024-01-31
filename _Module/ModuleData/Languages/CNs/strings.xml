@@ -31,5 +31,6 @@
 		<string id="randomized_non_hero_led_ai_parties_armor_hint" text="无军械库系统的部队的士兵在战斗中将装备基于其等级和文化的随机盔甲" />
 		<string id="use_vanilla_looting_system" text="使用原版战利品系统" />
 		<string id="use_vanilla_looting_system_hint" text="启用此选项以关闭本mod的战利品系统" />
+		<string id="items_recover_from_fallen_message" text="从倒下的我方士兵身上回收了 {ITEM_COUNT} 件装备" />
 	</strings>
 </base>

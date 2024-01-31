@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
+using TaleWorlds.Diamond;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
@@ -181,8 +185,14 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		if (isVictorious) {
 			ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);
 			ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
+			if (isPlayerParty) {
+				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord.LootedItemsCount), Colors.Green));
+				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts.GetItemsRecoveredFromFallenMessage(battleRecord.ItemsToRecoverCount), Colors.Green));
+			}
 		}
-		else if (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }
+		else if (!isDefeated) {
+			ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);
+		}
 
 		// 被击败的一方不获取任何物品
 	}

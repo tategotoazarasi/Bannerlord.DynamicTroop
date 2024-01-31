@@ -23,11 +23,25 @@ public static class LocalizedTexts {
 	private static readonly TextObject SoldExcessEquipmentForThrowingWeapons =
 		new("{=sell_for_throwing_text}Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons");
 
+	private static readonly TextObject LootAddedMessage = new("{=loot_added_message}looted {ITEM_COUNT} items from enemy");
+
+	private static readonly TextObject ItemsRecoveredFromFallenMessage = new("{=items_recover_from_fallen_message}recover {ITEM_COUNT} from your fallen soldiers");
+
 	public static readonly TextObject ReturnToTown = new("{=return_to_town}Return to Town Menu");
 
 	public static string GetSoldExcessEquipmentForThrowingWeapons(int value, int count) {
 		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("VALUE", value);
 		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("COUNT", count);
 		return SoldExcessEquipmentForThrowingWeapons.ToString();
+	}
+
+	public static string GetLootAddedMessage(int count) {
+		_ = LootAddedMessage.SetTextVariable("ITEM_COUNT", count);
+		return LootAddedMessage.ToString();
+	}
+
+	public static string GetItemsRecoveredFromFallenMessage(int count) {
+		_ = ItemsRecoveredFromFallenMessage.SetTextVariable("ITEM_COUNT", count);
+		return ItemsRecoveredFromFallenMessage.ToString();
 	}
 }

@@ -8,7 +8,7 @@ The Dynamic Troop Equipment System mod revolutionizes the game's troop upgrade a
 - Parties now have dynamic armory. Equipment from defeated non-hero enemy units is added to this armory.
 - Each soldier's equipment is no longer fixed; instead, they select the most suitable gear from the army's armory when entering the battlefield, and return it to the armory upon leaving the battlefield or falling in battle.
 - Newly recruited soldiers contribute their initial gear to the armory.
-- The armory can be accessed and managed from the town menus. Note that there may be bugs related to equipment crafting.
+- The armory can be accessed and managed from the town menus.
 
 ## Equipment Distribution Logic
 
@@ -27,9 +27,12 @@ The Dynamic Troop Equipment System mod revolutionizes the game's troop upgrade a
 ## Functionality for AI Parties
 
 - AI parties led by heroes will have access to an armory mechanism.
-- Daily, AI parties receive random equipment that their soldiers would normally have.
-- Additionally, AI parties daily receive random equipment up to their clan's tier, favoring gear matching the leader's culture or neutral culture.
-- The quantity of equipment AI parties receive each day is influenced by the clan's tier, the number of their fiefs, and the prosperity of those fiefs.
+- Upon creation, AI parties receive original equipment consistent with the soldiers in their party, similar to when the player recruits new troops.
+- AI parties can loot enemy armories through battle.
+- Daily, AI parties receive random equipment, as detailed below:
+  - They obtain equipment that their soldiers would normally have in the vanilla game, with the quantity depending on the total number of troops in the party.
+  - They randomly receive equipment matching their clan's culture. The quantity is influenced by the clan tier, which also serves as the upper limit for the level of equipment received.
+  - Equipment is received based on their fiefs, with each town, castle, or village providing one piece of equipment daily, aligned with the culture of the settlement. The tier of equipment provided is capped by the settlement's prosperity level.
 
 ## Additional Mechanics
 
@@ -38,13 +41,14 @@ The Dynamic Troop Equipment System mod revolutionizes the game's troop upgrade a
 - Soldiers are limited to using weapons within their skill level.
 - Broken shields and used ammunition are not collected.
 - Armor receiving fatal or critical hits may not be salvageable.
-- Standard loot system remains unaffected.
+- After defeating an enemy army with an armory, the standard loot system is replaced with the remaining contents of the enemy's armory.
 
 ## Compatibility and Requirements
 
 - Should be compatible with mods not introducing new equipment types.
   - Tested and confirmed compatibility with RBM, OSA, DRM, and BannerKings.
   - Tested and found to be incompatible with Dismemberment.
+- Note that there may be bugs related to equipment crafting.
 - Recommended to use the BLSE launcher for optimal performance.
 - Requires Harmony, UIExtenderEx, ButterLib and MCM.
 
@@ -82,7 +86,7 @@ A: Armor that protects a fatally or critically hit area can be damaged when sold
 - 部队现在有一个动态军械库，战场上杀死的敌人（除了英雄单位）的装备会加入到这里。
 - 士兵不再拥有固定的装备；战斗开始时，士兵会从军械库中选取最合适的装备，战斗结束或阵亡时会将装备归还到军械库。
 - 新招募的士兵会将自己的初始装备加入军械库
-- 可以从城镇菜单中访问和管理军械库；请注意，装备打造可能存在bug。
+- 可以从城镇菜单中访问和管理军械库
 
 ## 装备分配逻辑
 
@@ -101,9 +105,12 @@ A: Armor that protects a fatally or critically hit area can be damaged when sold
 ## AI机制
 
 - 由英雄领导的AI部队都拥有军械库机制。
-- AI部队每日会随机获得其部队中士兵本应有的装备。
-- AI部队每日会随机获得不超过其所属家族等级且同文化（或无文化）的装备。
-- AI部队每日获得的装备数量由家族等级、封地数量和繁荣度共同决定。
+- AI部队在出生时会自带与其部队构成匹配的军械库，这与玩家在招募新兵时获得装备类似。
+- AI部队可以相互抢夺军械库。
+- AI部队每日会随机获得装备：
+  - AI部队每天会随机获得一件其部队中士兵本应有的装备。数量取决于部队规模。
+  - AI部队每天会随机获得与其同文化的装备。数量和装备等级上限取决于家族等级。
+  - AI部队所属家族的每个封地（城镇、城堡和村庄）每天会随机提供一件与该封地文化相同的装备，质量上限取决于该封地的繁荣度。
 
 ## 额外机制
 
@@ -112,7 +119,7 @@ A: Armor that protects a fatally or critically hit area can be damaged when sold
 - 士兵只能使用要求不超过他们的技能等级的武器。
 - 破损的盾牌不会被回收。
 - 士兵被击晕/死亡时，给受到致命一击部位提供保护的护甲会损坏（如果有多个护甲对同一部位提供保护，则按照提供的护甲值加权随机一件损坏）。
-- 原版战利品系统保持不变。
+- 在击败了有军械库的对手之后，原版战利品会被替换为对手的剩余军械库。
 
 ## 常见问题解答
 
@@ -132,6 +139,7 @@ A: Armor that protects a fatally or critically hit area can be damaged when sold
 - 与不引入新装备类型的模组兼容。
   - 经测试与真实战斗（RBM）、开源军械库（OSA）、真实军队大修（DRM）、旗帜之王（Banner Kings）兼容。
   - 经测试与肢解不兼容。
+- 装备打造可能存在bug。
 - 推荐使用BLSE启动器以获得最佳性能。
 - 需要Harmony、UIExtenderEx、ButterLib和MCM。
 

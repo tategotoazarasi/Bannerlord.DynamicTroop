@@ -7,7 +7,7 @@
 	<strings>
 		<string id="mod_name" text="Dynamic Troop Equipment System" />
 		<string id="armory_view_option" text="View Army Armory" />
-		<!--<string id="loot_added_message" text="{ITEM_COUNT} items looted" />-->
+		<string id="loot_added_message" text="{ITEM_COUNT} items looted" />
 		<string id="toggle_debug_mode" text="Debug Mode" />
 		<string id="toggle_debug_mode_hint" text="For Devs only." />
 		<string id="debug" text="Debug" />
@@ -33,5 +33,6 @@
 		        text="Soldiers in AI parties without armory system will be equipped with randomized armor in battle, determined by their tier and cultural origins." />
 		<string id="use_vanilla_looting_system" text="Use Vanilla Looting System" />
 		<string id="use_vanilla_looting_system_hint" text="Enable this option to use the game's default looting system instead of looting from the enemy's armory." />
+		<string id="items_recover_from_fallen_message" text="recover {ITEM_COUNT} from your fallen soldiers" />
 	</strings>
 </base>

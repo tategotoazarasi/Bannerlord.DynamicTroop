@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TaleWorlds.Core;
 
 namespace Bannerlord.DynamicTroop;
@@ -11,6 +12,18 @@ public class PartyBattleRecord {
 	public void AddItemToRecover(ItemObject item) { AddItemToDictionary(ItemsToRecover, item, 1); }
 
 	public void AddItemToRecover(ItemObject item, int count) { AddItemToDictionary(ItemsToRecover, item, count); }
+
+	public int ItemsToRecoverCount {
+		get {
+			return ItemsToRecover.Sum(kv=>kv.Value);
+		}
+	}
+
+	public int LootedItemsCount {
+		get {
+			return LootedItems.Sum(kv=>kv.Value);
+		}
+	}
 
 	public void AddLootedItem(ItemObject item) { AddItemToDictionary(LootedItems, item, 1); }
 
