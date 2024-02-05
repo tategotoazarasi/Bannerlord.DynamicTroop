@@ -38,7 +38,7 @@ public class Armories {
 	public void Load(Dictionary<uint, Dictionary<(uint, uint), int>> data) {
 		//var partyObj = MBObjectManager.Instance.GetObject()
 		_armories.Clear();
-		var party = Campaign.Current.MobileParties.First(party=>party.Id.InternalValue==1);
+		var party = Campaign.Current.MobileParties.First(party => party.Id.InternalValue == 1);
 		throw new NotImplementedException();
 	}
 }

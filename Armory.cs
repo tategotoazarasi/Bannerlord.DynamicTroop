@@ -31,10 +31,12 @@ public class Armory {
 				var itemObj     = MBObjectManager.Instance.GetObject(new MBGUID(itemId));
 				var modifierObj = MBObjectManager.Instance.GetObject(new MBGUID(modifierId));
 				if (itemObj == null || count <= 0) continue;
+
 				var           item                = (ItemObject)itemObj;
 				ItemModifier? modifier            = null;
 				if (modifierObj != null) modifier = (ItemModifier)modifierObj;
-				var equipmentElement              = new EquipmentElement(item, modifier);
+
+				EquipmentElement equipmentElement = new(item, modifier);
 				AddEquipmentElement(equipmentElement, count);
 			}
 		}
@@ -56,13 +58,17 @@ public class Armory {
 				_party = value;
 				var troopRoster = _party.MemberRoster?.GetTroopRoster();
 				if (troopRoster == null) return;
+
 				foreach (var troopRosterElement in troopRoster) {
 					if (troopRosterElement.Number <= 0) continue;
+
 					var character = troopRosterElement.Character;
 					if (character == null) continue;
+
 					var equipmentList = RecruitmentPatch.GetRecruitEquipments(character);
 					foreach (var equipment in equipmentList) {
 						if (equipment is not { IsEmpty: false, Item: not null }) continue;
+
 						AddEquipmentElement(equipment, troopRosterElement.Number);
 					}
 				}
@@ -73,11 +79,11 @@ public class Armory {
 
 	public ItemRoster ItemRoster {
 		get {
-			var roster = new ItemRoster();
+			ItemRoster roster = new();
 			try {
 				foreach (var kvp in _dict)
 					if (kvp.Key.Item != null && kvp.Value > 0)
-						roster.AddToCounts(kvp.Key, kvp.Value);
+						_ = roster.AddToCounts(kvp.Key, kvp.Value);
 			}
 			catch (Exception e) { Global.Error(e.Message); }
 
@@ -95,13 +101,14 @@ public class Armory {
 	}
 
 	public Dictionary<(uint, uint), int> GenerateDataForSave() {
-		var data = new Dictionary<(uint, uint), int>();
+		Dictionary<(uint, uint), int> data = new();
 		try {
 			foreach (var kvp in _dict) {
 				var item     = kvp.Key.Item;
 				var modifier = kvp.Key.ItemModifier;
 				var count    = kvp.Value;
 				if (item == null || count <= 0) continue;
+
 				data.Add((item.Id.InternalValue, modifier.Id.InternalValue), count);
 			}
 		}
@@ -118,18 +125,18 @@ public class Armory {
 	public void AddEquipmentElement(EquipmentElement equipmentElement, int count = 1) {
 		try {
 			if (equipmentElement is { IsEmpty: false, Item: not null })
-				_dict.AddOrUpdate(equipmentElement, count, (_, v) => v + count);
+				_ = _dict.AddOrUpdate(equipmentElement, count, (_, v) => v + count);
 		}
 		catch (Exception e) { Global.Error(e.Message); }
 	}
 
 	public void RemoveItem(ItemObject item, int cnt = 1) {
 		try {
-			var toRemove = new ConcurrentDictionary<EquipmentElement, int>();
+			ConcurrentDictionary<EquipmentElement, int> toRemove = new();
 			foreach (var kvp in _dict)
 				if (kvp.Key.Item == item) {
 					var cntToRemove = Math.Min(cnt, kvp.Value);
-					toRemove.AddOrUpdate(kvp.Key, cntToRemove, (_, v) => v + cntToRemove);
+					_   =  toRemove.AddOrUpdate(kvp.Key, cntToRemove, (_, v) => v + cntToRemove);
 					cnt -= cntToRemove;
 					if (cnt <= 0) break;
 				}
@@ -144,8 +151,9 @@ public class Armory {
 			if (equipmentElement is { IsEmpty: false, Item: not null })
 				if (_dict.ContainsKey(equipmentElement)) {
 					if (_dict[equipmentElement] < cnt) Global.Warn("greater than");
+
 					_dict[equipmentElement] -= cnt;
-					if (_dict[equipmentElement] <= 0) _dict.TryRemove(equipmentElement, out _);
+					if (_dict[equipmentElement] <= 0) _ = _dict.TryRemove(equipmentElement, out _);
 				}
 		}
 		catch (Exception e) { Global.Error(e.Message); }

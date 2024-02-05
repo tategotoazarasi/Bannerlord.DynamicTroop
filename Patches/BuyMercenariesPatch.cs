@@ -20,8 +20,8 @@ public static class BuyMercenariesPatch {
 		if (__instance != Campaign.Current.MainParty.MemberRoster || count <= 0) return;
 
 		// 获取当前方法的 StackTrace
-		StackTrace   stackTrace = new();
-		StackFrame[] frames     = stackTrace.GetFrames();
+		StackTrace stackTrace = new();
+		var        frames     = stackTrace.GetFrames();
 
 		// 检查是否存在调用堆栈中的 buy_mercenaries_on_consequence 方法
 		foreach (var frame in frames) {

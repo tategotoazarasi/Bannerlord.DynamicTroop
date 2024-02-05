@@ -34,8 +34,6 @@ public class SubModule : MBSubModuleBase {
 		// 初始化 log4net
 		var loggerRepository = LogManager.CreateRepository(Assembly.GetEntryAssembly(), typeof(Hierarchy));
 		_ = XmlConfigurator.Configure(loggerRepository, new FileInfo(logConfigPath));
-
-		// 动态设置日志文件路径
 		var fileAppender = loggerRepository.GetAppenders().OfType<FileAppender>().FirstOrDefault();
 		if (fileAppender != null) {
 			fileAppender.File = Path.Combine(modDirectory, "log.txt");

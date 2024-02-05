@@ -86,8 +86,9 @@ public static class Global {
 											  };
 
 		foreach (var itemType in itemTypes) {
-			CraftingTemplate[] templates =
-				CraftingTemplate.All.WhereQ(template => template.ItemType == itemType).ToArrayQ();
+			CraftingTemplate[] templates = CraftingTemplate
+										   .All.WhereQ(template => template.ItemType == itemType)
+										   .ToArrayQ();
 			CraftingTemplatesByItemType[itemType] = templates;
 		}
 	}
@@ -109,9 +110,8 @@ public static class Global {
 			InformationManager.DisplayMessage(new InformationMessage(message, color));
 
 			// 使用 log4net 记录日志
-			StackFrame frame = new(skipFrames, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
-
-			var method = frame.GetMethod(); // 获取方法信息
+			StackFrame frame  = new(skipFrames, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
+			var        method = frame.GetMethod();     // 获取方法信息
 
 			// 获取文件名而不是完整路径
 			var fileName = Path.GetFileName(frame.GetFileName());

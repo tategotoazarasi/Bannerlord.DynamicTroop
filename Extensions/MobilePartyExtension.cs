@@ -2,7 +2,9 @@
 using System.Linq;
 using Bannerlord.DynamicTroop.Patches;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 
 namespace Bannerlord.DynamicTroop.Extensions;
@@ -40,19 +42,22 @@ public static class MobilePartyExtension {
 	}
 
 	public static List<EquipmentElement> GetRandomEquipmentsFromTroop(this MobileParty? party) {
-		var list = new List<EquipmentElement>();
+		List<EquipmentElement> list = new();
 		if (party == null) return list;
+
 		var batchSize = 50 - (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0) * 10;
 		var cnt       = party.MemberRoster?.TotalManCount ?? 0;
 		var rosterWithoutHeroes = party.MemberRoster?.GetTroopRoster()
 									   ?.Where(member => !member.Character?.IsHero ?? false)
 									   ?.ToArrayQ();
 		if (rosterWithoutHeroes == null) return list;
+
 		for (var i = 0; i <= cnt / batchSize; i++) {
 			var equipmentElement = rosterWithoutHeroes.GetRandomElement()
 													  .Character?.RandomBattleEquipment
 													  ?.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());
 			if (equipmentElement is not { IsEmpty: false, Item: not null }) continue;
+
 			list.Add(equipmentElement.Value);
 		}
 
@@ -60,13 +65,15 @@ public static class MobilePartyExtension {
 	}
 
 	public static List<ItemObject> GetRandomEquipmentsFromClan(this MobileParty? party) {
-		var list = new List<ItemObject>();
+		List<ItemObject> list = new();
 		if (party == null) return list;
+
 		var clanTier = party.GetClanTier() + (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0);
 		for (var i = 0; i <= clanTier; i++) {
 			var items = Cache.GetItemsByTierAndCulture(clanTier,
 													   party.Owner?.Clan?.Culture ?? party.LeaderHero?.Clan?.Culture);
 			if (items == null) continue;
+
 			list.Add(items.GetRandomElement());
 		}
 
@@ -74,10 +81,12 @@ public static class MobilePartyExtension {
 	}
 
 	public static List<ItemObject> GetDailyEquipmentFromFiefs(this MobileParty? party) {
-		var list = new List<ItemObject>();
+		List<ItemObject> list = new();
 		if (party == null) return list;
-		var fiefs = (party.LeaderHero?.Clan ?? party.Owner?.Clan)?.Fiefs;
+
+		MBReadOnlyList<Town>? fiefs = (party.LeaderHero?.Clan ?? party.Owner?.Clan)?.Fiefs;
 		if (fiefs == null) return list;
+
 		foreach (var town in fiefs)
 			if (town.IsTown || town.IsCastle)
 				list.AddRange(town.GetRandomEquipments());

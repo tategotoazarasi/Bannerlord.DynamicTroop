@@ -12,14 +12,14 @@ public static class Cache {
 
 	private static readonly Dictionary<(int, CultureObject?), ItemObject[]> CachedItems = new();
 
-	/// <summary>
-	///     根据物品类型、层级和文化获取物品数组。
-	/// </summary>
-	/// <param name="itemType"> 物品的类型。 </param>
-	/// <param name="tier">     物品的层级。 </param>
-	/// <param name="culture">  物品的文化属性。如果为null，则不限制文化。 </param>
-	/// <returns> 符合条件的物品数组。如果没有符合条件的物品，返回null。 </returns>
-	public static ItemObject[]? GetItemsByTierAndCulture(int tier, CultureObject? culture) {
+    /// <summary>
+    ///     根据物品类型、层级和文化获取物品数组。
+    /// </summary>
+    /// <param name="itemType"> 物品的类型。 </param>
+    /// <param name="tier">     物品的层级。 </param>
+    /// <param name="culture">  物品的文化属性。如果为null，则不限制文化。 </param>
+    /// <returns> 符合条件的物品数组。如果没有符合条件的物品，返回null。 </returns>
+    public static ItemObject[]? GetItemsByTierAndCulture(int tier, CultureObject? culture) {
 		var key = (tier, culture);
 
 		if (!CachedItems.TryGetValue(key, out var items)) {
@@ -47,6 +47,7 @@ public static class Cache {
 															 int                     tier,
 															 CultureObject?          culture) {
 		if (tier < 0) return null;
+
 		var key = (itemType, tier, culture);
 		if (!CachedItemsByType.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
@@ -60,7 +61,9 @@ public static class Cache {
 															(item.Culture == null || item.Culture == culture))
 											.ToArrayQ();
 			if (items == null || items.Length == 0) items = GetItemsByTypeTierAndCulture(itemType, tier - 1, culture);
+
 			if (items == null) return null;
+
 			CachedItemsByType[key] = items;
 		}
 

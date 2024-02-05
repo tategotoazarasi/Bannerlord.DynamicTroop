@@ -48,9 +48,10 @@ public static class ArmyArmory {
 			// 使用模式匹配来检查条件，并反转if语句来减少嵌套
 			if (element.IsEmpty || element.Item is null) continue;
 
-			var itemToAssign = Armory.FirstOrDefaultQ(a => !a.IsEmpty                                                &&
-														   a.EquipmentElement.Item.StringId == element.Item.StringId &&
-														   a.Amount                         > 0);
+			var itemToAssign =
+				Armory.FirstOrDefaultQ(a => !a.IsEmpty                                                &&
+											a.EquipmentElement.Item.StringId == element.Item.StringId &&
+											a.Amount                         > 0);
 
 			if (!itemToAssign.IsEmpty)
 				_ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);
@@ -110,6 +111,7 @@ public static class ArmyArmory {
 				var lowestArmor = armorQueue.Dequeue();
 				var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)),
 											 surplusCount);
+
 				//Global.Debug($"countToRemove={countToRemove}, lowestArmorNumber={Armory.GetItemNumber(lowestArmor.Key)}");
 				_            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); // 减少数量
 				surplusCount -= countToRemove;
@@ -140,12 +142,13 @@ public static class ArmyArmory {
 	}
 
 	public static void RebuildArmory() {
-		var toAdd = Armory.WhereQ(kv => kv is {
-												  IsEmpty         : false,
-												  EquipmentElement: { IsEmpty: false, Item: not null },
-												  Amount          : > 0
-											  })
-						  .ToArrayQ();
+		var toAdd = Armory
+					.WhereQ(kv => kv is {
+											IsEmpty         : false,
+											EquipmentElement: { IsEmpty: false, Item: not null },
+											Amount          : > 0
+										})
+					.ToArrayQ();
 		Armory = new ItemRoster();
 		if (toAdd == null) return;
 

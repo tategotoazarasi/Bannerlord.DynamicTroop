@@ -15,9 +15,9 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private bool _randomizeNonHeroLedAiPartiesArmor;
 
-	private bool _useVanillaLootingSystem;
-
 	private bool _randomizeStartingEquipment;
+
+	private bool _useVanillaLootingSystem;
 
 	public override string Id => "bannerlord.dynamictroop";
 
@@ -137,13 +137,6 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	[SettingPropertyDropdown("{=log_level}Log Level", Order = 2, RequireRestart = false, HintText = "")]
 	[SettingPropertyGroup("{=debug}Debug")]
-	public Dropdown<Level> LogLevel { get; set; } = new(new[] {
-																  Level.Debug,
-																  Level.Info,
-																  Level.Warn,
-																  Level.Error,
-																  Level.Fatal,
-																  Level.All
-															  },
-														5);
+	public Dropdown<Level> LogLevel { get; set; } =
+		new(new[] { Level.Debug, Level.Info, Level.Warn, Level.Error, Level.Fatal, Level.All }, 5);
 }

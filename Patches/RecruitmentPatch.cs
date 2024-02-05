@@ -37,46 +37,44 @@ public class RecruitmentPatch {
 			var equipmentElement = armorAndHorse.GetEquipmentFromSlot(slot);
 			if (equipmentElement is { IsEmpty: false, Item: not null }) {
 				if (ModSettings.Instance?.RandomizeStartingEquipment ?? false) {
-					var items1 = new ItemObject[] { };
-					if (equipmentElement.Item.Culture is CultureObject cultureObject) {
+					ItemObject[]? items1 = { };
+					if (equipmentElement.Item.Culture is CultureObject cultureObject)
 						items1 = Cache.GetItemsByTypeTierAndCulture(equipmentElement.Item.ItemType,
 																	(int)equipmentElement.Item.Tier,
 																	cultureObject);
-					}
-					var items2 = Cache.GetItemsByTypeTierAndCulture(equipmentElement.Item.ItemType,
-																	character.Tier,
-																	character.Culture);
-					Random      random       = new Random(); // 实例化Random对象用于生成随机数
-					ItemObject? selectedItem = null;         // 初始化选择的ItemObject为null
+					var items2 =
+						Cache.GetItemsByTypeTierAndCulture(equipmentElement.Item.ItemType,
+														   character.Tier,
+														   character.Culture);
+					Random      random       = new(); // 实例化Random对象用于生成随机数
+					ItemObject? selectedItem = null;  // 初始化选择的ItemObject为null
 
 					// 增加equipmentElement.Item到候选列表，如果它不为空
-					int totalLength = (items1?.Length ?? 0) + (items2?.Length ?? 0) + (equipmentElement.Item != null ? 1 : 0); // 包括现有的装备作为一个候选
+					var totalLength = (items1?.Length ?? 0) +
+									  (items2?.Length ?? 0) +
+									  (equipmentElement.Item != null ? 1 : 0); // 包括现有的装备作为一个候选
 
 					if (totalLength > 0) {
 						// 生成一个随机数，范围从0到总候选数
-						int randomIndex = random.Next(totalLength);
+						var randomIndex = random.Next(totalLength);
 
-						if (randomIndex < (items1?.Length ?? 0)) {
+						if (randomIndex < (items1?.Length ?? 0))
 							selectedItem = items1?[randomIndex]; // 从items1中选择
-						} else if (randomIndex < ((items1?.Length ?? 0) + (items2?.Length ?? 0))) {
+						else if (randomIndex < (items1?.Length ?? 0) + (items2?.Length ?? 0))
 							selectedItem = items2?[randomIndex - (items1?.Length ?? 0)]; // 从items2中选择
-						} else {
+						else
 							selectedItem = equipmentElement.Item; // 选择equipmentElement.Item
-						}
 					}
 
-					if (selectedItem != null) {
-						equipmentElements.Add(new EquipmentElement(selectedItem));
-					}
-				} else { equipmentElements.Add(equipmentElement); }
+					if (selectedItem != null) equipmentElements.Add(new EquipmentElement(selectedItem));
+				}
+				else { equipmentElements.Add(equipmentElement); }
 			}
 		}
 
-		foreach (var slot in new [] { EquipmentIndex.Horse ,EquipmentIndex.HorseHarness}) {
+		foreach (var slot in new[] { EquipmentIndex.Horse, EquipmentIndex.HorseHarness }) {
 			var equipmentElement = armorAndHorse.GetEquipmentFromSlot(slot);
-			if (equipmentElement is { IsEmpty: false, Item: not null }) {
-				equipmentElements.Add(equipmentElement);
-			}
+			if (equipmentElement is { IsEmpty: false, Item: not null }) equipmentElements.Add(equipmentElement);
 		}
 
 		foreach (var equipment in character.BattleEquipments)

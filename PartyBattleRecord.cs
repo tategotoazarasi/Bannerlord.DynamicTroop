@@ -9,21 +9,13 @@ public class PartyBattleRecord {
 
 	public readonly Dictionary<ItemObject, int> LootedItems = new();
 
+	public int ItemsToRecoverCount => ItemsToRecover.Sum(kv => kv.Value);
+
+	public int LootedItemsCount => LootedItems.Sum(kv => kv.Value);
+
 	public void AddItemToRecover(ItemObject item) { AddItemToDictionary(ItemsToRecover, item, 1); }
 
 	public void AddItemToRecover(ItemObject item, int count) { AddItemToDictionary(ItemsToRecover, item, count); }
-
-	public int ItemsToRecoverCount {
-		get {
-			return ItemsToRecover.Sum(kv=>kv.Value);
-		}
-	}
-
-	public int LootedItemsCount {
-		get {
-			return LootedItems.Sum(kv=>kv.Value);
-		}
-	}
 
 	public void AddLootedItem(ItemObject item) { AddItemToDictionary(LootedItems, item, 1); }
 
