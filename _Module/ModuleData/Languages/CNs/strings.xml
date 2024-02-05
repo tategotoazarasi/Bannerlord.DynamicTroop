@@ -32,5 +32,7 @@
 		<string id="use_vanilla_looting_system" text="使用原版战利品系统" />
 		<string id="use_vanilla_looting_system_hint" text="启用此选项以关闭本mod的战利品系统" />
 		<string id="items_recover_from_fallen_message" text="从倒下的我方士兵身上回收了 {ITEM_COUNT} 件装备" />
+		<string id="randomize_starting_equipment" text="[实验性功能] 随机化招募装备" />
+		<string id="randomize_starting_equipment_hint" text="启用此选项以随机化招募的士兵带来的初始装备，取决于所招募士兵的文化和等级" />
 	</strings>
 </base>

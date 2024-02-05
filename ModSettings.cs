@@ -15,7 +15,9 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private bool _randomizeNonHeroLedAiPartiesArmor;
 
-	private bool _use_vanilla_looting_system;
+	private bool _useVanillaLootingSystem;
+
+	private bool _randomizeStartingEquipment;
 
 	public override string Id => "bannerlord.dynamictroop";
 
@@ -92,10 +94,26 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 							 "{=use_vanilla_looting_system_hint}Enable this option to use the game's default looting system instead of looting from the enemy's armory.")]
 	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
 	public bool UseVanillaLootingSystem {
-		get => _use_vanilla_looting_system;
+		get => _useVanillaLootingSystem;
 		set {
-			if (_use_vanilla_looting_system != value) {
-				_use_vanilla_looting_system = value;
+			if (_useVanillaLootingSystem != value) {
+				_useVanillaLootingSystem = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	[SettingPropertyBool("{=randomize_starting_equipment}[Experimental] Randomize Recruit Equipment",
+						 Order = 6,
+						 RequireRestart = false,
+						 HintText =
+							 "{=randomize_starting_equipment_hint}Enable this option to receive randomized instead of fixed equipment when recruiting soldiers, depending on the culture and tier of the soldiers being recruited.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool RandomizeStartingEquipment {
+		get => _randomizeStartingEquipment;
+		set {
+			if (_randomizeStartingEquipment != value) {
+				_randomizeStartingEquipment = value;
 				OnPropertyChanged();
 			}
 		}

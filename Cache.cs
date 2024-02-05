@@ -25,9 +25,11 @@ public static class Cache {
 		if (!CachedItems.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-								   .WhereQ(item => item           != null                    &&
-												   (int)item.Tier <= tier                    &&
-												   !item.IsCivilian                          &&
+								   .WhereQ(item => item           != null &&
+												   (int)item.Tier <= tier &&
+												   (item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
+													item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
+													!item.IsCivilian)                        &&
 												   Global.ItemTypes.ContainsQ(item.ItemType) &&
 												   (!item.HasWeaponComponent ||
 													!Global.InvalidWeaponClasses.ContainsQ(item.PrimaryWeapon

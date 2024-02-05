@@ -32,6 +32,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		{ ItemObject.ItemTypeEnum.HeadArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.HandArmor, memberCnt => Math.Max(2       * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.Cape, memberCnt => Math.Max(2            * memberCnt, memberCnt     + 100) },
+		{ ItemObject.ItemTypeEnum.Shield, memberCnt => Math.Max(2             * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.Horse, memberCnt => Math.Max(2           * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.HorseHarness, memberCnt => Math.Max(2    * memberCnt, memberCnt     + 100) },
 		{ ItemObject.ItemTypeEnum.Bow, memberCnt => Math.Max(2             * memberCnt, memberCnt     + 100) },
@@ -151,19 +152,19 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			var partyArmory = PartyArmories.GetValueSafe(mobileParty.Id);
 			if (partyArmory == null || partyArmory.IsEmpty()) return;
 
-			var armorTotalCount = partyArmory.WhereQ(kv => kv.Key?.ItemType == equipmentAndThreshold.Key)
+			var armorTotalCount = partyArmory.WhereQ(kv => kv.Key.ItemType == equipmentAndThreshold.Key)
 											 .SumQ(kv => kv.Value);
-			var surplusCount = armorTotalCount - equipmentAndThreshold.Value(memberCnt);
+			var surplusCount = armorTotalCount - memberCnt;
 			if (surplusCount <= 0) continue;
 
 			var surplusCountCpy = surplusCount;
 
 			// 创建优先级队列
-			ItemPriorityQueue armorQueue = new(new ArmorComparer());
+			ItemPriorityQueue armorQueue = new(new EquipmentEffectivenessComparer());
 			foreach (var kv in partyArmory.WhereQ(kv => kv.Key.ItemType == equipmentAndThreshold.Key))
 				armorQueue.Enqueue(kv.Key, ((int)kv.Key.Tier, kv.Key.Value));
 
-			// 移除多余的盔甲
+			// 移除多余的装备
 			while (surplusCount > 0 && armorQueue.Count > 0) {
 				var lowestArmor   = armorQueue.Dequeue();
 				var countToRemove = Math.Min(partyArmory[lowestArmor.Key], surplusCount);

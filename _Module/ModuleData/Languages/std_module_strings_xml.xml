@@ -34,5 +34,7 @@
 		<string id="use_vanilla_looting_system" text="Use Vanilla Looting System" />
 		<string id="use_vanilla_looting_system_hint" text="Enable this option to use the game's default looting system instead of looting from the enemy's armory." />
 		<string id="items_recover_from_fallen_message" text="recover {ITEM_COUNT} from your fallen soldiers" />
+		<string id="randomize_starting_equipment" text="[Experimental] Randomize Recruit Equipment" />
+		<string id="randomize_starting_equipment_hint" text="Enable this option to receive randomized instead of fixed equipment when recruiting soldiers, depending on the culture and tier of the soldiers being recruited." />
 	</strings>
 </base>
