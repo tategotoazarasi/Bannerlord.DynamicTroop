@@ -46,6 +46,12 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 	public override void RegisterEvents() {
 		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
+		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
+	}
+
+	private void OnNewGameCreated(CampaignGameStarter starter) {
+		Global.Debug("OnNewGameCreated() called");
+		ArmyArmory.Armory.Clear();
 	}
 
 	private void Save() {

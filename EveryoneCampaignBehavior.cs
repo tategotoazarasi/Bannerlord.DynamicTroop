@@ -67,10 +67,17 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(this, DailyTickParty);
 		CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, WeeklyTick);
 		CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, OnGameLoaded);
+		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
 		InitializeItemListByType();
 
 		//Global.InitializeCraftingTemplatesByItemType();
 	}
+
+	private void OnNewGameCreated(CampaignGameStarter starter) {
+		Global.Debug("OnNewGameCreated() called");
+		PartyArmories.Clear();
+	}
+
 
 	private void OnGameLoaded(CampaignGameStarter starter) {
 		Global.Debug("OnGameLoaded() called");
@@ -286,8 +293,10 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void DailyTickParty(MobileParty mobileParty) {
 		if (!mobileParty.IsValid()) return;
 
-		if (!GarbageCollectParties(mobileParty)) AllocateRandomEquipmentToPartyArmory(mobileParty);
-		else Global.Debug($"garbage collect party {mobileParty.Name}");
+		if (!GarbageCollectParties(mobileParty))
+			AllocateRandomEquipmentToPartyArmory(mobileParty);
+		else
+			Global.Debug($"garbage collect party {mobileParty.Name}");
 
 		if (CampaignTime.Now.GetDayOfWeek != mobileParty.Id.InternalValue % 7) return;
 
