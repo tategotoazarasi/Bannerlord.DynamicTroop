@@ -5,10 +5,19 @@ using TaleWorlds.Core;
 
 namespace Bannerlord.DynamicTroop;
 
+/// <summary>
+///     提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。
+/// </summary>
 public static class WeightedRandomSelector {
 	private static readonly Random _random = new();
 
-	public static ItemObject SelectItem(List<ItemObject> items, float targetValue) {
+    /// <summary>
+    ///     根据目标值和物品效能的正态分布概率，从物品列表中随机选择一个物品。
+    /// </summary>
+    /// <param name="items">       物品列表，每个物品都有一个效能值。 </param>
+    /// <param name="targetValue"> 目标效能值，用于确定正态分布的中心。 </param>
+    /// <returns> 根据加权概率选中的物品。 </returns>
+    public static ItemObject SelectItem(List<ItemObject> items, float targetValue) {
 		// 计算均值
 		var mean = items.Average(item => item.Effectiveness);
 
@@ -30,15 +39,34 @@ public static class WeightedRandomSelector {
 		return WeightedRandomChoose(items, normalizedWeights);
 	}
 
-	private static float CalculateVariance(List<ItemObject> items, float mean) {
+    /// <summary>
+    ///     计算一组物品效能值的方差。
+    /// </summary>
+    /// <param name="items"> 物品列表。 </param>
+    /// <param name="mean">  物品效能值的平均数。 </param>
+    /// <returns> 效能值的方差。 </returns>
+    private static float CalculateVariance(List<ItemObject> items, float mean) {
 		return items.Sum(item => (item.Value - mean) * (item.Value - mean)) / items.Count;
 	}
 
-	private static float CalculateProbabilityDensity(float x, float mu, float sigma) {
+    /// <summary>
+    ///     计算正态分布的概率密度函数值。
+    /// </summary>
+    /// <param name="x">     待计算的效能值。 </param>
+    /// <param name="mu">    正态分布的均值，即目标效能值。 </param>
+    /// <param name="sigma"> 正态分布的标准差，由物品效能值的方差计算得出。 </param>
+    /// <returns> 给定效能值在正态分布中的概率密度。 </returns>
+    private static float CalculateProbabilityDensity(float x, float mu, float sigma) {
 		return (float)(1 / (sigma * Math.Sqrt(2 * Math.PI)) * Math.Exp(-Math.Pow(x - mu, 2) / (2 * sigma * sigma)));
 	}
 
-	private static ItemObject WeightedRandomChoose(List<ItemObject> items, List<float> weights) {
+    /// <summary>
+    ///     根据给定的权重列表，从物品列表中随机选择一个物品。
+    /// </summary>
+    /// <param name="items">   物品列表。 </param>
+    /// <param name="weights"> 与物品列表对应的权重列表，表示每个物品被选中的相对概率。 </param>
+    /// <returns> 根据权重随机选中的物品。 </returns>
+    private static ItemObject WeightedRandomChoose(List<ItemObject> items, List<float> weights) {
 		List<float> cumulativeWeights = new();
 		float       total             = 0;
 		foreach (var weight in weights) {
