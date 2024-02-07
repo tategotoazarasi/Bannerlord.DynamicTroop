@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.DynamicTroop.Extensions;
 using HarmonyLib;
@@ -37,7 +36,8 @@ public class RecruitmentPatch {
 			var equipmentElement = armorAndHorse.GetEquipmentFromSlot(slot);
 			if (equipmentElement is { IsEmpty: false, Item: not null }) {
 				if (ModSettings.Instance?.RandomizeStartingEquipment ?? false) {
-					ItemObject[]? items1 = { };
+					List<ItemObject> items  = new();
+					ItemObject[]?    items1 = { };
 					if (equipmentElement.Item.Culture is CultureObject cultureObject)
 						items1 = Cache.GetItemsByTypeTierAndCulture(equipmentElement.Item.ItemType,
 																	(int)equipmentElement.Item.Tier,
@@ -46,27 +46,12 @@ public class RecruitmentPatch {
 						Cache.GetItemsByTypeTierAndCulture(equipmentElement.Item.ItemType,
 														   character.Tier,
 														   character.Culture);
-					Random      random       = new(); // 实例化Random对象用于生成随机数
-					ItemObject? selectedItem = null;  // 初始化选择的ItemObject为null
-
-					// 增加equipmentElement.Item到候选列表，如果它不为空
-					var totalLength = (items1?.Length ?? 0) +
-									  (items2?.Length ?? 0) +
-									  (equipmentElement.Item != null ? 1 : 0); // 包括现有的装备作为一个候选
-
-					if (totalLength > 0) {
-						// 生成一个随机数，范围从0到总候选数
-						var randomIndex = random.Next(totalLength);
-
-						if (randomIndex < (items1?.Length ?? 0))
-							selectedItem = items1?[randomIndex]; // 从items1中选择
-						else if (randomIndex < (items1?.Length ?? 0) + (items2?.Length ?? 0))
-							selectedItem = items2?[randomIndex - (items1?.Length ?? 0)]; // 从items2中选择
-						else
-							selectedItem = equipmentElement.Item; // 选择equipmentElement.Item
-					}
-
-					if (selectedItem != null) equipmentElements.Add(new EquipmentElement(selectedItem));
+					if (items1 != null) items.AddRange(items1);
+					if (items2 != null) items.AddRange(items2);
+					items.Add(equipmentElement.Item);
+					items = items.Distinct().ToList();
+					equipmentElements.Add(new EquipmentElement(WeightedRandomSelector.SelectItem(items,
+																   equipmentElement.Item.Effectiveness)));
 				}
 				else { equipmentElements.Add(equipmentElement); }
 			}
