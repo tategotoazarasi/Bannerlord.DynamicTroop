@@ -79,7 +79,7 @@ public static class WeightedRandomSelector {
 		for (var i = 0; i < items.Count; i++)
 			if (randomNumber < cumulativeWeights[i])
 				return items[i];
-
+		Global.Warn("nothing selected in WeightedRandomChoose, return the last item");
 		// 默认返回最后一个item，理论上不应该执行到这里
 		return items.Last();
 	}

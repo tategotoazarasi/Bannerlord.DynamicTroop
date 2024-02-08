@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bannerlord.DynamicTroop.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -138,17 +139,38 @@ public class Assignment : IComparable {
 	}
 
 	public void FillEmptySlots() {
-		foreach (var slot in Global.ArmourSlots)
+		foreach (var slot in Global.ArmourSlots) {
+			var referenceEquipment = ReferenceEquipment.GetEquipmentFromSlot(slot);
 			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null }) {
 				var itemType = Helper.EquipmentIndexToItemEnumType(slot);
 				if (!itemType.HasValue) continue;
 
-				var item = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture)
+				ItemObject? item;
+				if (referenceEquipment is { IsEmpty: false, Item: not null }) {
+					List<ItemObject> itemList = new() { referenceEquipment.Item };
+					var itemsByCharacter =
+						Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture);
+					if (itemsByCharacter != null) itemList.AddRange(itemsByCharacter);
+
+					if (referenceEquipment.Item.Culture is CultureObject cultureObject) {
+						var itemsByReference =
+							Cache.GetItemsByTypeTierAndCulture(itemType.Value,
+															   (int)referenceEquipment.Item.Tier,
+															   cultureObject);
+						if (itemsByReference != null) itemList.AddRange(itemsByReference);
+					}
+
+					item = WeightedRandomSelector.SelectItem(itemList, referenceEquipment.Item.Effectiveness);
+				}
+				else {
+					item = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture)
 								?.GetRandomElement();
-				if (item == null) continue;
+					if (item == null) continue;
+				}
 
 				Equipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement(item));
 			}
+		}
 
 		foreach (var slot in Global.EquipmentSlots)
 			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
