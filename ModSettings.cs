@@ -47,7 +47,7 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 									"#0%",
 									Order = 2,
 									RequireRestart = false,
-									HintText = "{=drop_rate_hint}Equipment drop rate on enemy down.")]
+									HintText = "{=drop_rate_hint}Equipment drop rate on enemy down. This also affects the distribution of looting from the enemy's remaining armory after battle.")]
 	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
 	public float DropRate {
 		get => _dropRate;

@@ -13,7 +13,7 @@
 		<string id="debug" text="Debug" />
 		<string id="log_level" text="Log Level" />
 		<string id="drop_rate" text="Drop Rate" />
-		<string id="drop_rate_hint" text="Equipment drop rate on enemy down." />
+		<string id="drop_rate_hint" text="Equipment drop rate on enemy down. This also affects the distribution of looting from the enemy's remaining armory after battle." />
 		<string id="settings" text="Settings" />
 		<string id="same_cultural_preference" text="Same Cultural Preference" />
 		<string id="same_cultural_preference_hint"

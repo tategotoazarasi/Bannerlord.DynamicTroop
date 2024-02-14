@@ -21,8 +21,8 @@ public static class ItemRosterForPlayerLootSharePatch {
 			return true;
 
 		Global.Debug("Prefix fired");
-		ItemRoster replaceRoster      = new();
-		var        playerContribution = __instance.GetPlayerPartyContributionRate();
+		ItemRoster replaceRoster = new();
+		var playerContribution = __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1);
 		MBReadOnlyList<MapEventParty> defeatedParties =
 			__instance.MapEvent.PartiesOnSide(__instance.MapEvent.DefeatedSide);
 		if (defeatedParties == null) return true;

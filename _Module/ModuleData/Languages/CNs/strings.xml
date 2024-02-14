@@ -13,7 +13,7 @@
 		<string id="debug" text="调试" />
 		<string id="log_level" text="日志级别" />
 		<string id="drop_rate" text="装备爆率" />
-		<string id="drop_rate_hint" text="敌人被击倒时的装备爆率" />
+		<string id="drop_rate_hint" text="敌人被击倒时的装备爆率，也影响战后从敌人剩余军械库中获取战利品的分配。" />
 		<string id="settings" text="设置" />
 		<string id="same_cultural_preference" text="同文化偏好" />
 		<string id="same_cultural_preference_hint" text="士兵会更倾向选择同文化的装备，这并不代表他们就不会使用其他文化的装备" />
