@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
@@ -43,12 +44,14 @@ public static class ItemRosterForPlayerLootSharePatch {
 
 		if (replaceRoster.IsEmpty()) return;
 
-		foreach (var a in __result)
-			if (a is { IsEmpty: false, Amount: > 0, EquipmentElement.Item: not null } &&
-				(a.EquipmentElement.Item.IsTradeGood  ||
-				 a.EquipmentElement.Item.IsBannerItem ||
-				 a.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Animal))
-				replaceRoster.Add(a);
+		replaceRoster.Add(__result.Where(static element =>
+											 element is {
+															IsEmpty: false, Amount: > 0, EquipmentElement.Item: not null
+														} &&
+											 (element.EquipmentElement.Item.IsTradeGood  ||
+											  element.EquipmentElement.Item.IsBannerItem ||
+											  element.EquipmentElement.Item.ItemType ==
+											  ItemObject.ItemTypeEnum.Animal)));
 		__result = replaceRoster;
 	}
 }

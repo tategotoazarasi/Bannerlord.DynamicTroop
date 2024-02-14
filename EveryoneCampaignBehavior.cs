@@ -126,32 +126,6 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		//GarbageCollectEquipments();
 	}
 
-	public void GarbageCollectParties() {
-		var keysToRemove = PartyArmories.Keys.WhereQ(id => {
-														 var obj = MBObjectManager.Instance.GetObject(id);
-														 if (obj == null) return true;
-
-														 if (obj is MobileParty mobileParty) {
-															 if (mobileParty.MemberRoster == null) return true;
-
-															 if (mobileParty.MemberRoster.GetTroopRoster() == null)
-																 return true;
-
-															 if (mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
-																 return true;
-														 }
-
-														 return false;
-													 })
-										.ToArrayQ();
-
-		foreach (var key in keysToRemove) _ = PartyArmories.Remove(key);
-
-		Global.Debug($"Garbage collected {keysToRemove.Length} parties");
-	}
-
-	//public void GarbageCollectEquipments() { GarbageCollectArmors(); }
-
 	private void GarbageCollectEquipments(MobileParty mobileParty) {
 		if (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
 
@@ -185,109 +159,6 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 			Global.Debug($"Garbage collected {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} armors from party {mobileParty.Name}");
 		}
-	}
-
-	private void ReplenishBasicTroopEquipments(MobileParty mobileParty) {
-		if (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == null) return;
-
-		var partyArmory = PartyArmories[mobileParty.Id];
-		var memberCnt   = CountNonHeroMembers(mobileParty.MemberRoster);
-
-		foreach (var typeKv in ItemListByType) {
-			var requiredNum = CalculateRequiredItemCount(mobileParty.MemberRoster, typeKv.Key, memberCnt);
-			ReplenishItemTypeInArmory(mobileParty, partyArmory, typeKv.Key, requiredNum, memberCnt);
-		}
-	}
-
-	private static int CountNonHeroMembers(TroopRoster roster) {
-		return roster.GetTroopRoster()
-					 .WhereQ(element => element.Character is { IsHero: false })
-					 .SumQ(element => element.Number);
-	}
-
-	/// <summary>
-	///     根据兵种名册和物品类型计算所需物品数量。
-	/// </summary>
-	/// <param name="roster">    兵种名册，包含部队的详细信息。 </param>
-	/// <param name="itemType">  需要计算数量的物品类型。 </param>
-	/// <param name="memberCnt"> 部队成员总数。 </param>
-	/// <returns> 根据物品类型和部队情况计算出的所需物品数量。 </returns>
-	private static int CalculateRequiredItemCount(TroopRoster roster, ItemObject.ItemTypeEnum itemType, int memberCnt) {
-		return itemType switch {
-				   ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness =>
-					   roster.GetTroopRoster()
-							 .WhereQ(element => element.Character.IsMounted)
-							 .SumQ(element => element.Number),
-				   ItemObject.ItemTypeEnum.Bow
-					   or ItemObject.ItemTypeEnum.Crossbow
-					   or ItemObject.ItemTypeEnum.OneHandedWeapon
-					   or ItemObject.ItemTypeEnum.TwoHandedWeapon
-					   or ItemObject.ItemTypeEnum.Polearm => roster.GetTroopRoster()
-																   .WhereQ(element => element.Character.IsMounted)
-																   .SumQ(element => element.Number *
-																			 Global
-																				 .CountCharacterEquipmentItemTypes(element
-																						 .Character,
-																					 itemType)),
-				   _ => memberCnt
-			   };
-	}
-
-	/// <summary>
-	///     根据所需数量补充部队装备库中特定类型的物品。
-	/// </summary>
-	/// <param name="party">       部队。 </param>
-	/// <param name="armory">      装备库，包含不同物品及其数量。 </param>
-	/// <param name="itemType">    需要补充的物品类型。 </param>
-	/// <param name="requiredNum"> 所需的物品数量。 </param>
-	/// <param name="memberCnt">   部队成员总数。 </param>
-	private void ReplenishItemTypeInArmory(MobileParty                 party,
-										   Dictionary<ItemObject, int> armory,
-										   ItemObject.ItemTypeEnum     itemType,
-										   int                         requiredNum,
-										   int                         memberCnt) {
-		var culture         = GetPartyCulture(party);
-		var armorTotalCount = armory.WhereQ(kv => kv.Key.ItemType == itemType).SumQ(kv => kv.Value);
-		if (armorTotalCount < requiredNum)
-			AddItemsToArmoryBasedOnItemType(party, itemType, culture, requiredNum, armorTotalCount, memberCnt);
-	}
-
-	private static CultureObject? GetPartyCulture(MobileParty? party) {
-		return party?.Owner?.Culture ?? party?.LeaderHero?.Culture;
-	}
-
-	/// <summary>
-	///     根据物品类型为指定部队的装备库添加物品。
-	/// </summary>
-	/// <param name="party">       需要补充装备的部队。 </param>
-	/// <param name="itemType">    要添加的物品类型。 </param>
-	/// <param name="culture">     部队的文化，用于筛选符合文化特征的物品。 </param>
-	/// <param name="requiredNum"> 所需的物品总数量。 </param>
-	/// <param name="currentNum">  当前装备库中该类型物品的数量。 </param>
-	/// <param name="memberCnt">   部队成员总数。 </param>
-	private void AddItemsToArmoryBasedOnItemType(MobileParty             party,
-												 ItemObject.ItemTypeEnum itemType,
-												 CultureObject?          culture,
-												 int                     requiredNum,
-												 int                     currentNum,
-												 int                     memberCnt) {
-		/*if (itemType == ItemObject.ItemTypeEnum.OneHandedWeapon ||
-			itemType == ItemObject.ItemTypeEnum.TwoHandedWeapon ||
-			itemType == ItemObject.ItemTypeEnum.Polearm) {
-			var craftedWeapons =
-				Global.CreateRandomCraftedItemsByItemType(itemType, culture, Math.Max(requiredNum, memberCnt));
-			foreach (var weapon in craftedWeapons)
-				if (weapon != null) {
-					AddItemToPartyArmory(partyId, weapon, 1);
-					Global.Debug($"Replenished 1x{weapon.Name} weapon for party {partyId}");
-				}
-		}*/
-		var itemToAdd = ItemListByType[itemType]
-			?.FirstOrDefaultQ(item => item != null && (item.Culture == null || item.Culture == culture));
-		if (itemToAdd == null) return;
-
-		AddItemToPartyArmory(party.Id, itemToAdd, EquipmentAndThresholds[itemType](requiredNum) - currentNum);
-		Global.Debug($"Replenished {EquipmentAndThresholds[itemType](requiredNum) - currentNum}x{itemToAdd.Name} armors for party {party.Name}");
 	}
 
 	private void DailyTickParty(MobileParty mobileParty) {
@@ -567,6 +438,24 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict) {
 		Dictionary<uint, Dictionary<string, int>> uintDict = new();
 		foreach (var pair in guidDict) {
+			var party = Campaign.Current.MobileParties.FirstOrDefault(party => party.Id == pair.Key);
+			if (party is not {
+								 LeaderHero: {
+												 CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
+												 IsHumanPlayerCharacter: false,
+												 IsPartyLeader         : true,
+												 IsAlive               : true,
+												 IsActive              : true
+											 },
+								 Owner: {
+											CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
+											IsHumanPlayerCharacter: false,
+											IsActive              : true,
+											IsAlive               : true
+										},
+								 MemberRoster: { TotalHeroes: > 0, TotalManCount: > 0 },
+								 IsDisbanding: false
+							 }) continue;
 			if (!uintDict.TryGetValue(pair.Key.InternalValue, out var innerDict)) {
 				innerDict = new Dictionary<string, int>();
 				uintDict.Add(pair.Key.InternalValue, innerDict);
