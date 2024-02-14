@@ -19,6 +19,8 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private bool _useVanillaLootingSystem;
 
+	private bool _removeCivilianEquipmentsInRandom;
+
 	public override string Id => "bannerlord.dynamictroop";
 
 	public override string FormatType => "json";
@@ -114,6 +116,22 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 		set {
 			if (_randomizeStartingEquipment != value) {
 				_randomizeStartingEquipment = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	[SettingPropertyBool("{=remove_civilian_equipments_in_random}Remove Civilian Equipments in Random",
+						 Order = 7,
+						 RequireRestart = false,
+						 HintText =
+							 "{=remove_civilian_equipments_in_random_hint}Removes civilian equipment from all random equipment acquisition processes. This prevents soldiers from using skirts or crowns but increases the quality of equipment obtained randomly.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool RemoveCivilianEquipmentsInRandom {
+		get => _removeCivilianEquipmentsInRandom;
+		set {
+			if (_removeCivilianEquipmentsInRandom != value) {
+				_removeCivilianEquipmentsInRandom = value;
 				OnPropertyChanged();
 			}
 		}

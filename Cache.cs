@@ -30,8 +30,11 @@ public static class Cache {
 												   (int)item.Tier <= tier &&
 												   (item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
 													item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
-													!item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale)) &&
-												   Global.ItemTypes.ContainsQ(item.ItemType)               &&
+													(ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ?? false
+														 ? !item.IsCivilian
+														 : !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale))) &&
+												   !item.IsCraftedWeapon                                           &&
+												   Global.ItemTypes.ContainsQ(item.ItemType)                       &&
 												   (!item.HasWeaponComponent ||
 													!Global.InvalidWeaponClasses.ContainsQ(item.PrimaryWeapon
 														.WeaponClass)) &&
@@ -53,9 +56,15 @@ public static class Cache {
 		if (!CachedItemsByType.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]
-											.WhereQ(item => item           != null                                &&
-															(int)item.Tier == tier                                &&
-															!item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale) &&
+											.WhereQ(item => item           != null &&
+															(int)item.Tier == tier &&
+															(item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
+															 item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
+															 (ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ??
+															  false
+																  ? !item.IsCivilian
+																  : !item.ItemFlags
+																		 .HasAnyFlag(ItemFlags.NotUsableByMale))) &&
 															(!item.HasWeaponComponent ||
 															 !Global.InvalidWeaponClasses.ContainsQ(item.PrimaryWeapon
 																 .WeaponClass)) &&
