@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 
@@ -16,6 +18,11 @@ public static class TownExtension {
 													   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
 													   town.Culture);
 			if (items != null) list.Add(items.GetRandomElement());
+			if (ModSettings.Instance?.AiCrafting ?? false) {
+				var randomItem = Crafting.CreateRandomCraftedItem(town.Culture);
+				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+				list.Add(randomItem);
+			}
 		}
 
 		if (town.IsUnderSiege) return list;
@@ -25,7 +32,11 @@ public static class TownExtension {
 										   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
 										   town.Culture);
 		if (items2 != null) list.Add(items2.GetRandomElement());
-
+		if (ModSettings.Instance?.AiCrafting ?? false) {
+			var randomItem2 = Crafting.CreateRandomCraftedItem(town.Culture);
+			CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem2, null, false);
+			list.Add(randomItem2);
+		}
 		return list;
 	}
 }

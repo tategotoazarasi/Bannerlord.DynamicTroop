@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.ObjectSystem;
+using TaleWorlds.CampaignSystem;
 
 namespace Bannerlord.DynamicTroop;
 
@@ -21,7 +21,7 @@ public static class Cache {
 	/// <param name="culture">  物品的文化属性。如果为null，则不限制文化。 </param>
 	/// <returns> 符合条件的物品数组。如果没有符合条件的物品，返回null。 </returns>
 	public static ItemObject[]? GetItemsByTierAndCulture(int tier, CultureObject? culture) {
-		var key = (tier, culture);
+		(int tier, CultureObject? culture) key = (tier, culture);
 
 		if (!CachedItems.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
@@ -33,7 +33,6 @@ public static class Cache {
 													(ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ?? false
 														 ? !item.IsCivilian
 														 : !item.ItemFlags.HasAnyFlag(ItemFlags.NotUsableByMale))) &&
-												   !item.IsCraftedWeapon                                           &&
 												   Global.ItemTypes.ContainsQ(item.ItemType)                       &&
 												   (!item.HasWeaponComponent ||
 													!Global.InvalidWeaponClasses.ContainsQ(item.PrimaryWeapon
@@ -52,7 +51,7 @@ public static class Cache {
 															 CultureObject?          culture) {
 		if (tier < 0) return null;
 
-		var key = (itemType, tier, culture);
+		(ItemObject.ItemTypeEnum itemType, int tier, CultureObject? culture) key = (itemType, tier, culture);
 		if (!CachedItemsByType.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]

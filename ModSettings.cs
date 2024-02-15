@@ -21,6 +21,8 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 
 	private bool _removeCivilianEquipmentsInRandom;
 
+	private bool _ai_crafting;
+
 	public override string Id => "bannerlord.dynamictroop";
 
 	public override string FormatType => "json";
@@ -132,6 +134,22 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 		set {
 			if (_removeCivilianEquipmentsInRandom != value) {
 				_removeCivilianEquipmentsInRandom = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	[SettingPropertyBool("{=ai_crafting}[Experimental] Enable AI crafting",
+					 Order = 8,
+					 RequireRestart = false,
+					 HintText =
+						 "{=ai_crafting_hint}AI parties will receive randomly crafted weapons daily.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool AiCrafting {
+		get => _ai_crafting;
+		set {
+			if (_ai_crafting != value) {
+				_ai_crafting = value;
 				OnPropertyChanged();
 			}
 		}

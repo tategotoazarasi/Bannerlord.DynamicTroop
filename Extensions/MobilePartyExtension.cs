@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.DynamicTroop.Patches;
+
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
@@ -58,7 +60,12 @@ public static class MobilePartyExtension {
 													  ?.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());
 			if (equipmentElement is not { IsEmpty: false, Item: not null }) continue;
 
-			list.Add(equipmentElement.Value);
+			var randomItem = Crafting.CreateRandomCraftedItem(party.LeaderHero?.Culture);
+			if (ModSettings.Instance?.AiCrafting ?? false) {
+				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+				list.Add(new EquipmentElement(randomItem));
+				list.Add(equipmentElement.Value);
+			}
 		}
 
 		return list;
@@ -75,6 +82,11 @@ public static class MobilePartyExtension {
 			if (items == null) continue;
 
 			list.Add(items.GetRandomElement());
+			if (ModSettings.Instance?.AiCrafting ?? false) {
+				var randomItem = Crafting.CreateRandomCraftedItem(party.LeaderHero?.Clan?.Culture);
+				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+				list.Add(randomItem);
+			}
 		}
 
 		return list;
