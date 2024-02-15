@@ -39,6 +39,6 @@
 		<string id="remove_civilian_equipments_in_random" text="Remove Civilian Equipments in Random"/>
 		<string id="remove_civilian_equipments_in_random_hint" text="Removes civilian equipment from all random equipment acquisition processes. This prevents soldiers from using skirts or crowns but increases the quality of equipment obtained randomly."/>
 		<string id="ai_crafting" text="[Experimental] Enable AI crafting"/>
-		<string id="ai_crafting_hint" text="AI parties will receive randomly crafted weapons daily. WARNING: This feature may significantly increase the size of save file and potentially lead to save file corruption bugs."/>
+		<string id="ai_crafting_hint" text="AI parties will receive randomly crafted weapons daily. WARNING: This feature may significantly increase the size of save files and potentially lead to save file corruption bugs. It may also cause game stuttering, high memory usage, and longer save/load times."/>
 	</strings>
 </base>

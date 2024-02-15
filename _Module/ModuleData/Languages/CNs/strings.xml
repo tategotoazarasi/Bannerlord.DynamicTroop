@@ -35,8 +35,8 @@
 		<string id="randomize_starting_equipment" text="随机化招募装备" />
 		<string id="randomize_starting_equipment_hint" text="启用此选项以随机化招募的士兵带来的初始装备，取决于所招募士兵的文化和等级" />
 		<string id="remove_civilian_equipments_in_random" text="从随机列表中移除民用装备"/>
-		<string id="remove_civilian_equipments_in_random_hint" text="启用此选项后，游戏内所有随机分配的装备将不包括民用物品。这可以避免士兵随机获得如女装或王冠等物品，但同时提升了随机装备的整体质量。"/>
+		<string id="remove_civilian_equipments_in_random_hint" text="启用此选项后，游戏内所有随机分配的装备将不包括民用物品。这可以避免士兵随机获得如女装或王冠等物品，但同时提升了随机装备的整体质量"/>
 		<string id="ai_crafting" text="[实验性功能] 启用AI锻造"/>
-		<string id="ai_crafting_hint" text="AI部队每天收到随机的打造装备。 警告: 此功能可能会增加存档文件大小，且可能存在导致坏档的bug"/>
+		<string id="ai_crafting_hint" text="AI部队每天收到随机的打造装备。 警告: 此功能可能会增加存档文件大小，可能存在导致坏档的bug，可能导致大地图卡顿，高内存占用和较长的存读档时间"/>
 	</strings>
 </base>
