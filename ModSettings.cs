@@ -105,7 +105,7 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 		}
 	}
 
-	[SettingPropertyBool("{=randomize_starting_equipment}[Experimental] Randomize Recruit Equipment",
+	[SettingPropertyBool("{=randomize_starting_equipment}Randomize Recruit Equipment",
 						 Order = 6,
 						 RequireRestart = false,
 						 HintText =
