@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 
@@ -17,11 +18,13 @@ public static class TownExtension {
 			var items = Cache.GetItemsByTierAndCulture(2 * (int)village.GetProsperityLevel() +
 													   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
 													   town.Culture);
-			if (items != null) list.Add(items.GetRandomElement());
+			if (items != null && !items.IsEmpty()) list.Add(items.GetRandomElement());
 			if (ModSettings.Instance?.AiCrafting ?? false) {
 				var randomItem = Crafting.CreateRandomCraftedItem(town.Culture);
-				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
-				list.Add(randomItem);
+				if (randomItem != null) { 
+					CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+					list.Add(randomItem);
+				}
 			}
 		}
 
@@ -31,11 +34,13 @@ public static class TownExtension {
 			Cache.GetItemsByTierAndCulture(2 * (int)town.GetProsperityLevel() +
 										   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
 										   town.Culture);
-		if (items2 != null) list.Add(items2.GetRandomElement());
+		if (items2 != null && !items2.IsEmpty()) list.Add(items2.GetRandomElement());
 		if (ModSettings.Instance?.AiCrafting ?? false) {
 			var randomItem2 = Crafting.CreateRandomCraftedItem(town.Culture);
-			CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem2, null, false);
-			list.Add(randomItem2);
+			if (randomItem2 != null) {
+				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem2, null, false);
+				list.Add(randomItem2);
+			}
 		}
 		return list;
 	}

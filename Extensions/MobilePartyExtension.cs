@@ -59,12 +59,14 @@ public static class MobilePartyExtension {
 													  .Character?.RandomBattleEquipment
 													  ?.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());
 			if (equipmentElement is not { IsEmpty: false, Item: not null }) continue;
+			list.Add(equipmentElement.Value);
 
-			var randomItem = Crafting.CreateRandomCraftedItem(party.LeaderHero?.Culture);
 			if (ModSettings.Instance?.AiCrafting ?? false) {
-				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
-				list.Add(new EquipmentElement(randomItem));
-				list.Add(equipmentElement.Value);
+				var randomItem = Crafting.CreateRandomCraftedItem(party.LeaderHero?.Culture);
+				if (randomItem != null) {
+					CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+					list.Add(new EquipmentElement(randomItem));
+				}
 			}
 		}
 
@@ -79,13 +81,15 @@ public static class MobilePartyExtension {
 		for (var i = 0; i <= clanTier; i++) {
 			var items = Cache.GetItemsByTierAndCulture(clanTier,
 													   party.Owner?.Clan?.Culture ?? party.LeaderHero?.Clan?.Culture);
-			if (items == null) continue;
+			if (items == null || items.IsEmpty()) continue;
 
 			list.Add(items.GetRandomElement());
 			if (ModSettings.Instance?.AiCrafting ?? false) {
 				var randomItem = Crafting.CreateRandomCraftedItem(party.LeaderHero?.Clan?.Culture);
-				CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
-				list.Add(randomItem);
+				if (randomItem != null) {
+					CampaignEventDispatcher.Instance.OnNewItemCrafted(randomItem, null, false);
+					list.Add(randomItem);
+				}
 			}
 		}
 
