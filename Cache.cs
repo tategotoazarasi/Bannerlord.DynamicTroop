@@ -28,6 +28,7 @@ public static class Cache {
 			items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
 								   .WhereQ(item => item           != null &&
 												   (int)item.Tier <= tier &&
+												   ItemBlackList.Test(item.StringId) &&
 												   (item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
 													item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
 													(ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ?? false
@@ -57,6 +58,7 @@ public static class Cache {
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]
 											.WhereQ(item => item           != null &&
 															(int)item.Tier == tier &&
+															ItemBlackList.Test(item.StringId) &&
 															(item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
 															 item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
 															 (ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ??

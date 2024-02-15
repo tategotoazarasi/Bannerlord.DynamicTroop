@@ -1,0 +1,8 @@
+﻿{
+  "regex": [
+    ".+dress.+"
+  ],
+  "string_id": [
+    "crown"
+  ]
+}
