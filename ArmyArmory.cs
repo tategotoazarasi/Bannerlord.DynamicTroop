@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Bannerlord.DynamicTroop.Comparers;
 using Bannerlord.DynamicTroop.Extensions;
@@ -11,6 +13,8 @@ using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.EquipmentElement, int>;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -78,8 +82,8 @@ public static class ArmyArmory {
 
 		InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts
 																	 .GetSoldExcessEquipmentForThrowingWeapons(originalValue -
-																			 value,
-																		 cnt),
+																											   value,
+																											   cnt),
 																 Colors.Green));
 	}
 
@@ -154,5 +158,19 @@ public static class ArmyArmory {
 
 		Armory.Add(toAdd);
 		Global.Debug($"Armory has been rebuilt with {toAdd.Length} entries");
+	}
+
+	public static void DebugRemovePlayerCraftedItems() {
+		var toRemove = Armory
+					   .WhereQ(kv => kv is not {
+												   IsEmpty         : false,
+												   EquipmentElement: { IsEmpty: false, Item.IsCraftedByPlayer: true }
+											   })
+					   .ToArrayQ();
+		if (toRemove == null) return;
+
+		foreach (var item in toRemove) Armory.Remove(item);
+
+		Global.Debug($"Removed {toRemove.Length} player crafted entries from player's armory");
 	}
 }

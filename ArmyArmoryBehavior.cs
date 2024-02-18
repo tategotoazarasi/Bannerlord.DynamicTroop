@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
 using TaleWorlds.CampaignSystem;
@@ -7,6 +9,8 @@ using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -118,6 +122,12 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  "DEBUG: Clear invalid items",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.DebugClearEmptyItem(); });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_rebuild_armory",
+								  "DEBUG: Remove player crafted items",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => { ArmyArmory.DebugRemovePlayerCraftedItems(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_rebuild_armory",
