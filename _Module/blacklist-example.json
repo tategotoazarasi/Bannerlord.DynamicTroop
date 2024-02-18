@@ -1,8 +1,16 @@
 ﻿{
-  "regex": [
-    ".+dress.+"
+  "string_id_regex": [
+    ".*dress.*",
+    ".*crown.*"
   ],
   "string_id": [
-    "crown"
+    "ballista_projectile"
+  ],
+  "name_regex": [
+    ".*[D|d]ress.*",
+    ".*[C|c]rown.*"
+  ],
+  "name": [
+    "Ballista Arrows"
   ]
 }
