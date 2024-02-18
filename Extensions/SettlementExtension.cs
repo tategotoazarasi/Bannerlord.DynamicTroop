@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop.Extensions;
 
