@@ -30,9 +30,9 @@ public static class Cache {
 		if (!CachedItems.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-								   .WhereQ(item => item           != null            &&
-												   (int)item.Tier <= tier            &&
-												   ItemBlackList.Test(item.StringId) &&
+								   .WhereQ(item => item           != null   &&
+												   (int)item.Tier <= tier   &&
+												   ItemBlackList.Test(item) &&
 												   (item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
 													item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
 													(ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ?? false
@@ -61,10 +61,10 @@ public static class Cache {
 		if (!CachedItemsByType.TryGetValue(key, out var items)) {
 			// If not cached, generate and cache the list
 			items = EveryoneCampaignBehavior.ItemListByType[itemType]
-											.WhereQ(item => item           != null            &&
-															(int)item.Tier == tier            &&
-															ItemBlackList.Test(item.StringId) &&
-															!item.IsCraftedByPlayer           &&
+											.WhereQ(item => item           != null   &&
+															(int)item.Tier == tier   &&
+															ItemBlackList.Test(item) &&
+															!item.IsCraftedByPlayer  &&
 															(item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
 															 item.ItemType == ItemObject.ItemTypeEnum.HorseHarness ||
 															 (ModSettings.Instance?.RemoveCivilianEquipmentsInRandom ??
