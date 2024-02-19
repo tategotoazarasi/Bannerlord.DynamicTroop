@@ -1,5 +1,8 @@
 ﻿#region
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bannerlord.DynamicTroop.Comparers;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
