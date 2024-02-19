@@ -13,6 +13,8 @@ namespace Bannerlord.DynamicTroop;
 public class ModSettings : AttributeGlobalSettings<ModSettings> {
 	private readonly bool _culturalPreference;
 
+	private bool _assignExtraEquipments = true;
+
 	private bool _debugMode; // 默认禁用调试模式
 
 	private float _dropRate = 1f;
@@ -131,6 +133,24 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 		{
 			if (_removeCivilianEquipmentsInRandom != value) {
 				_removeCivilianEquipmentsInRandom = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	[SettingPropertyBool("{=assign_extra_equipments}Assign Extra Equipments",
+						 Order = 8,
+						 RequireRestart = false,
+						 HintText =
+							 "{=assign_extra_equipments_hint}Surplus arrows, shields, throwing weapons, and two-handed/polearms are allocated based on existing equipment.")]
+	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
+	public bool AssignExtraEquipments
+	{
+		get => _assignExtraEquipments;
+		set
+		{
+			if (_assignExtraEquipments != value) {
+				_assignExtraEquipments = value;
 				OnPropertyChanged();
 			}
 		}
