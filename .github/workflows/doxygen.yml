@@ -25,6 +25,6 @@ jobs:
               uses: langroodi/doxygenize@master
               with:
                   doxygenconf: './Doxyfile'
-                  htmloutput: './doc'
+                  htmloutput: './doc/html'
                   ghpagesbranch: 'gh-pages'
                   ghpagesdir: './'
