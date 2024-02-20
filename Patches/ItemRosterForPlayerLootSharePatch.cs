@@ -35,7 +35,7 @@ public static class ItemRosterForPlayerLootSharePatch {
 				if (!ItemBlackList.Test(entry.Key)) continue;
 				if (entry.Value * playerContribution < 1) {
 					for (var i = 0; i < entry.Value; i++)
-						if (random.NextDouble() <= playerContribution)
+						if (random.NextDouble() <= entry.Value * playerContribution)
 							_ = replaceRoster.AddToCounts(entry.Key, 1);
 				}
 				else { _ = replaceRoster.AddToCounts(entry.Key, (int)Math.Round(entry.Value * playerContribution)); }
