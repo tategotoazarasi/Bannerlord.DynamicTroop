@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
@@ -10,7 +12,6 @@ using log4net.Core;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -18,6 +19,8 @@ using TaleWorlds.LinQuick;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemObject, (int, int)>;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -38,8 +41,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 				  { ItemObject.ItemTypeEnum.HorseHarness, memberCnt => Math.Max(2 * memberCnt, memberCnt + 100) },
 				  { ItemObject.ItemTypeEnum.Bow, memberCnt => Math.Max(2          * memberCnt, memberCnt + 100) },
 				  { ItemObject.ItemTypeEnum.Crossbow, memberCnt => Math.Max(2     * memberCnt, memberCnt + 100) }, {
-					  ItemObject.ItemTypeEnum.OneHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
-				  }, {
+																													   ItemObject.ItemTypeEnum.OneHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
+																												   }, {
 					  ItemObject.ItemTypeEnum.TwoHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
 				  },
 				  { ItemObject.ItemTypeEnum.Polearm, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400) }
@@ -341,11 +344,13 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		Dictionary<ItemObject, int> itemsWithCount = new();
 		foreach (var party in parties)
 			if (PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
-				foreach (var item in inventory)
+				foreach (var item in inventory) {
+					if (!ItemBlackList.Test(item.Key)) continue;
 					if (itemsWithCount.ContainsKey(item.Key))
 						itemsWithCount[item.Key] += item.Value;
 					else
 						itemsWithCount.Add(item.Key, item.Value);
+				}
 
 		return itemsWithCount;
 	}

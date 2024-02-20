@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
@@ -8,6 +10,8 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -32,17 +36,17 @@ public class DynamicTroopMissionLogic : MissionLogic {
 							 new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
 	}
 
-    /// <summary>
-    ///     当士兵在战斗中被移除（如被杀或被击晕）时触发的处理。
-    /// </summary>
-    /// <param name="affectedAgent"> 被移除的士兵。 </param>
-    /// <param name="affectorAgent"> 造成移除的士兵。 </param>
-    /// <param name="agentState">    被移除的士兵的状态（如被杀、失去意识等）。 </param>
-    /// <param name="blow">          造成移除的攻击详情。 </param>
-    public override void OnAgentRemoved(Agent       affectedAgent,
-                                        Agent       affectorAgent,
-                                        AgentState  agentState,
-                                        KillingBlow blow) {
+	/// <summary>
+	///     当士兵在战斗中被移除（如被杀或被击晕）时触发的处理。
+	/// </summary>
+	/// <param name="affectedAgent"> 被移除的士兵。 </param>
+	/// <param name="affectorAgent"> 造成移除的士兵。 </param>
+	/// <param name="agentState">    被移除的士兵的状态（如被杀、失去意识等）。 </param>
+	/// <param name="blow">          造成移除的攻击详情。 </param>
+	public override void OnAgentRemoved(Agent       affectedAgent,
+										Agent       affectorAgent,
+										AgentState  agentState,
+										KillingBlow blow) {
 		if (Mission is { CombatType: Mission.MissionCombatType.Combat, PlayerTeam.IsValid: true } &&
 			agentState is AgentState.Killed or AgentState.Unconscious                             &&
 			affectedAgent.IsValid()                                                               &&
@@ -83,9 +87,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 												 affectorBattleRecord.AddLootedItem(item);
 												 Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
 											 }
-											 else if (item.StringId == hitArmor.StringId) {
-												 Global.Log($"{item.StringId} damaged", Colors.Red, Level.Debug);
-											 }
+											 else if (item.StringId == hitArmor.StringId) { Global.Log($"{item.StringId} damaged", Colors.Red, Level.Debug); }
 										 });
 		}
 
@@ -144,11 +146,11 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		foreach (var kvPartyBattleSides in PartyBattleSides) {
 			var isPlayerParty = kvPartyBattleSides.Key == playerPartyId;
 			var isVictorious = !unresolvedBattle &&
-							   ((playerVictory && kvPartyBattleSides.Value == Mission.PlayerTeam.Side) ||
-								(playerDefeat  && kvPartyBattleSides.Value != Mission.PlayerTeam.Side));
+							   (playerVictory && kvPartyBattleSides.Value == Mission.PlayerTeam.Side ||
+								playerDefeat  && kvPartyBattleSides.Value != Mission.PlayerTeam.Side);
 			var isDefeated = !unresolvedBattle &&
-							 ((playerDefeat  && kvPartyBattleSides.Value == Mission.PlayerTeam.Side) ||
-							  (playerVictory && kvPartyBattleSides.Value != Mission.PlayerTeam.Side));
+							 (playerDefeat  && kvPartyBattleSides.Value == Mission.PlayerTeam.Side ||
+							  playerVictory && kvPartyBattleSides.Value != Mission.PlayerTeam.Side);
 
 			HandlePartyItems(kvPartyBattleSides.Key, isPlayerParty, isVictorious, isDefeated);
 		}
@@ -164,14 +166,14 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		}
 	}
 
-    /// <summary>
-    ///     处理部队战后的物品管理。
-    /// </summary>
-    /// <param name="partyId">       部队的唯一标识符。 </param>
-    /// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
-    /// <param name="isVictorious">  部队是否胜利。 </param>
-    /// <param name="isDefeated">    部队是否被击败。 </param>
-    private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
+	/// <summary>
+	///     处理部队战后的物品管理。
+	/// </summary>
+	/// <param name="partyId">       部队的唯一标识符。 </param>
+	/// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
+	/// <param name="isVictorious">  部队是否胜利。 </param>
+	/// <param name="isDefeated">    部队是否被击败。 </param>
+	private void HandlePartyItems(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated) {
 		// 检查是否存在对应的battleRecord
 		if (!_partyBattleRecords.TryGetValue(partyId, out var battleRecord)) {
 			Global.Warn($"No battle record found for party {partyId}");
@@ -183,11 +185,11 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
 			if (isPlayerParty) {
 				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord
-																			 .LootedItemsCount),
+																												.LootedItemsCount),
 																		 Colors.Green));
 				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts
 																			 .GetItemsRecoveredFromFallenMessage(battleRecord
-																				 .ItemsToRecoverCount),
+																													 .ItemsToRecoverCount),
 																		 Colors.Green));
 			}
 		}
@@ -196,17 +198,17 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		// 被击败的一方不获取任何物品
 	}
 
-    /// <summary>
-    ///     将物品返回到指定部队。
-    /// </summary>
-    /// <param name="partyId">       部队的唯一标识符。 </param>
-    /// <param name="items">         要返回的物品及其数量。 </param>
-    /// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
-    private void ReturnItemsToDestination(MBGUID partyId, Dictionary<ItemObject, int> items, bool isPlayerParty) {
+	/// <summary>
+	///     将物品返回到指定部队。
+	/// </summary>
+	/// <param name="partyId">       部队的唯一标识符。 </param>
+	/// <param name="items">         要返回的物品及其数量。 </param>
+	/// <param name="isPlayerParty"> 是否为玩家的部队。 </param>
+	private void ReturnItemsToDestination(MBGUID partyId, Dictionary<ItemObject, int> items, bool isPlayerParty) {
 		var totalItemCount = 0; // 用于累计物品总数
 
 		foreach (var item in items) {
-			if (item.Key == null || item.Value <= 0) continue;
+			if (item.Key == null || item.Value <= 0 || !ItemBlackList.Test(item.Key)) continue;
 
 			totalItemCount += item.Value;
 
@@ -222,19 +224,19 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		Global.Log($"{partyType} {partyId} processed a total of {totalItemCount} items", Colors.Green, Level.Debug);
 	}
 
-    /// <summary>
-    ///     从参与战斗的士兵那里回收装备。
-    /// </summary>
-    /// <param name="partyId"> 部队的唯一标识符。 </param>
-    /// <param name="agents">  参与战斗的士兵集合。 </param>
-    private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents) {
+	/// <summary>
+	///     从参与战斗的士兵那里回收装备。
+	/// </summary>
+	/// <param name="partyId"> 部队的唯一标识符。 </param>
+	/// <param name="agents">  参与战斗的士兵集合。 </param>
+	private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents) {
 		var isPlayerParty  = partyId == Campaign.Current.MainParty.Id;
 		var totalItemCount = 0;
 
 		foreach (var agent in agents)
 			Global.ProcessAgentEquipment(agent,
 										 item => {
-											 if (item is null) return;
+											 if (item is null || !ItemBlackList.Test(item)) return;
 
 											 totalItemCount++;
 											 if (isPlayerParty)

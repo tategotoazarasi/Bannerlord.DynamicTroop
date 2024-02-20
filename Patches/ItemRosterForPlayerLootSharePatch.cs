@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Linq;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem.MapEvents;
@@ -6,6 +8,8 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+
+#endregion
 
 namespace Bannerlord.DynamicTroop.Patches;
 
@@ -22,8 +26,8 @@ public static class ItemRosterForPlayerLootSharePatch {
 			return;
 
 		Global.Debug("Postfix fired");
-		ItemRoster replaceRoster = new();
-		var playerContribution = __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1);
+		ItemRoster replaceRoster      = new();
+		var        playerContribution = __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1);
 		MBReadOnlyList<MapEventParty> defeatedParties =
 			__instance.MapEvent.PartiesOnSide(__instance.MapEvent.DefeatedSide);
 		if (defeatedParties == null) return;
@@ -33,13 +37,15 @@ public static class ItemRosterForPlayerLootSharePatch {
 			if (mobilePartyId is null || !EveryoneCampaignBehavior.PartyArmories.ContainsKey(mobilePartyId.Value))
 				continue;
 
-			foreach (var entry in EveryoneCampaignBehavior.PartyArmories[mobilePartyId.Value])
+			foreach (var entry in EveryoneCampaignBehavior.PartyArmories[mobilePartyId.Value]) {
+				if (!ItemBlackList.Test(entry.Key)) continue;
 				if (entry.Value * playerContribution < 1) {
 					for (var i = 0; i < entry.Value; i++)
 						if (random.NextDouble() <= playerContribution)
 							_ = replaceRoster.AddToCounts(entry.Key, 1);
 				}
 				else { _ = replaceRoster.AddToCounts(entry.Key, (int)Math.Round(entry.Value * playerContribution)); }
+			}
 		}
 
 		if (replaceRoster.IsEmpty()) return;

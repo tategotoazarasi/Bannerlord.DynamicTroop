@@ -23,7 +23,10 @@ public static class ArmyArmory {
 
 	private static ItemObject[]? _cachedThrownWeapons;
 
-	public static void AddItemToArmory(ItemObject item, int count = 1) { _ = Armory.AddToCounts(item, count); }
+	public static void AddItemToArmory(ItemObject item, int count = 1) {
+		if (!ItemBlackList.Test(item)) return;
+		_ = Armory.AddToCounts(item, count);
+	}
 
 	public static void ReturnEquipmentToArmoryFromAgents(IEnumerable<Agent> agents) {
 		Global.Log("ReturnEquipmentToArmoryFromAgents", Colors.Green, Level.Debug);
