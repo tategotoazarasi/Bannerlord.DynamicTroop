@@ -215,5 +215,17 @@
       <HintPath>C:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.TwoDimension.Standalone.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Bannerlord.DynamicTroop.Test\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="Bannerlord.DynamicTroop.Test\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="Bannerlord.DynamicTroop.Test\**"/>
+    </ItemGroup>
   
 </Project>
