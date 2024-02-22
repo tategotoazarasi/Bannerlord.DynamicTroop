@@ -121,23 +121,23 @@ public static class ItemBlackList {
 	/// </summary>
 	private sealed class BlackList {
 		/// <summary>
-		///     Represents the regular expression patterns used for blacklisting string IDs.
+		///     Represents a property or attribute name used in the ItemBlackList class.
 		/// </summary>
-		public List<string>? string_id_regex { get; }
-
-		/// <summary>
-		///     Represents a utility class for managing an item blacklist.
-		/// </summary>
-		public List<string>? string_id { get; }
+		public List<string>? name;
 
 		/// <summary>
 		///     Represents a regular expression used to match the name of an item for blacklisting purposes.
 		/// </summary>
-		public List<string>? name_regex { get; }
+		public List<string>? name_regex;
 
 		/// <summary>
-		///     Represents a property or attribute name used in the ItemBlackList class.
+		///     Represents a utility class for managing an item blacklist.
 		/// </summary>
-		public List<string>? name { get; }
+		public List<string>? string_id;
+
+		/// <summary>
+		///     Represents the regular expression patterns used for blacklisting string IDs.
+		/// </summary>
+		public List<string>? string_id_regex;
 	}
 }
