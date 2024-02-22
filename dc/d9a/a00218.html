@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: AgentExtension Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -62,108 +62,32 @@ $(function() {
 
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="../../d3/dd5/a00215.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">AgentExtension Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopMissionLogic Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a69ccc61488f11262529f2e4bbe6d54ab"><td class="memItemLeft" align="right" valign="top">static List&lt; ItemObject &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9a/a00218.html#a69ccc61488f11262529f2e4bbe6d54ab">GetAgentArmors</a> (this Agent? agent)</td></tr>
-<tr class="separator:a69ccc61488f11262529f2e4bbe6d54ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e2bb981605a069e0fb3c3bdb53386e9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9a/a00218.html#a7e2bb981605a069e0fb3c3bdb53386e9">IsValid</a> (this Agent? agent)</td></tr>
-<tr class="separator:a7e2bb981605a069e0fb3c3bdb53386e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/dee/a00008_source.html#l00007">7</a> of file <a class="el" href="../../d4/dee/a00008_source.html">AgentExtension.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a69ccc61488f11262529f2e4bbe6d54ab" name="a69ccc61488f11262529f2e4bbe6d54ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69ccc61488f11262529f2e4bbe6d54ab">&#9670;&nbsp;</a></span>GetAgentArmors()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static List&lt; ItemObject &gt; AgentExtension.GetAgentArmors </td>
-          <td>(</td>
-          <td class="paramtype">this Agent?&#160;</td>
-          <td class="paramname"><em>agent</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/dee/a00008_source.html#l00017">17</a> of file <a class="el" href="../../d4/dee/a00008_source.html">AgentExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>                                                                     {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        List&lt;ItemObject&gt; armors = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">if</span> (agent == <span class="keyword">null</span>) <span class="keywordflow">return</span> armors;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.ArmourAndHorsesSlots) {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            var element = agent.SpawnEquipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">if</span> (element is { IsEmpty: <span class="keyword">false</span>, Item: { HasArmorComponent: <span class="keyword">true</span> } item }) armors.Add(item);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        }</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">return</span> armors;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7e2bb981605a069e0fb3c3bdb53386e9" name="a7e2bb981605a069e0fb3c3bdb53386e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e2bb981605a069e0fb3c3bdb53386e9">&#9670;&nbsp;</a></span>IsValid()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool AgentExtension.IsValid </td>
-          <td>(</td>
-          <td class="paramtype">this Agent?&#160;</td>
-          <td class="paramname"><em>agent</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/dee/a00008_source.html#l00008">8</a> of file <a class="el" href="../../d4/dee/a00008_source.html">AgentExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>                                                  {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="keywordflow">return</span> agent is {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>                            Formation: not <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>                            Character: not <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>                            Team     : { MBTeam: { }, <a class="code hl_function" href="../../dc/d9a/a00218.html#a7e2bb981605a069e0fb3c3bdb53386e9">IsValid</a>: <span class="keyword">true</span> },</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>                            Origin   : not <span class="keyword">null</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                        };</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    }</div>
-<div class="ttc" id="aa00218_html_a7e2bb981605a069e0fb3c3bdb53386e9"><div class="ttname"><a href="../../dc/d9a/a00218.html#a7e2bb981605a069e0fb3c3bdb53386e9">AgentExtension.IsValid</a></div><div class="ttdeci">static bool IsValid(this Agent? agent)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00008">AgentExtension.cs:8</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/dee/a00008_source.html#l00008">IsValid()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d4/dee/a00008_source.html#l00008">IsValid()</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Extensions/<a class="el" href="../../d4/dee/a00008_source.html">AgentExtension.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a28a6f4090b3d3ceec8585e887e70eb80">_isMissionEnded</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#abd1557e97cf8ee52800cd598bf7722b0">_partyBattleRecords</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#ab06d71c257015c7593cb78fd39efcd46">_processedAgents</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#aa0a81f7a894e08f44978a310fc92b469">_random</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a4a1ce8349b220ef8a77b8e784a90ea07">AfterStart</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a627744d9f9b499d911592b14f220b1d0">Distributors</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#ad6fa866e30fd1bf5ca93fe745939d9b8">HandlePartyItems</a>(MBGUID partyId, bool isPlayerParty, bool isVictorious, bool isDefeated)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a8c64d321bfc580e8ba505ddbfe1612f2">OnAgentRemoved</a>(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a9ced65b77b44cdb267d295c565894269">OnBattleEnded</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a2b2b4a0975434943c50216cca2dc0b33">OnEndMission</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#aeecaa7fc072ebab907ba1d34b0d0e909">OnEndMissionRequest</a>(out bool canLeave)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#adb146e9e02f0dcf700fa83f9e1b98515">OnMissionEnded</a>(MissionResult? missionResult)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#ae1ac12d36995ce7fa0ebe15a6a4c42d6">OnMissionResultReady</a>(MissionResult missionResult)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a55f931620807a3052902d16129bfb4c1">OnRetreatMission</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#ae4bc465c21c2f41f871fa10125765492">OnSurrenderMission</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a0509949b1b835658c4cba517836553d6">PartyBattleSides</a></td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#a25b60aaf522fd91a46f7a88b3eeb953d">ReturnEquipmentFromAgents</a>(MBGUID partyId, IEnumerable&lt; Agent &gt; agents)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#afde3aa792eb8260963de8c7bfddf36a1">ReturnItemsToDestination</a>(MBGUID partyId, Dictionary&lt; ItemObject, int &gt; items, bool isPlayerParty)</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../dd/d52/a00221.html#adbe359d715c312958d64ccd115e2607b">ShowBattleResults</a>()</td><td class="entry"><a class="el" href="../../dd/d52/a00221.html">DynamicTroopMissionLogic</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2

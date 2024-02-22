@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: PartyBattleRecord.cs Source File</title>
+<title>动态装备系统: Patches/GetUpgradeRequiresItemFromCategoryPatch.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -46,7 +46,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -61,57 +60,33 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_a681a4a43401ad726f48078510cca62b.html">Patches</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">PartyBattleRecord.cs</div></div>
+  <div class="headertitle"><div class="title">GetUpgradeRequiresItemFromCategoryPatch.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#region</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> System.Collections.Generic;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> System.Linq;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> HarmonyLib;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> TaleWorlds.CampaignSystem;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Patches;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#endregion</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html">   11</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../dd/d56/a00274.html">PartyBattleRecord</a> {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">   12</a></span>    <span class="keyword">public</span> readonly Dictionary&lt;ItemObject, int&gt; <a class="code hl_variable" href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">ItemsToRecover</a> = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">   14</a></span>    <span class="keyword">public</span> readonly Dictionary&lt;ItemObject, int&gt; <a class="code hl_variable" href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">LootedItems</a> = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#ad24ee3f16dc6d11f3fd0f544f39cd932">   16</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_property" href="../../dd/d56/a00274.html#ad24ee3f16dc6d11f3fd0f544f39cd932">ItemsToRecoverCount</a> =&gt; <a class="code hl_variable" href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">ItemsToRecover</a>.Sum(kv =&gt; kv.Value);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#ae8913d8f9e1d5e5709317136c4a509b0">   18</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_property" href="../../dd/d56/a00274.html#ae8913d8f9e1d5e5709317136c4a509b0">LootedItemsCount</a> =&gt; <a class="code hl_variable" href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">LootedItems</a>.Sum(kv =&gt; kv.Value);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#aeb5db634b7aedb1a7ee806ec05f19078">   20</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d56/a00274.html#aeb5db634b7aedb1a7ee806ec05f19078">AddItemToRecover</a>(ItemObject item) {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_function" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">AddItemToDictionary</a>(<a class="code hl_variable" href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">ItemsToRecover</a>, item, 1);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    }</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#a5c5cd79c10ba624553880de5a542e151">   24</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d56/a00274.html#a5c5cd79c10ba624553880de5a542e151">AddItemToRecover</a>(ItemObject item, <span class="keywordtype">int</span> count) { <a class="code hl_function" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">AddItemToDictionary</a>(<a class="code hl_variable" href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">ItemsToRecover</a>, item, count); }</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#a4638802c5dd9fa997da7aa253730205d">   26</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d56/a00274.html#a4638802c5dd9fa997da7aa253730205d">AddLootedItem</a>(ItemObject item) { <a class="code hl_function" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">AddItemToDictionary</a>(<a class="code hl_variable" href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">LootedItems</a>, item, 1); }</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#abcdd7397a9f1264989892ab33b7aec02">   28</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d56/a00274.html#abcdd7397a9f1264989892ab33b7aec02">AddLootedItem</a>(ItemObject item, <span class="keywordtype">int</span> count) { <a class="code hl_function" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">AddItemToDictionary</a>(<a class="code hl_variable" href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">LootedItems</a>, item, count); }</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">   30</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">AddItemToDictionary</a>(IDictionary&lt;ItemObject, int&gt; dictionary, ItemObject? item, <span class="keywordtype">int</span> count) {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || !<a class="code hl_class" href="../../d7/d2f/a00258.html">ItemBlackList</a>.<a class="code hl_function" href="../../d7/d2f/a00258.html#ac2033cd1f18bbeda492f6bba36142fb5">Test</a>(item)) <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
-<div class="ttc" id="aa00258_html"><div class="ttname"><a href="../../d7/d2f/a00258.html">ItemBlackList</a></div><div class="ttdoc">Provides functionality to test if an item should be blacklisted.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/a00098_source.html#l00018">ItemBlackList.cs:18</a></div></div>
-<div class="ttc" id="aa00258_html_ac2033cd1f18bbeda492f6bba36142fb5"><div class="ttname"><a href="../../d7/d2f/a00258.html#ac2033cd1f18bbeda492f6bba36142fb5">ItemBlackList.Test</a></div><div class="ttdeci">static bool Test(ItemObject item)</div><div class="ttdoc">Determines if an item passes the blacklisting conditions.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d44/a00098_source.html#l00109">ItemBlackList.cs:109</a></div></div>
-<div class="ttc" id="aa00274_html"><div class="ttname"><a href="../../dd/d56/a00274.html">PartyBattleRecord</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00011">PartyBattleRecord.cs:11</a></div></div>
-<div class="ttc" id="aa00274_html_a4638802c5dd9fa997da7aa253730205d"><div class="ttname"><a href="../../dd/d56/a00274.html#a4638802c5dd9fa997da7aa253730205d">PartyBattleRecord.AddLootedItem</a></div><div class="ttdeci">void AddLootedItem(ItemObject item)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00026">PartyBattleRecord.cs:26</a></div></div>
-<div class="ttc" id="aa00274_html_a5c5cd79c10ba624553880de5a542e151"><div class="ttname"><a href="../../dd/d56/a00274.html#a5c5cd79c10ba624553880de5a542e151">PartyBattleRecord.AddItemToRecover</a></div><div class="ttdeci">void AddItemToRecover(ItemObject item, int count)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00024">PartyBattleRecord.cs:24</a></div></div>
-<div class="ttc" id="aa00274_html_a6431cbbd469d843c5182d6224f80f0df"><div class="ttname"><a href="../../dd/d56/a00274.html#a6431cbbd469d843c5182d6224f80f0df">PartyBattleRecord.AddItemToDictionary</a></div><div class="ttdeci">static void AddItemToDictionary(IDictionary&lt; ItemObject, int &gt; dictionary, ItemObject? item, int count)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00030">PartyBattleRecord.cs:30</a></div></div>
-<div class="ttc" id="aa00274_html_a671fdab3feaf2aeee1a720fec1104e13"><div class="ttname"><a href="../../dd/d56/a00274.html#a671fdab3feaf2aeee1a720fec1104e13">PartyBattleRecord.ItemsToRecover</a></div><div class="ttdeci">readonly Dictionary&lt; ItemObject, int &gt; ItemsToRecover</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00012">PartyBattleRecord.cs:12</a></div></div>
-<div class="ttc" id="aa00274_html_ab1b69f5c6e361d8c6e0717cedf481710"><div class="ttname"><a href="../../dd/d56/a00274.html#ab1b69f5c6e361d8c6e0717cedf481710">PartyBattleRecord.LootedItems</a></div><div class="ttdeci">readonly Dictionary&lt; ItemObject, int &gt; LootedItems</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00014">PartyBattleRecord.cs:14</a></div></div>
-<div class="ttc" id="aa00274_html_abcdd7397a9f1264989892ab33b7aec02"><div class="ttname"><a href="../../dd/d56/a00274.html#abcdd7397a9f1264989892ab33b7aec02">PartyBattleRecord.AddLootedItem</a></div><div class="ttdeci">void AddLootedItem(ItemObject item, int count)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00028">PartyBattleRecord.cs:28</a></div></div>
-<div class="ttc" id="aa00274_html_ad24ee3f16dc6d11f3fd0f544f39cd932"><div class="ttname"><a href="../../dd/d56/a00274.html#ad24ee3f16dc6d11f3fd0f544f39cd932">PartyBattleRecord.ItemsToRecoverCount</a></div><div class="ttdeci">int ItemsToRecoverCount</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00016">PartyBattleRecord.cs:16</a></div></div>
-<div class="ttc" id="aa00274_html_ae8913d8f9e1d5e5709317136c4a509b0"><div class="ttname"><a href="../../dd/d56/a00274.html#ae8913d8f9e1d5e5709317136c4a509b0">PartyBattleRecord.LootedItemsCount</a></div><div class="ttdeci">int LootedItemsCount</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00018">PartyBattleRecord.cs:18</a></div></div>
-<div class="ttc" id="aa00274_html_aeb5db634b7aedb1a7ee806ec05f19078"><div class="ttname"><a href="../../dd/d56/a00274.html#aeb5db634b7aedb1a7ee806ec05f19078">PartyBattleRecord.AddItemToRecover</a></div><div class="ttdeci">void AddItemToRecover(ItemObject item)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00020">PartyBattleRecord.cs:20</a></div></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>[HarmonyPatch(typeof(CharacterObject), <span class="stringliteral">&quot;get_UpgradeRequiresItemFromCategory&quot;</span>)]</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../da/d50/a00301.html">    8</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../da/d50/a00301.html">GetUpgradeRequiresItemFromCategoryPatch</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">    9</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">Prefix</a>(CharacterObject __instance, ref ItemCategory? __result) {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">// 设置自定义返回值</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        __result = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="comment">// 返回 false 以阻止原始方法执行</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    }</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>}</div>
+<div class="ttc" id="aa00301_html"><div class="ttname"><a href="../../da/d50/a00301.html">GetUpgradeRequiresItemFromCategoryPatch</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00008">GetUpgradeRequiresItemFromCategoryPatch.cs:8</a></div></div>
+<div class="ttc" id="aa00301_html_a742ecb522378d298bf4b47636d4fdfd5"><div class="ttname"><a href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">GetUpgradeRequiresItemFromCategoryPatch.Prefix</a></div><div class="ttdeci">static bool Prefix(CharacterObject __instance, ref ItemCategory? __result)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00009">GetUpgradeRequiresItemFromCategoryPatch.cs:9</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

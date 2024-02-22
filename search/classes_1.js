@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['blacklist_0',['BlackList',['../d9/d8d/a00262.html',1,'ItemBlackList']]],
-  ['buymercenariespatch_1',['BuyMercenariesPatch',['../dc/dc9/a00282.html',1,'']]]
+  ['blacklist_0',['BlackList',['../d6/d4b/a00277.html',1,'ItemBlackList.BlackList'],['../dd/df4/a00193.html',1,'ItemBlackListTest.BlackList']]],
+  ['buymercenariespatch_1',['BuyMercenariesPatch',['../d3/d4a/a00297.html',1,'']]]
 ];
