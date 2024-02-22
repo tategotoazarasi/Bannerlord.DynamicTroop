@@ -2,9 +2,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Bannerlord.DynamicTroop.Comparers;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
+using Newtonsoft.Json;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
@@ -139,7 +142,10 @@ public static class ArmyArmory {
 												   IsEmpty         : false,
 												   EquipmentElement: { IsEmpty: false, Item: not null },
 												   Amount          : > 0
-											   })
+											   }                                                          ||
+									 kv.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Invalid ||
+									 kv.EquipmentElement.Item.StringId == null                            ||
+									 kv.EquipmentElement.Item.StringId.IsEmpty())
 					   .ToArrayQ();
 		if (toRemove == null) return;
 
@@ -175,5 +181,48 @@ public static class ArmyArmory {
 		foreach (var item in toRemove) Armory.Remove(item);
 
 		Global.Debug($"Removed {toRemove.Length} player crafted entries from player's armory");
+	}
+
+	public static void Import() {
+		try {
+			// 获取 armory.json 文件的完整路径
+			var filePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../armory.json");
+
+			// 读取文件内容
+			var json = File.ReadAllText(filePath);
+
+			// 使用 Newtonsoft.Json 的 JsonSerializer 进行反序列化
+			var dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
+			Armory.Clear();
+			foreach (var kpv in dict) {
+				var item = MBObjectManager.Instance.GetObject<ItemObject>(kpv.Key);
+				if (item != null) { _ = Armory.AddToCounts(item, kpv.Value); }
+				else { Global.Warn($"cannot get object {kpv.Key}"); }
+			}
+
+			Global.Debug($"Successfully export armory from {filePath}");
+		}
+		catch (Exception e) { Global.Error(e.Message); }
+	}
+
+	public static void Export() {
+		try {
+			Dictionary<string, int> dict = new();
+			foreach (var rosterElement in Armory) {
+				var stringId = rosterElement.EquipmentElement.Item?.StringId;
+				var cnt      = rosterElement.Amount;
+				if (stringId == null || cnt <= 0) continue;
+				if (dict.ContainsKey(stringId)) { dict[stringId] += cnt; }
+				else { dict.Add(stringId, cnt); }
+			}
+
+			// 使用 Newtonsoft.Json 的 JsonSerializer 进行序列化
+			var json = JsonConvert.SerializeObject(dict, Formatting.Indented);
+			// 写入到 armory.json 文件
+			var filename = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "../../armory.json");
+			File.WriteAllText(filename, json);
+			Global.Debug($"Successfully export armory to {filename}");
+		}
+		catch (Exception e) { Global.Error(e.Message); }
 	}
 }

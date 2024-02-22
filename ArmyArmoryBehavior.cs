@@ -124,7 +124,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  args => { ArmyArmory.DebugClearEmptyItem(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_rebuild_armory",
+								  "debug_remove_player_crafted_items",
 								  "DEBUG: Remove player crafted items",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.DebugRemovePlayerCraftedItems(); });
@@ -134,6 +134,18 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  "DEBUG: Rebuild player armory",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.RebuildArmory(); });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_export_armory",
+								  "DEBUG: Rebuild player armory",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => { ArmyArmory.Export(); });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_import_armory",
+								  "DEBUG: Rebuild player armory",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => { ArmyArmory.Import(); });
 
 		// 返回上一级菜单的选项
 		starter.AddGameMenuOption("army_armory_submenu",
