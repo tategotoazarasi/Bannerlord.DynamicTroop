@@ -137,13 +137,13 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_export_armory",
-								  "DEBUG: Rebuild player armory",
+								  "DEBUG: Export player armory",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.Export(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_import_armory",
-								  "DEBUG: Rebuild player armory",
+								  "DEBUG: Import player armory",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.Import(); });
 
