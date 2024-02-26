@@ -501,9 +501,5 @@ Temporary Items
 .apdisk
 _Module/README.md
 _Module/LICENSE.txt
-.idea/.idea.Bannerlord.DynamicTroop/.idea/codeStyles/codeStyleConfig.xml
-.idea/.idea.Bannerlord.DynamicTroop/.idea/encodings.xml
-.idea/.idea.Bannerlord.DynamicTroop/.idea/indexLayout.xml
-.idea/.idea.Bannerlord.DynamicTroop/.idea/projectSettingsUpdater.xml
-.idea/.idea.Bannerlord.DynamicTroop/.idea/vcs.xml
+.idea/.idea.Bannerlord.DynamicTroop/.idea/
 doc/
