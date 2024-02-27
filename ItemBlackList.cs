@@ -1,5 +1,3 @@
-﻿#region
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,8 +5,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
-
-#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -107,13 +103,11 @@ public static class ItemBlackList {
 	/// <param name="item">The item to test.</param>
 	/// <returns>True if the item passes the blacklisting conditions, false otherwise.</returns>
 	public static bool Test(ItemObject item) {
+		if (item is not { StringId: not null, Name: not null } || item.StringId.IsEmpty() || item.Name.ToString().IsEmpty()) return true;
 		var stringId = item.StringId;
 		var name     = item.Name.ToString();
 
-		return !StringIds.Contains(stringId)                                      &&
-			   !Names.Contains(name)                                              &&
-			   !StringIdPatterns.Any(pattern => Regex.IsMatch(stringId, pattern)) &&
-			   !NamePatterns.Any(pattern => Regex.IsMatch(name,         pattern));
+		return !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => Regex.IsMatch(stringId, pattern)) && !NamePatterns.Any(pattern => Regex.IsMatch(name, pattern));
 	}
 
 	/// <summary>
