@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Member List</title>
+<title>动态装备系统: SpawnAgentPatch Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -62,25 +62,565 @@ $(function() {
 
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">SubModule Member List</div></div>
+  <div class="summary">
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="../../d4/d6f/a00315.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">SpawnAgentPatch Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a77eae6b5ab874ca4aa19cb3bb3e26f52"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a77eae6b5ab874ca4aa19cb3bb3e26f52">AssignOrSpawnEquipment</a> (AgentBuildData agentBuildData, <a class="el" href="../../d8/d00/a00186.html">Assignment</a> assignment, <a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a> missionLogic, MBObjectBase party)</td></tr>
+<tr class="memdesc:a77eae6b5ab874ca4aa19cb3bb3e26f52"><td class="mdescLeft">&#160;</td><td class="mdescRight">分配士兵的装备。  <a href="../../d2/d41/a00318.html#a77eae6b5ab874ca4aa19cb3bb3e26f52">More...</a><br /></td></tr>
+<tr class="separator:a77eae6b5ab874ca4aa19cb3bb3e26f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3d2a0adb44dd93c279ba37bfa028f14"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#ab3d2a0adb44dd93c279ba37bfa028f14">EnsureDistributorExists</a> (<a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a> missionLogic, MobileParty party)</td></tr>
+<tr class="memdesc:ab3d2a0adb44dd93c279ba37bfa028f14"><td class="mdescLeft">&#160;</td><td class="mdescRight">确保给定部队的装备分配器存在。  <a href="../../d2/d41/a00318.html#ab3d2a0adb44dd93c279ba37bfa028f14">More...</a><br /></td></tr>
+<tr class="separator:ab3d2a0adb44dd93c279ba37bfa028f14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3871bc3a0b442c5ae4c5fc7ad1c862a0"><td class="memItemLeft" align="right" valign="top">static ? <a class="el" href="../../d8/d00/a00186.html">Assignment</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a3871bc3a0b442c5ae4c5fc7ad1c862a0">GetAssignmentForCharacter</a> (<a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a> missionLogic, MBObjectBase party, string characterStringId)</td></tr>
+<tr class="memdesc:a3871bc3a0b442c5ae4c5fc7ad1c862a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据给定的部队和角色ID获取分配的装备。  <a href="../../d2/d41/a00318.html#a3871bc3a0b442c5ae4c5fc7ad1c862a0">More...</a><br /></td></tr>
+<tr class="separator:a3871bc3a0b442c5ae4c5fc7ad1c862a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab2df8f4dfaf6a405da665dff9d7dbec"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#aab2df8f4dfaf6a405da665dff9d7dbec">IsCombatMissionWithValidData</a> (Mission mission, AgentBuildData agentBuildData)</td></tr>
+<tr class="memdesc:aab2df8f4dfaf6a405da665dff9d7dbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断当前任务是否为有效的战斗任务，并且士兵生成数据是否有效。  <a href="../../d2/d41/a00318.html#aab2df8f4dfaf6a405da665dff9d7dbec">More...</a><br /></td></tr>
+<tr class="separator:aab2df8f4dfaf6a405da665dff9d7dbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0e755daadcb43ca327c40e240f275db"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#ab0e755daadcb43ca327c40e240f275db">IsPartyValidForProcessing</a> (MobileParty? party)</td></tr>
+<tr class="separator:ab0e755daadcb43ca327c40e240f275db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a877c587768500e2e4db1207005ad36ae"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a877c587768500e2e4db1207005ad36ae">Prefix</a> (Mission __instance, ref AgentBuildData agentBuildData)</td></tr>
+<tr class="memdesc:a877c587768500e2e4db1207005ad36ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">在生成士兵之前执行的逻辑。  <a href="../../d2/d41/a00318.html#a877c587768500e2e4db1207005ad36ae">More...</a><br /></td></tr>
+<tr class="separator:a877c587768500e2e4db1207005ad36ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41cfa02f400db7eb48ffa373b519c283"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a41cfa02f400db7eb48ffa373b519c283">ProcessAgentSpawn</a> (AgentBuildData agentBuildData, MobileParty party, <a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a> missionLogic)</td></tr>
+<tr class="memdesc:a41cfa02f400db7eb48ffa373b519c283"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理士兵生成的逻辑。  <a href="../../d2/d41/a00318.html#a41cfa02f400db7eb48ffa373b519c283">More...</a><br /></td></tr>
+<tr class="separator:a41cfa02f400db7eb48ffa373b519c283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cc062c63a63afc212e4530b07ed7476"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a6cc062c63a63afc212e4530b07ed7476">UpdateBattleSides</a> (<a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a> missionLogic, MBObjectBase party, BattleSideEnum side)</td></tr>
+<tr class="memdesc:a6cc062c63a63afc212e4530b07ed7476"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新任务逻辑中的部队战斗方面信息。  <a href="../../d2/d41/a00318.html#a6cc062c63a63afc212e4530b07ed7476">More...</a><br /></td></tr>
+<tr class="separator:a6cc062c63a63afc212e4530b07ed7476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00015">15</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a77eae6b5ab874ca4aa19cb3bb3e26f52" name="a77eae6b5ab874ca4aa19cb3bb3e26f52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77eae6b5ab874ca4aa19cb3bb3e26f52">&#9670;&nbsp;</a></span>AssignOrSpawnEquipment()</h2>
 
-<p>This is the complete list of members for <a class="el" href="../../db/d53/a00321.html">SubModule</a>, including all inherited members.</p>
-<table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a0641e3bbf73451f1222c00567a4b6d72">AddBehaviors</a>(CampaignGameStarter gameStarterObject)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">private</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a7aae39ecd0ac53d25e76a18dbde6f603">BeginGameStart</a>(Game game)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a4f208cf54002eca3a7c3014945a704b6">OnBeforeInitialModuleScreenSetAsRoot</a>()</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a1fa825d96d94a5a247fa96b60b507b65">OnCampaignStart</a>(Game game, object starterObject)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a4fab4bb60a243cf176e846d3a5516e2c">OnGameInitializationFinished</a>(Game game)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a4637cb51281994812601d61b0cdb3c90">OnGameLoaded</a>(Game game, object initializerObject)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#aceae093b7c7fd3fc56d2d386482c15f6">OnGameStart</a>(Game game, IGameStarter gameStarterObject)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#ae7c8274a39d541d8933aeab973627866">OnMissionBehaviorInitialize</a>(Mission mission)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a3f1731e9bec47bfe3b65fc12239189a2">OnNewGameCreated</a>(Game game, object initializerObject)</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a2a14cd5aca464103de3525512208a047">OnSubModuleLoad</a>()</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a1c1543586a7b299e661c6ee7f8d77320">OnSubModuleUnloaded</a>()</td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../db/d53/a00321.html#a7e120e7246ab5e702c42f34fbeeb23d4">Settings</a></td><td class="entry"><a class="el" href="../../db/d53/a00321.html">SubModule</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-</table></div><!-- contents -->
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void SpawnAgentPatch.AssignOrSpawnEquipment </td>
+          <td>(</td>
+          <td class="paramtype">AgentBuildData&#160;</td>
+          <td class="paramname"><em>agentBuildData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d8/d00/a00186.html">Assignment</a>&#160;</td>
+          <td class="paramname"><em>assignment</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&#160;</td>
+          <td class="paramname"><em>missionLogic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MBObjectBase&#160;</td>
+          <td class="paramname"><em>party</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>分配士兵的装备。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">agentBuildData</td><td>士兵生成数据。 </td></tr>
+    <tr><td class="paramname">assignment</td><td>分配任务。 </td></tr>
+    <tr><td class="paramname">missionLogic</td><td>任务逻辑。 </td></tr>
+    <tr><td class="paramname">party</td><td>部队对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00131">131</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                                                                               {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">if</span> (Global.IsInPlayerParty(agentBuildData.AgentOrigin))</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <a class="code hl_class" href="../../d8/df1/a00174.html">ArmyArmory</a>.<a class="code hl_function" href="../../d8/df1/a00174.html#ac7546846d885cfcc41e0b88c2fb57924">AssignEquipment</a>(assignment.<a class="code hl_variable" href="../../d8/d00/a00186.html#a98f4aebfe6ba4ace4b7f4c4b8d45d8cf">Equipment</a>);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a627744d9f9b499d911592b14f220b1d0">Distributors</a>[party.Id].Spawn(assignment.<a class="code hl_variable" href="../../d8/d00/a00186.html#a98f4aebfe6ba4ace4b7f4c4b8d45d8cf">Equipment</a>);</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    }</div>
+<div class="ttc" id="aa00174_html"><div class="ttname"><a href="../../d8/df1/a00174.html">ArmyArmory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/a00047_source.html#l00024">ArmyArmory.cs:24</a></div></div>
+<div class="ttc" id="aa00174_html_ac7546846d885cfcc41e0b88c2fb57924"><div class="ttname"><a href="../../d8/df1/a00174.html#ac7546846d885cfcc41e0b88c2fb57924">ArmyArmory.AssignEquipment</a></div><div class="ttdeci">static void AssignEquipment(Equipment equipment)</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2d/a00047_source.html#l00054">ArmyArmory.cs:54</a></div></div>
+<div class="ttc" id="aa00186_html_a98f4aebfe6ba4ace4b7f4c4b8d45d8cf"><div class="ttname"><a href="../../d8/d00/a00186.html#a98f4aebfe6ba4ace4b7f4c4b8d45d8cf">Assignment.Equipment</a></div><div class="ttdeci">readonly Equipment Equipment</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8b/a00059_source.html#l00021">Assignment.cs:21</a></div></div>
+<div class="ttc" id="aa00222_html_a627744d9f9b499d911592b14f220b1d0"><div class="ttname"><a href="../../d0/d24/a00222.html#a627744d9f9b499d911592b14f220b1d0">DynamicTroopMissionLogic.Distributors</a></div><div class="ttdeci">readonly Dictionary&lt; MBGUID, PartyEquipmentDistributor &gt; Distributors</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d03/a00062_source.html#l00025">DynamicTroopMissionLogic.cs:25</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d6/d2d/a00047_source.html#l00054">ArmyArmory.AssignEquipment()</a>, <a class="el" href="../../df/d03/a00062_source.html#l00025">DynamicTroopMissionLogic.Distributors</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00021">Assignment.Equipment</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00076">ProcessAgentSpawn()</a>.</p>
+
+</div>
+</div>
+<a id="ab3d2a0adb44dd93c279ba37bfa028f14" name="ab3d2a0adb44dd93c279ba37bfa028f14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3d2a0adb44dd93c279ba37bfa028f14">&#9670;&nbsp;</a></span>EnsureDistributorExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void SpawnAgentPatch.EnsureDistributorExists </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&#160;</td>
+          <td class="paramname"><em>missionLogic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MobileParty&#160;</td>
+          <td class="paramname"><em>party</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>确保给定部队的装备分配器存在。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">missionLogic</td><td>任务逻辑。 </td></tr>
+    <tr><td class="paramname">party</td><td>部队。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00099">99</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                                                                                                          {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">if</span> (missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a627744d9f9b499d911592b14f220b1d0">Distributors</a>.ContainsKey(party.Id)) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        var partyArmory = <a class="code hl_class" href="../../dc/d55/a00226.html">EveryoneCampaignBehavior</a>.<a class="code hl_variable" href="../../dc/d55/a00226.html#a17fa01c679fde70807b1d57508f795f1">PartyArmories</a>.TryGetValue(party.Id, out var armory)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                              ? armory</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                              : <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a627744d9f9b499d911592b14f220b1d0">Distributors</a>.Add(party.Id, <span class="keyword">new</span> <a class="code hl_class" href="../../d4/d5b/a00294.html">PartyEquipmentDistributor</a>(Mission.Current, party, partyArmory));</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        Global.Debug($<span class="stringliteral">&quot;Party {party.Name} involved&quot;</span>);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="ttc" id="aa00226_html"><div class="ttname"><a href="../../dc/d55/a00226.html">EveryoneCampaignBehavior</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d46/a00002_source.html#l00027">EveryoneCampaignBehavior.cs:27</a></div></div>
+<div class="ttc" id="aa00226_html_a17fa01c679fde70807b1d57508f795f1"><div class="ttname"><a href="../../dc/d55/a00226.html#a17fa01c679fde70807b1d57508f795f1">EveryoneCampaignBehavior.PartyArmories</a></div><div class="ttdeci">static Dictionary&lt; MBGUID, Dictionary&lt; ItemObject, int &gt; &gt; PartyArmories</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d46/a00002_source.html#l00028">EveryoneCampaignBehavior.cs:28</a></div></div>
+<div class="ttc" id="aa00294_html"><div class="ttname"><a href="../../d4/d5b/a00294.html">PartyEquipmentDistributor</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00021">PartyEquipmentDistributor.cs:21</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../df/d03/a00062_source.html#l00025">DynamicTroopMissionLogic.Distributors</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00028">EveryoneCampaignBehavior.PartyArmories</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00076">ProcessAgentSpawn()</a>.</p>
+
+</div>
+</div>
+<a id="a3871bc3a0b442c5ae4c5fc7ad1c862a0" name="a3871bc3a0b442c5ae4c5fc7ad1c862a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3871bc3a0b442c5ae4c5fc7ad1c862a0">&#9670;&nbsp;</a></span>GetAssignmentForCharacter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ? <a class="el" href="../../d8/d00/a00186.html">Assignment</a> SpawnAgentPatch.GetAssignmentForCharacter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&#160;</td>
+          <td class="paramname"><em>missionLogic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MBObjectBase&#160;</td>
+          <td class="paramname"><em>party</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>characterStringId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据给定的部队和角色ID获取分配的装备。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">missionLogic</td><td>任务逻辑。 </td></tr>
+    <tr><td class="paramname">party</td><td>部队对象。 </td></tr>
+    <tr><td class="paramname">characterStringId</td><td>角色ID。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>找到的分配任务，如果没有则返回null。 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00116">116</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                                                                                                     {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">return</span> missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a627744d9f9b499d911592b14f220b1d0">Distributors</a>[party.Id]</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>                           .Assignments</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                           .FirstOrDefaultQ(a =&gt; !a.IsAssigned &amp;&amp; a.Character.StringId == characterStringId);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../df/d03/a00062_source.html#l00025">DynamicTroopMissionLogic.Distributors</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00076">ProcessAgentSpawn()</a>.</p>
+
+</div>
+</div>
+<a id="aab2df8f4dfaf6a405da665dff9d7dbec" name="aab2df8f4dfaf6a405da665dff9d7dbec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab2df8f4dfaf6a405da665dff9d7dbec">&#9670;&nbsp;</a></span>IsCombatMissionWithValidData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool SpawnAgentPatch.IsCombatMissionWithValidData </td>
+          <td>(</td>
+          <td class="paramtype">Mission&#160;</td>
+          <td class="paramname"><em>mission</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">AgentBuildData&#160;</td>
+          <td class="paramname"><em>agentBuildData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断当前任务是否为有效的战斗任务，并且士兵生成数据是否有效。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mission</td><td>当前任务。 </td></tr>
+    <tr><td class="paramname">agentBuildData</td><td>士兵生成数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>如果是有效的战斗任务并且数据有效，则返回true。 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00052">52</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                                                                                     {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">return</span> mission is { CombatType: Mission.MissionCombatType.Combat, PlayerTeam: not <span class="keyword">null</span> } &amp;&amp;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>               !mission.HasMissionBehavior&lt;TournamentBehavior&gt;()                                 &amp;&amp;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>               !mission.HasMissionBehavior&lt;CustomBattleAgentLogic&gt;()                             &amp;&amp;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>               mission.HasMissionBehavior&lt;<a class="code hl_class" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&gt;()                            &amp;&amp;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>               agentBuildData is {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                                     AgentCharacter   : not <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                     AgentFormation   : not <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                                     AgentTeam.IsValid: <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                                     AgentOrigin      : not <span class="keyword">null</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                                 } &amp;&amp;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>               Global.GetAgentParty(agentBuildData.AgentOrigin) != <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="ttc" id="aa00222_html"><div class="ttname"><a href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d03/a00062_source.html#l00018">DynamicTroopMissionLogic.cs:18</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00021">Prefix()</a>.</p>
+
+</div>
+</div>
+<a id="ab0e755daadcb43ca327c40e240f275db" name="ab0e755daadcb43ca327c40e240f275db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0e755daadcb43ca327c40e240f275db">&#9670;&nbsp;</a></span>IsPartyValidForProcessing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool SpawnAgentPatch.IsPartyValidForProcessing </td>
+          <td>(</td>
+          <td class="paramtype">MobileParty?&#160;</td>
+          <td class="paramname"><em>party</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00066">66</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                                                      {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">return</span> party != <span class="keyword">null</span> &amp;&amp; (party.IsValid() || party == MobileParty.MainParty);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00021">Prefix()</a>.</p>
+
+</div>
+</div>
+<a id="a877c587768500e2e4db1207005ad36ae" name="a877c587768500e2e4db1207005ad36ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a877c587768500e2e4db1207005ad36ae">&#9670;&nbsp;</a></span>Prefix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void SpawnAgentPatch.Prefix </td>
+          <td>(</td>
+          <td class="paramtype">Mission&#160;</td>
+          <td class="paramname"><em>__instance</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ref AgentBuildData&#160;</td>
+          <td class="paramname"><em>agentBuildData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在生成士兵之前执行的逻辑。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">__instance</td><td>当前Mission的实例。 </td></tr>
+    <tr><td class="paramname">agentBuildData</td><td>士兵生成数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00021">21</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                                                      {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../d2/d41/a00318.html#aab2df8f4dfaf6a405da665dff9d7dbec">IsCombatMissionWithValidData</a>(__instance, agentBuildData)) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        var party = Global.GetAgentParty(agentBuildData.AgentOrigin);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="../../d2/d41/a00318.html#ab0e755daadcb43ca327c40e240f275db">IsPartyValidForProcessing</a>(party)) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">if</span> ((<a class="code hl_class" href="../../d5/d7b/a00286.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d5/d7b/a00286.html#a255c9da72c3ce604f0736d9bcd7fb807">RandomizeNonHeroLedAiPartiesArmor</a> ?? <span class="keyword">false</span>) &amp;&amp;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                agentBuildData.AgentCharacter is CharacterObject character) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                <a class="code hl_class" href="../../d8/d00/a00186.html">Assignment</a> assignment = <span class="keyword">new</span>(character);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                assignment.<a class="code hl_function" href="../../d8/d00/a00186.html#a91df421e662e8e5e423bf30d7c1dcbdd">FillEmptySlots</a>();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                agentBuildData = agentBuildData.Equipment(assignment.<a class="code hl_variable" href="../../d8/d00/a00186.html#a98f4aebfe6ba4ace4b7f4c4b8d45d8cf">Equipment</a>);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        var missionLogic = __instance.GetMissionBehavior&lt;<a class="code hl_class" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&gt;();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (missionLogic == <span class="keyword">null</span>) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            Global.Error(<span class="stringliteral">&quot;missionLogic is null&quot;</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_function" href="../../d2/d41/a00318.html#a41cfa02f400db7eb48ffa373b519c283">ProcessAgentSpawn</a>(agentBuildData, party, missionLogic);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <a class="code hl_function" href="../../d2/d41/a00318.html#a6cc062c63a63afc212e4530b07ed7476">UpdateBattleSides</a>(missionLogic, party, agentBuildData.AgentTeam.Side);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="ttc" id="aa00186_html"><div class="ttname"><a href="../../d8/d00/a00186.html">Assignment</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8b/a00059_source.html#l00011">Assignment.cs:11</a></div></div>
+<div class="ttc" id="aa00186_html_a91df421e662e8e5e423bf30d7c1dcbdd"><div class="ttname"><a href="../../d8/d00/a00186.html#a91df421e662e8e5e423bf30d7c1dcbdd">Assignment.FillEmptySlots</a></div><div class="ttdeci">void FillEmptySlots()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8b/a00059_source.html#l00141">Assignment.cs:141</a></div></div>
+<div class="ttc" id="aa00286_html"><div class="ttname"><a href="../../d5/d7b/a00286.html">ModSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d51/a00017_source.html#l00013">ModSettings.cs:13</a></div></div>
+<div class="ttc" id="aa00286_html_a255c9da72c3ce604f0736d9bcd7fb807"><div class="ttname"><a href="../../d5/d7b/a00286.html#a255c9da72c3ce604f0736d9bcd7fb807">ModSettings.RandomizeNonHeroLedAiPartiesArmor</a></div><div class="ttdeci">bool RandomizeNonHeroLedAiPartiesArmor</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d51/a00017_source.html#l00075">ModSettings.cs:76</a></div></div>
+<div class="ttc" id="aa00318_html_a41cfa02f400db7eb48ffa373b519c283"><div class="ttname"><a href="../../d2/d41/a00318.html#a41cfa02f400db7eb48ffa373b519c283">SpawnAgentPatch.ProcessAgentSpawn</a></div><div class="ttdeci">static void ProcessAgentSpawn(AgentBuildData agentBuildData, MobileParty party, DynamicTroopMissionLogic missionLogic)</div><div class="ttdoc">处理士兵生成的逻辑。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00076">SpawnAgentPatch.cs:76</a></div></div>
+<div class="ttc" id="aa00318_html_a6cc062c63a63afc212e4530b07ed7476"><div class="ttname"><a href="../../d2/d41/a00318.html#a6cc062c63a63afc212e4530b07ed7476">SpawnAgentPatch.UpdateBattleSides</a></div><div class="ttdeci">static void UpdateBattleSides(DynamicTroopMissionLogic missionLogic, MBObjectBase party, BattleSideEnum side)</div><div class="ttdoc">更新任务逻辑中的部队战斗方面信息。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00147">SpawnAgentPatch.cs:147</a></div></div>
+<div class="ttc" id="aa00318_html_aab2df8f4dfaf6a405da665dff9d7dbec"><div class="ttname"><a href="../../d2/d41/a00318.html#aab2df8f4dfaf6a405da665dff9d7dbec">SpawnAgentPatch.IsCombatMissionWithValidData</a></div><div class="ttdeci">static bool IsCombatMissionWithValidData(Mission mission, AgentBuildData agentBuildData)</div><div class="ttdoc">判断当前任务是否为有效的战斗任务，并且士兵生成数据是否有效。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00052">SpawnAgentPatch.cs:52</a></div></div>
+<div class="ttc" id="aa00318_html_ab0e755daadcb43ca327c40e240f275db"><div class="ttname"><a href="../../d2/d41/a00318.html#ab0e755daadcb43ca327c40e240f275db">SpawnAgentPatch.IsPartyValidForProcessing</a></div><div class="ttdeci">static bool IsPartyValidForProcessing(MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00066">SpawnAgentPatch.cs:66</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00021">Assignment.Equipment</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00141">Assignment.FillEmptySlots()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00052">IsCombatMissionWithValidData()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00066">IsPartyValidForProcessing()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00076">ProcessAgentSpawn()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00076">ModSettings.RandomizeNonHeroLedAiPartiesArmor</a>, and <a class="el" href="../../db/db6/a00074_source.html#l00147">UpdateBattleSides()</a>.</p>
+
+</div>
+</div>
+<a id="a41cfa02f400db7eb48ffa373b519c283" name="a41cfa02f400db7eb48ffa373b519c283"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41cfa02f400db7eb48ffa373b519c283">&#9670;&nbsp;</a></span>ProcessAgentSpawn()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void SpawnAgentPatch.ProcessAgentSpawn </td>
+          <td>(</td>
+          <td class="paramtype">AgentBuildData&#160;</td>
+          <td class="paramname"><em>agentBuildData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MobileParty&#160;</td>
+          <td class="paramname"><em>party</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&#160;</td>
+          <td class="paramname"><em>missionLogic</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理士兵生成的逻辑。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">agentBuildData</td><td>士兵生成数据。 </td></tr>
+    <tr><td class="paramname">party</td><td>相关联的部队。 </td></tr>
+    <tr><td class="paramname">missionLogic</td><td>任务逻辑。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00076">76</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                                                                                 {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keywordflow">if</span> (agentBuildData.AgentCharacter.IsHero) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <a class="code hl_function" href="../../d2/d41/a00318.html#ab3d2a0adb44dd93c279ba37bfa028f14">EnsureDistributorExists</a>(missionLogic, party);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        var assignment = <a class="code hl_function" href="../../d2/d41/a00318.html#a3871bc3a0b442c5ae4c5fc7ad1c862a0">GetAssignmentForCharacter</a>(missionLogic, party, agentBuildData.AgentCharacter.StringId);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">if</span> (assignment != <span class="keyword">null</span>) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <span class="keywordflow">if</span> (!Global.IsInPlayerParty(agentBuildData.AgentOrigin)) assignment.FillEmptySlots();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            agentBuildData = agentBuildData.Equipment(assignment.Equipment);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <a class="code hl_function" href="../../d2/d41/a00318.html#a77eae6b5ab874ca4aa19cb3bb3e26f52">AssignOrSpawnEquipment</a>(agentBuildData, assignment, missionLogic, party);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            assignment.IsAssigned = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">else</span> { Global.Error($<span class="stringliteral">&quot;Assignment not found for {agentBuildData.AgentCharacter.StringId}&quot;</span>); }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="ttc" id="aa00318_html_a3871bc3a0b442c5ae4c5fc7ad1c862a0"><div class="ttname"><a href="../../d2/d41/a00318.html#a3871bc3a0b442c5ae4c5fc7ad1c862a0">SpawnAgentPatch.GetAssignmentForCharacter</a></div><div class="ttdeci">static ? Assignment GetAssignmentForCharacter(DynamicTroopMissionLogic missionLogic, MBObjectBase party, string characterStringId)</div><div class="ttdoc">根据给定的部队和角色ID获取分配的装备。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00116">SpawnAgentPatch.cs:116</a></div></div>
+<div class="ttc" id="aa00318_html_a77eae6b5ab874ca4aa19cb3bb3e26f52"><div class="ttname"><a href="../../d2/d41/a00318.html#a77eae6b5ab874ca4aa19cb3bb3e26f52">SpawnAgentPatch.AssignOrSpawnEquipment</a></div><div class="ttdeci">static void AssignOrSpawnEquipment(AgentBuildData agentBuildData, Assignment assignment, DynamicTroopMissionLogic missionLogic, MBObjectBase party)</div><div class="ttdoc">分配士兵的装备。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00131">SpawnAgentPatch.cs:131</a></div></div>
+<div class="ttc" id="aa00318_html_ab3d2a0adb44dd93c279ba37bfa028f14"><div class="ttname"><a href="../../d2/d41/a00318.html#ab3d2a0adb44dd93c279ba37bfa028f14">SpawnAgentPatch.EnsureDistributorExists</a></div><div class="ttdeci">static void EnsureDistributorExists(DynamicTroopMissionLogic missionLogic, MobileParty party)</div><div class="ttdoc">确保给定部队的装备分配器存在。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/db6/a00074_source.html#l00099">SpawnAgentPatch.cs:99</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/db6/a00074_source.html#l00131">AssignOrSpawnEquipment()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00099">EnsureDistributorExists()</a>, and <a class="el" href="../../db/db6/a00074_source.html#l00116">GetAssignmentForCharacter()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00021">Prefix()</a>.</p>
+
+</div>
+</div>
+<a id="a6cc062c63a63afc212e4530b07ed7476" name="a6cc062c63a63afc212e4530b07ed7476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cc062c63a63afc212e4530b07ed7476">&#9670;&nbsp;</a></span>UpdateBattleSides()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void SpawnAgentPatch.UpdateBattleSides </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d24/a00222.html">DynamicTroopMissionLogic</a>&#160;</td>
+          <td class="paramname"><em>missionLogic</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">MBObjectBase&#160;</td>
+          <td class="paramname"><em>party</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BattleSideEnum&#160;</td>
+          <td class="paramname"><em>side</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新任务逻辑中的部队战斗方面信息。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">missionLogic</td><td>任务逻辑。 </td></tr>
+    <tr><td class="paramname">party</td><td>部队对象。 </td></tr>
+    <tr><td class="paramname">side</td><td>战斗中的一方。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../db/db6/a00074_source.html#l00147">147</a> of file <a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                                                                         {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">if</span> (!missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a0509949b1b835658c4cba517836553d6">PartyBattleSides</a>.ContainsKey(party.Id)) missionLogic.<a class="code hl_variable" href="../../d0/d24/a00222.html#a0509949b1b835658c4cba517836553d6">PartyBattleSides</a>.Add(party.Id, side);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }</div>
+<div class="ttc" id="aa00222_html_a0509949b1b835658c4cba517836553d6"><div class="ttname"><a href="../../d0/d24/a00222.html#a0509949b1b835658c4cba517836553d6">DynamicTroopMissionLogic.PartyBattleSides</a></div><div class="ttdeci">readonly Dictionary&lt; MBGUID, BattleSideEnum &gt; PartyBattleSides</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d03/a00062_source.html#l00027">DynamicTroopMissionLogic.cs:27</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../df/d03/a00062_source.html#l00027">DynamicTroopMissionLogic.PartyBattleSides</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/db6/a00074_source.html#l00021">Prefix()</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>Patches/<a class="el" href="../../db/db6/a00074_source.html">SpawnAgentPatch.cs</a></li>
+</ul>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
