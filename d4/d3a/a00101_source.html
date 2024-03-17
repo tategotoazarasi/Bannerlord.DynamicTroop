@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Patches/GetUpgradeRequiresItemFromCategoryPatch.cs Source File</title>
+<title>动态装备系统: ArmorSelector.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -46,6 +46,7 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -60,33 +61,58 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="../../dir_a681a4a43401ad726f48078510cca62b.html">Patches</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">GetUpgradeRequiresItemFromCategoryPatch.cs</div></div>
+  <div class="headertitle"><div class="title">ArmorSelector.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> HarmonyLib;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> TaleWorlds.CampaignSystem;</div>
+<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> System.Collections.Generic;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> TaleWorlds.Core;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Patches;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> TaleWorlds.LinQuick;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> TaleWorlds.MountAndBlade;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>[HarmonyPatch(typeof(CharacterObject), <span class="stringliteral">&quot;get_UpgradeRequiresItemFromCategory&quot;</span>)]</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../da/d50/a00301.html">    8</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../da/d50/a00301.html">GetUpgradeRequiresItemFromCategoryPatch</a> {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">    9</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">Prefix</a>(CharacterObject __instance, ref ItemCategory? __result) {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">// 设置自定义返回值</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        __result = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="comment">// 返回 false 以阻止原始方法执行</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    }</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>}</div>
-<div class="ttc" id="aa00301_html"><div class="ttname"><a href="../../da/d50/a00301.html">GetUpgradeRequiresItemFromCategoryPatch</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00008">GetUpgradeRequiresItemFromCategoryPatch.cs:8</a></div></div>
-<div class="ttc" id="aa00301_html_a742ecb522378d298bf4b47636d4fdfd5"><div class="ttname"><a href="../../da/d50/a00301.html#a742ecb522378d298bf4b47636d4fdfd5">GetUpgradeRequiresItemFromCategoryPatch.Prefix</a></div><div class="ttdeci">static bool Prefix(CharacterObject __instance, ref ItemCategory? __result)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00009">GetUpgradeRequiresItemFromCategoryPatch.cs:9</a></div></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../d0/d48/a00165.html">    9</a></span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../d0/d48/a00165.html">ArmorSelector</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../d0/d48/a00165.html#ac508979f3c02929ebf0b6edd9db83e42">   10</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> readonly <a class="code hl_variable" href="../../d0/d48/a00165.html#ac508979f3c02929ebf0b6edd9db83e42">Random</a> <a class="code hl_variable" href="../../d0/d48/a00165.html#ac508979f3c02929ebf0b6edd9db83e42">Random</a> = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d0/d48/a00165.html#a76188f7d62fcbd7ead5081cfed55de0f">   18</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> ItemObject? <a class="code hl_function" href="../../d0/d48/a00165.html#a76188f7d62fcbd7ead5081cfed55de0f">GetRandomArmorByBodyPart</a>(List&lt;ItemObject&gt; armors, BoneBodyPartType? bodyPart) {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">if</span> (!bodyPart.HasValue) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        var weightedArmors = armors.WhereQ(armor =&gt; armor.HasArmorComponent)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                   .SelectQ(armor =&gt; <span class="keyword">new</span> { Armor = armor, armor.ArmorComponent })</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                                   .WhereQ(ac =&gt; ac.ArmorComponent != <span class="keyword">null</span>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                                   .SelectQ(ac =&gt; <span class="keyword">new</span> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                                                          ac.Armor,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                                                          Weight =</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                                                              <a class="code hl_class" href="../../da/d53/a00265.html">Helper</a>.<a class="code hl_function" href="../../da/d53/a00265.html#ab74445afac5d3922794ac499ba351776">GetArmorValueForBodyPart</a>(ac.ArmorComponent,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                                                                  bodyPart.Value)</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                                      })</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                   .WhereQ(aw =&gt; aw.Weight &gt; 0)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                                   .ToArrayQ();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="../../d0/d48/a00165.html#a9b2cadc881a11c7cf1124b83da34da78">SelectArmorBasedOnWeight</a>(weightedArmors.SelectQ(aw =&gt; (aw.Armor, aw.Weight)).ToArrayQ());</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../d0/d48/a00165.html#a9b2cadc881a11c7cf1124b83da34da78">   41</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> ItemObject? <a class="code hl_function" href="../../d0/d48/a00165.html#a9b2cadc881a11c7cf1124b83da34da78">SelectArmorBasedOnWeight</a>((ItemObject Armor, <span class="keywordtype">int</span> Weight)[] weightedArmors) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        var totalWeight = weightedArmors.SumQ(a =&gt; a.Weight);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        var choice      = <a class="code hl_variable" href="../../d0/d48/a00165.html#ac508979f3c02929ebf0b6edd9db83e42">Random</a>.Next(totalWeight);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        var sum         = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="keywordflow">foreach</span> ((var armor, var weight) in weightedArmors) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            sum += weight;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">if</span> (choice &lt; sum) <span class="keywordflow">return</span> armor;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+<div class="ttc" id="aa00165_html"><div class="ttname"><a href="../../d0/d48/a00165.html">ArmorSelector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00009">ArmorSelector.cs:9</a></div></div>
+<div class="ttc" id="aa00165_html_a76188f7d62fcbd7ead5081cfed55de0f"><div class="ttname"><a href="../../d0/d48/a00165.html#a76188f7d62fcbd7ead5081cfed55de0f">ArmorSelector.GetRandomArmorByBodyPart</a></div><div class="ttdeci">static ? ItemObject GetRandomArmorByBodyPart(List&lt; ItemObject &gt; armors, BoneBodyPartType? bodyPart)</div><div class="ttdoc">根据身体部位从装甲列表中随机选择一件装甲。</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00018">ArmorSelector.cs:18</a></div></div>
+<div class="ttc" id="aa00165_html_a9b2cadc881a11c7cf1124b83da34da78"><div class="ttname"><a href="../../d0/d48/a00165.html#a9b2cadc881a11c7cf1124b83da34da78">ArmorSelector.SelectArmorBasedOnWeight</a></div><div class="ttdeci">static ? ItemObject SelectArmorBasedOnWeight((ItemObject Armor, int Weight)[] weightedArmors)</div><div class="ttdoc">基于权重从装甲列表中选择一件装甲。</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00041">ArmorSelector.cs:41</a></div></div>
+<div class="ttc" id="aa00165_html_ac508979f3c02929ebf0b6edd9db83e42"><div class="ttname"><a href="../../d0/d48/a00165.html#ac508979f3c02929ebf0b6edd9db83e42">ArmorSelector.Random</a></div><div class="ttdeci">static readonly Random Random</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00010">ArmorSelector.cs:10</a></div></div>
+<div class="ttc" id="aa00265_html"><div class="ttname"><a href="../../da/d53/a00265.html">Helper</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2a/a00086_source.html#l00006">Helper.cs:6</a></div></div>
+<div class="ttc" id="aa00265_html_ab74445afac5d3922794ac499ba351776"><div class="ttname"><a href="../../da/d53/a00265.html#ab74445afac5d3922794ac499ba351776">Helper.GetArmorValueForBodyPart</a></div><div class="ttdeci">static int GetArmorValueForBodyPart(ArmorComponent armorComponent, BoneBodyPartType bodyPart)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2a/a00086_source.html#l00033">Helper.cs:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

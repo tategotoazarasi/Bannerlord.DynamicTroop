@@ -100,7 +100,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00011">11</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00011">11</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab88ba8d9d4bde423a4c42bca495326c5" name="ab88ba8d9d4bde423a4c42bca495326c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab88ba8d9d4bde423a4c42bca495326c5">&#9670;&nbsp;</a></span>CalculateProbabilityDensity()</h2>
@@ -153,12 +153,12 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>给定效能值在正态分布中的概率密度。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00059">59</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00059">59</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                                                                     {</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)(1 / (sigma * Math.Sqrt(2 * Math.PI)) * Math.Exp(-Math.Pow(x - mu, 2) / (2 * sigma * sigma)));</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d4/d81/a00110_source.html#l00020">SelectItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00020">SelectItem()</a>.</p>
 
 </div>
 </div>
@@ -206,12 +206,12 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>效能值的方差。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00048">48</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00048">48</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                                                                               {</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> items.Sum(item =&gt; (item.Value - mean) * (item.Value - mean)) / items.Count;</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d4/d81/a00110_source.html#l00020">SelectItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00020">SelectItem()</a>.</p>
 
 </div>
 </div>
@@ -259,7 +259,7 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>根据加权概率选中的物品。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00020">20</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00020">20</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                                                                   {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="comment">// 计算均值</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        var mean = items.Average(item =&gt; item.Effectiveness);</div>
@@ -281,13 +281,13 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="comment">// 加权随机选择</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="../../de/dc8/a00325.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomChoose</a>(items, normalizedWeights);</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="ttc" id="aa00325_html_a26718644fe8e1e342f648873e55f5687"><div class="ttname"><a href="../../de/dc8/a00325.html#a26718644fe8e1e342f648873e55f5687">WeightedRandomSelector.CalculateVariance</a></div><div class="ttdeci">static float CalculateVariance(List&lt; ItemObject &gt; items, float mean)</div><div class="ttdoc">计算一组物品效能值的方差。</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00048">WeightedRandomSelector.cs:48</a></div></div>
-<div class="ttc" id="aa00325_html_a339c8e75678005e3594dd2743af01f58"><div class="ttname"><a href="../../de/dc8/a00325.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomSelector.WeightedRandomChoose</a></div><div class="ttdeci">static ItemObject WeightedRandomChoose(List&lt; ItemObject &gt; items, List&lt; float &gt; weights)</div><div class="ttdoc">根据给定的权重列表，从物品列表中随机选择一个物品。</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00069">WeightedRandomSelector.cs:69</a></div></div>
-<div class="ttc" id="aa00325_html_ab88ba8d9d4bde423a4c42bca495326c5"><div class="ttname"><a href="../../de/dc8/a00325.html#ab88ba8d9d4bde423a4c42bca495326c5">WeightedRandomSelector.CalculateProbabilityDensity</a></div><div class="ttdeci">static float CalculateProbabilityDensity(float x, float mu, float sigma)</div><div class="ttdoc">计算正态分布的概率密度函数值。</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00059">WeightedRandomSelector.cs:59</a></div></div>
+<div class="ttc" id="aa00325_html_a26718644fe8e1e342f648873e55f5687"><div class="ttname"><a href="../../de/dc8/a00325.html#a26718644fe8e1e342f648873e55f5687">WeightedRandomSelector.CalculateVariance</a></div><div class="ttdeci">static float CalculateVariance(List&lt; ItemObject &gt; items, float mean)</div><div class="ttdoc">计算一组物品效能值的方差。</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00011_source.html#l00048">WeightedRandomSelector.cs:48</a></div></div>
+<div class="ttc" id="aa00325_html_a339c8e75678005e3594dd2743af01f58"><div class="ttname"><a href="../../de/dc8/a00325.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomSelector.WeightedRandomChoose</a></div><div class="ttdeci">static ItemObject WeightedRandomChoose(List&lt; ItemObject &gt; items, List&lt; float &gt; weights)</div><div class="ttdoc">根据给定的权重列表，从物品列表中随机选择一个物品。</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00011_source.html#l00069">WeightedRandomSelector.cs:69</a></div></div>
+<div class="ttc" id="aa00325_html_ab88ba8d9d4bde423a4c42bca495326c5"><div class="ttname"><a href="../../de/dc8/a00325.html#ab88ba8d9d4bde423a4c42bca495326c5">WeightedRandomSelector.CalculateProbabilityDensity</a></div><div class="ttdeci">static float CalculateProbabilityDensity(float x, float mu, float sigma)</div><div class="ttdoc">计算正态分布的概率密度函数值。</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00011_source.html#l00059">WeightedRandomSelector.cs:59</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00059">CalculateProbabilityDensity()</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00048">CalculateVariance()</a>, and <a class="el" href="../../d4/d81/a00110_source.html#l00069">WeightedRandomChoose()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00059">CalculateProbabilityDensity()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00048">CalculateVariance()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00069">WeightedRandomChoose()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d8/d41/a00038_source.html#l00141">Assignment.FillEmptySlots()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00028">RecruitmentPatch.GetRecruitEquipments()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00141">Assignment.FillEmptySlots()</a>, and <a class="el" href="../../d1/d09/a00077_source.html#l00028">RecruitmentPatch.GetRecruitEquipments()</a>.</p>
 
 </div>
 </div>
@@ -335,7 +335,7 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>根据权重随机选中的物品。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00069">69</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00069">69</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                                                                                {</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        List&lt;float&gt; cumulativeWeights = <span class="keyword">new</span>();</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordtype">float</span>       total             = 0;</div>
@@ -353,11 +353,11 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="comment">// 默认返回最后一个item，理论上不应该执行到这里</span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> items.Last();</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
-<div class="ttc" id="aa00325_html_ab92ed183795acaa6667ebc7660bcf7b5"><div class="ttname"><a href="../../de/dc8/a00325.html#ab92ed183795acaa6667ebc7660bcf7b5">WeightedRandomSelector._random</a></div><div class="ttdeci">static readonly Random _random</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00012">WeightedRandomSelector.cs:12</a></div></div>
+<div class="ttc" id="aa00325_html_ab92ed183795acaa6667ebc7660bcf7b5"><div class="ttname"><a href="../../de/dc8/a00325.html#ab92ed183795acaa6667ebc7660bcf7b5">WeightedRandomSelector._random</a></div><div class="ttdeci">static readonly Random _random</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00011_source.html#l00012">WeightedRandomSelector.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00012">_random</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00012">_random</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d81/a00110_source.html#l00020">SelectItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00020">SelectItem()</a>.</p>
 
 </div>
 </div>
@@ -382,14 +382,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00012">12</a> of file <a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00012">12</a> of file <a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d81/a00110_source.html#l00069">WeightedRandomChoose()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00069">WeightedRandomChoose()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d4/d81/a00110_source.html">WeightedRandomSelector.cs</a></li>
+<li><a class="el" href="../../da/d45/a00011_source.html">WeightedRandomSelector.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

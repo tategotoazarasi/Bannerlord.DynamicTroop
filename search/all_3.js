@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['cache_0',['Cache',['../de/db1/a00197.html',1,'']]],
-  ['cache_2ecs_1',['Cache.cs',['../dc/dee/a00053.html',1,'']]],
+  ['cache_0',['Cache',['../de/db1/a00197.html',1,'Cache'],['../d0/d19/a00273.html#a625636391466980a5773fd7a8f7b3394',1,'ItemBlackList.Cache()']]],
+  ['cache_2ecs_1',['Cache.cs',['../db/dab/a00089.html',1,'']]],
   ['cachedcharacterequipmentvalue_2',['CachedCharacterEquipmentValue',['../d4/d08/a00237.html#a83cf9dd950c380f67c1e8f68979af2b2',1,'CharacterObjectExtension']]],
   ['cachedcharacterskillvalue_3',['CachedCharacterSkillValue',['../d4/d08/a00237.html#af024a957353f444c53654c7f54411617',1,'CharacterObjectExtension']]],
   ['cacheditems_4',['CachedItems',['../de/db1/a00197.html#a0b498b3897879d78e46d46b70b8454d9',1,'Cache']]],
@@ -18,7 +18,7 @@ var searchData=
   ['cantusewithshields_15',['CantUseWithShields',['../d6/db6/a00241.html#abab1fc8592290fef2d543b32adf7ae5c',1,'ItemObjectExtension']]],
   ['character_16',['Character',['../de/df3/a00185.html#aa6b3c5844a6aca476384a2a2fff27035',1,'Assignment']]],
   ['characterobjectextension_17',['CharacterObjectExtension',['../d4/d08/a00237.html',1,'']]],
-  ['characterobjectextension_2ecs_18',['CharacterObjectExtension.cs',['../d3/d52/a00023.html',1,'']]],
+  ['characterobjectextension_2ecs_18',['CharacterObjectExtension.cs',['../d4/d8c/a00035.html',1,'']]],
   ['checkweaponflag_19',['CheckWeaponFlag',['../d6/db6/a00241.html#a8cfa699b3442d43479f401ded81bf109',1,'ItemObjectExtension']]],
   ['choosepartyrandomly_20',['ChoosePartyRandomly',['../dc/d98/a00225.html#a098ca4ceca7f5e8206a2e0de68f65c04',1,'EveryoneCampaignBehavior']]],
   ['compare_21',['Compare',['../dd/de3/a00201.html#a026a9e30857d92e02b5b172a310fa397',1,'ArmorComparer.Compare()'],['../d5/d13/a00205.html#ad6cc6750a9a30678847003367ee29e20',1,'ArmorElementComparer.Compare()'],['../d3/de5/a00209.html#a3efedfb86065fa2c19ce6de017a7b319',1,'EquipmentEffectivenessComparer.Compare()']]],

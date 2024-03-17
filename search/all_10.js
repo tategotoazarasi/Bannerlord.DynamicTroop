@@ -12,7 +12,7 @@ var searchData=
   ['settings_9',['Settings',['../db/d53/a00321.html#a7e120e7246ab5e702c42f34fbeeb23d4',1,'SubModule']]],
   ['settingveryhard_10',['SettingVeryHard',['../d2/d04/a00281.html#ae9cf858882a128998bffeea8fba3651f',1,'LocalizedTexts']]],
   ['settlementextension_11',['SettlementExtension',['../de/dbc/a00249.html',1,'']]],
-  ['settlementextension_2ecs_12',['SettlementExtension.cs',['../d2/de7/a00014.html',1,'']]],
+  ['settlementextension_2ecs_12',['SettlementExtension.cs',['../dd/d32/a00041.html',1,'']]],
   ['showbattleresults_13',['ShowBattleResults',['../dd/d52/a00221.html#adbe359d715c312958d64ccd115e2607b',1,'DynamicTroopMissionLogic']]],
   ['skillvalue_14',['SkillValue',['../d4/d08/a00237.html#ab8ac0253ac597419d41d175ec52a9ff3',1,'CharacterObjectExtension']]],
   ['soldexcessequipmentforthrowingweapons_15',['SoldExcessEquipmentForThrowingWeapons',['../d2/d04/a00281.html#a34fbed55eab67679ebaf1d4873b7fb7d',1,'LocalizedTexts']]],
@@ -20,12 +20,12 @@ var searchData=
   ['sortequipmentdictionaries_17',['SortEquipmentDictionaries',['../d6/d82/a00293.html#aa367c59d9384c19312b75e6d13d10dcb',1,'PartyEquipmentDistributor']]],
   ['spawn_18',['Spawn',['../d6/d82/a00293.html#ad8c2986e126884c5e96e7e6f0cc25006',1,'PartyEquipmentDistributor']]],
   ['spawnagentpatch_19',['SpawnAgentPatch',['../da/de0/a00317.html',1,'']]],
-  ['spawnagentpatch_2ecs_20',['SpawnAgentPatch.cs',['../db/dab/a00089.html',1,'']]],
+  ['spawnagentpatch_2ecs_20',['SpawnAgentPatch.cs',['../db/db6/a00074.html',1,'']]],
   ['string_5fid_21',['string_id',['../dd/df4/a00193.html#abe60acc1b4f40825461bb5072d171a5b',1,'ItemBlackListTest.BlackList.string_id()'],['../d6/d4b/a00277.html#a4faf8cac36309408546c0682d3e2dd7e',1,'ItemBlackList.BlackList.string_id()']]],
   ['string_5fid_5fregex_22',['string_id_regex',['../dd/df4/a00193.html#af4a0ac80bed7f29497a0a175df587bcf',1,'ItemBlackListTest.BlackList.string_id_regex()'],['../d6/d4b/a00277.html#a26a09780c625756d5712a85a4bbcc3ff',1,'ItemBlackList.BlackList.string_id_regex()']]],
   ['stringidpatterns_23',['StringIdPatterns',['../da/deb/a00189.html#a3c2cd220deb5e8e0104da72fb9cead36',1,'ItemBlackListTest.StringIdPatterns()'],['../d0/d19/a00273.html#ab2e55aafa0916083de8caeb6afd238fd',1,'ItemBlackList.StringIdPatterns()']]],
   ['stringids_24',['StringIds',['../da/deb/a00189.html#a6df3ba0fe8d4d445f310ffb17fef631d',1,'ItemBlackListTest.StringIds()'],['../d0/d19/a00273.html#a5fa86ab700d18be88627654f80a15639',1,'ItemBlackList.StringIds()']]],
   ['submodule_25',['SubModule',['../db/d53/a00321.html',1,'']]],
-  ['submodule_2ecs_26',['SubModule.cs',['../d3/d8b/a00059.html',1,'']]],
+  ['submodule_2ecs_26',['SubModule.cs',['../db/db2/a00020.html',1,'']]],
   ['syncdata_27',['SyncData',['../dd/d4c/a00177.html#a3064e5af3f751c64ec1a06cb282d7481',1,'ArmyArmoryBehavior.SyncData()'],['../dc/d98/a00225.html#a95195cfab601f924dbb79af85b572074',1,'EveryoneCampaignBehavior.SyncData()']]]
 ];
