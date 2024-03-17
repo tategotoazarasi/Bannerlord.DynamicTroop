@@ -6,6 +6,7 @@ using System.Linq;
 using Bannerlord.DynamicTroop.Comparers;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
+using SandBox.Missions.MissionLogics;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
@@ -210,7 +211,7 @@ public class PartyEquipmentDistributor {
 
 	private void DoAssign() {
 		AssignArmour();
-		if (!_mission.IsSiegeBattle) AssignHorseAndHarness();
+		if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) AssignHorseAndHarness();
 
 		AssignWeaponByWeaponClass(true);
 		AssignWeaponByWeaponClass(false);
