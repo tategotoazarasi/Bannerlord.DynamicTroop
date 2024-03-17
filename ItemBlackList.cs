@@ -17,6 +17,8 @@ namespace Bannerlord.DynamicTroop;
 ///     Provides functionality to test if an item should be blacklisted.
 /// </summary>
 public static class ItemBlackList {
+	private static readonly Dictionary<ItemObject, bool> Cache = new();
+
 	/// <summary>
 	///     Represents a collection of string IDs used for blacklisting items.
 	/// </summary>
@@ -112,11 +114,15 @@ public static class ItemBlackList {
 	/// <returns>True if the item passes the blacklisting conditions, false otherwise.</returns>
 	public static bool Test(ItemObject item) {
 		try {
+			if (Cache.TryGetValue(item, out var result)) { return result; }
+
 			if (item is not { StringId: not null, Name: not null } || item.StringId.IsEmpty() || item.Name.ToString().IsEmpty()) return true;
 			var stringId = item.StringId;
 			var name     = item.Name.ToString();
 
-			return !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => Regex.IsMatch(stringId, pattern)) && !NamePatterns.Any(pattern => Regex.IsMatch(name, pattern));
+			result = !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => Regex.IsMatch(stringId, pattern)) && !NamePatterns.Any(pattern => Regex.IsMatch(name, pattern));
+			Cache.Add(item, result);
+			return result;
 		}
 		catch (Exception e) {
 			Global.Error(e.Message);
