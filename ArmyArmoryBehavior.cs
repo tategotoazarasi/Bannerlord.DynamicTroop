@@ -22,11 +22,8 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		if (dataStore.IsSaving) {
 			_data.Armory.Clear();
 			Save();
-
 			var tempData = _data;
-			_ = dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData);
-
-			if (tempData != null) {
+			if (dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData) && tempData != null) {
 				_data = tempData;
 				_data.Armory.Clear();
 			}
@@ -35,11 +32,8 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		else if (dataStore.IsLoading) {
 			_data.Armory.Clear();
 			ArmyArmory.Armory.Clear();
-
 			var tempData = _data;
-			_ = dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData);
-
-			if (tempData != null) {
+			if (dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData) && tempData != null) {
 				Load(tempData);
 				_data = tempData;
 				_data.Armory.Clear();

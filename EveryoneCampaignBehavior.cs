@@ -97,11 +97,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	public override void SyncData(IDataStore dataStore) {
 		if (dataStore.IsSaving) {
 			_data.PartyArmories = ConvertToUIntGuidDict(PartyArmories);
-
 			var tempData = _data;
-			_ = dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData);
-
-			if (tempData != null) {
+			if (dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData) && tempData != null) {
 				_data = tempData;
 				Global.Debug($"saved {PartyArmories.Count} entries");
 				_data.PartyArmories.Clear();
@@ -110,11 +107,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		}
 		else if (dataStore.IsLoading) {
 			_data.PartyArmories.Clear();
-
 			var tempData = _data;
-			_ = dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData);
-
-			if (tempData != null) {
+			if (dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData) && tempData != null) {
 				_data         = tempData;
 				PartyArmories = ConvertToGuidDict(_data.PartyArmories);
 				_data.PartyArmories.Clear();
