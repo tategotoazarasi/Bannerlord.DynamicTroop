@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getupgraderequiresitemfromcategorypatch_0',['GetUpgradeRequiresItemFromCategoryPatch',['../d0/d61/a00302.html',1,'']]],
-  ['global_1',['Global',['../d9/d8d/a00262.html',1,'']]]
+  ['getupgraderequiresitemfromcategorypatch_0',['GetUpgradeRequiresItemFromCategoryPatch',['../d8/d17/a00304.html',1,'']]],
+  ['global_1',['Global',['../d3/dcc/a00264.html',1,'']]]
 ];

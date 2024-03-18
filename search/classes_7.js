@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['itemblacklist_0',['ItemBlackList',['../dd/d56/a00274.html',1,'']]],
-  ['itemblacklisttest_1',['ItemBlackListTest',['../d7/d6e/a00190.html',1,'']]],
-  ['itemobjectextension_2',['ItemObjectExtension',['../d2/dc8/a00242.html',1,'']]],
-  ['itemrosterforplayerlootsharepatch_3',['ItemRosterForPlayerLootSharePatch',['../d1/de3/a00306.html',1,'']]]
+  ['itemblacklist_0',['ItemBlackList',['../dc/d28/a00276.html',1,'']]],
+  ['itemblacklisttest_1',['ItemBlackListTest',['../dd/da2/a00192.html',1,'']]],
+  ['itemobjectextension_2',['ItemObjectExtension',['../d6/d08/a00244.html',1,'']]],
+  ['itemrosterforplayerlootsharepatch_3',['ItemRosterForPlayerLootSharePatch',['../d5/d0f/a00308.html',1,'']]]
 ];
