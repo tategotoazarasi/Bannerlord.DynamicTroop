@@ -9,6 +9,6 @@ var searchData=
   ['soldexcessequipmentforthrowingweapons_6',['SoldExcessEquipmentForThrowingWeapons',['../dc/dc9/a00282.html#a34fbed55eab67679ebaf1d4873b7fb7d',1,'LocalizedTexts']]],
   ['string_5fid_7',['string_id',['../dc/d57/a00194.html#abe60acc1b4f40825461bb5072d171a5b',1,'ItemBlackListTest.BlackList.string_id()'],['../dc/d5d/a00278.html#a4faf8cac36309408546c0682d3e2dd7e',1,'ItemBlackList.BlackList.string_id()']]],
   ['string_5fid_5fregex_8',['string_id_regex',['../dc/d57/a00194.html#af4a0ac80bed7f29497a0a175df587bcf',1,'ItemBlackListTest.BlackList.string_id_regex()'],['../dc/d5d/a00278.html#a26a09780c625756d5712a85a4bbcc3ff',1,'ItemBlackList.BlackList.string_id_regex()']]],
-  ['stringidpatterns_9',['StringIdPatterns',['../d7/d6e/a00190.html#a3c2cd220deb5e8e0104da72fb9cead36',1,'ItemBlackListTest.StringIdPatterns()'],['../dd/d56/a00274.html#ab2e55aafa0916083de8caeb6afd238fd',1,'ItemBlackList.StringIdPatterns()']]],
+  ['stringidpatterns_9',['StringIdPatterns',['../d7/d6e/a00190.html#a3c2cd220deb5e8e0104da72fb9cead36',1,'ItemBlackListTest.StringIdPatterns()'],['../dd/d56/a00274.html#afe3639c6759100e7ba88f6537a1013cb',1,'ItemBlackList.StringIdPatterns()']]],
   ['stringids_10',['StringIds',['../d7/d6e/a00190.html#a6df3ba0fe8d4d445f310ffb17fef631d',1,'ItemBlackListTest.StringIds()'],['../dd/d56/a00274.html#a5fa86ab700d18be88627654f80a15639',1,'ItemBlackList.StringIds()']]]
 ];
