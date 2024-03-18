@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,8 +6,6 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
-
-#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -41,7 +37,7 @@ public static class ItemBlackList {
 	/// <remarks>
 	///     This set is populated by reading and parsing a blacklist file.
 	/// </remarks>
-	private static readonly HashSet<string> StringIdPatterns = new();
+	private static readonly HashSet<Regex> StringIdPatterns = new();
 
 	/// <summary>
 	///     Contains the patterns used for filtering item names.
@@ -49,7 +45,7 @@ public static class ItemBlackList {
 	/// <remarks>
 	///     This set is populated by reading and parsing a blacklist file.
 	/// </remarks>
-	private static readonly HashSet<string> NamePatterns = new();
+	private static readonly HashSet<Regex> NamePatterns = new();
 
 	/// <summary>
 	///     Initializes the ItemBlackList.
@@ -92,10 +88,19 @@ public static class ItemBlackList {
 		var blackList = JsonConvert.DeserializeObject<BlackList>(content);
 
 		if (blackList != null) {
-			StringIds.UnionWith(blackList.string_id              ?? Enumerable.Empty<string>());
-			Names.UnionWith(blackList.name                       ?? Enumerable.Empty<string>());
-			StringIdPatterns.UnionWith(blackList.string_id_regex ?? Enumerable.Empty<string>());
-			NamePatterns.UnionWith(blackList.name_regex          ?? Enumerable.Empty<string>());
+			StringIds.UnionWith(blackList.string_id ?? Enumerable.Empty<string>());
+			Names.UnionWith(blackList.name          ?? Enumerable.Empty<string>());
+			foreach (var pattern in blackList.string_id ?? Enumerable.Empty<string>()) {
+				if (pattern == null) continue;
+				try { StringIdPatterns.Add(new Regex(pattern, RegexOptions.Compiled)); }
+				catch (Exception e) { Global.Error(e.Message); }
+			}
+
+			foreach (var pattern in blackList.name_regex ?? Enumerable.Empty<string>()) {
+				if (pattern == null) continue;
+				try { NamePatterns.Add(new Regex(pattern, RegexOptions.Compiled)); }
+				catch (Exception e) { Global.Error(e.Message); }
+			}
 
 			foreach (var id in StringIds) { Global.Debug($"string id {id} added to blacklist"); }
 
@@ -120,7 +125,7 @@ public static class ItemBlackList {
 			var stringId = item.StringId;
 			var name     = item.Name.ToString();
 
-			result = !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => Regex.IsMatch(stringId, pattern)) && !NamePatterns.Any(pattern => Regex.IsMatch(name, pattern));
+			result = !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => pattern.IsMatch(stringId)) && !NamePatterns.Any(pattern => pattern.IsMatch(name));
 			Cache.Add(item, result);
 			return result;
 		}
