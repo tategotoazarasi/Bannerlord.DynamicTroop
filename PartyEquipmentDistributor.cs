@@ -1,8 +1,8 @@
-﻿#region
-
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bannerlord.DynamicTroop.Comparers;
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
@@ -14,12 +14,10 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 
-#endregion
-
 namespace Bannerlord.DynamicTroop;
 
 public class PartyEquipmentDistributor {
-	private readonly Dictionary<EquipmentElement, int> _equipmentToAssign;
+	private readonly ConcurrentDictionary<EquipmentElement, int> _equipmentToAssign;
 
 	private readonly List<HorseAndHarness> _horseAndHarnesses = new();
 
@@ -29,23 +27,21 @@ public class PartyEquipmentDistributor {
 
 	private readonly MobileParty _party;
 
-	public List<Assignment> Assignments = new();
+	public readonly List<Assignment> Assignments = new();
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, ItemRoster itemRoster) {
 		_mission           = mission;
 		_party             = party;
 		_itemRoster        = itemRoster;
-		_equipmentToAssign = new Dictionary<EquipmentElement, int>(new EquipmentElementComparer());
+		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
 		Init();
 	}
 
-	public PartyEquipmentDistributor(Mission                            mission,
-									 MobileParty                        party,
-									 IDictionary<EquipmentElement, int> equipmentToAssign) {
+	public PartyEquipmentDistributor(Mission mission, MobileParty party, IDictionary<EquipmentElement, int> equipmentToAssign) {
 		_mission           = mission;
 		_party             = party;
 		_itemRoster        = null;
-		_equipmentToAssign = new Dictionary<EquipmentElement, int>(equipmentToAssign, new EquipmentElementComparer());
+		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(equipmentToAssign, new EquipmentElementComparer());
 		Init();
 	}
 
@@ -53,43 +49,47 @@ public class PartyEquipmentDistributor {
 		_mission           = mission;
 		_party             = party;
 		_itemRoster        = null;
-		_equipmentToAssign = new Dictionary<EquipmentElement, int>(new EquipmentElementComparer());
+		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
 
-		foreach (var kv in objectToAssign)
+		foreach (var kv in objectToAssign) {
 			if (kv.Key != null) {
 				EquipmentElement element = new(kv.Key);
 
-				if (_equipmentToAssign.TryGetValue(element, out var existingCount))
-					_equipmentToAssign[element] = existingCount + kv.Value;
-				else
-					_equipmentToAssign.Add(element, kv.Value);
+				if (_equipmentToAssign.TryGetValue(element, out var existingCount)) { _equipmentToAssign[element] = existingCount + kv.Value; }
+				else { _                                                                                          = _equipmentToAssign.TryAdd(element, kv.Value); }
 			}
+		}
 
 		Init();
 	}
 
 	private void Init() {
-		foreach (var troop in _party.MemberRoster.GetTroopRoster())
-			for (var i = 0; i < troop.Number - troop.WoundedNumber; i++)
-				if (!troop.Character.IsHero)
-					Assignments.Add(new Assignment(troop.Character));
+		foreach (var troop in _party.MemberRoster.GetTroopRoster()) {
+			for (var i = 0; i < troop.Number - troop.WoundedNumber; i++) {
+				if (!troop.Character.IsHero) { Assignments.Add(new Assignment(troop.Character)); }
+			}
+		}
 
 		Assignments.Sort((x, y) => y.CompareTo(x));
-		if (_itemRoster != null)
+		if (_itemRoster != null) {
 			foreach (var kv in _itemRoster) {
-				if (kv is not { IsEmpty: false, EquipmentElement.IsEmpty: false }) continue;
+				if (kv is not { IsEmpty: false, EquipmentElement.IsEmpty: false }) { continue; }
 
 				// 尝试获取已存在的数量
-				if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount))
+				if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount)) {
 					// 如果键不存在，添加新的键值对
-					_equipmentToAssign.Add(kv.EquipmentElement, kv.Amount);
-				else
+					_ = _equipmentToAssign.TryAdd(kv.EquipmentElement, kv.Amount);
+				}
+				else {
 					// 如果键已存在，更新数量
 					_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
+				}
 			}
+		}
 
-		GenerateHorseAndHarnessList();
-		DoAssign();
+		if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) { GenerateHorseAndHarnessList(); }
+
+		_ = DoAssignAsync();
 	}
 
 	private void GenerateHorseAndHarnessList() {
@@ -106,7 +106,7 @@ public class PartyEquipmentDistributor {
 											 IDictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict,
 											 IDictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
 											 ICollection<(EquipmentElement Key, int Cnt)>            saddles) {
-		foreach (var kvp in equipment)
+		foreach (var kvp in equipment) {
 			switch (kvp.Key.Item) {
 				case { HasHorseComponent: true, ItemType: ItemObject.ItemTypeEnum.Horse }:
 					AddToDict(horsesDict, kvp.Key, kvp.Value);
@@ -124,13 +124,11 @@ public class PartyEquipmentDistributor {
 					saddles.Add((kvp.Key, kvp.Value));
 					break;
 			}
+		}
 	}
 
-	private static void AddToDict(IDictionary<int, List<(EquipmentElement Key, int Cnt)>> dict,
-								  EquipmentElement                                        element,
-								  int                                                     cnt) {
-		var familyType = element.Item.HorseComponent?.Monster?.FamilyType ??
-						 element.Item.ArmorComponent?.FamilyType ?? -1;
+	private static void AddToDict(IDictionary<int, List<(EquipmentElement Key, int Cnt)>> dict, EquipmentElement element, int cnt) {
+		var familyType = element.Item.HorseComponent?.Monster?.FamilyType ?? element.Item.ArmorComponent?.FamilyType ?? -1;
 		if (!dict.TryGetValue(familyType, out var list)) {
 			list             = new List<(EquipmentElement Key, int Cnt)>();
 			dict[familyType] = list;
@@ -139,9 +137,7 @@ public class PartyEquipmentDistributor {
 		list.Add((element, cnt));
 	}
 
-	private static void SortEquipmentDictionaries(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict,
-												  Dictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
-												  List<(EquipmentElement Key, int Cnt)>                  saddles) {
+	private static void SortEquipmentDictionaries(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict, Dictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict, List<(EquipmentElement Key, int Cnt)> saddles) {
 		SortDict(horsesDict,  CompareEquipment);
 		SortDict(harnessDict, CompareEquipment);
 		saddles.Sort(CompareEquipment);
@@ -153,40 +149,33 @@ public class PartyEquipmentDistributor {
 		}
 	}
 
-	private static void SortDict(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> dict,
-								 Comparison<(EquipmentElement Key, int Cnt)>            comparer) {
-		foreach (var key in dict.Keys) dict[key].Sort(comparer);
+	private static void SortDict(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> dict, Comparison<(EquipmentElement Key, int Cnt)> comparer) {
+		foreach (var key in dict.Keys) { dict[key].Sort(comparer); }
 	}
 
-	private void GenerateHorseAndHarnessPairs(Dictionary<int, List<(EquipmentElement Key, int Cnt)>>  horsesDict,
-											  IDictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict,
-											  IList<(EquipmentElement Key, int Cnt)>                  saddles) {
+	private void GenerateHorseAndHarnessPairs(Dictionary<int, List<(EquipmentElement Key, int Cnt)>> horsesDict, IDictionary<int, List<(EquipmentElement Key, int Cnt)>> harnessDict, IList<(EquipmentElement Key, int Cnt)> saddles) {
 		foreach (var kvp in horsesDict) {
 			var familyType = kvp.Key;
 			var horses     = kvp.Value.ToArrayQ();
-			var harnesses = harnessDict.TryGetValue(familyType, out var harnessesList)
-								? harnessesList.ToArrayQ()
-								: Array.Empty<(EquipmentElement Key, int Cnt)>();
+			var harnesses  = harnessDict.TryGetValue(familyType, out var harnessesList) ? harnessesList.ToArrayQ() : Array.Empty<(EquipmentElement Key, int Cnt)>();
 
 			int horseIndex = 0, harnessIndex = 0;
 			while (horseIndex < horses.Length) {
 				(var horseItem, var horseCnt) = horses[horseIndex];
-				var harnessItem = harnessIndex < harnesses.Length
-									  ? harnesses[harnessIndex].Key
-									  : new EquipmentElement(null);
-				var harnessCnt = harnessIndex < harnesses.Length ? harnesses[harnessIndex].Cnt : 0;
+				var harnessItem = harnessIndex < harnesses.Length ? harnesses[harnessIndex].Key : new EquipmentElement(null);
+				var harnessCnt  = harnessIndex < harnesses.Length ? harnesses[harnessIndex].Cnt : 0;
 
 				if (horseCnt > 0) {
 					HorseAndHarness hah = new(horseItem, harnessItem);
 					_horseAndHarnesses.Add(hah);
 					horses[horseIndex] = (horseItem, --horseCnt);
 
-					if (harnessCnt > 0) harnesses[harnessIndex] = (harnessItem, --harnessCnt);
+					if (harnessCnt > 0) { harnesses[harnessIndex] = (harnessItem, --harnessCnt); }
 				}
 
-				if (horseCnt == 0) horseIndex++;
+				if (horseCnt == 0) { horseIndex++; }
 
-				if (harnessCnt == 0 && harnessIndex < harnesses.Length) harnessIndex++;
+				if (harnessCnt == 0 && harnessIndex < harnesses.Length) { harnessIndex++; }
 			}
 		}
 
@@ -194,29 +183,53 @@ public class PartyEquipmentDistributor {
 		_horseAndHarnesses.Sort((x, y) => y.CompareTo(x));
 	}
 
-	private static void AssignSaddlesToHorseAndHarnesses(IEnumerable<HorseAndHarness>           horseAndHarnesses,
-														 IList<(EquipmentElement Key, int Cnt)> saddles) {
+	private static void AssignSaddlesToHorseAndHarnesses(IEnumerable<HorseAndHarness> horseAndHarnesses, IList<(EquipmentElement Key, int Cnt)> saddles) {
 		var saddleIndex = 0;
 		foreach (var hoh in horseAndHarnesses.WhereQ(h => h.Harness == null)) {
-			if (saddleIndex >= saddles.Count) break;
+			if (saddleIndex >= saddles.Count) { break; }
 
 			(var saddleItem, var saddleCnt) = saddles[saddleIndex];
-			if (saddleCnt <= 0) continue;
+			if (saddleCnt <= 0) { continue; }
 
 			hoh.Harness          = saddleItem;
 			saddles[saddleIndex] = (saddleItem, --saddleCnt);
-			if (saddleCnt == 0) saddleIndex++;
+			if (saddleCnt == 0) { saddleIndex++; }
 		}
 	}
 
-	private void DoAssign() {
-		AssignArmour();
-		if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) AssignHorseAndHarness();
-
-		AssignWeaponByWeaponClass(true);
-		AssignWeaponByWeaponClass(false);
-		AssignWeaponByItemEnumType(true);
-		AssignWeaponByItemEnumType(false);
+	private async Task DoAssignAsync() {
+		var tasks = new List<Task> {
+									   Task.Run(() => {
+													Global.Log($"Assigning HeadArmor for {_party.Name}", Colors.Green, Level.Debug);
+													AssignEquipmentType(ItemObject.ItemTypeEnum.HeadArmor);
+												}),
+									   Task.Run(() => {
+													Global.Log($"Assigning HandArmor for {_party.Name}", Colors.Green, Level.Debug);
+													AssignEquipmentType(ItemObject.ItemTypeEnum.HandArmor);
+												}),
+									   Task.Run(() => {
+													Global.Log($"Assigning BodyArmor for {_party.Name}", Colors.Green, Level.Debug);
+													AssignEquipmentType(ItemObject.ItemTypeEnum.BodyArmor);
+												}),
+									   Task.Run(() => {
+													Global.Log($"Assigning LegArmor for {_party.Name}", Colors.Green, Level.Debug);
+													AssignEquipmentType(ItemObject.ItemTypeEnum.LegArmor);
+												}),
+									   Task.Run(() => {
+													Global.Log($"Assigning Cape for {_party.Name}", Colors.Green, Level.Debug);
+													AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
+												}),
+									   Task.Run(() => {
+													if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) { AssignHorseAndHarness(); }
+												}),
+									   Task.Run(() => {
+													AssignWeaponByWeaponClass(true);
+													AssignWeaponByWeaponClass(false);
+													AssignWeaponByItemEnumType(true);
+													AssignWeaponByItemEnumType(false);
+												})
+								   };
+		await Task.WhenAll(tasks);
 		AssignWeaponToUnarmed();
 		if (ModSettings.Instance?.AssignExtraEquipments ?? true) {
 			AssignExtraArrows();
@@ -227,34 +240,20 @@ public class PartyEquipmentDistributor {
 		}
 	}
 
-	private void AssignArmour() {
-		Global.Log($"Assigning HeadArmor for {_party.Name}", Colors.Green, Level.Debug);
-		AssignEquipmentType(ItemObject.ItemTypeEnum.HeadArmor);
-		Global.Log($"Assigning HandArmor for {_party.Name}", Colors.Green, Level.Debug);
-		AssignEquipmentType(ItemObject.ItemTypeEnum.HandArmor);
-		Global.Log($"Assigning BodyArmor for {_party.Name}", Colors.Green, Level.Debug);
-		AssignEquipmentType(ItemObject.ItemTypeEnum.BodyArmor);
-		Global.Log($"Assigning LegArmor for {_party.Name}", Colors.Green, Level.Debug);
-		AssignEquipmentType(ItemObject.ItemTypeEnum.LegArmor);
-		Global.Log($"Assigning Cape for {_party.Name}", Colors.Green, Level.Debug);
-		AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
-	}
-
 	private void AssignHorseAndHarness() {
 		Global.Debug($"Assigning Horse and Harness for {_party.Name}");
 		var currentIndex = 0;
 		foreach (var assignment in Assignments) {
-			if (!assignment.IsMounted) continue;
+			if (!assignment.IsMounted) { continue; }
 
-			if (currentIndex >= _horseAndHarnesses.Count) break;
+			if (currentIndex >= _horseAndHarnesses.Count) { break; }
 
 			var horseAndHarness = _horseAndHarnesses[currentIndex++];
-			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, horseAndHarness.Horse);
+			assignment.SetEquipment(EquipmentIndex.Horse, horseAndHarness.Horse);
 			Global.Debug($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
-			if (!horseAndHarness.Harness.HasValue) continue;
+			if (!horseAndHarness.Harness.HasValue) { continue; }
 
-			assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.HorseHarness,
-																horseAndHarness.Harness.Value);
+			assignment.SetEquipment(EquipmentIndex.HorseHarness, horseAndHarness.Harness.Value);
 			Global.Debug($"assign horse harness {horseAndHarness.Harness.Value.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}");
 		}
 	}
@@ -266,7 +265,7 @@ public class PartyEquipmentDistributor {
 			Global.Warn($"Found unarmed unit Index {assignment.Index} for {_party.Name}");
 			var weapon = GetOneRandomMeleeWeapon(assignment);
 			if (weapon.HasValue) {
-				assignment.Equipment.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Weapon0, weapon.Value);
+				assignment.SetEquipment(EquipmentIndex.Weapon0, weapon.Value);
 				_equipmentToAssign[weapon.Value]--;
 			}
 			else { Global.Warn($"Cannot find random melee weapon for {assignment.Index} for {_party.Name}"); }
@@ -280,39 +279,35 @@ public class PartyEquipmentDistributor {
 	/// <param name="assignmentFilter"> 分配筛选函数，用于决定哪些角色可以接收装备。 </param>
 	private void AssignExtraEquipment(EquipmentFilter equipmentFilter, AssignmentFilter assignmentFilter) {
 		var equipmentQuery = _equipmentToAssign
-							 .WhereQ(equipment =>
-										 equipment.Key is { IsEmpty: false, Item: not null } &&
-										 equipment.Value > 0                                 &&
-										 equipmentFilter(equipment))
+							 .WhereQ(equipment => equipment.Key is { IsEmpty: false, Item: not null } && equipment.Value > 0 && equipmentFilter(equipment))
 							 .OrderByDescending(equipment => equipment.Key.Item.Tier)
 							 .ThenByDescending(equipment => equipment.Key.Item.Value);
 
 		LinkedList<KeyValuePair<EquipmentElement, int>> equipmentDeque = new(equipmentQuery);
 
-		if (!equipmentDeque.AnyQ()) return;
+		if (!equipmentDeque.AnyQ()) { return; }
 
-		foreach (var assignment in Assignments)
+		foreach (var assignment in Assignments) {
 			if (assignmentFilter(assignment)) {
 				var slot = assignment.EmptyWeaponSlot;
-				if (!slot.HasValue) continue;
+				if (!slot.HasValue) { continue; }
 
 				var equipmentNode      = equipmentDeque.First;
 				var equipment          = equipmentNode.Value;
 				var equipmentItem      = equipment.Key;
 				var equipmentItemCount = equipment.Value;
 
-				assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot.Value, equipmentItem);
+				assignment.SetEquipment(slot.Value, equipmentItem);
 				Global.Debug($"extra equipment {equipmentItem} assigned to {assignment.Character.StringId}#{assignment.Index} on slot {slot.Value} for {_party.Name}");
 				equipmentItemCount--;
-				if (_equipmentToAssign[equipmentItem] > 0) _equipmentToAssign[equipmentItem]--;
+				if (_equipmentToAssign[equipmentItem] > 0) { _equipmentToAssign[equipmentItem]--; }
 
-				if (equipmentItemCount > 0)
-					equipmentNode.Value = new KeyValuePair<EquipmentElement, int>(equipmentItem, equipmentItemCount);
-				else
-					equipmentDeque.RemoveFirst();
+				if (equipmentItemCount > 0) { equipmentNode.Value = new KeyValuePair<EquipmentElement, int>(equipmentItem, equipmentItemCount); }
+				else { equipmentDeque.RemoveFirst(); }
 
-				if (!equipmentDeque.AnyQ()) return;
+				if (!equipmentDeque.AnyQ()) { return; }
 			}
+		}
 	}
 
 	// 使用示例
@@ -323,8 +318,7 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool ShieldFilter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item.ItemType: ItemObject.ItemTypeEnum.Shield } &&
-				   equipment.Value > 0;
+			return equipment.Key is { IsEmpty: false, Item.ItemType: ItemObject.ItemTypeEnum.Shield } && equipment.Value > 0;
 		}
 
 		static bool ShieldAssignmentFilter(Assignment assignment) {
@@ -342,7 +336,9 @@ public class PartyEquipmentDistributor {
 			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsThrowing() && equipment.Value > 0;
 		}
 
-		static bool ThrownAssignmentFilter(Assignment assignment) { return !assignment.HaveThrown; }
+		static bool ThrownAssignmentFilter(Assignment assignment) {
+			return !assignment.HaveThrown;
+		}
 	}
 
 	private void AssignExtraArrows() {
@@ -355,7 +351,9 @@ public class PartyEquipmentDistributor {
 			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsArrow() && equipment.Value > 0;
 		}
 
-		static bool ArrowAssignmentFilter(Assignment assignment) { return assignment.IsArcher; }
+		static bool ArrowAssignmentFilter(Assignment assignment) {
+			return assignment.IsArcher;
+		}
 	}
 
 	private void AssignExtraBolts() {
@@ -368,7 +366,9 @@ public class PartyEquipmentDistributor {
 			return equipment.Key is { IsEmpty: false, Item: { } item } && item.IsBolt() && equipment.Value > 0;
 		}
 
-		static bool BoltAssignmentFilter(Assignment assignment) { return assignment.IsCrossBowMan; }
+		static bool BoltAssignmentFilter(Assignment assignment) {
+			return assignment.IsCrossBowMan;
+		}
 	}
 
 	private void AssignExtraTwoHandedWeaponOrPolearms() {
@@ -378,58 +378,49 @@ public class PartyEquipmentDistributor {
 		return;
 
 		static bool Filter(KeyValuePair<EquipmentElement, int> equipment) {
-			return equipment.Key is { IsEmpty: false, Item: { } item } &&
-				   (item.IsTwoHanded() || item.IsPolearm())            &&
-				   equipment.Value > 0;
+			return equipment.Key is { IsEmpty: false, Item: { } item } && (item.IsTwoHanded() || item.IsPolearm()) && equipment.Value > 0;
 		}
 
-		static bool AssignmentFilter(Assignment assignment) { return !assignment.HaveTwoHandedWeaponOrPolearms; }
+		static bool AssignmentFilter(Assignment assignment) {
+			return !assignment.HaveTwoHandedWeaponOrPolearms;
+		}
 	}
 
 	private EquipmentElement? GetOneRandomMeleeWeapon(Assignment assignment) {
-		var weapons = _equipmentToAssign.WhereQ(equipment =>
-													equipment.Key is { IsEmpty: false, Item: { } item }               &&
-													_equipmentToAssign[equipment.Key] > 0                             &&
-													item.HasWeaponComponent                                           &&
-													item.IsSuitableForCharacter(assignment.Character)                 &&
-													!item.IsThrowing()                                                &&
-													(item.IsTwoHanded()    || item.IsOneHanded() || item.IsPolearm()) &&
-													(!assignment.IsMounted || item.IsSuitableForMount()))
-										.ToArrayQ();
-		if (!weapons.AnyQ()) return null;
+		var weapons = _equipmentToAssign
+					  .WhereQ(equipment => equipment.Key is { IsEmpty: false, Item: { } item }               &&
+										   _equipmentToAssign[equipment.Key] > 0                             &&
+										   item.HasWeaponComponent                                           &&
+										   item.IsSuitableForCharacter(assignment.Character)                 &&
+										   !item.IsThrowing()                                                &&
+										   (item.IsTwoHanded()    || item.IsOneHanded() || item.IsPolearm()) &&
+										   (!assignment.IsMounted || item.IsSuitableForMount()))
+					  .ToArrayQ();
+		if (!weapons.AnyQ()) { return null; }
 
-		Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned for {_party.Name}",
-				   Colors.Green,
-				   Level.Debug);
+		Global.Log($"(random) weapon {weapons.First().Key.Item.StringId} assigned for {_party.Name}", Colors.Green, Level.Debug);
 		_equipmentToAssign[weapons.First().Key]--;
 		return weapons.First().Key;
 	}
 
 	private void AssignEquipmentType(ItemObject.ItemTypeEnum itemType) {
-		var armours = _equipmentToAssign
-					  .WhereQ(kv => kv.Value > 0                 &&
-									!kv.Key.IsEmpty              &&
-									kv.Key.Item          != null &&
-									kv.Key.Item.ItemType == itemType)
-					  .ToArrayQ();
+		var armours = _equipmentToAssign.WhereQ(kv => kv.Value > 0 && !kv.Key.IsEmpty && kv.Key.Item != null && kv.Key.Item.ItemType == itemType).ToArrayQ();
 		Array.Sort(armours, (x, y) => y.Key.Item.CompareArmor(x.Key.Item));
 
 		foreach (var assignment in Assignments) {
-			if (itemType is ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness &&
-				!assignment.IsMounted)
-				continue;
+			if (itemType is ItemObject.ItemTypeEnum.Horse or ItemObject.ItemTypeEnum.HorseHarness && !assignment.IsMounted) { continue; }
 
 			var currentItemIndex = Array.FindIndex(armours, i => i.Value > 0);
-			if (currentItemIndex == -1) break; // 没有更多可用装备时退出循环
+			if (currentItemIndex == -1) {
+				break; // 没有更多可用装备时退出循环
+			}
 
 			var currentItem = armours[currentItemIndex];
 			var index       = Helper.ItemEnumTypeToEquipmentIndex(itemType);
-			if (!index.HasValue) continue;
+			if (!index.HasValue) { continue; }
 
-			assignment.Equipment.AddEquipmentToSlotWithoutAgent(index.Value, currentItem.Key);
-			Global.Log($"assign equipment {currentItem.Key.Item.StringId} type {itemType} to {assignment.Character.StringId}#{assignment.Index} on slot {index.Value} for {_party.Name}",
-					   Colors.Green,
-					   Level.Debug);
+			assignment.SetEquipment(index.Value, currentItem.Key);
+			Global.Log($"assign equipment {currentItem.Key.Item.StringId} type {itemType} to {assignment.Character.StringId}#{assignment.Index} on slot {index.Value} for {_party.Name}", Colors.Green, Level.Debug);
 
 			// 减少当前物品的数量
 			var newValue = currentItem.Value - 1;
@@ -455,25 +446,15 @@ public class PartyEquipmentDistributor {
 	/// <param name="assignment"> 包含角色和参考装备信息的分配对象。 </param>
 	/// <param name="mounted">    指示角色是否骑乘状态，影响武器选择。 </param>
 	/// <param name="strict">     是否启用严格模式。 </param>
-	private void AssignWeaponByWeaponClassBySlot(
-		EquipmentIndex slot,
-		Assignment     assignment,
-		bool           mounted,
-		bool           strict) {
-		Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}",
-				   Colors.Green,
-				   Level.Debug);
+	private void AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
+		Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 		var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-		var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
-		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null)
-			return;
+		var weapon          = assignment.GetEquipmentFromSlot(slot);
+		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null) { return; }
 
 		var availableWeapon = _equipmentToAssign
-							  .WhereQ(equipment =>
-										  IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
-							  .OrderByDescending(equipment =>
-													 (int)equipment.Key.Item.Tier +
-													 equipment.Key.Item.CalculateWeaponTierBonus(mounted))
+							  .WhereQ(equipment => IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
+							  .OrderByDescending(equipment => (int)equipment.Key.Item.Tier + equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
 							  .ToListQ();
@@ -492,28 +473,15 @@ public class PartyEquipmentDistributor {
 		}
 	}
 
-	private void AssignWeaponByItemEnumTypeBySlot(
-		EquipmentIndex slot,
-		Assignment     assignment,
-		bool           mounted,
-		bool           strict) {
-		Global.Log($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}",
-				   Colors.Green,
-				   Level.Debug);
+	private void AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
+		Global.Log($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 		var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-		var weapon          = assignment.Equipment.GetEquipmentFromSlot(slot);
-		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null)
-			return;
+		var weapon          = assignment.GetEquipmentFromSlot(slot);
+		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null) { return; }
 
 		var availableWeapon = _equipmentToAssign
-							  .WhereQ(equipment =>
-										  IsWeaponSuitableByType(equipment,
-																 referenceWeapon.Item.ItemType,
-																 assignment,
-																 strict))
-							  .OrderByDescending(equipment =>
-													 (int)equipment.Key.Item.Tier +
-													 equipment.Key.Item.CalculateWeaponTierBonus(mounted))
+							  .WhereQ(equipment => IsWeaponSuitableByType(equipment, referenceWeapon.Item.ItemType, assignment, strict))
+							  .OrderByDescending(equipment => (int)equipment.Key.Item.Tier + equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
 							  .ToListQ();
@@ -522,27 +490,24 @@ public class PartyEquipmentDistributor {
 	}
 
 	// 封装判断逻辑
-	private bool IsWeaponSuitable(EquipmentElement equipment,
-								  ItemObject       referenceWeapon,
-								  Assignment       assignment,
-								  bool             strict) {
+	private bool IsWeaponSuitable(EquipmentElement equipment, ItemObject referenceWeapon, Assignment assignment, bool strict) {
 		if (equipment.IsEmpty                                            ||
 			equipment.Item == null                                       ||
 			!equipment.Item.HasWeaponComponent                           ||
 			_equipmentToAssign[equipment] <= 0                           ||
 			!equipment.Item.IsSuitableForCharacter(assignment.Character) ||
-			!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), Global.GetWeaponClass(referenceWeapon)))
-			return false;
+			!Global.HaveSameWeaponClass(Global.GetWeaponClass(equipment.Item), Global.GetWeaponClass(referenceWeapon))) { return false; }
 
 		var isSuitableForMount = equipment.Item.IsSuitableForMount();
 		var isCouchable        = equipment.Item.IsCouchable();
 
 		if (strict) {
-			if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) return false;
+			if (!Global.FullySameWeaponClass(equipment.Item, referenceWeapon)) { return false; }
 
-			if (assignment.IsMounted)
+			if (assignment.IsMounted) {
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Item.IsPolearm() || isCouchable);
+			}
 
 			// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
 			return !isCouchable;
@@ -553,25 +518,19 @@ public class PartyEquipmentDistributor {
 	}
 
 	// 封装判断逻辑
-	private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment,
-										ItemObject.ItemTypeEnum             itemType,
-										Assignment                          assignment,
-										bool                                strict) {
-		if (equipment.Key.IsEmpty                                            ||
-			equipment.Key.Item == null                                       ||
-			!equipment.Key.Item.HasWeaponComponent                           ||
-			_equipmentToAssign[equipment.Key] <= 0                           ||
-			!equipment.Key.Item.IsSuitableForCharacter(assignment.Character) ||
-			equipment.Key.Item.ItemType != itemType)
+	private bool IsWeaponSuitableByType(KeyValuePair<EquipmentElement, int> equipment, ItemObject.ItemTypeEnum itemType, Assignment assignment, bool strict) {
+		if (equipment.Key.IsEmpty || equipment.Key.Item == null || !equipment.Key.Item.HasWeaponComponent || _equipmentToAssign[equipment.Key] <= 0 || !equipment.Key.Item.IsSuitableForCharacter(assignment.Character) || equipment.Key.Item.ItemType != itemType) {
 			return false;
+		}
 
 		var isSuitableForMount = equipment.Key.Item.IsSuitableForMount();
 		var isCouchable        = equipment.Key.Item.IsCouchable();
 
 		if (strict) {
-			if (assignment.IsMounted)
+			if (assignment.IsMounted) {
 				// 严格模式下骑马：必须适合骑乘；如果是长杆武器，则必须可进行骑枪冲刺
 				return isSuitableForMount && (!equipment.Key.Item.IsPolearm() || isCouchable);
+			}
 
 			// 严格模式下非骑马：不可选择可进行骑枪冲刺的武器
 			return !isCouchable;
@@ -582,15 +541,11 @@ public class PartyEquipmentDistributor {
 	}
 
 	// 封装武器分配逻辑
-	private void AssignWeaponIfAvailable(EquipmentIndex                            slot,
-										 Assignment                                assignment,
-										 List<KeyValuePair<EquipmentElement, int>> availableWeapon) {
-		if (!availableWeapon.AnyQ()) return;
+	private void AssignWeaponIfAvailable(EquipmentIndex slot, Assignment assignment, List<KeyValuePair<EquipmentElement, int>> availableWeapon) {
+		if (!availableWeapon.AnyQ()) { return; }
 
-		Global.Log($"weapon {availableWeapon.First().Key.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}",
-				   Colors.Green,
-				   Level.Debug);
-		assignment.Equipment.AddEquipmentToSlotWithoutAgent(slot, availableWeapon.First().Key);
+		Global.Log($"weapon {availableWeapon.First().Key.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+		assignment.SetEquipment(slot, availableWeapon.First().Key);
 		_equipmentToAssign[availableWeapon.First().Key]--;
 	}
 
@@ -603,7 +558,7 @@ public class PartyEquipmentDistributor {
 
 		foreach (var slot in Global.EquipmentSlots) {
 			var element = equipment.GetEquipmentFromSlot(slot);
-			if (element is not { IsEmpty: false, Item: not null }) continue;
+			if (element is not { IsEmpty: false, Item: not null }) { continue; }
 
 			if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
 				// 武器库中有足够的物品，分配一个并减少数量

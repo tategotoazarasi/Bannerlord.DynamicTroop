@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -102,12 +102,14 @@ public static class Global {
 				   : new List<WeaponClass>();
 	}
 
+	private static readonly object DisplayMessageLock = new object();
+
 	public static void Log(string message, Color color, Level level, int skipFrames = 1) {
 		if (SubModule.Settings is { DebugMode: true } &&
 			(SubModule.Settings.LogLevel.SelectedValue == Level.All ||
 			 level                                     >= SubModule.Settings.LogLevel.SelectedValue)) {
 			// 显示信息
-			InformationManager.DisplayMessage(new InformationMessage(message, color));
+			lock (DisplayMessageLock) { InformationManager.DisplayMessage(new InformationMessage(message, color)); }
 
 			// 使用 log4net 记录日志
 			StackFrame frame  = new(skipFrames, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧

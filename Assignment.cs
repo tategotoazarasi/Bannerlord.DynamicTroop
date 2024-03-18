@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using Bannerlord.DynamicTroop.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -16,12 +17,19 @@ public class Assignment : IComparable {
 															  EquipmentIndex.Weapon3
 														  };
 
-	private static int _counter;
+	private static   int                  _counter;
+	private readonly ReaderWriterLockSlim _eqLock = new();
+	private readonly ReaderWriterLockSlim _lock   = new();
 
 	public readonly Equipment Equipment;
 
+	private bool _isAssigned;
+
 	public Assignment(CharacterObject character) {
-		Index              = ++_counter;
+		_lock.EnterWriteLock();
+		try { Index = Interlocked.Increment(ref _counter); }
+		finally { _lock.ExitWriteLock(); }
+
 		Character          = character;
 		Equipment          = CreateEmptyEquipment();
 		ReferenceEquipment = character.RandomBattleEquipment.Clone();
@@ -29,70 +37,79 @@ public class Assignment : IComparable {
 
 	public int Index { get; }
 
-	public bool IsAssigned { get; set; }
+	public bool IsAssigned
+	{
+		get
+		{
+			_lock.EnterReadLock();
+			try { return _isAssigned; }
+			finally { _lock.ExitReadLock(); }
+		}
+		set
+		{
+			_lock.EnterWriteLock();
+			try { _isAssigned = value; }
+			finally { _lock.ExitWriteLock(); }
+		}
+	}
 
 	public CharacterObject Character { get; }
 
 	public Equipment ReferenceEquipment { get; }
 
 	public bool IsShielded =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is {
-																			 IsEmpty      : false,
-																			 Item.ItemType: ItemTypeEnum.Shield
-																		 });
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is {
+																   IsEmpty      : false,
+																   Item.ItemType: ItemTypeEnum.Shield
+															   });
 
 	public bool CanBeShielded =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is {
-																			 IsEmpty: false,
-																			 Item: {
-																				 ItemType: ItemTypeEnum
-																					 .OneHandedWeapon
-																			 } item
-																		 } &&
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is {
+																   IsEmpty: false,
+																   Item: {
+																			 ItemType: ItemTypeEnum.OneHandedWeapon
+																		 } item
+															   } &&
 								 !item.CantUseWithShields());
 
 	public bool IsArcher =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 item.IsBow());
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } && item.IsBow());
 
 	public bool IsCrossBowMan =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 item.IsCrossBow());
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } && item.IsCrossBow());
 
 	public bool HaveThrown =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 item.IsThrowing());
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } && item.IsThrowing());
 
 	public bool HaveTwoHandedWeaponOrPolearms =>
-		WeaponSlots.AnyQ(slot => Equipment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } &&
-								 (item.IsTwoHanded() || item.IsPolearm()));
+		WeaponSlots.AnyQ(slot => GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: { } item } && (item.IsTwoHanded() || item.IsPolearm()));
 
-	public EquipmentIndex? EmptyWeaponSlot {
-		get {
+	public EquipmentIndex? EmptyWeaponSlot
+	{
+		get
+		{
 			foreach (var slot in WeaponSlots)
-				if (Equipment.GetEquipmentFromSlot(slot).IsEmpty || Equipment.GetEquipmentFromSlot(slot).Item == null)
+				if (GetEquipmentFromSlot(slot).IsEmpty || GetEquipmentFromSlot(slot).Item == null)
 					return slot;
 
 			return null;
 		}
 	}
 
-	public bool IsMounted {
-		get {
+	public bool IsMounted
+	{
+		get
+		{
 			var horse = ReferenceEquipment.GetEquipmentFromSlot(EquipmentIndex.Horse);
 			return horse is { IsEmpty: false, Item: not null };
 		}
 	}
 
 	public bool IsUnarmed =>
-		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty ||
-		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
-		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty ||
-		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
-		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty ||
-		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
-		(Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty ||
-		 Equipment.GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
+		(GetEquipmentFromSlot(EquipmentIndex.Weapon0).IsEmpty || GetEquipmentFromSlot(EquipmentIndex.Weapon0).Item == null) &&
+		(GetEquipmentFromSlot(EquipmentIndex.Weapon1).IsEmpty || GetEquipmentFromSlot(EquipmentIndex.Weapon1).Item == null) &&
+		(GetEquipmentFromSlot(EquipmentIndex.Weapon2).IsEmpty || GetEquipmentFromSlot(EquipmentIndex.Weapon2).Item == null) &&
+		(GetEquipmentFromSlot(EquipmentIndex.Weapon3).IsEmpty || GetEquipmentFromSlot(EquipmentIndex.Weapon3).Item == null);
 
 	public int CompareTo(object? obj) {
 		if (obj == null) return 1;
@@ -130,6 +147,18 @@ public class Assignment : IComparable {
 		return 0; // 如果所有条件都相等，则认为两者相等
 	}
 
+	public EquipmentElement GetEquipmentFromSlot(EquipmentIndex slot) {
+		_eqLock.EnterReadLock();
+		try { return Equipment.GetEquipmentFromSlot(slot); }
+		finally { _eqLock.ExitReadLock(); }
+	}
+
+	public void SetEquipment(EquipmentIndex slot, EquipmentElement equipment) {
+		_eqLock.EnterWriteLock();
+		try { Equipment.AddEquipmentToSlotWithoutAgent(slot, equipment); }
+		finally { _eqLock.ExitWriteLock(); }
+	}
+
 	private static Equipment CreateEmptyEquipment() {
 		Equipment emptyEquipment = new();
 		foreach (var slot in Global.EquipmentSlots)
@@ -141,39 +170,34 @@ public class Assignment : IComparable {
 	public void FillEmptySlots() {
 		foreach (var slot in Global.ArmourSlots) {
 			var referenceEquipment = ReferenceEquipment.GetEquipmentFromSlot(slot);
-			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null }) {
+			if (GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null }) {
 				var itemType = Helper.EquipmentIndexToItemEnumType(slot);
 				if (!itemType.HasValue) continue;
 
 				ItemObject? item;
 				if (referenceEquipment is { IsEmpty: false, Item: not null }) {
-					List<ItemObject> itemList = new() { referenceEquipment.Item };
-					var itemsByCharacter =
-						Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture);
+					List<ItemObject> itemList         = new() { referenceEquipment.Item };
+					var              itemsByCharacter = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture);
 					if (itemsByCharacter != null) itemList.AddRange(itemsByCharacter);
 
 					if (referenceEquipment.Item.Culture is CultureObject cultureObject) {
-						var itemsByReference =
-							Cache.GetItemsByTypeTierAndCulture(itemType.Value,
-															   (int)referenceEquipment.Item.Tier,
-															   cultureObject);
+						var itemsByReference = Cache.GetItemsByTypeTierAndCulture(itemType.Value, (int)referenceEquipment.Item.Tier, cultureObject);
 						if (itemsByReference != null) itemList.AddRange(itemsByReference);
 					}
 
 					item = WeightedRandomSelector.SelectItem(itemList, referenceEquipment.Item.Effectiveness);
 				}
 				else {
-					item = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture)
-								?.GetRandomElement();
+					item = Cache.GetItemsByTypeTierAndCulture(itemType.Value, Character.Tier, Character.Culture)?.GetRandomElement();
 					if (item == null) continue;
 				}
 
-				Equipment.AddEquipmentToSlotWithoutAgent(slot, new EquipmentElement(item));
+				SetEquipment(slot, new EquipmentElement(item));
 			}
 		}
 
 		foreach (var slot in Global.EquipmentSlots)
-			if (Equipment.GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
-				Equipment.AddEquipmentToSlotWithoutAgent(slot, ReferenceEquipment.GetEquipmentFromSlot(slot));
+			if (GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
+				SetEquipment(slot, ReferenceEquipment.GetEquipmentFromSlot(slot));
 	}
 }
