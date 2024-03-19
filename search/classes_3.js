@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['data_0',['Data',['../d2/d94/a00184.html',1,'ArmyArmoryBehavior.Data'],['../d0/d53/a00232.html',1,'EveryoneCampaignBehavior.Data']]],
-  ['dynamictroopmissionlogic_1',['DynamicTroopMissionLogic',['../d5/ddf/a00224.html',1,'']]]
+  ['data_0',['Data',['../d8/d00/a00186.html',1,'ArmyArmoryBehavior.Data'],['../da/d31/a00234.html',1,'EveryoneCampaignBehavior.Data']]],
+  ['dynamictroopmissionlogic_1',['DynamicTroopMissionLogic',['../dc/d55/a00226.html',1,'']]]
 ];
