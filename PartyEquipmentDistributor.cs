@@ -34,7 +34,6 @@ public class PartyEquipmentDistributor {
 		_party             = party;
 		_itemRoster        = itemRoster;
 		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
-		Init();
 	}
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, IDictionary<EquipmentElement, int> equipmentToAssign) {
@@ -42,7 +41,6 @@ public class PartyEquipmentDistributor {
 		_party             = party;
 		_itemRoster        = null;
 		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(equipmentToAssign, new EquipmentElementComparer());
-		Init();
 	}
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, Dictionary<ItemObject, int> objectToAssign) {
@@ -59,11 +57,9 @@ public class PartyEquipmentDistributor {
 				else { _                                                                                          = _equipmentToAssign.TryAdd(element, kv.Value); }
 			}
 		}
-
-		Init();
 	}
 
-	private void Init() {
+	public void Run() {
 		foreach (var troop in _party.MemberRoster.GetTroopRoster()) {
 			for (var i = 0; i < troop.Number - troop.WoundedNumber; i++) {
 				if (!troop.Character.IsHero) { Assignments.Add(new Assignment(troop.Character)); }
@@ -86,9 +82,6 @@ public class PartyEquipmentDistributor {
 				}
 			}
 		}
-
-		if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) { GenerateHorseAndHarnessList(); }
-
 		_ = DoAssignAsync();
 	}
 
@@ -220,7 +213,10 @@ public class PartyEquipmentDistributor {
 													AssignEquipmentType(ItemObject.ItemTypeEnum.Cape);
 												}),
 									   Task.Run(() => {
-													if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) { AssignHorseAndHarness(); }
+													if (!_mission.IsSiegeBattle && !_mission.HasMissionBehavior<HideoutMissionController>()) {
+														GenerateHorseAndHarnessList();
+														AssignHorseAndHarness();
+													}
 												}),
 									   Task.Run(() => {
 													AssignWeaponByWeaponClass(true);

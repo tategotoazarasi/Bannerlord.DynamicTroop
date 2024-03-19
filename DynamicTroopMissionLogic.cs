@@ -1,10 +1,13 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 using Bannerlord.DynamicTroop.Extensions;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
@@ -28,12 +31,27 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 	private bool _isMissionEnded;
 
-	public override void AfterStart() {
+	public override async void AfterStart() {
 		base.AfterStart();
 		Global.Log("AfterStart", Colors.Green, Level.Debug);
-		if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat)
-			Distributors.Add(Campaign.Current.MainParty.Id,
-							 new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
+		if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat) {
+			var tasks = new List<Task>();
+			Distributors.Add(Campaign.Current.MainParty.Id, new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
+			foreach (var party in MapEvent.PlayerMapEvent.InvolvedParties) {
+				var mobileParty = party.MobileParty;
+				if (mobileParty != null && mobileParty != Campaign.Current.MainParty && mobileParty.IsValid()) {
+					var partyArmory = EveryoneCampaignBehavior.PartyArmories.TryGetValue(mobileParty.Id, out var armory)
+										  ? armory
+										  : new Dictionary<ItemObject, int>();
+					Distributors.Add(mobileParty.Id, new PartyEquipmentDistributor(Mission.Current, mobileParty, partyArmory));
+				}
+			}
+
+			foreach (var distributor in Distributors) {
+				tasks.Add(Task.Run(() => distributor.Value.Run()));
+			}
+			await Task.WhenAll(tasks);
+		}
 	}
 
 	/// <summary>
