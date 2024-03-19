@@ -86,30 +86,18 @@ public static class Global {
 											  };
 
 		foreach (var itemType in itemTypes) {
-			CraftingTemplate[] templates = CraftingTemplate
-										   .All.WhereQ(template => template.ItemType == itemType)
-										   .ToArrayQ();
+			CraftingTemplate[] templates = CraftingTemplate.All.WhereQ(template => template.ItemType == itemType).ToArrayQ();
 			CraftingTemplatesByItemType[itemType] = templates;
 		}
 	}
 
 	public static List<WeaponClass> GetWeaponClass(ItemObject item) {
-		return item is { HasWeaponComponent: true }
-				   ? item.WeaponComponent.Weapons.SelectQ(weapon => weapon.WeaponClass)
-						 .Distinct()
-						 .OrderByQ(weaponClass => weaponClass)
-						 .ToListQ()
-				   : new List<WeaponClass>();
+		return item is { HasWeaponComponent: true } ? item.WeaponComponent.Weapons.SelectQ(weapon => weapon.WeaponClass).Distinct().OrderByQ(weaponClass => weaponClass).ToListQ() : new List<WeaponClass>();
 	}
 
-	private static readonly object DisplayMessageLock = new object();
-
 	public static void Log(string message, Color color, Level level, int skipFrames = 1) {
-		if (SubModule.Settings is { DebugMode: true } &&
-			(SubModule.Settings.LogLevel.SelectedValue == Level.All ||
-			 level                                     >= SubModule.Settings.LogLevel.SelectedValue)) {
-			// 显示信息
-			lock (DisplayMessageLock) { InformationManager.DisplayMessage(new InformationMessage(message, color)); }
+		if (SubModule.Settings is { DebugMode: true } && (SubModule.Settings.LogLevel.SelectedValue == Level.All || level >= SubModule.Settings.LogLevel.SelectedValue)) {
+			MessageDisplayService.EnqueueMessage(new InformationMessage(message, color));
 
 			// 使用 log4net 记录日志
 			StackFrame frame  = new(skipFrames, true); // 创建 StackFrame 对象，参数 1 表示上一个栈帧
@@ -151,20 +139,10 @@ public static class Global {
 	public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal, 2); }
 
 	public static bool HaveSameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
-		var thrown1 = list1.WhereQ(weaponClass =>
-									   weaponClass is WeaponClass.ThrowingKnife
-													  or WeaponClass.ThrowingAxe
-													  or WeaponClass.Stone
-													  or WeaponClass.Javelin)
-						   .ToArrayQ();
+		var thrown1 = list1.WhereQ(weaponClass => weaponClass is WeaponClass.ThrowingKnife or WeaponClass.ThrowingAxe or WeaponClass.Stone or WeaponClass.Javelin).ToArrayQ();
 		if (!thrown1.IsEmpty()) return list2.AnyQ(weaponClass => thrown1.Contains(weaponClass));
 
-		var thrown2 = list2.WhereQ(weaponClass =>
-									   weaponClass is WeaponClass.ThrowingKnife
-													  or WeaponClass.ThrowingAxe
-													  or WeaponClass.Stone
-													  or WeaponClass.Javelin)
-						   .ToArrayQ();
+		var thrown2 = list2.WhereQ(weaponClass => weaponClass is WeaponClass.ThrowingKnife or WeaponClass.ThrowingAxe or WeaponClass.Stone or WeaponClass.Javelin).ToArrayQ();
 
 		// 直接返回判断条件的结果
 		return !thrown2.IsEmpty() && list1.AnyQ(weaponClass => thrown2.Contains(weaponClass));
@@ -174,19 +152,14 @@ public static class Global {
 		//var list1 = GetWeaponClass(weapon1);
 		//var list2 = GetWeaponClass(weapon2);
 		//if (list1.Count != list2.Count) return false;
-		if (weapon1.Weapons == null   ||
-			weapon2.Weapons == null   ||
-			weapon1.Weapons.IsEmpty() ||
-			weapon2.Weapons.IsEmpty() ||
-			weapon1.Weapons.Count != weapon2.Weapons.Count)
+		if (weapon1.Weapons == null || weapon2.Weapons == null || weapon1.Weapons.IsEmpty() || weapon2.Weapons.IsEmpty() || weapon1.Weapons.Count != weapon2.Weapons.Count)
 			return false;
 
 		weapon1.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
 		weapon2.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
-		return !Enumerable.Range(0, weapon1.Weapons.Count)
-						  .AnyQ(i => weapon1.Weapons[i].WeaponClass      != weapon2.Weapons[i].WeaponClass     ||
-									 weapon1.Weapons[i].SwingDamageType  != weapon2.Weapons[i].SwingDamageType ||
-									 weapon1.Weapons[i].ThrustDamageType != weapon2.Weapons[i].ThrustDamageType);
+		return !Enumerable
+				.Range(0, weapon1.Weapons.Count)
+				.AnyQ(i => weapon1.Weapons[i].WeaponClass != weapon2.Weapons[i].WeaponClass || weapon1.Weapons[i].SwingDamageType != weapon2.Weapons[i].SwingDamageType || weapon1.Weapons[i].ThrustDamageType != weapon2.Weapons[i].ThrustDamageType);
 	}
 
 	public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {
@@ -220,8 +193,7 @@ public static class Global {
 	}
 
 	private static bool IsAmmoAndEmpty(MissionWeapon? mw) {
-		return mw is { IsEmpty: false, Item.HasWeaponComponent: true, Amount: 0 } &&
-			   (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing());
+		return mw is { IsEmpty: false, Item.HasWeaponComponent: true, Amount: 0 } && (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing());
 	}
 
 	public static bool IsInPlayerParty(IAgentOriginBase? agentOrigin) {
@@ -252,18 +224,10 @@ public static class Global {
 	}
 
 	public static int CountCharacterEquipmentItemTypes(CharacterObject? character, ItemObject.ItemTypeEnum? itemType) {
-		return character == null || itemType == null || character.BattleEquipments == null
-				   ? 0
-				   : character.BattleEquipments.MaxQ(equipment =>
-														 Assignment.WeaponSlots.CountQ(slot =>
-															 equipment.GetEquipmentFromSlot(slot)
-																	  .Item?.ItemType ==
-															 itemType));
+		return character == null || itemType == null || character.BattleEquipments == null ? 0 : character.BattleEquipments.MaxQ(equipment => Assignment.WeaponSlots.CountQ(slot => equipment.GetEquipmentFromSlot(slot).Item?.ItemType == itemType));
 	}
 
-	public static List<ItemObject> CreateRandomCraftedItemsByItemType(ItemObject.ItemTypeEnum? type,
-																	  BasicCultureObject?      culture,
-																	  int                      num = 0) {
+	public static List<ItemObject> CreateRandomCraftedItemsByItemType(ItemObject.ItemTypeEnum? type, BasicCultureObject? culture, int num = 0) {
 		List<ItemObject> items  = new();
 		Random           random = new();
 		if (type == null || culture == null) return items;

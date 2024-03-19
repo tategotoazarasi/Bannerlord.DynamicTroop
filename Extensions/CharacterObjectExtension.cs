@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -24,9 +25,9 @@ public static class CharacterObjectExtension {
 
 	private static MBReadOnlyList<SkillObject> _cachedSkillValue = new();
 
-	private static readonly Dictionary<CharacterObject, int> CachedCharacterEquipmentValue = new();
+	private static readonly ConcurrentDictionary<CharacterObject, int> CachedCharacterEquipmentValue = new();
 
-	private static readonly Dictionary<CharacterObject, int> CachedCharacterSkillValue = new();
+	private static readonly ConcurrentDictionary<CharacterObject, int> CachedCharacterSkillValue = new();
 
 	public static TroopType GetTroopType(this CharacterObject? character) {
 		return character == null                            ? TroopType.None :
@@ -63,7 +64,7 @@ public static class CharacterObjectExtension {
 		if (CachedCharacterEquipmentValue.TryGetValue(character, out var value)) return value;
 
 		value = CalculateEquipmentValue(character);
-		CachedCharacterEquipmentValue.Add(character, value);
+		CachedCharacterEquipmentValue.TryAdd(character, value);
 		return value;
 	}
 
@@ -73,7 +74,7 @@ public static class CharacterObjectExtension {
 		if (CachedCharacterSkillValue.TryGetValue(character, out var value)) return value;
 
 		value = CalculateSkillValue(character);
-		CachedCharacterSkillValue.Add(character, value);
+		CachedCharacterSkillValue.TryAdd(character, value);
 		return value;
 	}
 
