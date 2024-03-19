@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 
@@ -125,8 +126,20 @@ public static class ItemBlackList {
 			var stringId = item.StringId;
 			var name     = item.Name.ToString();
 
-			result = !StringIds.Contains(stringId) && !Names.Contains(name) && !StringIdPatterns.Any(pattern => pattern.IsMatch(stringId)) && !NamePatterns.Any(pattern => pattern.IsMatch(name));
-			Cache.Add(item, result);
+			// 并行执行所有匹配检查
+			var isBlacklisted = new[] {
+										  // StringIds 和 Names 检查可以直接并行
+										  Task.Run(() => !StringIds.Contains(stringId)),
+										  Task.Run(() => !Names.Contains(name)),
+										  // 正则表达式检查需要更细粒度的并行操作
+										  Task.Run(() => !StringIdPatterns.AsParallel().Any(pattern => pattern.IsMatch(stringId))),
+										  Task.Run(() => !NamePatterns.AsParallel().Any(pattern => pattern.IsMatch(name)))
+									  };
+
+			// 等待所有任务完成，并检查所有条件是否满足
+			result = Task.WhenAll(isBlacklisted).Result.All(matchResult => matchResult);
+
+			Cache[item] = result;
 			return result;
 		}
 		catch (Exception e) {
@@ -134,6 +147,7 @@ public static class ItemBlackList {
 			return false;
 		}
 	}
+
 
 	/// <summary>
 	///     Utility class for managing item blacklist for dynamic troops.
