@@ -47,6 +47,7 @@
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="all" IncludeAssets="compile" />
     <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
 	<Content Include="log4net.config">
@@ -217,15 +218,15 @@
   </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Bannerlord.DynamicTroop.Test\**"/>
+        <Compile Remove="Bannerlord.DynamicTroop.Test\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="Bannerlord.DynamicTroop.Test\**"/>
+        <EmbeddedResource Remove="Bannerlord.DynamicTroop.Test\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Bannerlord.DynamicTroop.Test\**"/>
+        <None Remove="Bannerlord.DynamicTroop.Test\**" />
     </ItemGroup>
   
 </Project>
