@@ -4,7 +4,7 @@ var searchData=
   ['import_1',['Import',['../d5/de9/a00176.html#a689c453cfccb9a79db4ff105ca9dca94',1,'ArmyArmory']]],
   ['index_2',['Index',['../da/d15/a00188.html#aa42187a91444640ca2f14a765f2f18be',1,'Assignment']]],
   ['info_3',['Info',['../d3/dcc/a00264.html#aef03d64000ed78440ee45f242ba64bb3',1,'Global']]],
-  ['init_4',['Init',['../db/d7b/a00296.html#a080d5a3a60e7ba15e8f61aa64d08e4a6',1,'PartyEquipmentDistributor.Init()'],['../d9/d21/a00240.html#a974558e14e2f3a2d37ad7313f1faf7ad',1,'CharacterObjectExtension.Init()']]],
+  ['init_4',['Init',['../d9/d21/a00240.html#a974558e14e2f3a2d37ad7313f1faf7ad',1,'CharacterObjectExtension']]],
   ['initializecraftingtemplatesbyitemtype_5',['InitializeCraftingTemplatesByItemType',['../d3/dcc/a00264.html#a00b8eddf53d9ac18299108abc1c0d6f2',1,'Global']]],
   ['initializeitemlistbytype_6',['InitializeItemListByType',['../de/dc2/a00228.html#ad28e0c0165b642ce062e46dc509ee894',1,'EveryoneCampaignBehavior']]],
   ['invalidweaponclasses_7',['InvalidWeaponClasses',['../d3/dcc/a00264.html#a4c7256b2fc8f175ebb6c61ddc3a4cda2',1,'Global']]],

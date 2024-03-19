@@ -2,7 +2,7 @@ var searchData=
 [
   ['import_0',['Import',['../d5/de9/a00176.html#a689c453cfccb9a79db4ff105ca9dca94',1,'ArmyArmory']]],
   ['info_1',['Info',['../d3/dcc/a00264.html#aef03d64000ed78440ee45f242ba64bb3',1,'Global']]],
-  ['init_2',['Init',['../d9/d21/a00240.html#a974558e14e2f3a2d37ad7313f1faf7ad',1,'CharacterObjectExtension.Init()'],['../db/d7b/a00296.html#a080d5a3a60e7ba15e8f61aa64d08e4a6',1,'PartyEquipmentDistributor.Init()']]],
+  ['init_2',['Init',['../d9/d21/a00240.html#a974558e14e2f3a2d37ad7313f1faf7ad',1,'CharacterObjectExtension']]],
   ['initializecraftingtemplatesbyitemtype_3',['InitializeCraftingTemplatesByItemType',['../d3/dcc/a00264.html#a00b8eddf53d9ac18299108abc1c0d6f2',1,'Global']]],
   ['initializeitemlistbytype_4',['InitializeItemListByType',['../de/dc2/a00228.html#ad28e0c0165b642ce062e46dc509ee894',1,'EveryoneCampaignBehavior']]],
   ['isammoandempty_5',['IsAmmoAndEmpty',['../d3/dcc/a00264.html#aa2858a74587fa65cc94747a14587533d',1,'Global']]],

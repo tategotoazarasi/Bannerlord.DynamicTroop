@@ -8,5 +8,6 @@ var searchData=
   ['returnequipmentfromagents_5',['ReturnEquipmentFromAgents',['../d5/ddf/a00224.html#a25b60aaf522fd91a46f7a88b3eeb953d',1,'DynamicTroopMissionLogic']]],
   ['returnequipmenttoarmoryfromagents_6',['ReturnEquipmentToArmoryFromAgents',['../d5/de9/a00176.html#a302f77426fecd73e55eaca01f1b085b7',1,'ArmyArmory']]],
   ['returnitem_7',['ReturnItem',['../db/d7b/a00296.html#a494ea034cc3e2a799b030b3744fab86c',1,'PartyEquipmentDistributor']]],
-  ['returnitemstodestination_8',['ReturnItemsToDestination',['../d5/ddf/a00224.html#afde3aa792eb8260963de8c7bfddf36a1',1,'DynamicTroopMissionLogic']]]
+  ['returnitemstodestination_8',['ReturnItemsToDestination',['../d5/ddf/a00224.html#afde3aa792eb8260963de8c7bfddf36a1',1,'DynamicTroopMissionLogic']]],
+  ['run_9',['Run',['../db/d7b/a00296.html#a1845fe8899a38e1865ed5458ab383049',1,'PartyEquipmentDistributor']]]
 ];

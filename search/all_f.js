@@ -18,5 +18,6 @@ var searchData=
   ['returnequipmenttoarmoryfromagents_15',['ReturnEquipmentToArmoryFromAgents',['../d5/de9/a00176.html#a302f77426fecd73e55eaca01f1b085b7',1,'ArmyArmory']]],
   ['returnitem_16',['ReturnItem',['../db/d7b/a00296.html#a494ea034cc3e2a799b030b3744fab86c',1,'PartyEquipmentDistributor']]],
   ['returnitemstodestination_17',['ReturnItemsToDestination',['../d5/ddf/a00224.html#afde3aa792eb8260963de8c7bfddf36a1',1,'DynamicTroopMissionLogic']]],
-  ['returntotown_18',['ReturnToTown',['../db/dc3/a00284.html#ad1afd6dc620035f0f3272f9682a16092',1,'LocalizedTexts']]]
+  ['returntotown_18',['ReturnToTown',['../db/dc3/a00284.html#ad1afd6dc620035f0f3272f9682a16092',1,'LocalizedTexts']]],
+  ['run_19',['Run',['../db/d7b/a00296.html#a1845fe8899a38e1865ed5458ab383049',1,'PartyEquipmentDistributor']]]
 ];
