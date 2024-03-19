@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Comparers/ArmorComparer.cs Source File</title>
+<title>动态装备系统: Comparers/EquipmentElementComparer.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -66,32 +66,35 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">ArmorComparer.cs</div></div>
+  <div class="headertitle"><div class="title">EquipmentElementComparer.cs</div></div>
 </div><!--header-->
 <div class="contents">
 <a href="../../d9/d77/a00095.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System.Collections.Generic;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> Bannerlord.DynamicTroop.Extensions;</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> TaleWorlds.Core;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Comparers;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../d5/df1/a00206.html">    7</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d5/df1/a00206.html">ArmorComparer</a> : IComparer&lt;ItemObject&gt; {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../d5/df1/a00206.html#a026a9e30857d92e02b5b172a310fa397">    8</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d5/df1/a00206.html#a026a9e30857d92e02b5b172a310fa397">Compare</a>(ItemObject x, ItemObject y) { <span class="keywordflow">return</span> y.CompareArmor(x); }</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>}</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../da/de7/a00210.html">   11</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../da/de7/a00210.html">ArmorElementComparer</a> : IComparer&lt;EquipmentElement&gt; {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../da/de7/a00210.html#ad6cc6750a9a30678847003367ee29e20">   12</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../da/de7/a00210.html#ad6cc6750a9a30678847003367ee29e20">Compare</a>(EquipmentElement x, EquipmentElement y) { <span class="keywordflow">return</span> y.Item.CompareArmor(x.Item); }</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>}</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../d3/dd1/a00214.html">   15</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d3/dd1/a00214.html">EquipmentEffectivenessComparer</a> : IComparer&lt;ItemObject&gt; {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../d3/dd1/a00214.html#a3efedfb86065fa2c19ce6de017a7b319">   16</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d3/dd1/a00214.html#a3efedfb86065fa2c19ce6de017a7b319">Compare</a>(ItemObject x, ItemObject y) { <span class="keywordflow">return</span> y.Effectiveness.CompareTo(x.Effectiveness); }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
-<div class="ttc" id="aa00206_html"><div class="ttname"><a href="../../d5/df1/a00206.html">ArmorComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00007">ArmorComparer.cs:7</a></div></div>
-<div class="ttc" id="aa00206_html_a026a9e30857d92e02b5b172a310fa397"><div class="ttname"><a href="../../d5/df1/a00206.html#a026a9e30857d92e02b5b172a310fa397">ArmorComparer.Compare</a></div><div class="ttdeci">int Compare(ItemObject x, ItemObject y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00008">ArmorComparer.cs:8</a></div></div>
-<div class="ttc" id="aa00210_html"><div class="ttname"><a href="../../da/de7/a00210.html">ArmorElementComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00011">ArmorComparer.cs:11</a></div></div>
-<div class="ttc" id="aa00210_html_ad6cc6750a9a30678847003367ee29e20"><div class="ttname"><a href="../../da/de7/a00210.html#ad6cc6750a9a30678847003367ee29e20">ArmorElementComparer.Compare</a></div><div class="ttdeci">int Compare(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00012">ArmorComparer.cs:12</a></div></div>
-<div class="ttc" id="aa00214_html"><div class="ttname"><a href="../../d3/dd1/a00214.html">EquipmentEffectivenessComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00015">ArmorComparer.cs:15</a></div></div>
-<div class="ttc" id="aa00214_html_a3efedfb86065fa2c19ce6de017a7b319"><div class="ttname"><a href="../../d3/dd1/a00214.html#a3efedfb86065fa2c19ce6de017a7b319">EquipmentEffectivenessComparer.Compare</a></div><div class="ttdeci">int Compare(ItemObject x, ItemObject y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00016">ArmorComparer.cs:16</a></div></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Comparers;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../dd/d52/a00221.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../dd/d52/a00221.html">EquipmentElementComparer</a> : IEqualityComparer&lt;EquipmentElement&gt; {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../dd/d52/a00221.html#ae9f471359246c26a676cf94a39e2e2c8">    7</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../dd/d52/a00221.html#ae9f471359246c26a676cf94a39e2e2c8">Equals</a>(EquipmentElement x, EquipmentElement y) {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="comment">/*// 检查是否为同一个对象的引用或都为 null</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">        if (ReferenceEquals(x, y)) return true;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"></span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">        if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"></span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">        // 在这里添加比较逻辑 例如，比较 EquipmentElement 的某些特定属性*/</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">return</span> x.Item.StringId == y.Item.StringId;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    }</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../dd/d52/a00221.html#a5e32032446077d6d1611a3146f2f1689">   17</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../dd/d52/a00221.html#a5e32032446077d6d1611a3146f2f1689">GetHashCode</a>(EquipmentElement obj) {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="comment">//if (ReferenceEquals(obj, null)) return 0;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="comment">// 计算哈希码 例如，结合 EquipmentElement 的某些属性</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">return</span> obj.Item == <span class="keyword">null</span> ? 0 : obj.Item.StringId.GetHashCode();</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
+<div class="ttc" id="aa00221_html"><div class="ttname"><a href="../../dd/d52/a00221.html">EquipmentElementComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00006">EquipmentElementComparer.cs:6</a></div></div>
+<div class="ttc" id="aa00221_html_a5e32032446077d6d1611a3146f2f1689"><div class="ttname"><a href="../../dd/d52/a00221.html#a5e32032446077d6d1611a3146f2f1689">EquipmentElementComparer.GetHashCode</a></div><div class="ttdeci">int GetHashCode(EquipmentElement obj)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00017">EquipmentElementComparer.cs:17</a></div></div>
+<div class="ttc" id="aa00221_html_ae9f471359246c26a676cf94a39e2e2c8"><div class="ttname"><a href="../../dd/d52/a00221.html#ae9f471359246c26a676cf94a39e2e2c8">EquipmentElementComparer.Equals</a></div><div class="ttdeci">bool Equals(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00007">EquipmentElementComparer.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

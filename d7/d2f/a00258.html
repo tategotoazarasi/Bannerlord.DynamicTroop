@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: TownExtension Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -62,82 +62,14 @@ $(function() {
 
 </div><!-- top -->
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="../../d4/d04/a00255.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">TownExtension Class Reference</div></div>
+  <div class="headertitle"><div class="title">TownExtension Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac304dee95e429fa2f10c8497deb9ea92"><td class="memItemLeft" align="right" valign="top">static List&lt; ItemObject &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2f/a00258.html#ac304dee95e429fa2f10c8497deb9ea92">GetRandomEquipments</a> (this Town? town)</td></tr>
-<tr class="separator:ac304dee95e429fa2f10c8497deb9ea92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/d16/a00029_source.html#l00011">11</a> of file <a class="el" href="../../d5/d16/a00029_source.html">TownExtension.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac304dee95e429fa2f10c8497deb9ea92" name="ac304dee95e429fa2f10c8497deb9ea92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac304dee95e429fa2f10c8497deb9ea92">&#9670;&nbsp;</a></span>GetRandomEquipments()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static List&lt; ItemObject &gt; TownExtension.GetRandomEquipments </td>
-          <td>(</td>
-          <td class="paramtype">this Town?&#160;</td>
-          <td class="paramname"><em>town</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d5/d16/a00029_source.html#l00012">12</a> of file <a class="el" href="../../d5/d16/a00029_source.html">TownExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>                                                                        {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">if</span> (town == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">foreach</span> (var village <span class="keywordflow">in</span> town.Villages) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">if</span> (village.VillageState != Village.VillageStates.Normal) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            var items = <a class="code hl_class" href="../../db/d53/a00202.html">Cache</a>.<a class="code hl_function" href="../../db/d53/a00202.html#a11e8df5137b5a8bf6981579a06776471">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)village.GetProsperityLevel() +</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                                       (<a class="code hl_class" href="../../de/d25/a00290.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../de/d25/a00290.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0),</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                       town.Culture);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">if</span> (items != <span class="keyword">null</span> &amp;&amp; !items.IsEmpty()) list.Add(items.GetRandomElement());</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">if</span> (town.IsUnderSiege) <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        var items2 =</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_class" href="../../db/d53/a00202.html">Cache</a>.<a class="code hl_function" href="../../db/d53/a00202.html#a11e8df5137b5a8bf6981579a06776471">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)town.GetProsperityLevel() +</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                           (<a class="code hl_class" href="../../de/d25/a00290.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../de/d25/a00290.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0),</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                           town.Culture);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (items2 != <span class="keyword">null</span> &amp;&amp; !items2.IsEmpty()) list.Add(items2.GetRandomElement());</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
-<div class="ttc" id="aa00202_html"><div class="ttname"><a href="../../db/d53/a00202.html">Cache</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00014">Cache.cs:14</a></div></div>
-<div class="ttc" id="aa00202_html_a11e8df5137b5a8bf6981579a06776471"><div class="ttname"><a href="../../db/d53/a00202.html#a11e8df5137b5a8bf6981579a06776471">Cache.GetItemsByTierAndCulture</a></div><div class="ttdeci">static ? ItemObject[] GetItemsByTierAndCulture(int tier, CultureObject? culture)</div><div class="ttdoc">根据物品类型、层级和文化获取物品数组。</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00027">Cache.cs:27</a></div></div>
-<div class="ttc" id="aa00290_html"><div class="ttname"><a href="../../de/d25/a00290.html">ModSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d51/a00017_source.html#l00013">ModSettings.cs:13</a></div></div>
-<div class="ttc" id="aa00290_html_abd6758bfbaaea279c40442e0387286c5"><div class="ttname"><a href="../../de/d25/a00290.html#abd6758bfbaaea279c40442e0387286c5">ModSettings.Difficulty</a></div><div class="ttdeci">Dropdown&lt; string &gt; Difficulty</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d51/a00017_source.html#l00061">ModSettings.cs:61</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00061">ModSettings.Difficulty</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00027">Cache.GetItemsByTierAndCulture()</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Extensions/<a class="el" href="../../d5/d16/a00029_source.html">TownExtension.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../dc/d6a/a00261.html">TownExtension</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../dc/d6a/a00261.html#ac304dee95e429fa2f10c8497deb9ea92">GetRandomEquipments</a>(this Town? town)</td><td class="entry"><a class="el" href="../../dc/d6a/a00261.html">TownExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
