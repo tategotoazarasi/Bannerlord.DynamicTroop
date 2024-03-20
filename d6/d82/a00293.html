@@ -77,40 +77,34 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a566719ba669200568629a25cf0021071"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a566719ba669200568629a25cf0021071">EnqueueMessage</a> (InformationMessage message)</td></tr>
-<tr class="memdesc:a566719ba669200568629a25cf0021071"><td class="mdescLeft">&#160;</td><td class="mdescRight">将消息加入队列，并通知消息处理线程。  <a href="../../d6/d82/a00293.html#a566719ba669200568629a25cf0021071">More...</a><br /></td></tr>
+<tr class="memdesc:a566719ba669200568629a25cf0021071"><td class="mdescLeft">&#160;</td><td class="mdescRight">将消息加入队列，并通知消息处理任务。  <a href="../../d6/d82/a00293.html#a566719ba669200568629a25cf0021071">More...</a><br /></td></tr>
 <tr class="separator:a566719ba669200568629a25cf0021071"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad913406d5389b323576b62a06e519435"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#ad913406d5389b323576b62a06e519435">StopService</a> ()</td></tr>
-<tr class="memdesc:ad913406d5389b323576b62a06e519435"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止消息处理线程。  <a href="../../d6/d82/a00293.html#ad913406d5389b323576b62a06e519435">More...</a><br /></td></tr>
+<tr class="memdesc:ad913406d5389b323576b62a06e519435"><td class="mdescLeft">&#160;</td><td class="mdescRight">停止消息处理任务。  <a href="../../d6/d82/a00293.html#ad913406d5389b323576b62a06e519435">More...</a><br /></td></tr>
 <tr class="separator:ad913406d5389b323576b62a06e519435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
 <tr class="memitem:ae83bdba3e71cf247cd1d77da59bcf5fe"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#ae83bdba3e71cf247cd1d77da59bcf5fe">MessageDisplayService</a> ()</td></tr>
-<tr class="memdesc:ae83bdba3e71cf247cd1d77da59bcf5fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">静态构造函数，初始化并启动消息处理线程。  <a href="../../d6/d82/a00293.html#ae83bdba3e71cf247cd1d77da59bcf5fe">More...</a><br /></td></tr>
+<tr class="memdesc:ae83bdba3e71cf247cd1d77da59bcf5fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">静态构造函数，初始化并启动消息处理任务。  <a href="../../d6/d82/a00293.html#ae83bdba3e71cf247cd1d77da59bcf5fe">More...</a><br /></td></tr>
 <tr class="separator:ae83bdba3e71cf247cd1d77da59bcf5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7af63b1d5ef991b9c01db9a989ee9544"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">ProcessMessages</a> ()</td></tr>
-<tr class="memdesc:a7af63b1d5ef991b9c01db9a989ee9544"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息处理线程的主函数，循环检查消息队列并显示消息。  <a href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">More...</a><br /></td></tr>
+<tr class="memdesc:a7af63b1d5ef991b9c01db9a989ee9544"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息处理任务的主函数，循环检查消息队列并显示消息。  <a href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">More...</a><br /></td></tr>
 <tr class="separator:a7af63b1d5ef991b9c01db9a989ee9544"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a7156d50d7090c969af190b86867e0d6d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a7156d50d7090c969af190b86867e0d6d">_running</a> = true</td></tr>
-<tr class="memdesc:a7156d50d7090c969af190b86867e0d6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">控制消息处理线程运行状态的标志。  <a href="../../d6/d82/a00293.html#a7156d50d7090c969af190b86867e0d6d">More...</a><br /></td></tr>
-<tr class="separator:a7156d50d7090c969af190b86867e0d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e384e9fafff4f46d1855530a7216aff"><td class="memItemLeft" align="right" valign="top">static readonly object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a3e384e9fafff4f46d1855530a7216aff">DisplayMessageLock</a> = new()</td></tr>
-<tr class="memdesc:a3e384e9fafff4f46d1855530a7216aff"><td class="mdescLeft">&#160;</td><td class="mdescRight">显示消息时使用的锁对象。  <a href="../../d6/d82/a00293.html#a3e384e9fafff4f46d1855530a7216aff">More...</a><br /></td></tr>
-<tr class="separator:a3e384e9fafff4f46d1855530a7216aff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a410fafa5791648a1069c5540c62424e2"><td class="memItemLeft" align="right" valign="top">static readonly CancellationTokenSource&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a410fafa5791648a1069c5540c62424e2">CancellationTokenSource</a> = new()</td></tr>
+<tr class="separator:a410fafa5791648a1069c5540c62424e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa691a4285cd27a6d6495fcc54fcdd9aa"><td class="memItemLeft" align="right" valign="top">static readonly AutoResetEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a> = new(false)</td></tr>
-<tr class="memdesc:aa691a4285cd27a6d6495fcc54fcdd9aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">事件通知，用于指示消息队列中是否有新消息。  <a href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">More...</a><br /></td></tr>
 <tr class="separator:aa691a4285cd27a6d6495fcc54fcdd9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f096a7b51d3ecc68c40a3175be980a0"><td class="memItemLeft" align="right" valign="top">static readonly ConcurrentQueue&lt; InformationMessage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageQueue</a> = new()</td></tr>
-<tr class="memdesc:a4f096a7b51d3ecc68c40a3175be980a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">消息队列，线程安全。  <a href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">More...</a><br /></td></tr>
 <tr class="separator:a4f096a7b51d3ecc68c40a3175be980a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >消息显示服务，用于在游戏中显示消息。 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00009">9</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00014">14</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae83bdba3e71cf247cd1d77da59bcf5fe" name="ae83bdba3e71cf247cd1d77da59bcf5fe"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae83bdba3e71cf247cd1d77da59bcf5fe">&#9670;&nbsp;</a></span>MessageDisplayService()</h2>
@@ -135,16 +129,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>静态构造函数，初始化并启动消息处理线程。 </p>
+<p>静态构造函数，初始化并启动消息处理任务。 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00033">33</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                                   {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        var displayThread = <span class="keyword">new</span> Thread(<a class="code hl_function" href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">ProcessMessages</a>) { IsBackground = <span class="keyword">true</span> };</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        displayThread.Start();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
-<div class="ttc" id="aa00293_html_a7af63b1d5ef991b9c01db9a989ee9544"><div class="ttname"><a href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">MessageDisplayService.ProcessMessages</a></div><div class="ttdeci">static void ProcessMessages()</div><div class="ttdoc">消息处理线程的主函数，循环检查消息队列并显示消息。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00050">MessageDisplayService.cs:50</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00022">22</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                   {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        Task.Factory.StartNew(<a class="code hl_function" href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">ProcessMessages</a>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                              <a class="code hl_variable" href="../../d6/d82/a00293.html#a410fafa5791648a1069c5540c62424e2">CancellationTokenSource</a>.Token,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                              TaskCreationOptions.LongRunning,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                              TaskScheduler.Default);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    }</div>
+<div class="ttc" id="aa00293_html_a410fafa5791648a1069c5540c62424e2"><div class="ttname"><a href="../../d6/d82/a00293.html#a410fafa5791648a1069c5540c62424e2">MessageDisplayService.CancellationTokenSource</a></div><div class="ttdeci">static readonly CancellationTokenSource CancellationTokenSource</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00017">MessageDisplayService.cs:17</a></div></div>
+<div class="ttc" id="aa00293_html_a7af63b1d5ef991b9c01db9a989ee9544"><div class="ttname"><a href="../../d6/d82/a00293.html#a7af63b1d5ef991b9c01db9a989ee9544">MessageDisplayService.ProcessMessages</a></div><div class="ttdeci">static void ProcessMessages()</div><div class="ttdoc">消息处理任务的主函数，循环检查消息队列并显示消息。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00041">MessageDisplayService.cs:41</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00050">ProcessMessages()</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00017">CancellationTokenSource</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00041">ProcessMessages()</a>.</p>
 
 </div>
 </div>
@@ -173,23 +170,23 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>将消息加入队列，并通知消息处理线程。 </p>
+<p>将消息加入队列，并通知消息处理任务。 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">message</td><td>要显示的消息。 </td></tr>
+    <tr><td class="paramname">message</td><td>要显示的消息。</td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00042">42</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                                                                  {</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageQueue</a>.Enqueue(message);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        _ = <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.Set(); <span class="comment">// 通知有新消息</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
-<div class="ttc" id="aa00293_html_a4f096a7b51d3ecc68c40a3175be980a0"><div class="ttname"><a href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageDisplayService.MessageQueue</a></div><div class="ttdeci">static readonly ConcurrentQueue&lt; InformationMessage &gt; MessageQueue</div><div class="ttdoc">消息队列，线程安全。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00013">MessageDisplayService.cs:13</a></div></div>
-<div class="ttc" id="aa00293_html_aa691a4285cd27a6d6495fcc54fcdd9aa"><div class="ttname"><a href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageDisplayService.MessageAvailable</a></div><div class="ttdeci">static readonly AutoResetEvent MessageAvailable</div><div class="ttdoc">事件通知，用于指示消息队列中是否有新消息。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00018">MessageDisplayService.cs:18</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00033">33</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                                                                  {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageQueue</a>.Enqueue(message);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.Set(); <span class="comment">// 通知有新消息</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="ttc" id="aa00293_html_a4f096a7b51d3ecc68c40a3175be980a0"><div class="ttname"><a href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageDisplayService.MessageQueue</a></div><div class="ttdeci">static readonly ConcurrentQueue&lt; InformationMessage &gt; MessageQueue</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00015">MessageDisplayService.cs:15</a></div></div>
+<div class="ttc" id="aa00293_html_aa691a4285cd27a6d6495fcc54fcdd9aa"><div class="ttname"><a href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageDisplayService.MessageAvailable</a></div><div class="ttdeci">static readonly AutoResetEvent MessageAvailable</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00016">MessageDisplayService.cs:16</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00018">MessageAvailable</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00013">MessageQueue</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00016">MessageAvailable</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00015">MessageQueue</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../df/d98/a00107_source.html#l00098">Global.Log()</a>.</p>
 
@@ -218,28 +215,27 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>消息处理线程的主函数，循环检查消息队列并显示消息。 </p>
+<p>消息处理任务的主函数，循环检查消息队列并显示消息。 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00050">50</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                                          {</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">while</span> (<a class="code hl_variable" href="../../d6/d82/a00293.html#a7156d50d7090c969af190b86867e0d6d">_running</a>) {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            _ = <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.WaitOne(); <span class="comment">// 等待新消息通知</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            <span class="keywordflow">while</span> (<a class="code hl_variable" href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageQueue</a>.TryDequeue(out var message)) {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                    <span class="comment">// 锁定并显示消息</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                    lock (<a class="code hl_variable" href="../../d6/d82/a00293.html#a3e384e9fafff4f46d1855530a7216aff">DisplayMessageLock</a>) { InformationManager.DisplayMessage(message); }</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>                }</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                <span class="keywordflow">catch</span> (Exception) { <span class="comment">/* 异常处理，可以根据需要记录日志或忽略 */</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        }</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
-<div class="ttc" id="aa00293_html_a3e384e9fafff4f46d1855530a7216aff"><div class="ttname"><a href="../../d6/d82/a00293.html#a3e384e9fafff4f46d1855530a7216aff">MessageDisplayService.DisplayMessageLock</a></div><div class="ttdeci">static readonly object DisplayMessageLock</div><div class="ttdoc">显示消息时使用的锁对象。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00023">MessageDisplayService.cs:23</a></div></div>
-<div class="ttc" id="aa00293_html_a7156d50d7090c969af190b86867e0d6d"><div class="ttname"><a href="../../d6/d82/a00293.html#a7156d50d7090c969af190b86867e0d6d">MessageDisplayService._running</a></div><div class="ttdeci">static bool _running</div><div class="ttdoc">控制消息处理线程运行状态的标志。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00028">MessageDisplayService.cs:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00041">41</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                                          {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">while</span> (!<a class="code hl_variable" href="../../d6/d82/a00293.html#a410fafa5791648a1069c5540c62424e2">CancellationTokenSource</a>.IsCancellationRequested) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.WaitOne(); <span class="comment">// 等待新消息通知</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">while</span> (<a class="code hl_variable" href="../../d6/d82/a00293.html#a4f096a7b51d3ecc68c40a3175be980a0">MessageQueue</a>.TryDequeue(out var message)) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                    <span class="comment">// 显示消息</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                    InformationManager.DisplayMessage(message);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                <span class="keywordflow">catch</span> (Exception) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                    <span class="comment">// 异常处理，可以根据需要记录日志或忽略</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00028">_running</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00023">DisplayMessageLock</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00018">MessageAvailable</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00013">MessageQueue</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00017">CancellationTokenSource</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00016">MessageAvailable</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00015">MessageQueue</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00033">MessageDisplayService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00022">MessageDisplayService()</a>.</p>
 
 </div>
 </div>
@@ -266,21 +262,21 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>停止消息处理线程。 </p>
+<p>停止消息处理任务。 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00067">67</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                                     {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#a7156d50d7090c969af190b86867e0d6d">_running</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        _        = <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.Set(); <span class="comment">// 通知线程退出</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00059">59</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                     {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#a410fafa5791648a1069c5540c62424e2">CancellationTokenSource</a>.Cancel();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_variable" href="../../d6/d82/a00293.html#aa691a4285cd27a6d6495fcc54fcdd9aa">MessageAvailable</a>.Set(); <span class="comment">// 确保如果任务正在等待，则能够退出等待状态</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00028">_running</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00018">MessageAvailable</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00017">CancellationTokenSource</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00016">MessageAvailable</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a7156d50d7090c969af190b86867e0d6d" name="a7156d50d7090c969af190b86867e0d6d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7156d50d7090c969af190b86867e0d6d">&#9670;&nbsp;</a></span>_running</h2>
+<a id="a410fafa5791648a1069c5540c62424e2" name="a410fafa5791648a1069c5540c62424e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a410fafa5791648a1069c5540c62424e2">&#9670;&nbsp;</a></span>CancellationTokenSource</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,7 +285,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool MessageDisplayService._running = true</td>
+          <td class="memname">readonly CancellationTokenSource MessageDisplayService.CancellationTokenSource = new()</td>
         </tr>
       </table>
   </td>
@@ -299,39 +295,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>控制消息处理线程运行状态的标志。 </p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00017">17</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00028">28</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00050">ProcessMessages()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00067">StopService()</a>.</p>
-
-</div>
-</div>
-<a id="a3e384e9fafff4f46d1855530a7216aff" name="a3e384e9fafff4f46d1855530a7216aff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e384e9fafff4f46d1855530a7216aff">&#9670;&nbsp;</a></span>DisplayMessageLock</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">readonly object MessageDisplayService.DisplayMessageLock = new()</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>显示消息时使用的锁对象。 </p>
-
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00023">23</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00050">ProcessMessages()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00022">MessageDisplayService()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00041">ProcessMessages()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00059">StopService()</a>.</p>
 
 </div>
 </div>
@@ -355,11 +321,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>事件通知，用于指示消息队列中是否有新消息。 </p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00016">16</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00018">18</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00042">EnqueueMessage()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00050">ProcessMessages()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00067">StopService()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00033">EnqueueMessage()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00041">ProcessMessages()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00059">StopService()</a>.</p>
 
 </div>
 </div>
@@ -383,11 +347,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>消息队列，线程安全。 </p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00015">15</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00013">13</a> of file <a class="el" href="../../dd/dad/a00005_source.html">MessageDisplayService.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00042">EnqueueMessage()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00050">ProcessMessages()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00033">EnqueueMessage()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00041">ProcessMessages()</a>.</p>
 
 </div>
 </div>
