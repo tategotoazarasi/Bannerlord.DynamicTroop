@@ -275,6 +275,7 @@ public class PartyEquipmentDistributor {
 	/// <param name="assignmentFilter"> 分配筛选函数，用于决定哪些角色可以接收装备。 </param>
 	private void AssignExtraEquipment(EquipmentFilter equipmentFilter, AssignmentFilter assignmentFilter) {
 		var equipmentQuery = _equipmentToAssign
+							 .AsParallel()
 							 .WhereQ(equipment => equipment.Key is { IsEmpty: false, Item: not null } && equipment.Value > 0 && equipmentFilter(equipment))
 							 .OrderByDescending(equipment => equipment.Key.Item.Tier)
 							 .ThenByDescending(equipment => equipment.Key.Item.Value);
@@ -400,7 +401,7 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignEquipmentType(ItemObject.ItemTypeEnum itemType) {
-		var armours = _equipmentToAssign.WhereQ(kv => kv.Value > 0 && !kv.Key.IsEmpty && kv.Key.Item != null && kv.Key.Item.ItemType == itemType).ToArrayQ();
+		var armours = _equipmentToAssign.AsParallel().WhereQ(kv => kv.Value > 0 && !kv.Key.IsEmpty && kv.Key.Item != null && kv.Key.Item.ItemType == itemType).ToArrayQ();
 		Array.Sort(armours, (x, y) => y.Key.Item.CompareArmor(x.Key.Item));
 
 		foreach (var assignment in Assignments) {
@@ -449,7 +450,7 @@ public class PartyEquipmentDistributor {
 		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null) { return; }
 
 		var availableWeapon = _equipmentToAssign
-							  .WhereQ(equipment => IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
+							  .AsParallel().WhereQ(equipment => IsWeaponSuitable(equipment.Key, referenceWeapon.Item, assignment, strict))
 							  .OrderByDescending(equipment => (int)equipment.Key.Item.Tier + equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
@@ -476,7 +477,7 @@ public class PartyEquipmentDistributor {
 		if (weapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null) { return; }
 
 		var availableWeapon = _equipmentToAssign
-							  .WhereQ(equipment => IsWeaponSuitableByType(equipment, referenceWeapon.Item.ItemType, assignment, strict))
+							  .AsParallel().WhereQ(equipment => IsWeaponSuitableByType(equipment, referenceWeapon.Item.ItemType, assignment, strict))
 							  .OrderByDescending(equipment => (int)equipment.Key.Item.Tier + equipment.Key.Item.CalculateWeaponTierBonus(mounted))
 							  .ThenByDescending(equipment => equipment.Key.Item.Value)
 							  .Take(1)
