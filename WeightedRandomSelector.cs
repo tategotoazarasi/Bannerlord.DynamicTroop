@@ -62,6 +62,10 @@ public static class WeightedRandomSelector {
 			if (left == right - 1) { break; }
 		}
 
-		return Math.Abs(sortedValues[left] - value) < Math.Abs(sortedValues[right] - value) ? left : right;
+		var absLeft  = Math.Abs(sortedValues[left]  - value);
+		var absRight = Math.Abs(sortedValues[right] - value);
+		if (absLeft < absRight) return left;
+		if (absLeft > absRight) return right;
+		return _random.Next(2) == 0 ? left : right;
 	}
 }
