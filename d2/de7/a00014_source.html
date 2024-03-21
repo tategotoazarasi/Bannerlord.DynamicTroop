@@ -117,9 +117,13 @@ $(function() {
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">if</span> (left == right - 1) { <span class="keywordflow">break</span>; }</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        }</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span> Math.Abs(sortedValues[left] - value) &lt; Math.Abs(sortedValues[right] - value) ? left : right;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        var absLeft  = Math.Abs(sortedValues[left]  - value);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        var absRight = Math.Abs(sortedValues[right] - value);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (absLeft &lt; absRight) <span class="keywordflow">return</span> left;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">if</span> (absLeft &gt; absRight) <span class="keywordflow">return</span> right;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">_random</a>.Next(2) == 0 ? left : right;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
 <div class="ttc" id="aa00337_html"><div class="ttname"><a href="../../d4/dce/a00337.html">WeightedRandomSelector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00010">WeightedRandomSelector.cs:10</a></div></div>
 <div class="ttc" id="aa00337_html_a1524cb55a91ee397b0e57868a8d6e39b"><div class="ttname"><a href="../../d4/dce/a00337.html#a1524cb55a91ee397b0e57868a8d6e39b">WeightedRandomSelector.BinarySearchClosest</a></div><div class="ttdeci">static int BinarySearchClosest(List&lt; float &gt; sortedValues, double value)</div><div class="ttdoc">二分查找最接近给定值的元素索引。</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00053">WeightedRandomSelector.cs:53</a></div></div>
 <div class="ttc" id="aa00337_html_ab92ed183795acaa6667ebc7660bcf7b5"><div class="ttname"><a href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">WeightedRandomSelector._random</a></div><div class="ttdeci">static readonly Random _random</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00011">WeightedRandomSelector.cs:11</a></div></div>
