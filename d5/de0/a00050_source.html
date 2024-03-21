@@ -153,11 +153,11 @@ $(function() {
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            }</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        InformationManager.DisplayMessage(<span class="keyword">new</span> InformationMessage(<a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                                                     .GetSoldExcessEquipmentForThrowingWeapons(originalValue -</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                                                                                               value,</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                                                                                               cnt),</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                                                 Colors.Green));</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <a class="code hl_class" href="../../d6/d82/a00293.html">MessageDisplayService</a>.<a class="code hl_function" href="../../d6/d82/a00293.html#a566719ba669200568629a25cf0021071">EnqueueMessage</a>(<span class="keyword">new</span> InformationMessage(<a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                                                        .GetSoldExcessEquipmentForThrowingWeapons(originalValue -</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                                                                                                  value,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                                                                                                  cnt),</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                                                    Colors.Green));</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="../../d8/d64/a00181.html#a4cc2a1552915d0249281b923435e6832">   96</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d8/d64/a00181.html#a4cc2a1552915d0249281b923435e6832">SellExcessEquipment</a>() {</div>
@@ -313,6 +313,8 @@ $(function() {
 <div class="ttc" id="aa00281_html"><div class="ttname"><a href="../../d2/d04/a00281.html">ItemBlackList</a></div><div class="ttdoc">Provides functionality to test if an item should be blacklisted.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d24/a00068_source.html#l00016">ItemBlackList.cs:16</a></div></div>
 <div class="ttc" id="aa00281_html_ac2033cd1f18bbeda492f6bba36142fb5"><div class="ttname"><a href="../../d2/d04/a00281.html#ac2033cd1f18bbeda492f6bba36142fb5">ItemBlackList.Test</a></div><div class="ttdeci">static bool Test(ItemObject item)</div><div class="ttdoc">Determines if an item passes the blacklisting conditions.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d24/a00068_source.html#l00121">ItemBlackList.cs:121</a></div></div>
 <div class="ttc" id="aa00289_html"><div class="ttname"><a href="../../d4/d66/a00289.html">LocalizedTexts</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d51/a00017_source.html#l00005">LocalizedTexts.cs:5</a></div></div>
+<div class="ttc" id="aa00293_html"><div class="ttname"><a href="../../d6/d82/a00293.html">MessageDisplayService</a></div><div class="ttdoc">消息显示服务，用于在游戏中显示消息。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00014">MessageDisplayService.cs:14</a></div></div>
+<div class="ttc" id="aa00293_html_a566719ba669200568629a25cf0021071"><div class="ttname"><a href="../../d6/d82/a00293.html#a566719ba669200568629a25cf0021071">MessageDisplayService.EnqueueMessage</a></div><div class="ttdeci">static void EnqueueMessage(InformationMessage message)</div><div class="ttdoc">将消息加入队列，并通知消息处理任务。</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00033">MessageDisplayService.cs:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
