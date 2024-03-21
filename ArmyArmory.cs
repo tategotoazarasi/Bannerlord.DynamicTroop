@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
@@ -86,11 +86,11 @@ public static class ArmyArmory {
 			}
 		}
 
-		InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts
-																	 .GetSoldExcessEquipmentForThrowingWeapons(originalValue -
-																											   value,
-																											   cnt),
-																 Colors.Green));
+		MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts
+																		.GetSoldExcessEquipmentForThrowingWeapons(originalValue -
+																												  value,
+																												  cnt),
+																	Colors.Green));
 	}
 
 	private static int SellExcessEquipment() {

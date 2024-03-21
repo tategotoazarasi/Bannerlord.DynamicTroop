@@ -202,13 +202,13 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);
 			ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
 			if (isPlayerParty) {
-				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord
-																												.LootedItemsCount),
-																		 Colors.Green));
-				InformationManager.DisplayMessage(new InformationMessage(LocalizedTexts
-																			 .GetItemsRecoveredFromFallenMessage(battleRecord
-																													 .ItemsToRecoverCount),
-																		 Colors.Green));
+				MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord
+																												   .LootedItemsCount),
+																			Colors.Green));
+				MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts
+																				.GetItemsRecoveredFromFallenMessage(battleRecord
+																														.ItemsToRecoverCount),
+																			Colors.Green));
 			}
 		}
 		else if (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }
