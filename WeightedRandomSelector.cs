@@ -7,55 +7,61 @@ using TaleWorlds.Core;
 
 namespace Bannerlord.DynamicTroop;
 
-/// <summary>
-///     提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。
-/// </summary>
 public static class WeightedRandomSelector {
 	private static readonly Random _random = new();
 
 	/// <summary>
 	///     根据目标值和物品效能的正态分布概率，从物品列表中随机选择一个物品。
 	/// </summary>
-	/// <param name="items">       物品列表，每个物品都有一个效能值。 </param>
-	/// <param name="targetValue"> 目标效能值，用于确定正态分布的中心。 </param>
-	/// <returns> 根据加权概率选中的物品。 </returns>
+	/// <param name="items">物品列表，每个物品都有一个效能值。</param>
+	/// <param name="targetValue">目标效能值，用于确定正态分布的中心。</param>
+	/// <returns>根据正态分布随机选中的物品。</returns>
 	public static ItemObject SelectItem(List<ItemObject> items, float targetValue) {
-		// 使用 MathNet.Numerics 计算均值和标准差
-		var effectiveness     = items.Select(item => (double)item.Effectiveness).ToArray();
-		var mean              = effectiveness.Average();
-		var standardDeviation = effectiveness.StandardDeviation();
+		if (items == null || !items.Any()) { throw new ArgumentException("Items list cannot be null or empty."); }
 
-		// 计算每个item的权重
-		var weights = items.Select(item => (float)Normal.PDF(item.Effectiveness, mean, standardDeviation)).ToList();
+		// 将物品根据Effectiveness分组并排序
+		var groupedItems = items.GroupBy(item => item.Effectiveness).ToDictionary(group => group.Key, group => group.ToList());
 
-		// 归一化权重
-		var totalWeight       = weights.Sum();
-		var normalizedWeights = weights.Select(weight => weight / totalWeight).ToList();
+		var distinctEffectiveness = groupedItems.Keys.OrderBy(eff => eff).ToList();
 
-		// 加权随机选择
-		return WeightedRandomChoose(items, normalizedWeights);
+		// 计算所有物品效能值的标准差
+		var standardDeviation = distinctEffectiveness.StandardDeviation();
+
+		if (standardDeviation == 0) {
+			// 如果所有物品的效能值相同，则随机返回一个物品
+			return items[_random.Next(items.Count)];
+		}
+
+		// 生成一个目标效能值附近的正态分布随机值
+		var distribution = new Normal(targetValue, standardDeviation);
+		var randomValue  = distribution.Sample();
+
+		// 通过二分查找找到最接近随机值的效能值
+		var index = BinarySearchClosest(distinctEffectiveness, randomValue);
+
+		// 获取对应的所有物品，并从中随机选择一个返回
+		var effectiveItems = groupedItems[distinctEffectiveness[index]];
+		return effectiveItems[_random.Next(effectiveItems.Count)];
 	}
 
 	/// <summary>
-	///     根据给定的权重列表，从物品列表中随机选择一个物品。
+	///     二分查找最接近给定值的元素索引。
 	/// </summary>
-	/// <param name="items">   物品列表。 </param>
-	/// <param name="weights"> 与物品列表对应的权重列表，表示每个物品被选中的相对概率。 </param>
-	/// <returns> 根据权重随机选中的物品。 </returns>
-	private static ItemObject WeightedRandomChoose(List<ItemObject> items, List<float> weights) {
-		List<float> cumulativeWeights = new();
-		float       total             = 0;
-		foreach (var weight in weights) {
-			total += weight;
-			cumulativeWeights.Add(total);
+	/// <param name="sortedValues">已排序的列表。</param>
+	/// <param name="value">要查找的值。</param>
+	/// <returns>最接近给定值的元素索引。</returns>
+	private static int BinarySearchClosest(List<float> sortedValues, double value) {
+		int left = 0, right = sortedValues.Count - 1;
+		while (left < right) {
+			var mid      = (left + right) / 2;
+			var midValue = sortedValues[mid];
+			if (midValue      < value) { left  = mid; }
+			else if (midValue > value) { right = mid; }
+			else { return mid; }
+
+			if (left == right - 1) { break; }
 		}
 
-		var randomNumber = (float)_random.NextDouble() * total;
-		for (var i = 0; i < items.Count; i++) {
-			if (randomNumber < cumulativeWeights[i]) { return items[i]; }
-		}
-
-		Global.Warn("nothing selected in WeightedRandomChoose, return the last item");
-		return items.Last();
+		return Math.Abs(sortedValues[left] - value) < Math.Abs(sortedValues[right] - value) ? left : right;
 	}
 }
