@@ -25,9 +25,9 @@ public static class WeightedRandomSelector {
 		var distinctEffectiveness = groupedItems.Keys.OrderBy(eff => eff).ToList();
 
 		// 计算所有物品效能值的标准差
-		var standardDeviation = distinctEffectiveness.StandardDeviation();
+		var standardDeviation = items.Select(item=>item.Effectiveness).StandardDeviation();
 
-		if (standardDeviation == 0) {
+		if (standardDeviation == 0 || double.IsNaN(standardDeviation)) {
 			// 如果所有物品的效能值相同，则随机返回一个物品
 			return items[_random.Next(items.Count)];
 		}

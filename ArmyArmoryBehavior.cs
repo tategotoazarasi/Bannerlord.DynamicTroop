@@ -1,16 +1,17 @@
-﻿#region
-
 using System;
 using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
+using Bannerlord.DynamicTroop.Benchmark;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Toolchains.InProcess.Emit;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
-
-#endregion
 
 namespace Bannerlord.DynamicTroop;
 
@@ -67,8 +68,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 	private void Load(Data tempData) {
 		foreach (var item in tempData.Armory) {
-			var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ??
-							ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
+			var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ?? ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
 			if (equipment != null && item.Value > 0)
 				_ = ArmyArmory.Armory.AddToCounts(equipment, item.Value);
 			else
@@ -99,55 +99,34 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		starter.AddGameMenu("army_armory_submenu", LocalizedTexts.ArmoryManageOption.ToString(), args => { });
 
 		// 在子菜单中添加选项
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "view_armory",
-								  LocalizedTexts.ArmorViewOption.ToString(),
-								  args => true,
-								  args => { InventoryManager.OpenScreenAsStash(ArmyArmory.Armory); });
+		starter.AddGameMenuOption("army_armory_submenu", "view_armory", LocalizedTexts.ArmorViewOption.ToString(), args => true, args => { InventoryManager.OpenScreenAsStash(ArmyArmory.Armory); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "sell_for_throwing", LocalizedTexts.SellForThrowing.ToString(), args => true, args => { ArmyArmory.SellExcessEquipmentForThrowingWeapons(); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "debug_clear_invalid_items", "DEBUG: Clear invalid items", args => ModSettings.Instance?.DebugMode ?? false, args => { ArmyArmory.DebugClearEmptyItem(); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "debug_remove_player_crafted_items", "DEBUG: Remove player crafted items", args => ModSettings.Instance?.DebugMode ?? false, args => { ArmyArmory.DebugRemovePlayerCraftedItems(); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "debug_rebuild_armory", "DEBUG: Rebuild player armory", args => ModSettings.Instance?.DebugMode ?? false, args => { ArmyArmory.RebuildArmory(); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "debug_export_armory", "DEBUG: Export player armory", args => ModSettings.Instance?.DebugMode ?? false, args => { ArmyArmory.Export(); });
+
+		starter.AddGameMenuOption("army_armory_submenu", "debug_import_armory", "DEBUG: Import player armory", args => ModSettings.Instance?.DebugMode ?? false, args => { ArmyArmory.Import(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
-								  "sell_for_throwing",
-								  LocalizedTexts.SellForThrowing.ToString(),
-								  args => true,
-								  args => { ArmyArmory.SellExcessEquipmentForThrowingWeapons(); });
-
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_clear_invalid_items",
-								  "DEBUG: Clear invalid items",
+								  "debug_benchmark_weighted_random_selector",
+								  "DEBUG: Benchmark WeightedRandomSelector",
 								  args => ModSettings.Instance?.DebugMode ?? false,
-								  args => { ArmyArmory.DebugClearEmptyItem(); });
-
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_remove_player_crafted_items",
-								  "DEBUG: Remove player crafted items",
-								  args => ModSettings.Instance?.DebugMode ?? false,
-								  args => { ArmyArmory.DebugRemovePlayerCraftedItems(); });
-
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_rebuild_armory",
-								  "DEBUG: Rebuild player armory",
-								  args => ModSettings.Instance?.DebugMode ?? false,
-								  args => { ArmyArmory.RebuildArmory(); });
-
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_export_armory",
-								  "DEBUG: Export player armory",
-								  args => ModSettings.Instance?.DebugMode ?? false,
-								  args => { ArmyArmory.Export(); });
-
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "debug_import_armory",
-								  "DEBUG: Import player armory",
-								  args => ModSettings.Instance?.DebugMode ?? false,
-								  args => { ArmyArmory.Import(); });
+								  args => {
+									  //var config = new BenchmarkConfig();
+									  //BenchmarkSwitcher.FromAssembly(typeof(WeightedRandomSelectorBenchmarks).Assembly).Run(new string[] { }, config);
+									  //BenchmarkRunner.Run<WeightedRandomSelectorBenchmarks>(config);
+									  var config = ManualConfig.Create(DefaultConfig.Instance).AddJob(Job.Default.WithToolchain(InProcessEmitToolchain.Instance)).WithOptions(ConfigOptions.DisableOptimizationsValidator);
+									  BenchmarkRunner.Run<WeightedRandomSelectorBenchmarks>(config);
+								  });
 
 		// 返回上一级菜单的选项
-		starter.AddGameMenuOption("army_armory_submenu",
-								  "return_to_town",
-								  LocalizedTexts.ReturnToTown.ToString(),
-								  args => true,
-								  args => { GameMenu.SwitchToMenu("town"); },
-								  true);
+		starter.AddGameMenuOption("army_armory_submenu", "return_to_town", LocalizedTexts.ReturnToTown.ToString(), args => true, args => { GameMenu.SwitchToMenu("town"); }, true);
 	}
 
 	[Serializable]
