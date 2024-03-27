@@ -6,6 +6,8 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Toolchains.InProcess.Emit;
+using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
+using Perfolizer.Horology;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Inventory;
@@ -118,11 +120,19 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  "DEBUG: Benchmark WeightedRandomSelector",
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => {
-									  //var config = new BenchmarkConfig();
-									  //BenchmarkSwitcher.FromAssembly(typeof(WeightedRandomSelectorBenchmarks).Assembly).Run(new string[] { }, config);
-									  //BenchmarkRunner.Run<WeightedRandomSelectorBenchmarks>(config);
 									  var config = ManualConfig.Create(DefaultConfig.Instance).AddJob(Job.Default.WithToolchain(InProcessEmitToolchain.Instance)).WithOptions(ConfigOptions.DisableOptimizationsValidator);
 									  BenchmarkRunner.Run<WeightedRandomSelectorBenchmarks>(config);
+								  });
+
+		starter.AddGameMenuOption("army_armory_submenu",
+								  "debug_benchmark_party_equipment_distributor",
+								  "DEBUG: Benchmark PartyEquipmentDistributor",
+								  args => ModSettings.Instance?.DebugMode ?? false,
+								  args => {
+									  var config = ManualConfig.Create(DefaultConfig.Instance).AddJob(Job.MediumRun.WithToolchain(InProcessNoEmitToolchain.Instance).WithLaunchCount(1).WithStrategy(BenchmarkDotNet.Engines.RunStrategy.Throughput)).WithOptions(ConfigOptions.DisableOptimizationsValidator);
+									  Global.Debug("start benchmark");
+									  BenchmarkRunner.Run<PartyEquipmentDistributorBenchmarks>(config);
+									  Global.Debug("end benchmark");
 								  });
 
 		// 返回上一级菜单的选项
