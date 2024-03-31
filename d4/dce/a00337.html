@@ -70,6 +70,9 @@ $(function() {
   <div class="headertitle"><div class="title">WeightedRandomSelector Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。  
+ <a href="../../d4/dce/a00337.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -79,9 +82,9 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a1524cb55a91ee397b0e57868a8d6e39b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dce/a00337.html#a1524cb55a91ee397b0e57868a8d6e39b">BinarySearchClosest</a> (List&lt; float &gt; sortedValues, double value)</td></tr>
-<tr class="memdesc:a1524cb55a91ee397b0e57868a8d6e39b"><td class="mdescLeft">&#160;</td><td class="mdescRight">二分查找最接近给定值的元素索引。  <a href="../../d4/dce/a00337.html#a1524cb55a91ee397b0e57868a8d6e39b">More...</a><br /></td></tr>
-<tr class="separator:a1524cb55a91ee397b0e57868a8d6e39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339c8e75678005e3594dd2743af01f58"><td class="memItemLeft" align="right" valign="top">static ItemObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dce/a00337.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomChoose</a> (List&lt; ItemObject &gt; items, List&lt; float &gt; weights)</td></tr>
+<tr class="memdesc:a339c8e75678005e3594dd2743af01f58"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据给定的权重列表，从物品列表中随机选择一个物品。  <a href="../../d4/dce/a00337.html#a339c8e75678005e3594dd2743af01f58">More...</a><br /></td></tr>
+<tr class="separator:a339c8e75678005e3594dd2743af01f58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -89,80 +92,10 @@ Static Private Attributes</h2></td></tr>
 <tr class="separator:ab92ed183795acaa6667ebc7660bcf7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00010">10</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
+<div class="textblock"><p >提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。 </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00013">13</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1524cb55a91ee397b0e57868a8d6e39b" name="a1524cb55a91ee397b0e57868a8d6e39b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1524cb55a91ee397b0e57868a8d6e39b">&#9670;&nbsp;</a></span>BinarySearchClosest()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static int WeightedRandomSelector.BinarySearchClosest </td>
-          <td>(</td>
-          <td class="paramtype">List&lt; float &gt;&#160;</td>
-          <td class="paramname"><em>sortedValues</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>二分查找最接近给定值的元素索引。 </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">sortedValues</td><td>已排序的列表。</td></tr>
-    <tr><td class="paramname">value</td><td>要查找的值。</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>最接近给定值的元素索引。</dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00053">53</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                                                                   {</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordtype">int</span> left = 0, right = sortedValues.Count - 1;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">while</span> (left &lt; right) {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            var mid      = (left + right) / 2;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            var midValue = sortedValues[mid];</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">if</span> (midValue      &lt; value) { left  = mid; }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (midValue &gt; value) { right = mid; }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>            <span class="keywordflow">else</span> { <span class="keywordflow">return</span> mid; }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">if</span> (left == right - 1) { <span class="keywordflow">break</span>; }</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        }</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        var absLeft  = Math.Abs(sortedValues[left]  - value);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        var absRight = Math.Abs(sortedValues[right] - value);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (absLeft &lt; absRight) <span class="keywordflow">return</span> left;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">if</span> (absLeft &gt; absRight) <span class="keywordflow">return</span> right;</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">_random</a>.Next(2) == 0 ? left : right;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
-<div class="ttc" id="aa00337_html_ab92ed183795acaa6667ebc7660bcf7b5"><div class="ttname"><a href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">WeightedRandomSelector._random</a></div><div class="ttdeci">static readonly Random _random</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00011">WeightedRandomSelector.cs:11</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/de7/a00014_source.html#l00011">_random</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/de7/a00014_source.html#l00019">SelectItem()</a>.</p>
-
-</div>
-</div>
 <a id="ac186838d6d6e6b241d8d7f2bdf455d9e" name="ac186838d6d6e6b241d8d7f2bdf455d9e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac186838d6d6e6b241d8d7f2bdf455d9e">&#9670;&nbsp;</a></span>SelectItem()</h2>
 
@@ -200,46 +133,103 @@ Static Private Attributes</h2></td></tr>
 <p>根据目标值和物品效能的正态分布概率，从物品列表中随机选择一个物品。 </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">items</td><td>物品列表，每个物品都有一个效能值。</td></tr>
-    <tr><td class="paramname">targetValue</td><td>目标效能值，用于确定正态分布的中心。</td></tr>
+    <tr><td class="paramname">items</td><td>物品列表，每个物品都有一个效能值。 </td></tr>
+    <tr><td class="paramname">targetValue</td><td>目标效能值，用于确定正态分布的中心。 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>根据正态分布随机选中的物品。</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>根据加权概率选中的物品。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00019">19</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
-<div class="fragment"><div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                                                                                   {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">if</span> (items == <span class="keyword">null</span> || !items.Any()) { <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Items list cannot be null or empty.&quot;</span>); }</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="comment">// 将物品根据Effectiveness分组并排序</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        var groupedItems = items.GroupBy(item =&gt; item.Effectiveness).ToDictionary(group =&gt; group.Key, group =&gt; group.ToList());</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        var distinctEffectiveness = groupedItems.Keys.OrderBy(eff =&gt; eff).ToList();</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="comment">// 计算所有物品效能值的标准差</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        var standardDeviation = distinctEffectiveness.StandardDeviation();</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">if</span> (standardDeviation == 0) {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="comment">// 如果所有物品的效能值相同，则随机返回一个物品</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">return</span> items[<a class="code hl_variable" href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">_random</a>.Next(items.Count)];</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00022">22</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                                                                   {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="comment">// 使用 MathNet.Numerics 计算均值和标准差</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        var effectiveness     = items.Select(item =&gt; (<span class="keywordtype">double</span>)item.Effectiveness).ToArray();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        var mean              = effectiveness.Average();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        var standardDeviation = effectiveness.StandardDeviation();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="comment">// 计算每个item的权重</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        var weights = items.Select(item =&gt; (<span class="keywordtype">float</span>)Normal.PDF(item.Effectiveness, mean, standardDeviation)).ToList();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="comment">// 归一化权重</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        var totalWeight       = weights.Sum();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        var normalizedWeights = weights.Select(weight =&gt; weight / totalWeight).ToList();</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="comment">// 生成一个目标效能值附近的正态分布随机值</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        var distribution = <span class="keyword">new</span> Normal(targetValue, standardDeviation);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        var randomValue  = distribution.Sample();</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// 通过二分查找找到最接近随机值的效能值</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        var index = <a class="code hl_function" href="../../d4/dce/a00337.html#a1524cb55a91ee397b0e57868a8d6e39b">BinarySearchClosest</a>(distinctEffectiveness, randomValue);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// 获取对应的所有物品，并从中随机选择一个返回</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        var effectiveItems = groupedItems[distinctEffectiveness[index]];</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> effectiveItems[<a class="code hl_variable" href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">_random</a>.Next(effectiveItems.Count)];</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
-<div class="ttc" id="aa00337_html_a1524cb55a91ee397b0e57868a8d6e39b"><div class="ttname"><a href="../../d4/dce/a00337.html#a1524cb55a91ee397b0e57868a8d6e39b">WeightedRandomSelector.BinarySearchClosest</a></div><div class="ttdeci">static int BinarySearchClosest(List&lt; float &gt; sortedValues, double value)</div><div class="ttdoc">二分查找最接近给定值的元素索引。</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00053">WeightedRandomSelector.cs:53</a></div></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="comment">// 加权随机选择</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="../../d4/dce/a00337.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomChoose</a>(items, normalizedWeights);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+<div class="ttc" id="aa00337_html_a339c8e75678005e3594dd2743af01f58"><div class="ttname"><a href="../../d4/dce/a00337.html#a339c8e75678005e3594dd2743af01f58">WeightedRandomSelector.WeightedRandomChoose</a></div><div class="ttdeci">static ItemObject WeightedRandomChoose(List&lt; ItemObject &gt; items, List&lt; float &gt; weights)</div><div class="ttdoc">根据给定的权重列表，从物品列表中随机选择一个物品。</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00045">WeightedRandomSelector.cs:45</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/de7/a00014_source.html#l00011">_random</a>, and <a class="el" href="../../d2/de7/a00014_source.html#l00053">BinarySearchClosest()</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/de7/a00014_source.html#l00045">WeightedRandomChoose()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../df/d03/a00062_source.html#l00170">Assignment.FillEmptySlots()</a>, and <a class="el" href="../../da/dec/a00080_source.html#l00028">RecruitmentPatch.GetRecruitEquipments()</a>.</p>
+
+</div>
+</div>
+<a id="a339c8e75678005e3594dd2743af01f58" name="a339c8e75678005e3594dd2743af01f58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a339c8e75678005e3594dd2743af01f58">&#9670;&nbsp;</a></span>WeightedRandomChoose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static ItemObject WeightedRandomSelector.WeightedRandomChoose </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; ItemObject &gt;&#160;</td>
+          <td class="paramname"><em>items</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">List&lt; float &gt;&#160;</td>
+          <td class="paramname"><em>weights</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据给定的权重列表，从物品列表中随机选择一个物品。 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">items</td><td>物品列表。 </td></tr>
+    <tr><td class="paramname">weights</td><td>与物品列表对应的权重列表，表示每个物品被选中的相对概率。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>根据权重随机选中的物品。 </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00045">45</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
+<div class="fragment"><div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                                                                                                {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        List&lt;float&gt; cumulativeWeights = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordtype">float</span>       total             = 0;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">foreach</span> (var weight <span class="keywordflow">in</span> weights) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            total += weight;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            cumulativeWeights.Add(total);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        var randomNumber = (float)<a class="code hl_variable" href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">_random</a>.NextDouble() * total;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordflow">for</span> (var i = 0; i &lt; items.Count; i++) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <span class="keywordflow">if</span> (randomNumber &lt; cumulativeWeights[i]) { <span class="keywordflow">return</span> items[i]; }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">return</span> items.Last();</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="ttc" id="aa00337_html_ab92ed183795acaa6667ebc7660bcf7b5"><div class="ttname"><a href="../../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5">WeightedRandomSelector._random</a></div><div class="ttdeci">static readonly Random _random</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/de7/a00014_source.html#l00014">WeightedRandomSelector.cs:14</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d2/de7/a00014_source.html#l00014">_random</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/de7/a00014_source.html#l00022">SelectItem()</a>.</p>
 
 </div>
 </div>
@@ -264,9 +254,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00011">11</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00014">14</a> of file <a class="el" href="../../d2/de7/a00014_source.html">WeightedRandomSelector.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/de7/a00014_source.html#l00053">BinarySearchClosest()</a>, and <a class="el" href="../../d2/de7/a00014_source.html#l00019">SelectItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/de7/a00014_source.html#l00045">WeightedRandomChoose()</a>.</p>
 
 </div>
 </div>

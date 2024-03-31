@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['random_0',['random',['../da/de0/a00317.html#a2d26f3ba90fcc12bdfdaa1cc4fc174e0',1,'ItemRosterForPlayerLootSharePatch']]],
-  ['random_1',['Random',['../d7/d3f/a00173.html#ac508979f3c02929ebf0b6edd9db83e42',1,'ArmorSelector']]],
+  ['random_0',['Random',['../d7/d3f/a00173.html#ac508979f3c02929ebf0b6edd9db83e42',1,'ArmorSelector']]],
+  ['random_1',['random',['../da/de0/a00317.html#a2d26f3ba90fcc12bdfdaa1cc4fc174e0',1,'ItemRosterForPlayerLootSharePatch']]],
   ['randomizenonheroledaipartiesarmor_2',['RandomizeNonHeroLedAiPartiesArmor',['../d3/d4a/a00297.html#a255c9da72c3ce604f0736d9bcd7fb807',1,'ModSettings']]],
   ['randomizestartingequipment_3',['RandomizeStartingEquipment',['../d3/d4a/a00297.html#ad72f520ad0f809b6dd806046d73df063',1,'ModSettings']]],
   ['readme_2emd_4',['README.md',['../d0/d89/a00071.html',1,'']]],
