@@ -4,10 +4,10 @@ var searchData=
   ['random_1',['random',['../da/de0/a00317.html#a2d26f3ba90fcc12bdfdaa1cc4fc174e0',1,'ItemRosterForPlayerLootSharePatch']]],
   ['randomizenonheroledaipartiesarmor_2',['RandomizeNonHeroLedAiPartiesArmor',['../d3/d4a/a00297.html#a255c9da72c3ce604f0736d9bcd7fb807',1,'ModSettings']]],
   ['randomizestartingequipment_3',['RandomizeStartingEquipment',['../d3/d4a/a00297.html#ad72f520ad0f809b6dd806046d73df063',1,'ModSettings']]],
-  ['readme_2emd_4',['README.md',['../d0/d89/a00071.html',1,'']]],
+  ['readme_2emd_4',['README.md',['../da/d45/a00011.html',1,'']]],
   ['rebuildarmory_5',['RebuildArmory',['../d8/d64/a00181.html#a3b71cba22cdbb5508dc63cf321111140',1,'ArmyArmory']]],
   ['recruitmentpatch_6',['RecruitmentPatch',['../db/d53/a00321.html',1,'']]],
-  ['recruitmentpatch_2ecs_7',['RecruitmentPatch.cs',['../da/dec/a00080.html',1,'']]],
+  ['recruitmentpatch_2ecs_7',['RecruitmentPatch.cs',['../da/d2a/a00086.html',1,'']]],
   ['referenceequipment_8',['ReferenceEquipment',['../dd/df4/a00193.html#a365e6561841c25927022ee4d29cef0f0',1,'Assignment']]],
   ['registerevents_9',['RegisterEvents',['../d6/de1/a00233.html#aa29a30a76d981d3d95fb02bee1fcb5da',1,'EveryoneCampaignBehavior.RegisterEvents()'],['../de/df3/a00185.html#aeeae384d9a315766d5b14e8c4815a024',1,'ArmyArmoryBehavior.RegisterEvents()']]],
   ['removecivilianequipmentsinrandom_10',['RemoveCivilianEquipmentsInRandom',['../d3/d4a/a00297.html#aa563d6b69b0e32b4b84731e845166fa3',1,'ModSettings']]],
@@ -17,7 +17,7 @@ var searchData=
   ['returnequipmentfromagents_14',['ReturnEquipmentFromAgents',['../dd/d2d/a00229.html#a25b60aaf522fd91a46f7a88b3eeb953d',1,'DynamicTroopMissionLogic']]],
   ['returnequipmenttoarmoryfromagents_15',['ReturnEquipmentToArmoryFromAgents',['../d8/d64/a00181.html#a302f77426fecd73e55eaca01f1b085b7',1,'ArmyArmory']]],
   ['returnitem_16',['ReturnItem',['../d3/d07/a00305.html#a494ea034cc3e2a799b030b3744fab86c',1,'PartyEquipmentDistributor']]],
-  ['returnitemstodestination_17',['ReturnItemsToDestination',['../dd/d2d/a00229.html#afde3aa792eb8260963de8c7bfddf36a1',1,'DynamicTroopMissionLogic']]],
+  ['returnitemstodestination_17',['ReturnItemsToDestination',['../dd/d2d/a00229.html#a3df96c1f39f2c03bb7415f15951c5230',1,'DynamicTroopMissionLogic']]],
   ['returntotown_18',['ReturnToTown',['../d4/d66/a00289.html#ad1afd6dc620035f0f3272f9682a16092',1,'LocalizedTexts']]],
-  ['run_19',['Run',['../d3/d07/a00305.html#a1845fe8899a38e1865ed5458ab383049',1,'PartyEquipmentDistributor']]]
+  ['runasync_19',['RunAsync',['../d3/d07/a00305.html#a44d85cc92a0fa5136256b478fac1e1a9',1,'PartyEquipmentDistributor']]]
 ];

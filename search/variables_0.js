@@ -19,7 +19,7 @@ var searchData=
   ['_5flock_16',['_lock',['../dd/df4/a00193.html#aaf0221c7b7a1cad1afcb0ae5776bcec1',1,'Assignment']]],
   ['_5fmission_17',['_mission',['../d3/d07/a00305.html#abd47e20c8a9258b468ec1eb6de3947e2',1,'PartyEquipmentDistributor']]],
   ['_5fparty_18',['_party',['../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95',1,'Armory._party()'],['../d3/d07/a00305.html#a0da11aff91541d0bbd123e25046cb887',1,'PartyEquipmentDistributor._party()']]],
-  ['_5fpartybattlerecords_19',['_partyBattleRecords',['../dd/d2d/a00229.html#abd1557e97cf8ee52800cd598bf7722b0',1,'DynamicTroopMissionLogic']]],
+  ['_5fpartybattlerecords_19',['_partyBattleRecords',['../dd/d2d/a00229.html#a23f40d8112a0d835b9f00a21c09c1a2e',1,'DynamicTroopMissionLogic']]],
   ['_5fprocessedagents_20',['_processedAgents',['../dd/d2d/a00229.html#ab06d71c257015c7593cb78fd39efcd46',1,'DynamicTroopMissionLogic']]],
   ['_5frandom_21',['_random',['../dd/d2d/a00229.html#aa0a81f7a894e08f44978a310fc92b469',1,'DynamicTroopMissionLogic._random()'],['../d4/dce/a00337.html#ab92ed183795acaa6667ebc7660bcf7b5',1,'WeightedRandomSelector._random()']]],
   ['_5frandomizenonheroledaipartiesarmor_22',['_randomizeNonHeroLedAiPartiesArmor',['../d3/d4a/a00297.html#ac82903e7e38a66adcfbc59c8b06cfb2b',1,'ModSettings']]],

@@ -9,7 +9,7 @@ var searchData=
   ['townextension_2ecs_6',['TownExtension.cs',['../dc/d87/a00032.html',1,'']]],
   ['troopqueue_7',['TroopQueue',['../d6/d22/a00245.html#a4cc1d90cc514983f47223ae10b66fdcb',1,'CharacterObjectExtension']]],
   ['trooprosterelementextension_8',['TroopRosterElementExtension',['../da/d53/a00265.html',1,'']]],
-  ['trooprosterelementextension_2ecs_9',['TroopRosterElementExtension.cs',['../d5/d16/a00029.html',1,'']]],
+  ['trooprosterelementextension_2ecs_9',['TroopRosterElementExtension.cs',['../db/db2/a00020.html',1,'']]],
   ['trooptype_10',['TroopType',['../d6/d22/a00245.html#a3584fe6076b49652a7b1ec65cd7a6111',1,'CharacterObjectExtension']]],
   ['typedict_11',['TypeDict',['../d6/d22/a00245.html#aed2fb80c27c9b044fb8aaf7b45de5e0b',1,'CharacterObjectExtension']]]
 ];

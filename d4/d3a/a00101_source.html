@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Comparers/EquipmentElementComparerArmory.cs Source File</title>
+<title>动态装备系统: ArmyArmoryBehavior.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -46,6 +46,7 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
+</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -60,32 +61,189 @@ $(function() {
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="../../dir_b107438702b5db4893d90ccd0712f96e.html">Comparers</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">EquipmentElementComparerArmory.cs</div></div>
+  <div class="headertitle"><div class="title">ArmyArmoryBehavior.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System.Collections.Generic;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> TaleWorlds.Core;</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Comparers;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../dc/d98/a00225.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../dc/d98/a00225.html">EquipmentElementComparerArmory</a> : IEqualityComparer&lt;EquipmentElement&gt; {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../dc/d98/a00225.html#a3fa980e12270c666c12958e5b5446ce7">    7</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../dc/d98/a00225.html#a3fa980e12270c666c12958e5b5446ce7">Equals</a>(EquipmentElement x, EquipmentElement y) {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keywordflow">return</span> x.Item.Id == y.Item.Id &amp;&amp; x.ItemModifier.Id == y.ItemModifier.Id;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    }</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../dc/d98/a00225.html#a24fea91ccbc4835026c48b47294786e3">   11</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../dc/d98/a00225.html#a24fea91ccbc4835026c48b47294786e3">GetHashCode</a>(EquipmentElement obj) {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <span class="keywordflow">return</span> obj.Item.Id.GetHashCode() ^ obj.ItemModifier.Id.GetHashCode();</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    }</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>}</div>
-<div class="ttc" id="aa00225_html"><div class="ttname"><a href="../../dc/d98/a00225.html">EquipmentElementComparerArmory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00006">EquipmentElementComparerArmory.cs:6</a></div></div>
-<div class="ttc" id="aa00225_html_a24fea91ccbc4835026c48b47294786e3"><div class="ttname"><a href="../../dc/d98/a00225.html#a24fea91ccbc4835026c48b47294786e3">EquipmentElementComparerArmory.GetHashCode</a></div><div class="ttdeci">int GetHashCode(EquipmentElement obj)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00011">EquipmentElementComparerArmory.cs:11</a></div></div>
-<div class="ttc" id="aa00225_html_a3fa980e12270c666c12958e5b5446ce7"><div class="ttname"><a href="../../dc/d98/a00225.html#a3fa980e12270c666c12958e5b5446ce7">EquipmentElementComparerArmory.Equals</a></div><div class="ttdeci">bool Equals(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00007">EquipmentElementComparerArmory.cs:7</a></div></div>
+<a href="../../d4/d3a/a00101.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#region</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> System;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> System.Collections.Generic;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> Bannerlord.ButterLib.SaveSystem.Extensions;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using</span> TaleWorlds.CampaignSystem;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.GameMenus;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Inventory;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">using</span> TaleWorlds.ObjectSystem;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">using</span> TaleWorlds.SaveSystem;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endregion</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html">   17</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../de/df3/a00185.html">ArmyArmoryBehavior</a> : CampaignBehaviorBase {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">   18</a></span>    <span class="keyword">private</span> <a class="code hl_class" href="../../da/deb/a00189.html">Data</a> <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a> = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#a3064e5af3f751c64ec1a06cb282d7481">   20</a></span>    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#a3064e5af3f751c64ec1a06cb282d7481">SyncData</a>(IDataStore dataStore) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="comment">//InformationManager.DisplayMessage(new InformationMessage(&quot;Sync Data called&quot;, Colors.Green));</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">if</span> (dataStore.IsSaving) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.Clear();</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <a class="code hl_function" href="../../de/df3/a00185.html#ae764e5eb9a2b9392d20e70c7f2e4d8f8">Save</a>();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            var tempData = <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopArmyArmory&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a> = tempData;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.Clear();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keywordflow">else</span> { Global.Error(<span class="stringliteral">&quot;null data on save&quot;</span>); }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dataStore.IsLoading) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.Clear();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <a class="code hl_class" href="../../d8/d64/a00181.html">ArmyArmory</a>.<a class="code hl_variable" href="../../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1">Armory</a>.Clear();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            var tempData = <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopArmyArmory&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <a class="code hl_function" href="../../de/df3/a00185.html#abd95e2306ff77a98dd2b65cb84bcdc3d">Load</a>(tempData);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a> = tempData;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.Clear();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordflow">else</span> { Global.Error(<span class="stringliteral">&quot;null data on load&quot;</span>); }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#aeeae384d9a315766d5b14e8c4815a024">   45</a></span>    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#aeeae384d9a315766d5b14e8c4815a024">RegisterEvents</a>() {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(<span class="keyword">this</span>, <a class="code hl_function" href="../../de/df3/a00185.html#a15ac90cbda116253a8d4288b2b802f78">OnSessionLaunched</a>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(<span class="keyword">this</span>, <a class="code hl_function" href="../../de/df3/a00185.html#ae2bc0950cdbcc37f21ecd8d6dd42e7b4">OnNewGameCreated</a>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#ae2bc0950cdbcc37f21ecd8d6dd42e7b4">   50</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#ae2bc0950cdbcc37f21ecd8d6dd42e7b4">OnNewGameCreated</a>(CampaignGameStarter starter) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        Global.Debug(<span class="stringliteral">&quot;OnNewGameCreated() called&quot;</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <a class="code hl_class" href="../../d8/d64/a00181.html">ArmyArmory</a>.<a class="code hl_variable" href="../../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1">Armory</a>.Clear();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#ae764e5eb9a2b9392d20e70c7f2e4d8f8">   55</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#ae764e5eb9a2b9392d20e70c7f2e4d8f8">Save</a>() {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        var i = <a class="code hl_class" href="../../d8/d64/a00181.html">ArmyArmory</a>.<a class="code hl_variable" href="../../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1">Armory</a>.GetEnumerator();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">while</span> (i.MoveNext())</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">if</span> (i.Current is { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: &gt; 0 }) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.ContainsKey(i.Current.EquipmentElement.Item.StringId))</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                    <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                    <a class="code hl_variable" href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">_data</a>.<a class="code hl_variable" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">Armory</a>[i.Current.EquipmentElement.Item.StringId] += i.Current.Amount;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        i.Dispose();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#abd95e2306ff77a98dd2b65cb84bcdc3d">   68</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#abd95e2306ff77a98dd2b65cb84bcdc3d">Load</a>(<a class="code hl_class" href="../../da/deb/a00189.html">Data</a> tempData) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> tempData.Armory) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            var equipment = MBObjectManager.Instance.GetObject&lt;ItemObject&gt;(item.Key) ??</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                            ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">if</span> (equipment != <span class="keyword">null</span> &amp;&amp; item.Value &gt; 0)</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                _ = <a class="code hl_class" href="../../d8/d64/a00181.html">ArmyArmory</a>.<a class="code hl_variable" href="../../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1">Armory</a>.AddToCounts(equipment, item.Value);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                Global.Warn($<span class="stringliteral">&quot;cannot get object {item.Key}&quot;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        Global.Debug($<span class="stringliteral">&quot;loaded {tempData.Armory.Count} entries for player&quot;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#a15ac90cbda116253a8d4288b2b802f78">   81</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#a15ac90cbda116253a8d4288b2b802f78">OnSessionLaunched</a>(CampaignGameStarter starter) { AddTownMenuOptions(starter); }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#aed6e43079bd24bb393749cd6d3e4643c">   83</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#aed6e43079bd24bb393749cd6d3e4643c">AddTownMenuOptions</a>(CampaignGameStarter starter) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        AddArmyArmorySubmenu(starter);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;town&quot;</span>,</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                                  <span class="stringliteral">&quot;army_armory_manage&quot;</span>,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                                  <a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../d4/d66/a00289.html#ad81e9b86126ed2d99a4d3d91f16ee7cd">ArmoryManageOption</a>.ToString(),</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                  args =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                  args =&gt; {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                      <span class="comment">// 打开子菜单</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                      GameMenu.SwitchToMenu(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                  },</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                  <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                                  4);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="../../de/df3/a00185.html#a2a8ab1d0f5fcecb5af3905acd3a0d6ed">   97</a></span>    <span class="keyword">private</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../de/df3/a00185.html#a2a8ab1d0f5fcecb5af3905acd3a0d6ed">AddArmyArmorySubmenu</a>(CampaignGameStarter starter) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="comment">// 创建子菜单</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        starter.AddGameMenu(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>, <a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../d4/d66/a00289.html#ad81e9b86126ed2d99a4d3d91f16ee7cd">ArmoryManageOption</a>.ToString(), args =&gt; { });</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="comment">// 在子菜单中添加选项</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                                  <span class="stringliteral">&quot;view_armory&quot;</span>,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                                  <a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../d4/d66/a00289.html#ad93abf52390cf98c0e41a02acf3d386c">ArmorViewOption</a>.ToString(),</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                                  args =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                                  args =&gt; { InventoryManager.OpenScreenAsStash(ArmyArmory.Armory); });</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                                  <span class="stringliteral">&quot;sell_for_throwing&quot;</span>,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                                  <a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../d4/d66/a00289.html#ad9e5ea816b8a7afb6fbcf87c394c259f">SellForThrowing</a>.ToString(),</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                                  args =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                                  args =&gt; { ArmyArmory.SellExcessEquipmentForThrowingWeapons(); });</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                                  <span class="stringliteral">&quot;debug_clear_invalid_items&quot;</span>,</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                  <span class="stringliteral">&quot;DEBUG: Clear invalid items&quot;</span>,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                                  args =&gt; <a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">DebugMode</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                                  args =&gt; { ArmyArmory.DebugClearEmptyItem(); });</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                                  <span class="stringliteral">&quot;debug_remove_player_crafted_items&quot;</span>,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                                  <span class="stringliteral">&quot;DEBUG: Remove player crafted items&quot;</span>,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>                                  args =&gt; <a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">DebugMode</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>                                  args =&gt; { ArmyArmory.DebugRemovePlayerCraftedItems(); });</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                                  <span class="stringliteral">&quot;debug_rebuild_armory&quot;</span>,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                                  <span class="stringliteral">&quot;DEBUG: Rebuild player armory&quot;</span>,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                                  args =&gt; <a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">DebugMode</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                                  args =&gt; { ArmyArmory.RebuildArmory(); });</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                                  <span class="stringliteral">&quot;debug_export_armory&quot;</span>,</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>                                  <span class="stringliteral">&quot;DEBUG: Export player armory&quot;</span>,</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                                  args =&gt; <a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">DebugMode</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                                  args =&gt; { ArmyArmory.Export(); });</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                                  <span class="stringliteral">&quot;debug_import_armory&quot;</span>,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                                  <span class="stringliteral">&quot;DEBUG: Import player armory&quot;</span>,</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                                  args =&gt; <a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">DebugMode</a> ?? <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                                  args =&gt; { ArmyArmory.Import(); });</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="comment">// 返回上一级菜单的选项</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                                  <span class="stringliteral">&quot;return_to_town&quot;</span>,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                                  <a class="code hl_class" href="../../d4/d66/a00289.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../d4/d66/a00289.html#ad1afd6dc620035f0f3272f9682a16092">ReturnToTown</a>.ToString(),</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                                  args =&gt; <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                                  args =&gt; { GameMenu.SwitchToMenu(<span class="stringliteral">&quot;town&quot;</span>); },</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>                                  <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    [Serializable]</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="../../da/deb/a00189.html">  154</a></span>    <span class="keyword">private</span> <span class="keyword">class </span><a class="code hl_class" href="../../da/deb/a00189.html">Data</a> {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">  155</a></span>        [SaveableField(1)] <span class="keyword">public</span> Dictionary&lt;string, int&gt; <a class="code hl_class" href="../../dd/d4c/a00177.html">Armory</a> = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
+<div class="ttc" id="aa00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">Armory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00014">Armory.cs:14</a></div></div>
+<div class="ttc" id="aa00181_html"><div class="ttname"><a href="../../d8/d64/a00181.html">ArmyArmory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/de1/a00065_source.html#l00024">ArmyArmory.cs:24</a></div></div>
+<div class="ttc" id="aa00181_html_ada0a72d9262020f688c2e760caeec5c1"><div class="ttname"><a href="../../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1">ArmyArmory.Armory</a></div><div class="ttdeci">static ItemRoster Armory</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de1/a00065_source.html#l00025">ArmyArmory.cs:25</a></div></div>
+<div class="ttc" id="aa00185_html"><div class="ttname"><a href="../../de/df3/a00185.html">ArmyArmoryBehavior</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00017">ArmyArmoryBehavior.cs:17</a></div></div>
+<div class="ttc" id="aa00185_html_a15ac90cbda116253a8d4288b2b802f78"><div class="ttname"><a href="../../de/df3/a00185.html#a15ac90cbda116253a8d4288b2b802f78">ArmyArmoryBehavior.OnSessionLaunched</a></div><div class="ttdeci">void OnSessionLaunched(CampaignGameStarter starter)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00081">ArmyArmoryBehavior.cs:81</a></div></div>
+<div class="ttc" id="aa00185_html_a2a8ab1d0f5fcecb5af3905acd3a0d6ed"><div class="ttname"><a href="../../de/df3/a00185.html#a2a8ab1d0f5fcecb5af3905acd3a0d6ed">ArmyArmoryBehavior.AddArmyArmorySubmenu</a></div><div class="ttdeci">void AddArmyArmorySubmenu(CampaignGameStarter starter)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00097">ArmyArmoryBehavior.cs:97</a></div></div>
+<div class="ttc" id="aa00185_html_a3064e5af3f751c64ec1a06cb282d7481"><div class="ttname"><a href="../../de/df3/a00185.html#a3064e5af3f751c64ec1a06cb282d7481">ArmyArmoryBehavior.SyncData</a></div><div class="ttdeci">override void SyncData(IDataStore dataStore)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00020">ArmyArmoryBehavior.cs:20</a></div></div>
+<div class="ttc" id="aa00185_html_ab7fcab0b60f80ea8892b9942479387f0"><div class="ttname"><a href="../../de/df3/a00185.html#ab7fcab0b60f80ea8892b9942479387f0">ArmyArmoryBehavior._data</a></div><div class="ttdeci">Data _data</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00018">ArmyArmoryBehavior.cs:18</a></div></div>
+<div class="ttc" id="aa00185_html_abd95e2306ff77a98dd2b65cb84bcdc3d"><div class="ttname"><a href="../../de/df3/a00185.html#abd95e2306ff77a98dd2b65cb84bcdc3d">ArmyArmoryBehavior.Load</a></div><div class="ttdeci">void Load(Data tempData)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00068">ArmyArmoryBehavior.cs:68</a></div></div>
+<div class="ttc" id="aa00185_html_ae2bc0950cdbcc37f21ecd8d6dd42e7b4"><div class="ttname"><a href="../../de/df3/a00185.html#ae2bc0950cdbcc37f21ecd8d6dd42e7b4">ArmyArmoryBehavior.OnNewGameCreated</a></div><div class="ttdeci">void OnNewGameCreated(CampaignGameStarter starter)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00050">ArmyArmoryBehavior.cs:50</a></div></div>
+<div class="ttc" id="aa00185_html_ae764e5eb9a2b9392d20e70c7f2e4d8f8"><div class="ttname"><a href="../../de/df3/a00185.html#ae764e5eb9a2b9392d20e70c7f2e4d8f8">ArmyArmoryBehavior.Save</a></div><div class="ttdeci">void Save()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00055">ArmyArmoryBehavior.cs:55</a></div></div>
+<div class="ttc" id="aa00185_html_aed6e43079bd24bb393749cd6d3e4643c"><div class="ttname"><a href="../../de/df3/a00185.html#aed6e43079bd24bb393749cd6d3e4643c">ArmyArmoryBehavior.AddTownMenuOptions</a></div><div class="ttdeci">void AddTownMenuOptions(CampaignGameStarter starter)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00083">ArmyArmoryBehavior.cs:83</a></div></div>
+<div class="ttc" id="aa00185_html_aeeae384d9a315766d5b14e8c4815a024"><div class="ttname"><a href="../../de/df3/a00185.html#aeeae384d9a315766d5b14e8c4815a024">ArmyArmoryBehavior.RegisterEvents</a></div><div class="ttdeci">override void RegisterEvents()</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00045">ArmyArmoryBehavior.cs:45</a></div></div>
+<div class="ttc" id="aa00189_html"><div class="ttname"><a href="../../da/deb/a00189.html">ArmyArmoryBehavior.Data</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00154">ArmyArmoryBehavior.cs:154</a></div></div>
+<div class="ttc" id="aa00189_html_aa3089116af5ed02804f8c23b295165d2"><div class="ttname"><a href="../../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2">ArmyArmoryBehavior.Data.Armory</a></div><div class="ttdeci">Dictionary&lt; string, int &gt; Armory</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3a/a00101_source.html#l00155">ArmyArmoryBehavior.cs:155</a></div></div>
+<div class="ttc" id="aa00289_html"><div class="ttname"><a href="../../d4/d66/a00289.html">LocalizedTexts</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00005">LocalizedTexts.cs:5</a></div></div>
+<div class="ttc" id="aa00289_html_ad1afd6dc620035f0f3272f9682a16092"><div class="ttname"><a href="../../d4/d66/a00289.html#ad1afd6dc620035f0f3272f9682a16092">LocalizedTexts.ReturnToTown</a></div><div class="ttdeci">static readonly TextObject ReturnToTown</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00032">LocalizedTexts.cs:32</a></div></div>
+<div class="ttc" id="aa00289_html_ad81e9b86126ed2d99a4d3d91f16ee7cd"><div class="ttname"><a href="../../d4/d66/a00289.html#ad81e9b86126ed2d99a4d3d91f16ee7cd">LocalizedTexts.ArmoryManageOption</a></div><div class="ttdeci">static readonly TextObject ArmoryManageOption</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00018">LocalizedTexts.cs:18</a></div></div>
+<div class="ttc" id="aa00289_html_ad93abf52390cf98c0e41a02acf3d386c"><div class="ttname"><a href="../../d4/d66/a00289.html#ad93abf52390cf98c0e41a02acf3d386c">LocalizedTexts.ArmorViewOption</a></div><div class="ttdeci">static readonly TextObject ArmorViewOption</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00016">LocalizedTexts.cs:16</a></div></div>
+<div class="ttc" id="aa00289_html_ad9e5ea816b8a7afb6fbcf87c394c259f"><div class="ttname"><a href="../../d4/d66/a00289.html#ad9e5ea816b8a7afb6fbcf87c394c259f">LocalizedTexts.SellForThrowing</a></div><div class="ttdeci">static readonly TextObject SellForThrowing</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dab/a00089_source.html#l00020">LocalizedTexts.cs:20</a></div></div>
+<div class="ttc" id="aa00297_html"><div class="ttname"><a href="../../d3/d4a/a00297.html">ModSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00013">ModSettings.cs:13</a></div></div>
+<div class="ttc" id="aa00297_html_a37883ca44753b0e89a5b3c4db3b1cb48"><div class="ttname"><a href="../../d3/d4a/a00297.html#a37883ca44753b0e89a5b3c4db3b1cb48">ModSettings.DebugMode</a></div><div class="ttdeci">bool DebugMode</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00165">ModSettings.cs:166</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -34,6 +34,6 @@ var searchData=
   ['getupgraderequiresitemfromcategorypatch_2ecs_31',['GetUpgradeRequiresItemFromCategoryPatch.cs',['../db/db6/a00074.html',1,'']]],
   ['getweaponclass_32',['GetWeaponClass',['../d5/d42/a00269.html#adbeba12a3793cb1bb2bc7df01fd35fb2',1,'Global']]],
   ['global_33',['Global',['../d5/d42/a00269.html',1,'']]],
-  ['global_2ecs_34',['Global.cs',['../df/d98/a00107.html',1,'']]],
-  ['globalusings_2ecs_35',['GlobalUsings.cs',['../dc/dee/a00053.html',1,'']]]
+  ['global_2ecs_34',['Global.cs',['../d9/d2e/a00056.html',1,'']]],
+  ['globalusings_2ecs_35',['GlobalUsings.cs',['../d2/de7/a00014.html',1,'']]]
 ];

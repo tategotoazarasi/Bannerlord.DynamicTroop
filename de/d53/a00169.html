@@ -88,7 +88,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00011">11</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00011">11</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a955b49ed172ae2c072ce1fc7fd4d0e5f" name="a955b49ed172ae2c072ce1fc7fd4d0e5f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a955b49ed172ae2c072ce1fc7fd4d0e5f">&#9670;&nbsp;</a></span>AddParty()</h2>
@@ -106,7 +106,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00014">14</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00014">14</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                                            {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keywordflow">try</span> { <span class="keywordflow">return</span> <a class="code hl_variable" href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">_armories</a>.TryAdd(party, <span class="keyword">new</span> <a class="code hl_class" href="../../dd/d4c/a00177.html">Armory</a>(party)); }</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">catch</span> (Exception e) {</div>
@@ -114,10 +114,10 @@ Private Attributes</h2></td></tr>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        }</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
-<div class="ttc" id="aa00169_html_abbd362bb2c54540bc167c4344eaefb7a"><div class="ttname"><a href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">Armories._armories</a></div><div class="ttdeci">readonly ConcurrentDictionary&lt; MobileParty, Armory &gt; _armories</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00012">Armories.cs:12</a></div></div>
-<div class="ttc" id="aa00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">Armory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00014">Armory.cs:14</a></div></div>
+<div class="ttc" id="aa00169_html_abbd362bb2c54540bc167c4344eaefb7a"><div class="ttname"><a href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">Armories._armories</a></div><div class="ttdeci">readonly ConcurrentDictionary&lt; MobileParty, Armory &gt; _armories</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d77/a00095_source.html#l00012">Armories.cs:12</a></div></div>
+<div class="ttc" id="aa00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">Armory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00014">Armory.cs:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00012">_armories</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d77/a00095_source.html#l00012">_armories</a>.</p>
 
 </div>
 </div>
@@ -137,7 +137,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00030">30</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00030">30</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                               {</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">try</span> { <span class="keywordflow">return</span> <a class="code hl_variable" href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">_armories</a>.TryGetValue(party, out var armory) ? armory : <span class="keyword">null</span>; }</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">catch</span> (Exception e) {</div>
@@ -146,7 +146,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00012">_armories</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d77/a00095_source.html#l00012">_armories</a>.</p>
 
 </div>
 </div>
@@ -166,7 +166,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00038">38</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00038">38</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                                                                           {</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">//var partyObj = MBObjectManager.Instance.GetObject()</span></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <a class="code hl_variable" href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">_armories</a>.Clear();</div>
@@ -174,7 +174,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">throw</span> <span class="keyword">new</span> NotImplementedException();</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00012">_armories</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d77/a00095_source.html#l00012">_armories</a>.</p>
 
 </div>
 </div>
@@ -194,7 +194,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00022">22</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00022">22</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 <div class="fragment"><div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                                  {</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">try</span> { <span class="keywordflow">return</span> <a class="code hl_variable" href="../../de/d53/a00169.html#abbd362bb2c54540bc167c4344eaefb7a">_armories</a>.TryRemove(party, out var armory) ? armory : <span class="keyword">null</span>; }</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">catch</span> (Exception e) {</div>
@@ -203,7 +203,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        }</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00012">_armories</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d77/a00095_source.html#l00012">_armories</a>.</p>
 
 </div>
 </div>
@@ -228,14 +228,14 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d81/a00110_source.html#l00012">12</a> of file <a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d77/a00095_source.html#l00012">12</a> of file <a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d81/a00110_source.html#l00014">AddParty()</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00030">GetParty()</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00038">Load()</a>, and <a class="el" href="../../d4/d81/a00110_source.html#l00022">RemoveParty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d77/a00095_source.html#l00014">AddParty()</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00030">GetParty()</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00038">Load()</a>, and <a class="el" href="../../d9/d77/a00095_source.html#l00022">RemoveParty()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d4/d81/a00110_source.html">Armories.cs</a></li>
+<li><a class="el" href="../../d9/d77/a00095_source.html">Armories.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
