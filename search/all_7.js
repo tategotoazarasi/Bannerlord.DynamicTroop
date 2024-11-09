@@ -31,9 +31,9 @@ var searchData=
   ['getsoldexcessequipmentforthrowingweapons_28',['GetSoldExcessEquipmentForThrowingWeapons',['../d4/d66/a00289.html#a3cf87612a13d1bfcf95e507a7c5cb656',1,'LocalizedTexts']]],
   ['gettrooptype_29',['GetTroopType',['../d6/d22/a00245.html#a36d765749a2503cfd1cfa709a1685ff6',1,'CharacterObjectExtension']]],
   ['getupgraderequiresitemfromcategorypatch_30',['GetUpgradeRequiresItemFromCategoryPatch',['../dd/db3/a00313.html',1,'']]],
-  ['getupgraderequiresitemfromcategorypatch_2ecs_31',['GetUpgradeRequiresItemFromCategoryPatch.cs',['../db/db6/a00074.html',1,'']]],
+  ['getupgraderequiresitemfromcategorypatch_2ecs_31',['GetUpgradeRequiresItemFromCategoryPatch.cs',['../d0/d89/a00071.html',1,'']]],
   ['getweaponclass_32',['GetWeaponClass',['../d5/d42/a00269.html#adbeba12a3793cb1bb2bc7df01fd35fb2',1,'Global']]],
   ['global_33',['Global',['../d5/d42/a00269.html',1,'']]],
-  ['global_2ecs_34',['Global.cs',['../d9/d2e/a00056.html',1,'']]],
-  ['globalusings_2ecs_35',['GlobalUsings.cs',['../d2/de7/a00014.html',1,'']]]
+  ['global_2ecs_34',['Global.cs',['../dd/d32/a00041.html',1,'']]],
+  ['globalusings_2ecs_35',['GlobalUsings.cs',['../d0/dc2/a00104.html',1,'']]]
 ];

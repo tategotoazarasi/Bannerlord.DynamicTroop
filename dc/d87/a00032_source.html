@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Extensions/TownExtension.cs Source File</title>
+<title>动态装备系统: Comparers/ArmorComparer.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -62,53 +62,36 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_d7fae9a3fd56a9d342acf337a7814969.html">Extensions</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_b107438702b5db4893d90ccd0712f96e.html">Comparers</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">TownExtension.cs</div></div>
+  <div class="headertitle"><div class="title">ArmorComparer.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../dc/d87/a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#region</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> System.Collections.Generic;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Settlements;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<a href="../../dc/d87/a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System.Collections.Generic;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> Bannerlord.DynamicTroop.Extensions;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Comparers;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#endregion</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Extensions;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../d3/de5/a00209.html">    7</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d3/de5/a00209.html">ArmorComparer</a> : IComparer&lt;ItemObject&gt; {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../d3/de5/a00209.html#a026a9e30857d92e02b5b172a310fa397">    8</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d3/de5/a00209.html#a026a9e30857d92e02b5b172a310fa397">Compare</a>(ItemObject x, ItemObject y) { <span class="keywordflow">return</span> y.CompareArmor(x); }</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>}</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../dc/d6a/a00261.html">   11</a></span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../dc/d6a/a00261.html">TownExtension</a> {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../dc/d6a/a00261.html#ac304dee95e429fa2f10c8497deb9ea92">   12</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;ItemObject&gt; <a class="code hl_function" href="../../dc/d6a/a00261.html#ac304dee95e429fa2f10c8497deb9ea92">GetRandomEquipments</a>(<span class="keyword">this</span> Town? town) {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">if</span> (town == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">foreach</span> (var village <span class="keywordflow">in</span> town.Villages) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">if</span> (village.VillageState != Village.VillageStates.Normal) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            var items = <a class="code hl_class" href="../../d5/d13/a00205.html">Cache</a>.<a class="code hl_function" href="../../d5/d13/a00205.html#a11e8df5137b5a8bf6981579a06776471">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)village.GetProsperityLevel() +</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                                       (<a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0),</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                       town.Culture);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">if</span> (items != <span class="keyword">null</span> &amp;&amp; !items.IsEmpty()) list.Add(items.GetRandomElement());</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">if</span> (town.IsUnderSiege) <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        var items2 =</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_class" href="../../d5/d13/a00205.html">Cache</a>.<a class="code hl_function" href="../../d5/d13/a00205.html#a11e8df5137b5a8bf6981579a06776471">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)town.GetProsperityLevel() +</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                           (<a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0),</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                           town.Culture);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (items2 != <span class="keyword">null</span> &amp;&amp; !items2.IsEmpty()) list.Add(items2.GetRandomElement());</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> list;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
-<div class="ttc" id="aa00205_html"><div class="ttname"><a href="../../d5/d13/a00205.html">Cache</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d24/a00068_source.html#l00014">Cache.cs:14</a></div></div>
-<div class="ttc" id="aa00205_html_a11e8df5137b5a8bf6981579a06776471"><div class="ttname"><a href="../../d5/d13/a00205.html#a11e8df5137b5a8bf6981579a06776471">Cache.GetItemsByTierAndCulture</a></div><div class="ttdeci">static ? ItemObject[] GetItemsByTierAndCulture(int tier, CultureObject? culture)</div><div class="ttdoc">根据物品类型、层级和文化获取物品数组。</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d24/a00068_source.html#l00027">Cache.cs:27</a></div></div>
-<div class="ttc" id="aa00261_html"><div class="ttname"><a href="../../dc/d6a/a00261.html">TownExtension</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00011">TownExtension.cs:11</a></div></div>
-<div class="ttc" id="aa00261_html_ac304dee95e429fa2f10c8497deb9ea92"><div class="ttname"><a href="../../dc/d6a/a00261.html#ac304dee95e429fa2f10c8497deb9ea92">TownExtension.GetRandomEquipments</a></div><div class="ttdeci">static List&lt; ItemObject &gt; GetRandomEquipments(this Town? town)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00012">TownExtension.cs:12</a></div></div>
-<div class="ttc" id="aa00297_html"><div class="ttname"><a href="../../d3/d4a/a00297.html">ModSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00013">ModSettings.cs:13</a></div></div>
-<div class="ttc" id="aa00297_html_abd6758bfbaaea279c40442e0387286c5"><div class="ttname"><a href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">ModSettings.Difficulty</a></div><div class="ttdeci">Dropdown&lt; string &gt; Difficulty</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dee/a00008_source.html#l00061">ModSettings.cs:61</a></div></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d1/de1/a00213.html">   11</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d1/de1/a00213.html">ArmorElementComparer</a> : IComparer&lt;EquipmentElement&gt; {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../d1/de1/a00213.html#ad6cc6750a9a30678847003367ee29e20">   12</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d1/de1/a00213.html#ad6cc6750a9a30678847003367ee29e20">Compare</a>(EquipmentElement x, EquipmentElement y) { <span class="keywordflow">return</span> y.Item.CompareArmor(x.Item); }</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>}</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../df/d24/a00217.html">   15</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../df/d24/a00217.html">EquipmentEffectivenessComparer</a> : IComparer&lt;ItemObject&gt; {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../df/d24/a00217.html#a3efedfb86065fa2c19ce6de017a7b319">   16</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../df/d24/a00217.html#a3efedfb86065fa2c19ce6de017a7b319">Compare</a>(ItemObject x, ItemObject y) { <span class="keywordflow">return</span> y.Effectiveness.CompareTo(x.Effectiveness); }</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>}</div>
+<div class="ttc" id="aa00209_html"><div class="ttname"><a href="../../d3/de5/a00209.html">ArmorComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00007">ArmorComparer.cs:7</a></div></div>
+<div class="ttc" id="aa00209_html_a026a9e30857d92e02b5b172a310fa397"><div class="ttname"><a href="../../d3/de5/a00209.html#a026a9e30857d92e02b5b172a310fa397">ArmorComparer.Compare</a></div><div class="ttdeci">int Compare(ItemObject x, ItemObject y)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00008">ArmorComparer.cs:8</a></div></div>
+<div class="ttc" id="aa00213_html"><div class="ttname"><a href="../../d1/de1/a00213.html">ArmorElementComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00011">ArmorComparer.cs:11</a></div></div>
+<div class="ttc" id="aa00213_html_ad6cc6750a9a30678847003367ee29e20"><div class="ttname"><a href="../../d1/de1/a00213.html#ad6cc6750a9a30678847003367ee29e20">ArmorElementComparer.Compare</a></div><div class="ttdeci">int Compare(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00012">ArmorComparer.cs:12</a></div></div>
+<div class="ttc" id="aa00217_html"><div class="ttname"><a href="../../df/d24/a00217.html">EquipmentEffectivenessComparer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00015">ArmorComparer.cs:15</a></div></div>
+<div class="ttc" id="aa00217_html_a3efedfb86065fa2c19ce6de017a7b319"><div class="ttname"><a href="../../df/d24/a00217.html#a3efedfb86065fa2c19ce6de017a7b319">EquipmentEffectivenessComparer.Compare</a></div><div class="ttdeci">int Compare(ItemObject x, ItemObject y)</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d87/a00032_source.html#l00016">ArmorComparer.cs:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

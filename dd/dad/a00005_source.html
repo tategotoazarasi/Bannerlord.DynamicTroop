@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: Armory.cs Source File</title>
+<title>动态装备系统: Extensions/MobilePartyExtension.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -46,7 +46,6 @@ $(function() {
 /* @license-end */
 </script>
 <div id="main-nav"></div>
-</div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -61,204 +60,136 @@ $(function() {
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="../../dir_d7fae9a3fd56a9d342acf337a7814969.html">Extensions</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
-  <div class="headertitle"><div class="title">Armory.cs</div></div>
+  <div class="headertitle"><div class="title">MobilePartyExtension.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../dd/dad/a00005.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> System.Collections.Concurrent;</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> System.Collections.Generic;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> System.Linq;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> Bannerlord.DynamicTroop.Patches;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Party;</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Roster;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">using</span> TaleWorlds.Core;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">using</span> TaleWorlds.ObjectSystem;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>[Obsolete]</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html">   14</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../dd/d4c/a00177.html">Armory</a> {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">   15</a></span>    <span class="keyword">private</span> readonly ConcurrentDictionary&lt;EquipmentElement, int&gt; <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a>;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">   17</a></span>    <span class="keyword">private</span> MobileParty <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a35d6e499d37f4bdeb8d08bd22a87db2a">   19</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#a35d6e499d37f4bdeb8d08bd22a87db2a">Armory</a>(MobileParty party) {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a> = <span class="keyword">new</span> ConcurrentDictionary&lt;EquipmentElement, int&gt;();</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_property" href="../../dd/d4c/a00177.html#a295a6f184982a23eeede65effef096f3">Party</a> = party;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    }</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#ac799eedce820092ff32f055a69bd076f">   24</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#ac799eedce820092ff32f055a69bd076f">Armory</a>(MobileParty party, Dictionary&lt;(uint, uint), <span class="keywordtype">int</span>&gt; loadedData) {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a> = <span class="keyword">new</span> ConcurrentDictionary&lt;EquipmentElement, int&gt;();</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> loadedData) {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                var itemId      = kvp.Key.Item1;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                var modifierId  = kvp.Key.Item2;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                var count       = kvp.Value;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                var itemObj     = MBObjectManager.Instance.GetObject(<span class="keyword">new</span> MBGUID(itemId));</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                var modifierObj = MBObjectManager.Instance.GetObject(<span class="keyword">new</span> MBGUID(modifierId));</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                <span class="keywordflow">if</span> (itemObj == <span class="keyword">null</span> || count &lt;= 0) <span class="keywordflow">continue</span>;</div>
+<a href="../../dd/dad/a00005.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using</span> System.Collections.Generic;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using</span> System.Linq;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using</span> Bannerlord.DynamicTroop.Patches;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Party;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using</span> TaleWorlds.CampaignSystem.Settlements;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using</span> TaleWorlds.Core;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using</span> TaleWorlds.Library;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">using</span> TaleWorlds.LinQuick;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>Bannerlord.DynamicTroop.Extensions;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html">   12</a></span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../d0/d3e/a00253.html">MobilePartyExtension</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#ac3ebfae7a5adfbcd0ad95e004e4a7f8e">   14</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d0/d3e/a00253.html#ac3ebfae7a5adfbcd0ad95e004e4a7f8e">GetClanTier</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">if</span> (!party.IsValid()) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        var hero = party?.Owner ?? party?.LeaderHero;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span> hero != <span class="keyword">null</span> ? hero.Clan?.Tier ?? 0 : 0;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#a4d2348a1a8b5b33264e19bac5357da0c">   22</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d0/d3e/a00253.html#a4d2348a1a8b5b33264e19bac5357da0c">IsValid</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">return</span> party is {Id: { }} &amp;&amp;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>               (<a class="code hl_class" href="../../d6/de1/a00233.html">EveryoneCampaignBehavior</a>.<a class="code hl_variable" href="../../d6/de1/a00233.html#a17fa01c679fde70807b1d57508f795f1">PartyArmories</a>.ContainsKey(party.Id) ||</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                party is</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                    Owner : {CharacterObject.IsHero: <span class="keyword">true</span>, IsPartyLeader: <span class="keyword">true</span>},</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                    LeaderHero : {CharacterObject.IsHero: <span class="keyword">true</span>, IsPartyLeader: <span class="keyword">true</span>},</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                    MemberRoster: not <span class="keyword">null</span>,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                    Owner : not {IsHumanPlayerCharacter: <span class="keyword">true</span>}</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                });</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                var           item                = (ItemObject)itemObj;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                ItemModifier? modifier            = <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <span class="keywordflow">if</span> (modifierObj != <span class="keyword">null</span>) modifier = (ItemModifier)modifierObj;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                EquipmentElement equipmentElement = <span class="keyword">new</span>(item, modifier);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                <a class="code hl_function" href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">AddEquipmentElement</a>(equipmentElement, count);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a> = party;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a650d60c4520088053ef976e107ce3c78">   48</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#a650d60c4520088053ef976e107ce3c78">Armory</a>(MobileParty party, <a class="code hl_property" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">ItemRoster</a> itemRoster) {</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a>      = <span class="keyword">new</span> ConcurrentDictionary&lt;EquipmentElement, int&gt;();</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <a class="code hl_property" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">ItemRoster</a> = itemRoster;</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a>     = party;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a295a6f184982a23eeede65effef096f3">   54</a></span>    <span class="keyword">public</span> MobileParty <a class="code hl_property" href="../../dd/d4c/a00177.html#a295a6f184982a23eeede65effef096f3">Party</a> {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a> = value;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                var troopRoster = <a class="code hl_variable" href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">_party</a>.MemberRoster?.GetTroopRoster();</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                <span class="keywordflow">if</span> (troopRoster == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#ac762824195c8e816dd2a8effb1c65054">   35</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;EquipmentElement&gt; <a class="code hl_function" href="../../d0/d3e/a00253.html#ac762824195c8e816dd2a8effb1c65054">GetItems</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        List&lt;EquipmentElement&gt; listToReturn = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">if</span> (party == <span class="keyword">null</span>) <span class="keywordflow">return</span> listToReturn;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> party.MemberRoster.GetTroopRoster())</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            <span class="keywordflow">if</span> (element.Character is {IsHero: <span class="keyword">false</span>})</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                var list = <a class="code hl_class" href="../../db/d53/a00321.html">RecruitmentPatch</a>.<a class="code hl_function" href="../../db/d53/a00321.html#a65fbebe06c6502d391e7b532b64ed0ba">GetRecruitEquipments</a>(element.Character);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                <span class="keywordflow">for</span> (var i = 0; i &lt; element.Number; i++) listToReturn.AddRange(list);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> listToReturn;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#a3c29b542cbd4f6f753f86d538b81bbc7">   50</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;EquipmentElement&gt; <a class="code hl_function" href="../../d0/d3e/a00253.html#a3c29b542cbd4f6f753f86d538b81bbc7">GetRandomEquipmentsFromTroop</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        List&lt;EquipmentElement&gt; list = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">if</span> (party == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        var batchSize = 50 - (<a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0) * 10;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        var cnt = party.MemberRoster?.TotalManCount ?? 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        var rosterWithoutHeroes = party.MemberRoster?.GetTroopRoster()</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            ?.Where(member =&gt; !member.Character?.IsHero ?? <span class="keyword">false</span>)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            ?.ToArrayQ();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">if</span> (rosterWithoutHeroes == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                <span class="keywordflow">foreach</span> (var troopRosterElement <span class="keywordflow">in</span> troopRoster) {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                    <span class="keywordflow">if</span> (troopRosterElement.Number &lt;= 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    var character = troopRosterElement.Character;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                    <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                    var equipmentList = <a class="code hl_class" href="../../db/d53/a00321.html">RecruitmentPatch</a>.<a class="code hl_function" href="../../db/d53/a00321.html#a65fbebe06c6502d391e7b532b64ed0ba">GetRecruitEquipments</a>(character);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                    <span class="keywordflow">foreach</span> (var equipment <span class="keywordflow">in</span> equipmentList) {</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                        <span class="keywordflow">if</span> (equipment is not { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> }) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                        <a class="code hl_function" href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">AddEquipmentElement</a>(equipment, troopRosterElement.Number);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    }</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        }</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">   80</a></span>    <span class="keyword">public</span> <a class="code hl_property" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">ItemRoster</a> <a class="code hl_property" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">ItemRoster</a> {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keyword">get</span> {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <a class="code hl_property" href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">ItemRoster</a> roster = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a>)</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>                    <span class="keywordflow">if</span> (kvp.Key.Item != <span class="keyword">null</span> &amp;&amp; kvp.Value &gt; 0)</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>                        _ = roster.AddToCounts(kvp.Key, kvp.Value);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            }</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            <span class="keywordflow">return</span> roster;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        }</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keyword">set</span> {</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                <a class="code hl_variable" href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">_dict</a>.Clear();</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> value)</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                    <span class="keywordflow">if</span> (item.EquipmentElement is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> })</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                        <a class="code hl_function" href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">AddEquipmentElement</a>(item.EquipmentElement, item.Amount);</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            }</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        }</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a1aea499d12abd436cf568dd503c28326">  103</a></span>    <span class="keyword">public</span> Dictionary&lt;(uint, uint), <span class="keywordtype">int</span>&gt; <a class="code hl_function" href="../../dd/d4c/a00177.html#a1aea499d12abd436cf568dd503c28326">GenerateDataForSave</a>() {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        Dictionary&lt;(uint, uint), <span class="keywordtype">int</span>&gt; data = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> _dict) {</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                var item     = kvp.Key.Item;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                var modifier = kvp.Key.ItemModifier;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                var count    = kvp.Value;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || count &lt;= 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                data.Add((item.Id.InternalValue, modifier.Id.InternalValue), count);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>            }</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        }</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">return</span> data;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a2ef39838f15444c0d7d2f023b70b7be1">  120</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#a2ef39838f15444c0d7d2f023b70b7be1">AddItem</a>(ItemObject item, <span class="keywordtype">int</span> count = 1) {</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordflow">try</span> { AddEquipmentElement(<span class="keyword">new</span> EquipmentElement(item), count); }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    }</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">  125</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">AddEquipmentElement</a>(EquipmentElement equipmentElement, <span class="keywordtype">int</span> count = 1) {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            <span class="keywordflow">if</span> (equipmentElement is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> })</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                _ = _dict.AddOrUpdate(equipmentElement, count, (_, v) =&gt; v + count);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        }</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    }</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#af32f3b5e28d05a05c0b3e179092f6eee">  133</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#af32f3b5e28d05a05c0b3e179092f6eee">RemoveItem</a>(ItemObject item, <span class="keywordtype">int</span> cnt = 1) {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            ConcurrentDictionary&lt;EquipmentElement, int&gt; toRemove = <span class="keyword">new</span>();</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> _dict)</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>                <span class="keywordflow">if</span> (kvp.Key.Item == item) {</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>                    var cntToRemove = Math.Min(cnt, kvp.Value);</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>                    _   =  toRemove.AddOrUpdate(kvp.Key, cntToRemove, (_, v) =&gt; v + cntToRemove);</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>                    cnt -= cntToRemove;</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>                    <span class="keywordflow">if</span> (cnt &lt;= 0) <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                }</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> toRemove) RemoveEquipmentElement(kvp.Key, kvp.Value);</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        }</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    }</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a777002fdbfc7b7a1d341ccd5b5c1e54e">  149</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#a777002fdbfc7b7a1d341ccd5b5c1e54e">RemoveEquipmentElement</a>(EquipmentElement equipmentElement, <span class="keywordtype">int</span> cnt = 1) {</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            <span class="keywordflow">if</span> (equipmentElement is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> })</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>                <span class="keywordflow">if</span> (_dict.ContainsKey(equipmentElement)) {</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                    <span class="keywordflow">if</span> (_dict[equipmentElement] &lt; cnt) Global.Warn(<span class="stringliteral">&quot;greater than&quot;</span>);</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                    _dict[equipmentElement] -= cnt;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                    <span class="keywordflow">if</span> (_dict[equipmentElement] &lt;= 0) _ = _dict.TryRemove(equipmentElement, out _);</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                }</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        }</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#a123aac9d6972e06849cb12fdafdf9461">  162</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#a123aac9d6972e06849cb12fdafdf9461">HaveEquipmentElement</a>(EquipmentElement equipmentElement) {</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <span class="keywordflow">try</span> { <span class="keywordflow">return</span> _dict.ContainsKey(equipmentElement) &amp;&amp; _dict[equipmentElement] &gt; 0; }</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            Global.Error(e.Message);</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        }</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    }</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="../../dd/d4c/a00177.html#aaa7d9687a9b645584f6a81145afacb4b">  170</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../dd/d4c/a00177.html#aaa7d9687a9b645584f6a81145afacb4b">HaveItem</a>(ItemObject item) {</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordflow">try</span> { <span class="keywordflow">return</span> _dict.Any(kvp =&gt; kvp.Key.Item == item &amp;&amp; kvp.Value &gt; 0); }</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">catch</span> (Exception e) {</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            Global.Error(e.Message);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        }</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    }</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
-<div class="ttc" id="aa00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">Armory</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00014">Armory.cs:14</a></div></div>
-<div class="ttc" id="aa00177_html_a123aac9d6972e06849cb12fdafdf9461"><div class="ttname"><a href="../../dd/d4c/a00177.html#a123aac9d6972e06849cb12fdafdf9461">Armory.HaveEquipmentElement</a></div><div class="ttdeci">bool HaveEquipmentElement(EquipmentElement equipmentElement)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00162">Armory.cs:162</a></div></div>
-<div class="ttc" id="aa00177_html_a1aea499d12abd436cf568dd503c28326"><div class="ttname"><a href="../../dd/d4c/a00177.html#a1aea499d12abd436cf568dd503c28326">Armory.GenerateDataForSave</a></div><div class="ttdeci">Dictionary&lt;(uint, uint), int &gt; GenerateDataForSave()</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00103">Armory.cs:103</a></div></div>
-<div class="ttc" id="aa00177_html_a295a6f184982a23eeede65effef096f3"><div class="ttname"><a href="../../dd/d4c/a00177.html#a295a6f184982a23eeede65effef096f3">Armory.Party</a></div><div class="ttdeci">MobileParty? Party</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00054">Armory.cs:54</a></div></div>
-<div class="ttc" id="aa00177_html_a2b4b5008ef93d61ca69b1472f946bb95"><div class="ttname"><a href="../../dd/d4c/a00177.html#a2b4b5008ef93d61ca69b1472f946bb95">Armory._party</a></div><div class="ttdeci">MobileParty _party</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00017">Armory.cs:17</a></div></div>
-<div class="ttc" id="aa00177_html_a2ef39838f15444c0d7d2f023b70b7be1"><div class="ttname"><a href="../../dd/d4c/a00177.html#a2ef39838f15444c0d7d2f023b70b7be1">Armory.AddItem</a></div><div class="ttdeci">void AddItem(ItemObject item, int count=1)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00120">Armory.cs:120</a></div></div>
-<div class="ttc" id="aa00177_html_a35d6e499d37f4bdeb8d08bd22a87db2a"><div class="ttname"><a href="../../dd/d4c/a00177.html#a35d6e499d37f4bdeb8d08bd22a87db2a">Armory.Armory</a></div><div class="ttdeci">Armory(MobileParty party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00019">Armory.cs:19</a></div></div>
-<div class="ttc" id="aa00177_html_a650d60c4520088053ef976e107ce3c78"><div class="ttname"><a href="../../dd/d4c/a00177.html#a650d60c4520088053ef976e107ce3c78">Armory.Armory</a></div><div class="ttdeci">Armory(MobileParty party, ItemRoster itemRoster)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00048">Armory.cs:48</a></div></div>
-<div class="ttc" id="aa00177_html_a777002fdbfc7b7a1d341ccd5b5c1e54e"><div class="ttname"><a href="../../dd/d4c/a00177.html#a777002fdbfc7b7a1d341ccd5b5c1e54e">Armory.RemoveEquipmentElement</a></div><div class="ttdeci">void RemoveEquipmentElement(EquipmentElement equipmentElement, int cnt=1)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00149">Armory.cs:149</a></div></div>
-<div class="ttc" id="aa00177_html_a8d73cd7d89497ca0c8b4136669db0cf9"><div class="ttname"><a href="../../dd/d4c/a00177.html#a8d73cd7d89497ca0c8b4136669db0cf9">Armory.ItemRoster</a></div><div class="ttdeci">ItemRoster ItemRoster</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00080">Armory.cs:80</a></div></div>
-<div class="ttc" id="aa00177_html_a9a152317b74bba62617e2f7005525878"><div class="ttname"><a href="../../dd/d4c/a00177.html#a9a152317b74bba62617e2f7005525878">Armory._dict</a></div><div class="ttdeci">readonly ConcurrentDictionary&lt; EquipmentElement, int &gt; _dict</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00015">Armory.cs:15</a></div></div>
-<div class="ttc" id="aa00177_html_aaa7d9687a9b645584f6a81145afacb4b"><div class="ttname"><a href="../../dd/d4c/a00177.html#aaa7d9687a9b645584f6a81145afacb4b">Armory.HaveItem</a></div><div class="ttdeci">bool HaveItem(ItemObject item)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00170">Armory.cs:170</a></div></div>
-<div class="ttc" id="aa00177_html_ac799eedce820092ff32f055a69bd076f"><div class="ttname"><a href="../../dd/d4c/a00177.html#ac799eedce820092ff32f055a69bd076f">Armory.Armory</a></div><div class="ttdeci">Armory(MobileParty party, Dictionary&lt;(uint, uint), int &gt; loadedData)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00024">Armory.cs:24</a></div></div>
-<div class="ttc" id="aa00177_html_ae8197aee7cd3a671e70409caaecb20aa"><div class="ttname"><a href="../../dd/d4c/a00177.html#ae8197aee7cd3a671e70409caaecb20aa">Armory.AddEquipmentElement</a></div><div class="ttdeci">void AddEquipmentElement(EquipmentElement equipmentElement, int count=1)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00125">Armory.cs:125</a></div></div>
-<div class="ttc" id="aa00177_html_af32f3b5e28d05a05c0b3e179092f6eee"><div class="ttname"><a href="../../dd/d4c/a00177.html#af32f3b5e28d05a05c0b3e179092f6eee">Armory.RemoveItem</a></div><div class="ttdeci">void RemoveItem(ItemObject item, int cnt=1)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00133">Armory.cs:133</a></div></div>
-<div class="ttc" id="aa00321_html"><div class="ttname"><a href="../../db/d53/a00321.html">RecruitmentPatch</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2a/a00086_source.html#l00014">RecruitmentPatch.cs:14</a></div></div>
-<div class="ttc" id="aa00321_html_a65fbebe06c6502d391e7b532b64ed0ba"><div class="ttname"><a href="../../db/d53/a00321.html#a65fbebe06c6502d391e7b532b64ed0ba">RecruitmentPatch.GetRecruitEquipments</a></div><div class="ttdeci">static List&lt; EquipmentElement &gt; GetRecruitEquipments(CharacterObject? character)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2a/a00086_source.html#l00028">RecruitmentPatch.cs:28</a></div></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">for</span> (var i = 0; i &lt;= cnt / batchSize; i++)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            var equipmentElement = rosterWithoutHeroes.GetRandomElement()</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                .Character?.RandomBattleEquipment</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                ?.GetEquipmentFromSlot(Global.EquipmentSlots.GetRandomElement());</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="keywordflow">if</span> (equipmentElement is not {IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span>}) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            list.Add(equipmentElement.Value);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#a7552e05937a44b83bd234cf0e88357f3">   74</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;ItemObject&gt; <a class="code hl_function" href="../../d0/d3e/a00253.html#a7552e05937a44b83bd234cf0e88357f3">GetRandomEquipmentsFromClan</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">if</span> (party == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        var clanTier = party.GetClanTier() + (<a class="code hl_class" href="../../d3/d4a/a00297.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">Difficulty</a>.SelectedIndex ?? 0);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">for</span> (var i = 0; i &lt;= clanTier; i++)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            var items = <a class="code hl_class" href="../../d5/d13/a00205.html">Cache</a>.<a class="code hl_function" href="../../d5/d13/a00205.html#a11e8df5137b5a8bf6981579a06776471">GetItemsByTierAndCulture</a>(clanTier,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                party.Owner?.Clan?.Culture ?? party.LeaderHero?.Clan?.Culture);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordflow">if</span> (items == <span class="keyword">null</span> || items.IsEmpty()) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            list.Add(items.GetRandomElement());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="../../d0/d3e/a00253.html#a3d730a0ec69f4fcbf4230975a70aa36b">   92</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;ItemObject&gt; <a class="code hl_function" href="../../d0/d3e/a00253.html#a3d730a0ec69f4fcbf4230975a70aa36b">GetDailyEquipmentFromFiefs</a>(<span class="keyword">this</span> MobileParty? party)</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">if</span> (party == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        MBReadOnlyList&lt;Town&gt;? fiefs = (party.LeaderHero?.Clan ?? party.Owner?.Clan)?.Fiefs;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">if</span> (fiefs == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">foreach</span> (var town <span class="keywordflow">in</span> fiefs)</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">if</span> (town.IsTown || town.IsCastle)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                list.AddRange(town.GetRandomEquipments());</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="ttc" id="aa00205_html"><div class="ttname"><a href="../../d5/d13/a00205.html">Cache</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8b/a00059_source.html#l00014">Cache.cs:14</a></div></div>
+<div class="ttc" id="aa00205_html_a11e8df5137b5a8bf6981579a06776471"><div class="ttname"><a href="../../d5/d13/a00205.html#a11e8df5137b5a8bf6981579a06776471">Cache.GetItemsByTierAndCulture</a></div><div class="ttdeci">static ? ItemObject[] GetItemsByTierAndCulture(int tier, CultureObject? culture)</div><div class="ttdoc">根据物品类型、层级和文化获取物品数组。</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d8b/a00059_source.html#l00027">Cache.cs:27</a></div></div>
+<div class="ttc" id="aa00233_html"><div class="ttname"><a href="../../d6/de1/a00233.html">EveryoneCampaignBehavior</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00027">EveryoneCampaignBehavior.cs:27</a></div></div>
+<div class="ttc" id="aa00233_html_a17fa01c679fde70807b1d57508f795f1"><div class="ttname"><a href="../../d6/de1/a00233.html#a17fa01c679fde70807b1d57508f795f1">EveryoneCampaignBehavior.PartyArmories</a></div><div class="ttdeci">static Dictionary&lt; MBGUID, Dictionary&lt; ItemObject, int &gt; &gt; PartyArmories</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d81/a00110_source.html#l00028">EveryoneCampaignBehavior.cs:28</a></div></div>
+<div class="ttc" id="aa00253_html"><div class="ttname"><a href="../../d0/d3e/a00253.html">MobilePartyExtension</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00012">MobilePartyExtension.cs:13</a></div></div>
+<div class="ttc" id="aa00253_html_a3c29b542cbd4f6f753f86d538b81bbc7"><div class="ttname"><a href="../../d0/d3e/a00253.html#a3c29b542cbd4f6f753f86d538b81bbc7">MobilePartyExtension.GetRandomEquipmentsFromTroop</a></div><div class="ttdeci">static List&lt; EquipmentElement &gt; GetRandomEquipmentsFromTroop(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00050">MobilePartyExtension.cs:50</a></div></div>
+<div class="ttc" id="aa00253_html_a3d730a0ec69f4fcbf4230975a70aa36b"><div class="ttname"><a href="../../d0/d3e/a00253.html#a3d730a0ec69f4fcbf4230975a70aa36b">MobilePartyExtension.GetDailyEquipmentFromFiefs</a></div><div class="ttdeci">static List&lt; ItemObject &gt; GetDailyEquipmentFromFiefs(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00092">MobilePartyExtension.cs:92</a></div></div>
+<div class="ttc" id="aa00253_html_a4d2348a1a8b5b33264e19bac5357da0c"><div class="ttname"><a href="../../d0/d3e/a00253.html#a4d2348a1a8b5b33264e19bac5357da0c">MobilePartyExtension.IsValid</a></div><div class="ttdeci">static bool IsValid(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00022">MobilePartyExtension.cs:22</a></div></div>
+<div class="ttc" id="aa00253_html_a7552e05937a44b83bd234cf0e88357f3"><div class="ttname"><a href="../../d0/d3e/a00253.html#a7552e05937a44b83bd234cf0e88357f3">MobilePartyExtension.GetRandomEquipmentsFromClan</a></div><div class="ttdeci">static List&lt; ItemObject &gt; GetRandomEquipmentsFromClan(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00074">MobilePartyExtension.cs:74</a></div></div>
+<div class="ttc" id="aa00253_html_ac3ebfae7a5adfbcd0ad95e004e4a7f8e"><div class="ttname"><a href="../../d0/d3e/a00253.html#ac3ebfae7a5adfbcd0ad95e004e4a7f8e">MobilePartyExtension.GetClanTier</a></div><div class="ttdeci">static int GetClanTier(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00014">MobilePartyExtension.cs:14</a></div></div>
+<div class="ttc" id="aa00253_html_ac762824195c8e816dd2a8effb1c65054"><div class="ttname"><a href="../../d0/d3e/a00253.html#ac762824195c8e816dd2a8effb1c65054">MobilePartyExtension.GetItems</a></div><div class="ttdeci">static List&lt; EquipmentElement &gt; GetItems(this MobileParty? party)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dad/a00005_source.html#l00035">MobilePartyExtension.cs:35</a></div></div>
+<div class="ttc" id="aa00297_html"><div class="ttname"><a href="../../d3/d4a/a00297.html">ModSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d98/a00107_source.html#l00013">ModSettings.cs:13</a></div></div>
+<div class="ttc" id="aa00297_html_abd6758bfbaaea279c40442e0387286c5"><div class="ttname"><a href="../../d3/d4a/a00297.html#abd6758bfbaaea279c40442e0387286c5">ModSettings.Difficulty</a></div><div class="ttdeci">Dropdown&lt; string &gt; Difficulty</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d98/a00107_source.html#l00061">ModSettings.cs:61</a></div></div>
+<div class="ttc" id="aa00321_html"><div class="ttname"><a href="../../db/d53/a00321.html">RecruitmentPatch</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/de1/a00065_source.html#l00014">RecruitmentPatch.cs:14</a></div></div>
+<div class="ttc" id="aa00321_html_a65fbebe06c6502d391e7b532b64ed0ba"><div class="ttname"><a href="../../db/d53/a00321.html#a65fbebe06c6502d391e7b532b64ed0ba">RecruitmentPatch.GetRecruitEquipments</a></div><div class="ttdeci">static List&lt; EquipmentElement &gt; GetRecruitEquipments(CharacterObject? character)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/de1/a00065_source.html#l00028">RecruitmentPatch.cs:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
