@@ -38,7 +38,10 @@ public class DynamicTroopMissionLogic : MissionLogic {
 	public override void AfterStart() {
 		base.AfterStart();
 		Global.Log("AfterStart", Colors.Green, Level.Debug);
-		if (!Mission.DoesMissionRequireCivilianEquipment && Mission.CombatType == Mission.MissionCombatType.Combat) {
+		if (!Mission.DoesMissionRequireCivilianEquipment 
+			&& Mission.CombatType == Mission.MissionCombatType.Combat
+			&& Campaign.Current.MainParty != null
+			&& MapEvent.PlayerMapEvent != null) {
 			var tasks = new List<Task>();
 			Distributors.Add(Campaign.Current.MainParty.Id, new PartyEquipmentDistributor(Mission, Campaign.Current.MainParty, ArmyArmory.Armory));
 			foreach (var party in MapEvent.PlayerMapEvent.InvolvedParties) {
