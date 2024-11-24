@@ -46,7 +46,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="3.0.3" />
     <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" PrivateAssets="all" IncludeAssets="compile" />
     <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
@@ -227,6 +227,26 @@
 
     <ItemGroup>
         <None Remove="Bannerlord.DynamicTroop.Test\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Bannerlord.ButterLib" Version="2.9.18" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Bannerlord.MCM" Version="5.10.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.2.11.45697" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Bannerlord.UIExtenderEx" Version="2.12.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     </ItemGroup>
   
 </Project>
