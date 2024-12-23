@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35431.28
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTES2", "DTES2.csproj", "{90CDDE86-4B9A-4A49-8E6D-0FE7EDDA8A0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90CDDE86-4B9A-4A49-8E6D-0FE7EDDA8A0D}.Debug|x64.ActiveCfg = Debug|x64
+		{90CDDE86-4B9A-4A49-8E6D-0FE7EDDA8A0D}.Debug|x64.Build.0 = Debug|x64
+		{90CDDE86-4B9A-4A49-8E6D-0FE7EDDA8A0D}.Release|x64.ActiveCfg = Release|x64
+		{90CDDE86-4B9A-4A49-8E6D-0FE7EDDA8A0D}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED995EBC-9728-46EA-A581-BF3630E69903}
+	EndGlobalSection
+EndGlobal
