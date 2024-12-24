@@ -1,4 +1,3 @@
-﻿#region
 using System.Reflection;
 using Bannerlord.ButterLib.Common.Extensions;
 using Bannerlord.ButterLib.MBSubModuleBaseExtended;
@@ -10,41 +9,41 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
-#endregion
+
 namespace DTES2;
 
 public class SubModule : MBSubModuleBaseEx {
-	private readonly Harmony harmony = new Harmony("com.bannerlord.mod.dynamic_troop.v2");
+	private readonly Harmony harmony = new("com.bannerlord.mod.dynamic_troop.v2");
 
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
-		harmony.PatchAll(Assembly.GetExecutingAssembly());
-#if DEBUG
-		TestOn();
-#endif
+		this.harmony.PatchAll(Assembly.GetExecutingAssembly());
+	#if DEBUG
+		this.TestOn();
+	#endif
 	}
 
 	protected override void OnSubModuleUnloaded() {
 		base.OnSubModuleUnloaded();
-		harmony.UnpatchAll();
+		this.harmony.UnpatchAll();
 	}
 
-	protected override void OnBeforeInitialModuleScreenSetAsRoot() {
-		base.OnBeforeInitialModuleScreenSetAsRoot();
-	}
+	protected override void OnBeforeInitialModuleScreenSetAsRoot() => base.OnBeforeInitialModuleScreenSetAsRoot();
 
 	protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
 		base.OnGameStart(game, gameStarterObject);
-		if (game.GameType is Campaign && gameStarterObject is CampaignGameStarter gso) {
+		if (game.GameType is Campaign &&
+			gameStarterObject is CampaignGameStarter gso) {
 			gso.AddBehavior(new DTESCampaignBehavior());
 		}
 	}
 
 	public override void OnMissionBehaviorInitialize(Mission mission) {
-		if (
-			mission.CombatType == Mission.MissionCombatType.Combat && !mission.HasMissionBehavior<TournamentBehavior>() && !mission.HasMissionBehavior<CustomBattleAgentLogic>()
-			)
+		if (mission.CombatType == Mission.MissionCombatType.Combat &&
+			!mission.HasMissionBehavior<TournamentBehavior>()      &&
+			!mission.HasMissionBehavior<CustomBattleAgentLogic>()) {
 			mission.AddMissionBehavior(new DTESMissionLogic());
+		}
 
 		base.OnMissionBehaviorInitialize(mission);
 	}
@@ -53,9 +52,7 @@ public class SubModule : MBSubModuleBaseEx {
 		Harmony.DEBUG     = true;
 		FileLog.LogWriter = Logger.GetLogger("harmony");
 		Debug.DebugManager.SetTestModeEnabled(true);
-		this
-			.GetServices()
-			.AddSingleton(_ => new SerilogLoggerProvider(Logger.GetLogger("butterlib"), true));
+		_ = this.GetServices().AddSingleton(_ => new SerilogLoggerProvider(Logger.GetLogger("butterlib"), true));
 	}
 
 	public void TestOff() {

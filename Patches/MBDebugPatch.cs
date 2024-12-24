@@ -1,8 +1,7 @@
-#region
 using HarmonyLib;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
-#endregion
+
 namespace DTES2.Patches;
 
 [HarmonyPatch(typeof(MBDebug))]

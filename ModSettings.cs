@@ -1,7 +1,6 @@
-#region
 using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
-#endregion
+
 namespace DTES2;
 
 public class ModSettings {
@@ -17,15 +16,18 @@ public class ModSettings {
 	[SettingPropertyGroup("{=debug}Debug", GroupOrder = 1)]
 	public bool DebugMode
 	{
-		get { return _debugMode; }
+		get => this._debugMode;
+
 		set
 		{
-			if (_debugMode != value) {
-				_debugMode = value;
+			if (this._debugMode != value) {
+				this._debugMode = value;
 			}
-			if (_debugMode) {
+
+			if (this._debugMode) {
 				// TODO: test on
 			}
+
 			// TODO: test off
 		}
 	}
