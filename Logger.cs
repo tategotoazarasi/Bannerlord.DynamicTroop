@@ -37,32 +37,35 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	///     初始化`Logger`类的新实例。
 	/// </summary>
 	/// <param name="filename"> 日志文件名。 </param>
-	private Logger(string filename) : base(Stream.Null, new UTF8Encoding(false, true), 128, true) {
+	private Logger(string filename)
+		: base(Stream.Null, new UTF8Encoding(false, true), 128, true) {
 		_logger = new LoggerConfiguration()
-				  .MinimumLevel.Verbose()
-				  .Enrich.FromLogContext()
-				  .Enrich.With(new CallerInfoEnricher())
-				  .WriteTo.File(
-					  Path.Combine(Assembly.GetExecutingAssembly().Location,
-								   "Log",
-								   filename + ".log"
-					  ),
+				  .MinimumLevel
+				  .Verbose()
+				  .Enrich
+				  .FromLogContext()
+				  .Enrich
+				  .With(new CallerInfoEnricher())
+				  .WriteTo
+				  .File(
+					  Path.Combine(Assembly.GetExecutingAssembly().Location, "Log", filename + ".log"),
 					  rollingInterval: RollingInterval.Day,
-					  outputTemplate:
-					  "[{Timestamp:yyyy-MM-dd HH:mm:ss:fff}] [{Level:u3}] [{Class}:{Method}] [{File}:{Line}] {Message:l}{NewLine}{Exception}"
+					  outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss:fff}] [{Level:u3}] [{Class}:{Method}] [{File}:{Line}] {Message:l}{NewLine}{Exception}"
 				  )
-				  .WriteTo.File(new JsonFormatter(",\n"),
-								Path.Combine(Assembly.GetExecutingAssembly().Location,
-											 "Log",
-											 filename + ".json"
-								),
-								rollingInterval: RollingInterval.Day
+				  .WriteTo
+				  .File(
+					  new JsonFormatter(",\n"),
+					  Path.Combine(Assembly.GetExecutingAssembly().Location, "Log", filename + ".json"),
+					  rollingInterval: RollingInterval.Day
 				  )
 				  .CreateLogger();
 	}
 
 	// Implementing StreamWriter interface methods
-	public override Encoding Encoding { get { return Encoding.UTF8; } }
+	public override Encoding Encoding
+	{
+		get { return Encoding.UTF8; }
+	}
 
 	/// <summary>
 	///     获取单例实例。
@@ -71,7 +74,8 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	{
 		get
 		{
-			if (_instance == null) return _instance = new Logger("misc");
+			if (_instance == null)
+				return _instance = new Logger("misc");
 
 			return _instance;
 		}
@@ -99,20 +103,24 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	///     Represents a type used to perform logging.
 	/// </summary>
 	/// <remarks> Aggregates most logging patterns to a single method. </remarks>
-	void ILogger.Log<TState>(LogLevel                        logLevel,
-							 EventId                         eventId,
-							 TState                          state,
-							 Exception                       exception,
-							 Func<TState, Exception, string> formatter) {
-		if (!((ILogger)this).IsEnabled(logLevel)) return;
+	void ILogger.Log<TState>(
+		LogLevel                        logLevel,
+		EventId                         eventId,
+		TState                          state,
+		Exception                       exception,
+		Func<TState, Exception, string> formatter
+	) {
+		if (!((ILogger)this).IsEnabled(logLevel))
+			return;
 
 		var logEventLevel = ConvertLogLevel(logLevel);
 		var message       = formatter(state, exception);
-		var logEvent = new LogEvent(DateTimeOffset.Now,
-									logEventLevel,
-									exception,
-									new MessageTemplateParser().Parse(message),
-									new List<LogEventProperty>()
+		var logEvent = new LogEvent(
+			DateTimeOffset.Now,
+			logEventLevel,
+			exception,
+			new MessageTemplateParser().Parse(message),
+			new List<LogEventProperty>()
 		);
 
 		_logger.Write(logEvent);
@@ -142,14 +150,17 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// }
 	/// </code>
 	/// </example>
-	bool Serilog.ILogger.BindMessageTemplate(string                            messageTemplate,
-											 object[]                          properties,
-											 out MessageTemplate               parsedTemplate,
-											 out IEnumerable<LogEventProperty> boundProperties) {
-		return _logger.BindMessageTemplate(messageTemplate,
-										   properties,
-										   out parsedTemplate,
-										   out boundProperties
+	bool Serilog.ILogger.BindMessageTemplate(
+		string                            messageTemplate,
+		object[]                          properties,
+		out MessageTemplate               parsedTemplate,
+		out IEnumerable<LogEventProperty> boundProperties
+	) {
+		return _logger.BindMessageTemplate(
+			messageTemplate,
+			properties,
+			out parsedTemplate,
+			out boundProperties
 		);
 	}
 
@@ -171,10 +182,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	///     </summary>
 	///     methods never throw exceptions).
 	/// </returns>
-	bool Serilog.ILogger.BindProperty(string               propertyName,
-									  object               value,
-									  bool                 destructureObjects,
-									  out LogEventProperty property) {
+	bool Serilog.ILogger.BindProperty(
+		string               propertyName,
+		object               value,
+		bool                 destructureObjects,
+		out LogEventProperty property
+	) {
 		return _logger.BindProperty(propertyName, value, destructureObjects, out property);
 	}
 
@@ -187,7 +200,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug("Starting up at {StartedAt}.", DateTime.Now);
 	///  </code>
 	/// </example>
-	public void Debug(string message) { _logger.Debug(message); }
+	public void Debug(string message) {
+		_logger.Debug(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Debug" /> level and associated exception.
@@ -213,7 +228,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug(ex, "Swallowing a mundane exception.");
 	///  </code>
 	/// </example>
-	public void Debug(Exception exception, string message) { _logger.Debug(exception, message); }
+	public void Debug(Exception exception, string message) {
+		_logger.Debug(exception, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Debug" /> level and associated exception.
@@ -240,7 +257,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug("Starting up at {StartedAt}.", DateTime.Now);
 	///  </code>
 	/// </example>
-	public void Debug<T>(string message, T propertyValue) { _logger.Debug(message, propertyValue); }
+	public void Debug<T>(string message, T propertyValue) {
+		_logger.Debug(message, propertyValue);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Debug" /> level and associated exception.
@@ -269,7 +288,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug("Starting up at {StartedAt}.", DateTime.Now);
 	///  </code>
 	/// </example>
-	public void Debug<T0, T1, T2>(string message, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) {
+	public void Debug<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Debug(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -286,11 +310,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug(ex, "Swallowing a mundane exception.");
 	///  </code>
 	/// </example>
-	public void Debug<T0, T1, T2>(Exception exception,
-								  string    message,
-								  T0        propertyValue0,
-								  T1        propertyValue1,
-								  T2        propertyValue2) {
+	public void Debug<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Debug(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -321,7 +347,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Debug(ex, "Swallowing a mundane exception.");
 	///  </code>
 	/// </example>
-	public void Debug<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Debug<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Debug(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -334,7 +365,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error("Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error(string message) { _logger.Error(message); }
+	public void Error(string message) {
+		_logger.Error(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Error" /> level and associated exception.
@@ -360,7 +393,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error(ex, "Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error(Exception exception, string message) { _logger.Error(exception, message); }
+	public void Error(Exception exception, string message) {
+		_logger.Error(exception, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Error" /> level and associated exception.
@@ -387,7 +422,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error("Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error<T>(string message, T propertyValue) { _logger.Error(message, propertyValue); }
+	public void Error<T>(string message, T propertyValue) {
+		_logger.Error(message, propertyValue);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Error" /> level and associated exception.
@@ -416,7 +453,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error("Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error<T0, T1, T2>(string message, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) {
+	public void Error<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Error(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -433,11 +475,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error(ex, "Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error<T0, T1, T2>(Exception exception,
-								  string    message,
-								  T0        propertyValue0,
-								  T1        propertyValue1,
-								  T2        propertyValue2) {
+	public void Error<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Error(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -468,7 +512,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error(ex, "Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Error<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Error<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Error(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -481,7 +530,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal("Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal(string message) { _logger.Fatal(message); }
+	public void Fatal(string message) {
+		_logger.Fatal(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Fatal" /> level and associated exception.
@@ -507,7 +558,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal(ex, "Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal(Exception exception, string message) { _logger.Fatal(exception, message); }
+	public void Fatal(Exception exception, string message) {
+		_logger.Fatal(exception, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Fatal" /> level and associated exception.
@@ -534,7 +587,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal("Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal<T>(string message, T propertyValue) { _logger.Fatal(message, propertyValue); }
+	public void Fatal<T>(string message, T propertyValue) {
+		_logger.Fatal(message, propertyValue);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Fatal" /> level and associated exception.
@@ -563,7 +618,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal("Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal<T0, T1, T2>(string message, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) {
+	public void Fatal<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Fatal(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -580,11 +640,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal(ex, "Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal<T0, T1, T2>(Exception exception,
-								  string    message,
-								  T0        propertyValue0,
-								  T1        propertyValue1,
-								  T2        propertyValue2) {
+	public void Fatal<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Fatal(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -615,7 +677,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Fatal(ex, "Process terminating.");
 	///  </code>
 	/// </example>
-	public void Fatal<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Fatal<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Fatal(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -647,7 +714,11 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	///     possible; if <see langword="false" />, the object will be recorded as a scalar or simple array.
 	/// </param>
 	/// <returns> A logger that will enrich log events as specified. </returns>
-	Serilog.ILogger Serilog.ILogger.ForContext(string propertyName, object value, bool destructureObjects) {
+	Serilog.ILogger Serilog.ILogger.ForContext(
+		string propertyName,
+		object value,
+		bool   destructureObjects
+	) {
 		return _logger.ForContext(propertyName, value, destructureObjects);
 	}
 
@@ -678,7 +749,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Information("Processed {RecordCount} records in {TimeMS}.", records.Length, sw.ElapsedMilliseconds);
 	///  </code>
 	/// </example>
-	public void Information(string message) { _logger.Information(message); }
+	public void Information(string message) {
+		_logger.Information(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Information" /> level and associated exception.
@@ -764,10 +837,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Information("Processed {RecordCount} records in {TimeMS}.", records.Length, sw.ElapsedMilliseconds);
 	///  </code>
 	/// </example>
-	public void Information<T0, T1, T2>(string message,
-										T0     propertyValue0,
-										T1     propertyValue1,
-										T2     propertyValue2) {
+	public void Information<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Information(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -784,11 +859,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Information(ex, "Processed {RecordCount} records in {TimeMS}.", records.Length, sw.ElapsedMilliseconds);
 	///  </code>
 	/// </example>
-	public void Information<T0, T1, T2>(Exception exception,
-										string    message,
-										T0        propertyValue0,
-										T1        propertyValue1,
-										T2        propertyValue2) {
+	public void Information<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Information(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -819,7 +896,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Information(ex, "Processed {RecordCount} records in {TimeMS}.", records.Length, sw.ElapsedMilliseconds);
 	///  </code>
 	/// </example>
-	public void Information<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Information<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Information(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -841,7 +923,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose("Staring into space, wondering if we're alone.");
 	///  </code>
 	/// </example>
-	public void Verbose(string message) { _logger.Verbose(message); }
+	public void Verbose(string message) {
+		_logger.Verbose(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Verbose" /> level and associated exception.
@@ -867,7 +951,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose(ex, "Staring into space, wondering where this comet came from.");
 	///  </code>
 	/// </example>
-	public void Verbose(Exception exception, string message) { _logger.Verbose(exception, message); }
+	public void Verbose(Exception exception, string message) {
+		_logger.Verbose(exception, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Verbose" /> level and associated exception.
@@ -894,7 +980,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose("Staring into space, wondering if we're alone.");
 	///  </code>
 	/// </example>
-	public void Verbose<T>(string message, T propertyValue) { _logger.Verbose(message, propertyValue); }
+	public void Verbose<T>(string message, T propertyValue) {
+		_logger.Verbose(message, propertyValue);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Verbose" /> level and associated exception.
@@ -923,7 +1011,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose("Staring into space, wondering if we're alone.");
 	///  </code>
 	/// </example>
-	public void Verbose<T0, T1, T2>(string message, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) {
+	public void Verbose<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Verbose(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -940,11 +1033,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose(ex, "Staring into space, wondering where this comet came from.");
 	///  </code>
 	/// </example>
-	public void Verbose<T0, T1, T2>(Exception exception,
-									string    message,
-									T0        propertyValue0,
-									T1        propertyValue1,
-									T2        propertyValue2) {
+	public void Verbose<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Verbose(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -975,7 +1070,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Verbose(ex, "Staring into space, wondering where this comet came from.");
 	///  </code>
 	/// </example>
-	public void Verbose<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Verbose<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Verbose(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -988,7 +1088,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Warning("Skipped {SkipCount} records.", skippedRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning(string message) { _logger.Warning(message); }
+	public void Warning(string message) {
+		_logger.Warning(message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Warning" /> level and associated exception.
@@ -1014,7 +1116,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Warning(ex, "Skipped {SkipCount} records.", skippedRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning(Exception exception, string message) { _logger.Warning(exception, message); }
+	public void Warning(Exception exception, string message) {
+		_logger.Warning(exception, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Warning" /> level and associated exception.
@@ -1041,7 +1145,9 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Error("Failed {ErrorCount} records.", brokenRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning<T>(string message, T propertyValue) { _logger.Warning(message, propertyValue); }
+	public void Warning<T>(string message, T propertyValue) {
+		_logger.Warning(message, propertyValue);
+	}
 
 	/// <summary>
 	///     Write a log event with the <see cref="LogEventLevel.Warning" /> level and associated exception.
@@ -1070,7 +1176,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Warning("Skipped {SkipCount} records.", skippedRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning<T0, T1, T2>(string message, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2) {
+	public void Warning<T0, T1, T2>(
+		string message,
+		T0     propertyValue0,
+		T1     propertyValue1,
+		T2     propertyValue2
+	) {
 		_logger.Warning(message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -1087,11 +1198,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Warning(ex, "Skipped {SkipCount} records.", skippedRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning<T0, T1, T2>(Exception exception,
-									string    message,
-									T0        propertyValue0,
-									T1        propertyValue1,
-									T2        propertyValue2) {
+	public void Warning<T0, T1, T2>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1,
+		T2        propertyValue2
+	) {
 		_logger.Warning(exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -1122,7 +1235,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// Log.Warning(ex, "Skipped {SkipCount} records.", skippedRecords.Length);
 	///  </code>
 	/// </example>
-	public void Warning<T0, T1>(Exception exception, string message, T0 propertyValue0, T1 propertyValue1) {
+	public void Warning<T0, T1>(
+		Exception exception,
+		string    message,
+		T0        propertyValue0,
+		T1        propertyValue1
+	) {
 		_logger.Warning(exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -1130,14 +1248,18 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	///     Write an event to the log.
 	/// </summary>
 	/// <param name="logEvent"> The event to write. </param>
-	void Serilog.ILogger.Write(LogEvent logEvent) { _logger.Write(logEvent); }
+	void Serilog.ILogger.Write(LogEvent logEvent) {
+		_logger.Write(logEvent);
+	}
 
 	/// <summary>
 	///     Write a log event with the specified level.
 	/// </summary>
 	/// <param name="level">   The level of the event. </param>
 	/// <param name="message"> Message template describing the event. </param>
-	void Serilog.ILogger.Write(LogEventLevel level, string message) { _logger.Write(level, message); }
+	void Serilog.ILogger.Write(LogEventLevel level, string message) {
+		_logger.Write(level, message);
+	}
 
 	/// <summary>
 	///     Write a log event with the specified level.
@@ -1166,10 +1288,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="exception">      Exception related to the event. </param>
 	/// <param name="message">        Message template describing the event. </param>
 	/// <param name="propertyValues"> Objects positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write(LogEventLevel   level,
-							   Exception       exception,
-							   string          message,
-							   params object[] propertyValues) {
+	void Serilog.ILogger.Write(
+		LogEventLevel   level,
+		Exception       exception,
+		string          message,
+		params object[] propertyValues
+	) {
 		_logger.Write(level, exception, message, propertyValues);
 	}
 
@@ -1190,7 +1314,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="exception">     Exception related to the event. </param>
 	/// <param name="message">       Message template describing the event. </param>
 	/// <param name="propertyValue"> Object positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write<T>(LogEventLevel level, Exception exception, string message, T propertyValue) {
+	void Serilog.ILogger.Write<T>(
+		LogEventLevel level,
+		Exception     exception,
+		string        message,
+		T             propertyValue
+	) {
 		_logger.Write(level, exception, message, propertyValue);
 	}
 
@@ -1202,11 +1331,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="propertyValue0"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue1"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue2"> Object positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write<T0, T1, T2>(LogEventLevel level,
-										   string        message,
-										   T0            propertyValue0,
-										   T1            propertyValue1,
-										   T2            propertyValue2) {
+	void Serilog.ILogger.Write<T0, T1, T2>(
+		LogEventLevel level,
+		string        message,
+		T0            propertyValue0,
+		T1            propertyValue1,
+		T2            propertyValue2
+	) {
 		_logger.Write(level, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -1219,12 +1350,14 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="propertyValue0"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue1"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue2"> Object positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write<T0, T1, T2>(LogEventLevel level,
-										   Exception     exception,
-										   string        message,
-										   T0            propertyValue0,
-										   T1            propertyValue1,
-										   T2            propertyValue2) {
+	void Serilog.ILogger.Write<T0, T1, T2>(
+		LogEventLevel level,
+		Exception     exception,
+		string        message,
+		T0            propertyValue0,
+		T1            propertyValue1,
+		T2            propertyValue2
+	) {
 		_logger.Write(level, exception, message, propertyValue0, propertyValue1, propertyValue2);
 	}
 
@@ -1235,10 +1368,12 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="message">        Message template describing the event. </param>
 	/// <param name="propertyValue0"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue1"> Object positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write<T0, T1>(LogEventLevel level,
-									   string        message,
-									   T0            propertyValue0,
-									   T1            propertyValue1) {
+	void Serilog.ILogger.Write<T0, T1>(
+		LogEventLevel level,
+		string        message,
+		T0            propertyValue0,
+		T1            propertyValue1
+	) {
 		_logger.Write(level, message, propertyValue0, propertyValue1);
 	}
 
@@ -1250,11 +1385,13 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="message">        Message template describing the event. </param>
 	/// <param name="propertyValue0"> Object positionally formatted into the message template. </param>
 	/// <param name="propertyValue1"> Object positionally formatted into the message template. </param>
-	void Serilog.ILogger.Write<T0, T1>(LogEventLevel level,
-									   Exception     exception,
-									   string        message,
-									   T0            propertyValue0,
-									   T1            propertyValue1) {
+	void Serilog.ILogger.Write<T0, T1>(
+		LogEventLevel level,
+		Exception     exception,
+		string        message,
+		T0            propertyValue0,
+		T1            propertyValue1
+	) {
 		_logger.Write(level, exception, message, propertyValue0, propertyValue1);
 	}
 
@@ -1264,7 +1401,8 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 	/// <param name="name"> 日志记录器的名称。 </param>
 	/// <returns> 指定名称的日志记录器实例。 </returns>
 	public static Logger GetLogger(string name) {
-		if (!_loggers.ContainsKey(name)) _loggers.Add(name, new Logger(name));
+		if (!_loggers.ContainsKey(name))
+			_loggers.Add(name, new Logger(name));
 
 		return _loggers[name];
 	}
@@ -1286,14 +1424,23 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 			   };
 	}
 
-	public override void WriteLine(string value) { Debug(value); }
+	public override void WriteLine(string value) {
+		Debug(value);
+	}
 
 	/**
  * @class CallerInfoEnricher
  * @brief 提供日志事件丰富功能的类，添加调用者信息。
  */
 	public class CallerInfoEnricher : ILogEventEnricher {
-		private readonly string[] skipWords = { "log", "debug", "postfix", "prefix", "harmony", "error" };
+		private readonly string[] skipWords = {
+												  "log",
+												  "debug",
+												  "postfix",
+												  "prefix",
+												  "harmony",
+												  "error"
+											  };
 
 		/**
 		 * @brief 丰富日志事件，添加调用者信息。
@@ -1315,18 +1462,22 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 
 					// Check if the class name or method name contains "log"
 					foreach (var skipWord in skipWords) {
-						if (!className.ToLower().Contains(skipWord) && !methodName.ToLower().Contains(skipWord)) {
+						if (
+							!className.ToLower().Contains(skipWord) && !methodName.ToLower().Contains(skipWord)
+							) {
 							frame = tempFrame;
 							flag  = true;
 							break;
 						}
 					}
 
-					if (flag) break;
+					if (flag)
+						break;
 				}
 			}
 
-			if (frame == null) return; // No suitable frame found
+			if (frame == null)
+				return; // No suitable frame found
 
 			var finalMethod = frame.GetMethod();
 
@@ -1338,7 +1489,8 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 												propertyFactory.CreateProperty("Line",   frame.GetFileLineNumber())
 											};
 
-			foreach (var property in properties) logEvent.AddPropertyIfAbsent(property); // 添加属性
+			foreach (var property in properties)
+				logEvent.AddPropertyIfAbsent(property); // 添加属性
 		}
 	}
 

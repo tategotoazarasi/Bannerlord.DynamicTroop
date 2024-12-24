@@ -11,7 +11,12 @@ internal class MBDebugPatch {
 
 	[HarmonyPrefix]
 	[HarmonyPatch(nameof(MBDebug.Print))]
-	private static bool PrefixPrint(string message, int logLevel, Debug.DebugColor color, ulong debugFilter) {
+	private static bool PrefixPrint(
+		string           message,
+		int              logLevel,
+		Debug.DebugColor color,
+		ulong            debugFilter
+	) {
 		_logger.Debug(message);
 		return false;
 	}

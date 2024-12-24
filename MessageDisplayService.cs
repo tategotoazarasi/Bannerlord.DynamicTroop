@@ -11,18 +11,22 @@ namespace DTES2;
 ///     消息显示服务，用于在游戏中显示消息。
 /// </summary>
 public static class MessageDisplayService {
-	private static readonly ConcurrentQueue<InformationMessage> MessageQueue = new ConcurrentQueue<InformationMessage>();
+	private static readonly ConcurrentQueue<InformationMessage> MessageQueue =
+		new ConcurrentQueue<InformationMessage>();
 	private static readonly AutoResetEvent MessageAvailable = new AutoResetEvent(false);
-	private static readonly CancellationTokenSource CancellationTokenSource = new CancellationTokenSource();
+	private static readonly CancellationTokenSource CancellationTokenSource =
+		new CancellationTokenSource();
 
 	/// <summary>
 	///     静态构造函数，初始化并启动消息处理任务。
 	/// </summary>
 	static MessageDisplayService() {
-		Task.Factory.StartNew(ProcessMessages,
-							  CancellationTokenSource.Token,
-							  TaskCreationOptions.LongRunning,
-							  TaskScheduler.Default);
+		Task.Factory.StartNew(
+			ProcessMessages,
+			CancellationTokenSource.Token,
+			TaskCreationOptions.LongRunning,
+			TaskScheduler.Default
+		);
 	}
 
 	/// <summary>
