@@ -1,10 +1,7 @@
 using System.Reflection;
-using Bannerlord.ButterLib.Common.Extensions;
 using Bannerlord.ButterLib.MBSubModuleBaseExtended;
 using HarmonyLib;
-using Microsoft.Extensions.DependencyInjection;
 using SandBox.Tournaments.MissionLogics;
-using Serilog.Extensions.Logging;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -17,6 +14,7 @@ public class SubModule : MBSubModuleBaseEx {
 
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
+		Logger.Instance.Information("Loaded");
 		this.harmony.PatchAll(Assembly.GetExecutingAssembly());
 	#if DEBUG
 		this.TestOn();
@@ -52,7 +50,7 @@ public class SubModule : MBSubModuleBaseEx {
 		Harmony.DEBUG     = true;
 		FileLog.LogWriter = Logger.GetLogger("harmony");
 		Debug.DebugManager.SetTestModeEnabled(true);
-		_ = this.GetServices().AddSingleton(_ => new SerilogLoggerProvider(Logger.GetLogger("butterlib"), true));
+		//_ = this.GetServices()?.AddSingleton(_ => new SerilogLoggerProvider(Logger.GetLogger("butterlib"), true));
 	}
 
 	public void TestOff() {

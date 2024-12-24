@@ -50,7 +50,11 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 						  With(new CallerInfoEnricher()).
 						  WriteTo.
 						  File(
-							  Path.Combine(Assembly.GetExecutingAssembly().Location, "Log", filename + ".log"),
+							  Path.Combine(
+								  Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+								  "../../Log",
+								  filename + ".log"
+							  ),
 							  rollingInterval: RollingInterval.Day,
 							  outputTemplate:
 							  "[{Timestamp:yyyy-MM-dd HH:mm:ss:fff}] [{Level:u3}] [{Class}:{Method}] [{File}:{Line}] {Message:l}{NewLine}{Exception}"
@@ -58,7 +62,11 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 						  WriteTo.
 						  File(
 							  new JsonFormatter(",\n"),
-							  Path.Combine(Assembly.GetExecutingAssembly().Location, "Log", filename + ".json"),
+							  Path.Combine(
+								  Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+								  "../../Log",
+								  filename + ".json"
+							  ),
 							  rollingInterval: RollingInterval.Day
 						  ).
 						  CreateLogger();
