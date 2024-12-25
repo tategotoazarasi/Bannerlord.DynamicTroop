@@ -1,12 +1,11 @@
-using System;
+#region
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.MountAndBlade.View;
-
+#endregion
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
@@ -32,20 +31,14 @@ public class DTESMissionLogic : MissionLogic {
 
 		MetaMesh copy            = MetaMesh.GetCopy("troop_banner_selection", false, true);
 		Material tableauMaterial = Material.GetFromResource("agent_label_with_tableau");
-		Texture  texture         = banner.GetTableauTextureSmall(null);
 		if (copy            != null &&
 			tableauMaterial != null) {
-			Texture  fromResource = Texture.GetFromResource("banner_top_of_head");
-			Material material;
-
-			tableauMaterial = tableauMaterial.CreateCopy();
-			Action<Texture> action = delegate(Texture tex) {
-										 tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap, tex);
-									 };
-			texture = banner.GetTableauTextureSmall(action);
+			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
 		}
-
+		else {
+			return;
+		}
 		copy.SetMaterial(tableauMaterial);
 		copy.SetVectorArgument(
 			0.5f,
@@ -60,9 +53,6 @@ public class DTESMissionLogic : MissionLogic {
 			-1f
 		);
 		agent.AgentVisuals.AddMultiMesh(copy, BodyMeshTypes.Label);
-		//this._agentMeshes.Add(agent, copy);
-		//this.UpdateVisibilityOfAgentMesh(agent);
-		//this.UpdateSelectionVisibility(agent, this._agentMeshes[agent], new bool?(false));
 	}
 
 

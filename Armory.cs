@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-
+#endregion
 namespace DTES2;
 
 [Serializable]
@@ -69,5 +70,13 @@ public class Armory {
 		}
 
 		//TODO
+	}
+
+	public ItemRoster ToItemRoster() {
+		ItemRoster itemRoster = new ItemRoster();
+		foreach (KeyValuePair<EquipmentElement, int> pair in this._data) {
+			itemRoster.AddToCounts(pair.Key, pair.Value);
+		}
+		return itemRoster;
 	}
 }
