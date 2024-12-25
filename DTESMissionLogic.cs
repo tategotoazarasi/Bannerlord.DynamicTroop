@@ -1,11 +1,10 @@
-#region
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
-#endregion
+
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
@@ -19,6 +18,7 @@ public class DTESMissionLogic : MissionLogic {
 			foreach (PartyBase? party in MapEvent.PlayerMapEvent.InvolvedParties) {
 				Logger.Instance.Information(party.Name.ToString());
 			}
+
 			// TODO
 		}
 	}
@@ -35,10 +35,10 @@ public class DTESMissionLogic : MissionLogic {
 			tableauMaterial != null) {
 			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
-		}
-		else {
+		} else {
 			return;
 		}
+
 		copy.SetMaterial(tableauMaterial);
 		copy.SetVectorArgument(
 			0.5f,
@@ -55,7 +55,6 @@ public class DTESMissionLogic : MissionLogic {
 		agent.AgentVisuals.AddMultiMesh(copy, BodyMeshTypes.Label);
 	}
 
-
 	public override void OnAgentBuild(Agent agent, Banner banner) {
 		base.OnAgentBuild(agent, banner);
 		if (agent is { IsHuman: true, Character: not null }) {
@@ -63,7 +62,7 @@ public class DTESMissionLogic : MissionLogic {
 			Equipment eq = agent.Character.Equipment.Clone();
 			agent.UpdateSpawnEquipmentAndRefreshVisuals(eq);
 			this.InitAgentLabel(agent, banner);
-			agent.AgentVisuals.CheckResources(true);
+			_ = agent.AgentVisuals.CheckResources(true);
 		}
 	}
 }

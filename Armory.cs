@@ -1,4 +1,3 @@
-#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-#endregion
+
 namespace DTES2;
 
 [Serializable]
@@ -17,6 +16,21 @@ public class Armory {
 	private readonly ConcurrentDictionary<EquipmentElement, int> _data = new();
 
 	private readonly MobileParty? _party;
+
+	public Armory() { }
+
+	public Armory(MobileParty party) => this._party = party;
+
+	public void FillFromRoster(IEnumerable<ItemRosterElement> roster) {
+		this._data.Clear();
+		roster.
+			AsParallel().
+			ForAll(
+				element => {
+					this.Store(element.EquipmentElement, element.Amount);
+				}
+			);
+	}
 
 	public void Store(EquipmentElement equipmentElement, int amount = 1) {
 		_ = this._data.TryGetValue(equipmentElement, out int currentAmount);
@@ -73,10 +87,33 @@ public class Armory {
 	}
 
 	public ItemRoster ToItemRoster() {
-		ItemRoster itemRoster = new ItemRoster();
+		ItemRoster itemRoster = [];
 		foreach (KeyValuePair<EquipmentElement, int> pair in this._data) {
-			itemRoster.AddToCounts(pair.Key, pair.Value);
+			_ = itemRoster.AddToCounts(pair.Key, pair.Value);
 		}
+
 		return itemRoster;
+	}
+
+	public List<SaveableArmoryEntry> ToSavable() {
+		List<SaveableArmoryEntry> data = [];
+		foreach (KeyValuePair<EquipmentElement, int> pair in this._data) {
+			data.Add(new SaveableArmoryEntry(pair.Key, pair.Value));
+		}
+
+		return data;
+	}
+
+	public void FromSavable(List<SaveableArmoryEntry> data) {
+		this._data.Clear();
+		foreach (SaveableArmoryEntry entry in data) {
+			this.Store(entry.Element, entry.Amount);
+		}
+	}
+
+	public void DebugPrint() {
+		foreach (KeyValuePair<EquipmentElement, int> pair in this._data) {
+			Logger.Instance.Information($"{pair.Key.Item?.StringId ?? "unknown"}, {pair.Value}");
+		}
 	}
 }

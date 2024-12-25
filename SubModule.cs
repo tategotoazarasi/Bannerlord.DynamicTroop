@@ -24,6 +24,8 @@ public class SubModule : MBSubModuleBaseEx {
 	protected override void OnSubModuleUnloaded() {
 		base.OnSubModuleUnloaded();
 		this.harmony.UnpatchAll();
+		MessageDisplayService.StopService();
+		this.TestOff();
 	}
 
 	protected override void OnBeforeInitialModuleScreenSetAsRoot() => base.OnBeforeInitialModuleScreenSetAsRoot();
@@ -50,6 +52,7 @@ public class SubModule : MBSubModuleBaseEx {
 		Harmony.DEBUG     = true;
 		FileLog.LogWriter = Logger.GetLogger("harmony");
 		Debug.DebugManager.SetTestModeEnabled(true);
+
 		//_ = this.GetServices()?.AddSingleton(_ => new SerilogLoggerProvider(Logger.GetLogger("butterlib"), true));
 	}
 
