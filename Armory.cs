@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,12 +9,13 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-
+#endregion
 namespace DTES2;
 
 [Serializable]
 public class Armory {
-	private readonly ConcurrentDictionary<EquipmentElement, int> _data = new();
+	private readonly ConcurrentDictionary<EquipmentElement, int> _data =
+		new ConcurrentDictionary<EquipmentElement, int>();
 
 	private readonly MobileParty? _party;
 
@@ -44,7 +46,7 @@ public class Armory {
 
 	public void Store(ItemObject item, int amount = 1) {
 		if (amount >= 0) {
-			EquipmentElement equipment = new(item);
+			EquipmentElement equipment = new EquipmentElement(item);
 			this.Store(equipment, amount);
 		}
 
@@ -73,6 +75,14 @@ public class Armory {
 				res.Add(character, new List<Equipment>(element.Number - element.WoundedNumber));
 			}
 		}
+
+		EquipmentElement[]? ordered = this.
+									  _data.
+									  Keys.
+									  AsParallel().
+									  Where(a => a.Item.ItemType == ItemObject.ItemTypeEnum.BodyArmor).
+									  OrderByQ(a => a.Item.Effectiveness).
+									  ToArrayQ();
 
 		// TODO
 		return res;
