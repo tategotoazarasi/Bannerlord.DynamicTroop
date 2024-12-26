@@ -12,6 +12,71 @@ using Serilog.Formatting.Json;
 using Serilog.Parsing;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
+/**
+ * @class CallerInfoEnricher
+ * @brief 提供日志事件丰富功能的类，添加调用者信息。
+ */
+public class CallerInfoEnricher : ILogEventEnricher {
+	/**
+	 * @brief 丰富日志事件，添加调用者信息。
+	 * @param logEvent 要丰富的日志事件。
+	 * @param propertyFactory 用于创建日志事件属性的工厂。
+	 */
+	public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory) {
+		// Create StackTrace object only once
+		StackTrace stackTrace = new(true);
+
+		// Start looking from the first frame (index 0) and adjust as needed
+		StackFrame? frame          = null;
+		bool        loggerFound    = false; // Flag to indicate if the Logger class has been encountered
+		string      loggerTypeName = typeof(Logger).FullName; // Get the full name of the Logger class
+
+		for (int i = 0; i < stackTrace.FrameCount; i++) {
+			StackFrame  tempFrame = stackTrace.GetFrame(i);
+			MethodBase? method    = tempFrame.GetMethod();
+
+			if (method != null) {
+				string typeName = method.DeclaringType?.FullName ?? string.Empty;
+
+				// Check if the current frame's type is the Logger class
+				if (typeName == loggerTypeName) {
+					loggerFound = true; // Set the flag when the Logger class is found
+				}
+
+				// Check if the Logger class has been found and the current frame is not the Logger class
+				if (loggerFound && typeName != loggerTypeName) {
+					frame = tempFrame;
+					break;
+				}
+			}
+		}
+
+		if (frame == null) {
+			return; // No suitable frame found
+		}
+
+		MethodBase? finalMethod = frame.GetMethod();
+
+		// Create properties for the selected stack frame
+		LogEventProperty[] properties = {
+											propertyFactory.CreateProperty(
+												"Class",
+												finalMethod?.DeclaringType?.FullName ?? ""
+											),
+											propertyFactory.CreateProperty("Method", finalMethod?.Name ?? ""),
+											propertyFactory.CreateProperty(
+												"File",
+												Path.GetFileName(frame.GetFileName())
+											),
+											propertyFactory.CreateProperty("Line", frame.GetFileLineNumber())
+										};
+
+		foreach (LogEventProperty property in properties) {
+			logEvent.AddPropertyIfAbsent(property); // 添加属性
+		}
+	}
+}
+
 /// <summary>
 ///     日志记录器类，实现了`Microsoft.Extensions.Logging.ILogger`和`Serilog.ILogger`接口。 提供日志记录功能，包括文本和JSON格式的日志文件。
 /// </summary>
@@ -1445,80 +1510,6 @@ public class Logger : StreamWriter, ILogger, Serilog.ILogger {
 		   };
 
 	public override void WriteLine(string value) => this.Debug(value);
-
-	/**
-	 * @class CallerInfoEnricher
-	 * @brief 提供日志事件丰富功能的类，添加调用者信息。
-	 */
-	public class CallerInfoEnricher : ILogEventEnricher {
-		private readonly string[] skipWords = {
-												  "log",
-												  "debug",
-												  "postfix",
-												  "prefix",
-												  "harmony",
-												  "error"
-											  };
-
-		/**
-		 * @brief 丰富日志事件，添加调用者信息。
-		 * @param logEvent 要丰富的日志事件。
-		 * @param propertyFactory 用于创建日志事件属性的工厂。
-		 */
-		public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory) {
-			// Start looking from the third frame
-			StackFrame? frame = null;
-			for (int i = 3; i < new StackTrace().FrameCount; i++) {
-				StackFrame  tempFrame = new(i, true);
-				MethodBase? method    = tempFrame.GetMethod();
-
-				if (method != null) {
-					string className  = method.DeclaringType?.FullName ?? string.Empty;
-					string methodName = method.Name;
-
-					bool flag = false;
-
-					// Check if the class name or method name contains "log"
-					foreach (string skipWord in this.skipWords) {
-						if (!className.ToLower().Contains(skipWord) &&
-							!methodName.ToLower().Contains(skipWord)) {
-							frame = tempFrame;
-							flag  = true;
-							break;
-						}
-					}
-
-					if (flag) {
-						break;
-					}
-				}
-			}
-
-			if (frame == null) {
-				return; // No suitable frame found
-			}
-
-			MethodBase? finalMethod = frame.GetMethod();
-
-			// Create properties for the selected stack frame
-			LogEventProperty[] properties = {
-												propertyFactory.CreateProperty(
-													"Class",
-													finalMethod.DeclaringType?.FullName ?? ""
-												),
-												propertyFactory.CreateProperty("Method", finalMethod.Name),
-												propertyFactory.CreateProperty(
-													"File",
-													Path.GetFileName(frame.GetFileName())
-												),
-												propertyFactory.CreateProperty("Line", frame.GetFileLineNumber())
-											};
-
-			foreach (LogEventProperty property in properties) {
-				logEvent.AddPropertyIfAbsent(property); // 添加属性
-			}
-		}
-	}
 
 	/// <summary>
 	///     空实现的可释放作用域类。

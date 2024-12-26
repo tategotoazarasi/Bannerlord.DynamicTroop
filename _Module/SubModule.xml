@@ -13,7 +13,7 @@
         <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.3.3" />
         <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.9.18" />
         <DependedModule Id="Bannerlord.UIExtenderEx" DependentVersion="v2.12.0" />
-        <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.10.2" />
+        <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.10.1" />
         <DependedModule Id="Native" DependentVersion="$gameversion$" />
         <DependedModule Id="SandBoxCore" DependentVersion="$gameversion$" />
         <DependedModule Id="Sandbox" DependentVersion="$gameversion$" />
@@ -26,7 +26,7 @@
         <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis" version="v2.3.3" />
         <DependedModuleMetadata id="Bannerlord.ButterLib" order="LoadBeforeThis" version="v2.9.18" />
         <DependedModuleMetadata id="Bannerlord.UIExtenderEx" order="LoadBeforeThis" version="v2.12.0" />
-        <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v5.10.2" />
+        <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v5.10.1" />
         <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="$gameversion$.*" />
         <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="$gameversion$.*" />
         <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="$gameversion$.*" />

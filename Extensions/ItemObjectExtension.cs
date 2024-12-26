@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Microsoft.Extensions.Caching.Memory;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
 using TaleWorlds.Core;
@@ -10,64 +9,50 @@ using TaleWorlds.MountAndBlade;
 namespace DTES2.Extensions;
 
 public static class ItemObjectExtension {
-	private static readonly MemoryCache _cache = new(new MemoryCacheOptions());
-
-	private static readonly MemoryCacheEntryOptions _cacheEntryOptions =
-		new() { SlidingExpiration = TimeSpan.FromMinutes(5) };
-
-	public static T GetOrAdd<T>(string key, Func<T> valueFactory) {
-		if (_cache.TryGetValue(key, out object? cachedValue)) {
-			return (T)cachedValue!;
-		}
-
-		T value = valueFactory();
-		_ = _cache.Set(key, value, _cacheEntryOptions);
-		return value;
-	}
-
 	public static bool IsArrow(this ItemObject? equipment)
 		=> equipment != null &&
-		   GetOrAdd(
-			   "IsArrow" + equipment.StringId,
+		   CacheManager.GetOrAdd(
 			   () => equipment.ItemType == ItemObject.ItemTypeEnum.Arrows ||
 					 equipment.Weapons != null &&
 					 equipment.Weapons.AnyQ(
 						 weaponComponentData => weaponComponentData is { WeaponClass: WeaponClass.Arrow }
-					 )
+					 ),
+			   equipment.StringId
 		   );
 
 	public static bool IsBolt(this ItemObject? equipment)
 		=> equipment != null &&
-		   GetOrAdd(
-			   "IsBolt" + equipment.StringId,
+		   CacheManager.GetOrAdd(
 			   () => equipment.ItemType == ItemObject.ItemTypeEnum.Bolts ||
 					 equipment.Weapons != null &&
 					 equipment.Weapons.Any(
 						 weaponComponentData => weaponComponentData is { WeaponClass: WeaponClass.Bolt }
-					 )
+					 ),
+			   equipment.StringId
 		   );
 
 	public static bool IsConsumable(this ItemObject? item)
 		=> item != null &&
-		   GetOrAdd(
-			   "IsConsumable" + item.StringId,
-			   () => item.ItemType is ItemObject.ItemTypeEnum.Arrows
-									  or ItemObject.ItemTypeEnum.Bolts
-									  or ItemObject.ItemTypeEnum.Thrown
+		   CacheManager.GetOrAdd(
+			   () => {
+				   return item.ItemType is ItemObject.ItemTypeEnum.Arrows
+										   or ItemObject.ItemTypeEnum.Bolts
+										   or ItemObject.ItemTypeEnum.Thrown;
+			   },
+			   item.StringId
 		   );
 
 	public static bool IsCouchable(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsCouchable" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("can_couchable"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("can_couchable")),
+			   weapon.StringId
 		   );
 
 	public static bool IsSuitableForMount(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsSuitableForMount" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true, Weapons: not null } &&
 					 !weapon.Weapons.AnyQ(
 						 weaponComponentData => weaponComponentData != null &&
@@ -77,51 +62,52 @@ public static class ItemObjectExtension {
 												 weaponComponentData.WeaponFlags.HasFlag(
 													 WeaponFlags.CantReloadOnHorseback
 												 ))
-					 )
+					 ),
+			   weapon.StringId
 		   );
 
 	public static bool IsBracable(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsBracable" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("braceable"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("braceable")),
+			   weapon.StringId
 		   );
 
 	public static bool IsPolearm(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsPolearm" + weapon.StringId,
-			   () => weapon is { HasWeaponComponent: true } && weapon.CheckWeaponFlag(flag => flag.Contains("polearm"))
+		   CacheManager.GetOrAdd(
+			   () => weapon is { HasWeaponComponent: true } && weapon.CheckWeaponFlag(flag => flag.Contains("polearm")),
+			   weapon.StringId
 		   );
 
 	public static bool IsOneHanded(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsOneHanded" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("one_handed"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("one_handed")),
+			   weapon.StringId
 		   );
 
 	public static bool IsTwoHanded(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsTwoHanded" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("two_handed"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("two_handed")),
+			   weapon.StringId
 		   );
 
 	public static bool IsThrowing(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsThrowing" + weapon.StringId,
-			   () => weapon is { HasWeaponComponent: true } && weapon.CheckWeaponFlag(flag => flag.Contains("throwing"))
+		   CacheManager.GetOrAdd(
+			   () => weapon is { HasWeaponComponent: true } &&
+					 weapon.CheckWeaponFlag(flag => flag.Contains("throwing")),
+			   weapon.StringId
 		   );
 
 	public static bool IsBow(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsBow" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => {
 				   if (weapon.ItemType == ItemObject.ItemTypeEnum.Bow) {
 					   return true;
@@ -142,13 +128,13 @@ public static class ItemObjectExtension {
 				   }
 
 				   return false;
-			   }
+			   },
+			   weapon.StringId
 		   );
 
 	public static bool IsCrossBow(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsCrossBow" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => {
 				   if (weapon.ItemType == ItemObject.ItemTypeEnum.Crossbow) {
 					   return true;
@@ -169,13 +155,13 @@ public static class ItemObjectExtension {
 				   }
 
 				   return false;
-			   }
+			   },
+			   weapon.StringId
 		   );
 
 	public static bool IsThrowingWeaponCanBeAcquired(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsThrowingWeaponCanBeAcquired" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => {
 				   if (weapon.ItemType != ItemObject.ItemTypeEnum.Thrown) {
 					   return false;
@@ -200,39 +186,40 @@ public static class ItemObjectExtension {
 				   }
 
 				   return false;
-			   }
+			   },
+			   weapon.StringId
 		   );
 
 	public static bool IsBonusAgainstShield(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "IsBonusAgainstShield" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("bonus_against_shield"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("bonus_against_shield")),
+			   weapon.StringId
 		   );
 
 	public static bool CanKnockdown(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "CanKnockdown" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("can_knockdown"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("can_knockdown")),
+			   weapon.StringId
 		   );
 
 	public static bool CanDismount(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "CanDismount" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => flag.Contains("can_dismount"))
+					 weapon.CheckWeaponFlag(flag => flag.Contains("can_dismount")),
+			   weapon.StringId
 		   );
 
 	public static bool CantUseWithShields(this ItemObject? weapon)
 		=> weapon != null &&
-		   GetOrAdd(
-			   "CantUseWithShields" + weapon.StringId,
+		   CacheManager.GetOrAdd(
 			   () => weapon is { HasWeaponComponent: true } &&
-					 weapon.CheckWeaponFlag(flag => !flag.Contains("cant_use_with_shields"))
+					 weapon.CheckWeaponFlag(flag => !flag.Contains("cant_use_with_shields")),
+			   weapon.StringId
 		   );
 
 	private static bool CheckWeaponFlag(this ItemObject? weapon, Func<string, bool> flagCondition)
@@ -257,18 +244,18 @@ public static class ItemObjectExtension {
 	public static bool IsSuitableForCharacter(this ItemObject? item, CharacterObject? character)
 		=> item      != null &&
 		   character != null &&
-		   GetOrAdd(
-			   "IsSuitableForCharacter" + item.StringId + character.StringId,
-			   () => item.Difficulty <= 0 || item.Difficulty <= character.GetSkillValue(item.RelevantSkill)
+		   CacheManager.GetOrAdd(
+			   () => item.Difficulty <= 0 || item.Difficulty <= character.GetSkillValue(item.RelevantSkill),
+			   item.StringId + character.StringId
 		   );
 
 	public static bool MatchHarness(this ItemObject? horse, ItemObject? harness)
 		=> horse   != null &&
 		   harness != null &&
-		   GetOrAdd(
-			   "MatchHarness" + horse.StringId + harness.StringId,
+		   CacheManager.GetOrAdd(
 			   () => horse is { HasHorseComponent  : true, ItemType: ItemObject.ItemTypeEnum.Horse }        &&
 					 harness is { HasArmorComponent: true, ItemType: ItemObject.ItemTypeEnum.HorseHarness } &&
-					 horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType
+					 horse.HorseComponent?.Monster?.FamilyType == harness.ArmorComponent?.FamilyType,
+			   horse.StringId + harness.StringId
 		   );
 }
