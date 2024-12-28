@@ -1,25 +1,30 @@
+#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-
+#endregion
 namespace DTES2;
 
 [Serializable]
 public class Armory {
-	private readonly ConcurrentDictionary<EquipmentElement, int> _data = new();
+	private readonly ConcurrentDictionary<EquipmentElement, int> _data =
+		new ConcurrentDictionary<EquipmentElement, int>();
 
 	private readonly MobileParty? _party;
 
 	public Armory() { }
 
 	public Armory(MobileParty party) => this._party = party;
+
+	public MobileParty Party => this._party ?? MobileParty.MainParty;
 
 	public void FillFromRoster(IEnumerable<ItemRosterElement> roster) {
 		this._data.Clear();
@@ -44,7 +49,7 @@ public class Armory {
 
 	public void Store(ItemObject item, int amount = 1) {
 		if (amount >= 0) {
-			EquipmentElement equipment = new(item);
+			EquipmentElement equipment = new EquipmentElement(item);
 			this.Store(equipment, amount);
 		}
 
@@ -59,39 +64,69 @@ public class Armory {
 	public int GetAmount(ItemObject item)
 		=> this._data.AsParallel().SumQ(equipment => equipment.Key.Item == item ? equipment.Value : 0);
 
-	public Dictionary<CharacterObject, List<Equipment>> CreateDistributionTable() {
-		Dictionary<CharacterObject, List<Equipment>> res         = [];
-		MBList<TroopRosterElement>?                  troopRoster = this._party.MemberRoster.GetTroopRoster();
+	public ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> CreateDistributionTable() {
+		ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> res =
+			new ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>();
+
+		MBList<TroopRosterElement>? troopRoster = this.Party.MemberRoster.GetTroopRoster();
 		if (troopRoster == null) {
-			return res;
+			return res; // 返回线程安全字典的副本
 		}
 
-		foreach (TroopRosterElement element in troopRoster) {
-			CharacterObject? character     = element.Character;
-			int              healthyNumber = element.Number - element.WoundedNumber;
-			if (healthyNumber > 0) {
-				res.Add(character, new List<Equipment>(element.Number - element.WoundedNumber));
-			}
-		}
+		troopRoster.
+			AsParallel().
+			ForAll(element => {
+				CharacterObject? character     = element.Character;
+				int              healthyNumber = element.Number - element.WoundedNumber;
+				if (healthyNumber > 0) {
+					res[character] = new ConcurrentBag<Equipment>();
+					Parallel.For(0,
+								 healthyNumber,
+								 _ => {
+									 res[character].Add(new Equipment());
+								 });
+				}
+			});
 
-		EquipmentElement[]? ordered = this.
-									  _data.
-									  Keys.
-									  AsParallel().
-									  Where(a => a.Item.ItemType == ItemObject.ItemTypeEnum.BodyArmor).
-									  OrderByQ(a => a.Item.Effectiveness).
-									  ToArrayQ();
+		Dictionary<ItemObject.ItemTypeEnum, ConcurrentBag<EquipmentElement>> itemBags =
+			new Dictionary<ItemObject.ItemTypeEnum, ConcurrentBag<EquipmentElement>>();
+		this.
+			_data.
+			Keys.
+			AsParallel().
+			ForAll(element => {
+				switch (element.Item.ItemType) {
+					case ItemObject.ItemTypeEnum.BodyArmor:
+					case ItemObject.ItemTypeEnum.HeadArmor:
+					case ItemObject.ItemTypeEnum.HandArmor:
+					case ItemObject.ItemTypeEnum.ChestArmor:
+					case ItemObject.ItemTypeEnum.LegArmor:
+					case ItemObject.ItemTypeEnum.Cape:
+						if (!itemBags.ContainsKey(element.Item.ItemType)) {
+							itemBags.Add(element.Item.ItemType, new ConcurrentBag<EquipmentElement>());
+						}
+						itemBags[element.Item.ItemType].Add(element);
+						break;
+				}
+			});
+		itemBags.
+			AsParallel().
+			ForAll(kv => {
+				List<EquipmentElement> sorted = kv.Value.AsParallel().OrderBy(item => item.Item.Effectiveness).ToList();
+				//TODO
+			});
 
-		// TODO
 		return res;
 	}
 
 	public void DoDistribution(Equipment? equipment) {
 		if (equipment == null) {
 			Logger.Instance.Warning("Armory.DoDistribution: equipment is null.");
+			return;
 		}
-
-		//TODO
+		for (EquipmentIndex i = EquipmentIndex.WeaponItemBeginSlot; i < EquipmentIndex.NumEquipmentSetSlots; i++) {
+			this.Store(equipment.GetEquipmentFromSlot(i), -1);
+		}
 	}
 
 	public ItemRoster ToItemRoster() {
