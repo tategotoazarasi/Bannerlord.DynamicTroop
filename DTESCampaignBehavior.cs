@@ -1,4 +1,3 @@
-#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +12,11 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-#endregion
+
 namespace DTES2;
 
 public class DTESCampaignBehavior : CampaignBehaviorBase {
-	private readonly GlobalArmories _data = new GlobalArmories();
+	private readonly GlobalArmories _data = new();
 
 	public override void RegisterEvents() {
 		CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, this.OnTroopRecruited);
@@ -37,30 +36,36 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 		if (recruiterHero.PartyBelongedTo == null) {
 			return;
 		}
+
 		Armory? armory = this._data.GetArmory(party);
 		if (armory == null) {
 			return;
 		}
+
 		this.OnTroopRecruited(armory, troop, amount);
 		Logger.Instance.Information($"Troop recruited: {troop.Name}, {amount} to {party.Name}");
 	}
 
 	private void OnTroopRecruited(Armory armory, CharacterObject troop, int amount) {
-		ConcurrentDictionary<ItemObject, int> items = new ConcurrentDictionary<ItemObject, int>();
+		ConcurrentDictionary<ItemObject, int> items = new();
 
-		Parallel.For(0,
-					 amount,
-					 _ => {
-						 List<ItemObject> itemList = troop.GetRecruitmentEquipment();
-						 foreach (ItemObject item in itemList) {
-							 // 使用 AddOrUpdate 方法线程安全地更新字典
-							 items.AddOrUpdate(item, 1, (key, oldValue) => oldValue + 1);
-						 }
-					 });
-		Parallel.ForEach(items,
-						 kv => {
-							 armory.Store(kv.Key, kv.Value);
-						 });
+		_ = Parallel.For(
+			0,
+			amount,
+			_ => {
+				List<ItemObject> itemList = troop.GetRecruitmentEquipment();
+				foreach (ItemObject item in itemList) {
+					// 使用 AddOrUpdate 方法线程安全地更新字典
+					_ = items.AddOrUpdate(item, 1, (key, oldValue) => oldValue + 1);
+				}
+			}
+		);
+		_ = Parallel.ForEach(
+			items,
+			kv => {
+				armory.Store(kv.Key, kv.Value);
+			}
+		);
 	}
 
 	public override void SyncData(IDataStore dataStore) {
@@ -70,8 +75,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			saveData = this._data.ToSavable();
 			_        = dataStore.SyncData("dtes2data", ref saveData);
 			this._data.DebugPrint();
-		}
-		else {
+		} else {
 			_ = dataStore.SyncData("dtes2data", ref saveData);
 			this._data.FromSavable(saveData);
 			this._data.DebugPrint();
@@ -85,10 +89,12 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			Logger.Instance.Warning("Armory not found.");
 			return;
 		}
+
 		MBList<TroopRosterElement>? roster = party.MemberRoster.GetTroopRoster();
 		foreach (TroopRosterElement element in roster) {
 			this.OnTroopRecruited(armory, element.Character, element.Number);
 		}
+
 		Logger.Instance.Information($"Party {party.Name} created.");
 	}
 
@@ -131,17 +137,15 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 					Logger.Instance.Warning("Armory not found.");
 					return;
 				}
+
 				InventoryManager.OpenScreenAsReceiveItems(
 					armory.ToItemRoster(),
 					new TextObject("军械库"),
 					() => {
-						ItemRosterElement[]? res =
-							InventoryManager.
-								InventoryLogic.
-								GetElementsInRoster(
-									InventoryLogic.InventorySide.OtherInventory
-								)?.
-								ToArray();
+						ItemRosterElement[]? res = InventoryManager.
+												   InventoryLogic.
+												   GetElementsInRoster(InventoryLogic.InventorySide.OtherInventory)?.
+												   ToArray();
 						if (res == null) {
 							Logger.Instance.Warning("ItemRosterElement is null.");
 							return;
