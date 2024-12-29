@@ -1,3 +1,4 @@
+#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,12 +10,13 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-
+#endregion
 namespace DTES2;
 
 [Serializable]
 public class Armory {
-	private readonly ConcurrentDictionary<EquipmentElement, int> _data = new();
+	private readonly ConcurrentDictionary<EquipmentElement, int> _data =
+		new ConcurrentDictionary<EquipmentElement, int>();
 
 	private readonly MobileParty? _party;
 
@@ -47,7 +49,7 @@ public class Armory {
 
 	public void Store(ItemObject item, int amount = 1) {
 		if (amount >= 0) {
-			EquipmentElement equipment = new(item);
+			EquipmentElement equipment = new EquipmentElement(item);
 			this.Store(equipment, amount);
 		}
 
@@ -63,7 +65,8 @@ public class Armory {
 		=> this._data.AsParallel().SumQ(equipment => equipment.Key.Item == item ? equipment.Value : 0);
 
 	public ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> CreateDistributionTable() {
-		ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> res = new();
+		ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> res =
+			new ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>();
 
 		MBList<TroopRosterElement>? troopRoster = this.Party.MemberRoster.GetTroopRoster();
 		if (troopRoster == null) {
@@ -118,8 +121,31 @@ public class Armory {
 				kv => {
 					List<EquipmentElement> sorted =
 						kv.Value.AsParallel().OrderBy(item => item.Item.Effectiveness).ToList();
+					int i = 0;
+					foreach (KeyValuePair<CharacterObject, ConcurrentBag<Equipment>> pair in res) {
+						foreach (Equipment eq in pair.Value) {
+							EquipmentIndex slot = EquipmentIndex.None;
+							switch (sorted[i].Item.ItemType) {
+								case ItemObject.ItemTypeEnum.BodyArmor: slot = EquipmentIndex.Body; break;
 
-					//TODO
+								case ItemObject.ItemTypeEnum.HeadArmor: slot = EquipmentIndex.Head; break;
+
+								case ItemObject.ItemTypeEnum.HandArmor: slot = EquipmentIndex.Gloves; break;
+
+								case ItemObject.ItemTypeEnum.ChestArmor:
+									// TODO
+									break;
+
+								case ItemObject.ItemTypeEnum.LegArmor: slot = EquipmentIndex.Leg; break;
+
+								case ItemObject.ItemTypeEnum.Cape: slot = EquipmentIndex.Cape; break;
+							}
+							if (slot != EquipmentIndex.None) {
+								eq[slot] = sorted[i];
+							}
+							i++;
+						}
+					}
 				}
 			);
 

@@ -1,3 +1,4 @@
+#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,10 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-
+#endregion
 namespace DTES2;
 
 public class DTESCampaignBehavior : CampaignBehaviorBase {
-	private readonly GlobalArmories _data = new();
-
 	public override void RegisterEvents() {
 		CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(this, this.OnTroopRecruited);
 		CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, this.OnMobilePartyCreated);
@@ -37,7 +36,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			return;
 		}
 
-		Armory? armory = this._data.GetArmory(party);
+		Armory? armory = GlobalArmories.GetArmory(party);
 		if (armory == null) {
 			return;
 		}
@@ -47,7 +46,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void OnTroopRecruited(Armory armory, CharacterObject troop, int amount) {
-		ConcurrentDictionary<ItemObject, int> items = new();
+		ConcurrentDictionary<ItemObject, int> items = new ConcurrentDictionary<ItemObject, int>();
 
 		_ = Parallel.For(
 			0,
@@ -72,19 +71,20 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 		Dictionary<MobileParty, List<SaveableArmoryEntry>> saveData = [];
 
 		if (dataStore.IsSaving) {
-			saveData = this._data.ToSavable();
+			saveData = GlobalArmories.ToSavable();
 			_        = dataStore.SyncData("dtes2data", ref saveData);
-			this._data.DebugPrint();
-		} else {
+			GlobalArmories.DebugPrint();
+		}
+		else {
 			_ = dataStore.SyncData("dtes2data", ref saveData);
-			this._data.FromSavable(saveData);
-			this._data.DebugPrint();
+			GlobalArmories.FromSavable(saveData);
+			GlobalArmories.DebugPrint();
 		}
 	}
 
 	public void OnMobilePartyCreated(MobileParty party) {
-		_ = this._data.AddNewParty(party);
-		Armory? armory = this._data.GetArmory(party);
+		_ = GlobalArmories.AddNewParty(party);
+		Armory? armory = GlobalArmories.GetArmory(party);
 		if (armory == null) {
 			Logger.Instance.Warning("Armory not found.");
 			return;
@@ -99,7 +99,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	public void OnMobilePartyDestroyed(MobileParty party, PartyBase partyBase) {
-		_ = this._data.RemoveParty(party);
+		_ = GlobalArmories.RemoveParty(party);
 		Logger.Instance.Information($"Party {party.Name} destroyed.");
 	}
 
@@ -132,7 +132,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			"查看军械库",
 			args => true,
 			args => {
-				Armory? armory = this._data.GetArmory(MobileParty.MainParty);
+				Armory? armory = GlobalArmories.GetArmory(MobileParty.MainParty);
 				if (armory == null) {
 					Logger.Instance.Warning("Armory not found.");
 					return;

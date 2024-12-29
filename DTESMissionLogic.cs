@@ -1,13 +1,19 @@
+#region
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
-
+#endregion
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
+	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>> _tables =
+		new Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>();
 	public override void AfterStart() {
 		base.AfterStart();
 		Logger.Instance.Information("AfterStart");
@@ -16,10 +22,22 @@ public class DTESMissionLogic : MissionLogic {
 			Campaign.Current.MainParty != null                             &&
 			MapEvent.PlayerMapEvent    != null) {
 			foreach (PartyBase? party in MapEvent.PlayerMapEvent.InvolvedParties) {
+				if (party == null) {
+					continue;
+				}
 				Logger.Instance.Information(party.Name.ToString());
+				MobileParty? mobileParty = party.MobileParty;
+				if (mobileParty == null) {
+					continue;
+				}
+				Armory? armory = GlobalArmories.GetArmory(mobileParty);
+				if (armory == null) {
+					continue;
+				}
+				ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>
+					table = armory.CreateDistributionTable();
+				this._tables.Add(mobileParty, table);
 			}
-
-			// TODO
 		}
 	}
 
@@ -35,7 +53,8 @@ public class DTESMissionLogic : MissionLogic {
 			tableauMaterial != null) {
 			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
-		} else {
+		}
+		else {
 			return;
 		}
 
@@ -59,7 +78,28 @@ public class DTESMissionLogic : MissionLogic {
 		base.OnAgentBuild(agent, banner);
 		if (agent is { IsHuman: true, Character: not null }) {
 			Logger.Instance.Information($"OnAgentBuild:{agent.Character.Name}");
-			Equipment eq = agent.Character.Equipment.Clone();
+			if (agent.Origin is not PartyAgentOrigin pao) {
+				return;
+			}
+			MobileParty? party = pao.Party?.MobileParty;
+			if (party == null) {
+				return;
+			}
+			if (!this._tables.TryGetValue(party,
+										  out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> table)) {
+				Logger.Instance.Warning("Table not found.");
+				return;
+			}
+			if (agent.Character is not CharacterObject character) {
+				return;
+			}
+			if (!table.TryGetValue(character, out ConcurrentBag<Equipment> bag)) {
+				Logger.Instance.Warning("Bag not found.");
+				return;
+			}
+			if (!bag.TryTake(out Equipment eq)) {
+				return;
+			}
 			agent.UpdateSpawnEquipmentAndRefreshVisuals(eq);
 			this.InitAgentLabel(agent, banner);
 			_ = agent.AgentVisuals.CheckResources(true);
