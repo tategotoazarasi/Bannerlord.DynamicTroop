@@ -1,4 +1,3 @@
-#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-#endregion
+
 namespace DTES2;
 
 public class DTESCampaignBehavior : CampaignBehaviorBase {
@@ -25,14 +24,14 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	public void OnTroopRecruited(
-		Hero            recruiterHero,
+		Hero?           recruiterHero,
 		Settlement      recruitmentSettlement,
 		Hero            recruitmentSource,
 		CharacterObject troop,
 		int             amount
 	) {
-		MobileParty? party = recruiterHero.PartyBelongedTo;
-		if (recruiterHero.PartyBelongedTo == null) {
+		MobileParty? party = recruiterHero?.PartyBelongedTo;
+		if (party == null) {
 			return;
 		}
 
@@ -46,7 +45,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void OnTroopRecruited(Armory armory, CharacterObject troop, int amount) {
-		ConcurrentDictionary<ItemObject, int> items = new ConcurrentDictionary<ItemObject, int>();
+		ConcurrentDictionary<ItemObject, int> items = new();
 
 		_ = Parallel.For(
 			0,
@@ -74,8 +73,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			saveData = GlobalArmories.ToSavable();
 			_        = dataStore.SyncData("dtes2data", ref saveData);
 			GlobalArmories.DebugPrint();
-		}
-		else {
+		} else {
 			_ = dataStore.SyncData("dtes2data", ref saveData);
 			GlobalArmories.FromSavable(saveData);
 			GlobalArmories.DebugPrint();

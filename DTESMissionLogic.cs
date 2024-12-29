@@ -1,4 +1,3 @@
-#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
@@ -8,12 +7,13 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
-#endregion
+
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
-	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>> _tables =
-		new Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>();
+	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>
+		_tables = [];
+
 	public override void AfterStart() {
 		base.AfterStart();
 		Logger.Instance.Information("AfterStart");
@@ -25,17 +25,20 @@ public class DTESMissionLogic : MissionLogic {
 				if (party == null) {
 					continue;
 				}
+
 				Logger.Instance.Information(party.Name.ToString());
 				MobileParty? mobileParty = party.MobileParty;
 				if (mobileParty == null) {
 					continue;
 				}
+
 				Armory? armory = GlobalArmories.GetArmory(mobileParty);
 				if (armory == null) {
 					continue;
 				}
-				ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>
-					table = armory.CreateDistributionTable();
+
+				ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> table =
+					armory.CreateDistributionTable();
 				this._tables.Add(mobileParty, table);
 			}
 		}
@@ -53,8 +56,7 @@ public class DTESMissionLogic : MissionLogic {
 			tableauMaterial != null) {
 			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
-		}
-		else {
+		} else {
 			return;
 		}
 
@@ -78,28 +80,59 @@ public class DTESMissionLogic : MissionLogic {
 		base.OnAgentBuild(agent, banner);
 		if (agent is { IsHuman: true, Character: not null }) {
 			Logger.Instance.Information($"OnAgentBuild:{agent.Character.Name}");
-			if (agent.Origin is not PartyAgentOrigin pao) {
+			if (agent.Origin is BasicBattleAgentOrigin) {
+				Logger.Instance.Debug($"{agent.Character.Name} have a BasicBattleAgentOrigin");
+			}
+
+			if (agent.Origin is CustomBattleAgentOrigin) {
+				Logger.Instance.Debug($"{agent.Character.Name} have a CustomBattleAgentOrigin");
+			}
+
+			if (agent.Origin is PartyAgentOrigin) {
+				Logger.Instance.Debug($"{agent.Character.Name} have a PartyAgentOrigin");
+			}
+
+			if (agent.Origin is PartyGroupAgentOrigin) {
+				Logger.Instance.Debug($"{agent.Character.Name} have a PartyGroupAgentOrigin");
+			}
+
+			if (agent.Origin is SimpleAgentOrigin) {
+				Logger.Instance.Debug($"{agent.Character.Name} have a SimpleAgentOrigin");
+			}
+
+			if (agent.Origin is not PartyGroupAgentOrigin pgao) {
+				Logger.Instance.Warning($"{agent.Character.Name} do not have a SimpleAgentOrigin");
 				return;
 			}
-			MobileParty? party = pao.Party?.MobileParty;
+
+			MobileParty? party = pgao.Party?.MobileParty;
 			if (party == null) {
+				Logger.Instance.Warning($"Cannot find party for {agent.Character.Name}");
 				return;
 			}
-			if (!this._tables.TryGetValue(party,
-										  out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> table)) {
+
+			if (!this._tables.TryGetValue(
+					party,
+					out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>? table
+				)) {
 				Logger.Instance.Warning("Table not found.");
 				return;
 			}
+
 			if (agent.Character is not CharacterObject character) {
+				Logger.Instance.Warning($"{agent.Character.Name} is not a CharacterObject");
 				return;
 			}
-			if (!table.TryGetValue(character, out ConcurrentBag<Equipment> bag)) {
+
+			if (!table.TryGetValue(character, out ConcurrentBag<Equipment>? bag)) {
 				Logger.Instance.Warning("Bag not found.");
 				return;
 			}
-			if (!bag.TryTake(out Equipment eq)) {
+
+			if (!bag.TryTake(out Equipment? eq)) {
 				return;
 			}
+
 			agent.UpdateSpawnEquipmentAndRefreshVisuals(eq);
 			this.InitAgentLabel(agent, banner);
 			_ = agent.AgentVisuals.CheckResources(true);

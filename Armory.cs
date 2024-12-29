@@ -1,4 +1,3 @@
-#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -10,13 +9,12 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
-#endregion
+
 namespace DTES2;
 
 [Serializable]
 public class Armory {
-	private readonly ConcurrentDictionary<EquipmentElement, int> _data =
-		new ConcurrentDictionary<EquipmentElement, int>();
+	private readonly ConcurrentDictionary<EquipmentElement, int> _data = new();
 
 	private readonly MobileParty? _party;
 
@@ -49,7 +47,7 @@ public class Armory {
 
 	public void Store(ItemObject item, int amount = 1) {
 		if (amount >= 0) {
-			EquipmentElement equipment = new EquipmentElement(item);
+			EquipmentElement equipment = new(item);
 			this.Store(equipment, amount);
 		}
 
@@ -65,8 +63,7 @@ public class Armory {
 		=> this._data.AsParallel().SumQ(equipment => equipment.Key.Item == item ? equipment.Value : 0);
 
 	public ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> CreateDistributionTable() {
-		ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> res =
-			new ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>();
+		ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> res = new();
 
 		MBList<TroopRosterElement>? troopRoster = this.Party.MemberRoster.GetTroopRoster();
 		if (troopRoster == null) {
@@ -92,7 +89,7 @@ public class Armory {
 				}
 			);
 
-		Dictionary<ItemObject.ItemTypeEnum, ConcurrentBag<EquipmentElement>> itemBags = [];
+		ConcurrentDictionary<ItemObject.ItemTypeEnum, ConcurrentBag<EquipmentElement>> itemBags = [];
 		this.
 			_data.
 			Keys.
@@ -107,7 +104,7 @@ public class Armory {
 						case ItemObject.ItemTypeEnum.LegArmor:
 						case ItemObject.ItemTypeEnum.Cape:
 							if (!itemBags.ContainsKey(element.Item.ItemType)) {
-								itemBags.Add(element.Item.ItemType, []);
+								_ = itemBags.TryAdd(element.Item.ItemType, []);
 							}
 
 							itemBags[element.Item.ItemType].Add(element);
@@ -126,23 +123,36 @@ public class Armory {
 						foreach (Equipment eq in pair.Value) {
 							EquipmentIndex slot = EquipmentIndex.None;
 							switch (sorted[i].Item.ItemType) {
-								case ItemObject.ItemTypeEnum.BodyArmor: slot = EquipmentIndex.Body; break;
+								case ItemObject.ItemTypeEnum.BodyArmor:
+									slot = EquipmentIndex.Body;
+									break;
 
-								case ItemObject.ItemTypeEnum.HeadArmor: slot = EquipmentIndex.Head; break;
+								case ItemObject.ItemTypeEnum.HeadArmor:
+									slot = EquipmentIndex.Head;
+									break;
 
-								case ItemObject.ItemTypeEnum.HandArmor: slot = EquipmentIndex.Gloves; break;
+								case ItemObject.ItemTypeEnum.HandArmor:
+									slot = EquipmentIndex.Gloves;
+									break;
 
 								case ItemObject.ItemTypeEnum.ChestArmor:
+
 									// TODO
 									break;
 
-								case ItemObject.ItemTypeEnum.LegArmor: slot = EquipmentIndex.Leg; break;
+								case ItemObject.ItemTypeEnum.LegArmor:
+									slot = EquipmentIndex.Leg;
+									break;
 
-								case ItemObject.ItemTypeEnum.Cape: slot = EquipmentIndex.Cape; break;
+								case ItemObject.ItemTypeEnum.Cape:
+									slot = EquipmentIndex.Cape;
+									break;
 							}
+
 							if (slot != EquipmentIndex.None) {
 								eq[slot] = sorted[i];
 							}
+
 							i++;
 						}
 					}

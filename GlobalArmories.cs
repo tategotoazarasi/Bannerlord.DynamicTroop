@@ -1,24 +1,23 @@
-#region
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Party;
-#endregion
+
 namespace DTES2;
 
 [Serializable]
 public static class GlobalArmories {
-	private static readonly ConcurrentDictionary<MobileParty, Armory> _data =
-		new ConcurrentDictionary<MobileParty, Armory>();
+	private static readonly ConcurrentDictionary<MobileParty, Armory> _data = new();
 
-	private static readonly Armory _playerArmory = new Armory();
+	private static readonly Armory _playerArmory = new();
 
 	public static bool AddNewParty(MobileParty party) => _data.TryAdd(party, new Armory());
 
 	public static bool RemoveParty(MobileParty party) => _data.TryRemove(party, out _);
 
-	public static Armory? GetArmory(MobileParty party) => party.IsMainParty                           ? _playerArmory :
-														  _data.TryGetValue(party, out Armory armory) ? armory : null;
+	public static Armory? GetArmory(MobileParty party)
+		=> party.IsMainParty                           ? _playerArmory :
+		   _data.TryGetValue(party, out Armory armory) ? armory : null;
 
 	public static Dictionary<MobileParty, List<SaveableArmoryEntry>> ToSavable() {
 		Dictionary<MobileParty, List<SaveableArmoryEntry>> data = [];
@@ -35,9 +34,8 @@ public static class GlobalArmories {
 		foreach (KeyValuePair<MobileParty, List<SaveableArmoryEntry>> pair in data) {
 			if (pair.Key.IsMainParty) {
 				_playerArmory.FromSavable(pair.Value);
-			}
-			else {
-				Armory armory = new Armory(pair.Key);
+			} else {
+				Armory armory = new(pair.Key);
 				armory.FromSavable(pair.Value);
 				_ = _data.TryAdd(pair.Key, armory);
 			}
