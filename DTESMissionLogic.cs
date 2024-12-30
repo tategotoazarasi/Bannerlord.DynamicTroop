@@ -1,4 +1,3 @@
-#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
@@ -8,17 +7,16 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
-#endregion
+using TaleWorlds.MountAndBlade.View;
 
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
 	/// <summary>
-	///     记录所有参战部队 (MobileParty) 对应的分配表。
-	///     在 OnAgentBuild 时需要拿到表中的装备分给 Agent。
+	///     记录所有参战部队 (MobileParty) 对应的分配表。 在 OnAgentBuild 时需要拿到表中的装备分给 Agent。
 	/// </summary>
-	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>> _tables
-		= new Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>();
+	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>
+		_tables = [];
 
 	public override void AfterStart() {
 		base.AfterStart();
@@ -29,28 +27,32 @@ public class DTESMissionLogic : MissionLogic {
 			this.Mission.CombatType    == Mission.MissionCombatType.Combat &&
 			Campaign.Current.MainParty != null                             &&
 			MapEvent.PlayerMapEvent    != null) {
-
 			foreach (PartyBase? party in MapEvent.PlayerMapEvent.InvolvedParties) {
 				if (party == null) {
+					Logger.Instance.Warning("party is null.");
 					continue;
 				}
 
 				Logger.Instance.Information(party.Name.ToString());
 				MobileParty? mobileParty = party.MobileParty;
 				if (mobileParty == null) {
+					Logger.Instance.Warning($"mobileParty not found for {party.Name}.");
 					continue;
 				}
 
 				// 获取对应的 Armory
 				Armory? armory = GlobalArmories.GetArmory(mobileParty);
 				if (armory == null) {
+					Logger.Instance.Warning($"Armory not found for {mobileParty.Name}.");
 					continue;
 				}
 
 				// 使用 DistrubutionTable 来完成分配
-				DistrubutionTable distributionTable = new DistrubutionTable(armory);
+				DistrubutionTable distributionTable = new(armory);
 				distributionTable.RefreshTable(); // 核心分配逻辑（原先在 Armory.CreateDistributionTable 中的内容）
 				distributionTable.DebugPrint();
+				armory.DebugPrint();
+
 				// 将分配后的结果存入 _tables
 				this._tables.Add(mobileParty, distributionTable.Table);
 			}
@@ -60,27 +62,43 @@ public class DTESMissionLogic : MissionLogic {
 	/// <summary>
 	///     初始化 Agent 的标签（如头顶旗帜等）。
 	/// </summary>
-	/// <param name="agent">要设置标签的 Agent。</param>
-	/// <param name="banner">旗帜。</param>
+	/// <param name="agent">  要设置标签的 Agent。 </param>
+	/// <param name="banner"> 旗帜。 </param>
 	private void InitAgentLabel(Agent agent, Banner? banner) {
-		if (banner == null) {
-			return;
-		}
+		if (agent.IsHuman &&
+			banner != null) {
+			MetaMesh copy            = MetaMesh.GetCopy("troop_banner_selection", false, true);
+			Material tableauMaterial = Material.GetFromResource("agent_label_with_tableau");
+			Texture  texture         = banner.GetTableauTextureSmall(null);
+			if (copy            != null &&
+				tableauMaterial != null) {
+				Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 
-		MetaMesh copy            = MetaMesh.GetCopy("troop_banner_selection", false, true);
-		Material tableauMaterial = Material.GetFromResource("agent_label_with_tableau");
-		if (copy != null && tableauMaterial != null) {
-			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
-			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
-		}
-		else {
-			return;
-		}
+				tableauMaterial = tableauMaterial.CreateCopy();
 
-		copy.SetMaterial(tableauMaterial);
-		copy.SetVectorArgument(0.5f, 0.5f, 0.25f, 0.25f);
-		copy.SetVectorArgument2(30f, 0.4f, 0.44f, -1f);
-		agent.AgentVisuals.AddMultiMesh(copy, BodyMeshTypes.Label);
+				void action(Texture tex) {
+					tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap, tex);
+				}
+
+				texture = banner.GetTableauTextureSmall(action);
+				tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
+
+				copy.SetMaterial(tableauMaterial);
+				copy.SetVectorArgument(
+					0.5f,
+					0.5f,
+					0.25f,
+					0.25f
+				);
+				copy.SetVectorArgument2(
+					30f,
+					0.4f,
+					0.44f,
+					-1f
+				);
+				agent.AgentVisuals.AddMultiMesh(copy, BodyMeshTypes.Label);
+			}
+		}
 	}
 
 	public override void OnAgentBuild(Agent agent, Banner banner) {
@@ -121,8 +139,10 @@ public class DTESMissionLogic : MissionLogic {
 			}
 
 			// 到这里我们可以根据 MobileParty 找到对应的分配表（_tables）
-			if (!this._tables.TryGetValue(party,
-										  out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>? table)) {
+			if (!this._tables.TryGetValue(
+					party,
+					out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>? table
+				)) {
 				Logger.Instance.Warning("Table not found.");
 				return;
 			}
@@ -140,12 +160,12 @@ public class DTESMissionLogic : MissionLogic {
 
 			// 如果还能拿到一套装备，就替换当前 Agent 的装备
 			if (!bag.TryTake(out Equipment? eq)) {
+				Logger.Instance.Warning("Cannot find equipment.");
 				return;
 			}
 
 			agent.UpdateSpawnEquipmentAndRefreshVisuals(eq);
 			this.InitAgentLabel(agent, banner);
-			_ = agent.AgentVisuals.CheckResources(true);
 		}
 	}
 }

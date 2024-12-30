@@ -88,7 +88,7 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 			return;
 		}
 
-		MBList<TroopRosterElement>? roster = party.MemberRoster.GetTroopRoster();
+		MBList<TroopRosterElement> roster = party.MemberRoster.GetTroopRoster();
 		foreach (TroopRosterElement element in roster) {
 			this.OnTroopRecruited(armory, element.Character, element.Number);
 		}

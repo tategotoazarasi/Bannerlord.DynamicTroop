@@ -43,6 +43,12 @@ public class SubModule : MBSubModuleBaseEx {
 			!mission.HasMissionBehavior<TournamentBehavior>()      &&
 			!mission.HasMissionBehavior<CustomBattleAgentLogic>()) {
 			mission.AddMissionBehavior(new DTESMissionLogic());
+			BannerBearerLogic? bannerBearerLogic = mission.GetMissionBehavior<BannerBearerLogic>();
+			if (bannerBearerLogic == null) {
+				Logger.Instance.Warning("BannerBearerLogic not found.");
+			} else {
+				mission.RemoveMissionBehavior(bannerBearerLogic);
+			}
 		}
 
 		base.OnMissionBehaviorInitialize(mission);

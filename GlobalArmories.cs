@@ -11,7 +11,7 @@ public static class GlobalArmories {
 
 	private static readonly Armory _playerArmory = new();
 
-	public static bool AddNewParty(MobileParty party) => _data.TryAdd(party, new Armory());
+	public static bool AddNewParty(MobileParty party) => _data.TryAdd(party, new Armory(party));
 
 	public static bool RemoveParty(MobileParty party) => _data.TryRemove(party, out _);
 
