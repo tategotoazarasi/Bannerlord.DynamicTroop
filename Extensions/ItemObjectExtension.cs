@@ -261,175 +261,183 @@ public static class ItemObjectExtension {
 		   );
 
 	public static float CalculateEffectiveness(this ItemObject? itemObject) {
-		float          num            = 1f;
+		float          effectiveness  = 1f;
 		ArmorComponent armorComponent = itemObject.ArmorComponent;
 		if (armorComponent != null) {
 			if (itemObject.Type == ItemObject.ItemTypeEnum.HorseHarness) {
-				num = armorComponent.BodyArmor * 1.67f;
+				effectiveness = armorComponent.BodyArmor * 1.67f;
 			} else {
-				num = (armorComponent.HeadArmor * 34f +
-					   armorComponent.BodyArmor * 42f +
-					   armorComponent.LegArmor  * 12f +
-					   armorComponent.ArmArmor  * 12f) *
-					  0.03f;
+				effectiveness = (armorComponent.HeadArmor * 34f +
+								 armorComponent.BodyArmor * 42f +
+								 armorComponent.LegArmor  * 12f +
+								 armorComponent.ArmArmor  * 12f) *
+								0.03f;
 			}
 		}
 
 		if (itemObject.WeaponComponent != null) {
-			WeaponComponentData primaryWeapon = itemObject.WeaponComponent.PrimaryWeapon;
-			float               num2          = 1f;
+			WeaponComponentData primaryWeapon                      = itemObject.WeaponComponent.PrimaryWeapon;
+			float               weaponClassEffectivenessMultiplier = 1f;
 			switch (primaryWeapon.WeaponClass) {
 				case WeaponClass.Dagger:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.OneHandedSword:
-					num2 = 0.55f;
+					weaponClassEffectivenessMultiplier = 0.55f;
 					break;
 
 				case WeaponClass.TwoHandedSword:
-					num2 = 0.6f;
+					weaponClassEffectivenessMultiplier = 0.6f;
 					break;
 
 				case WeaponClass.OneHandedAxe:
-					num2 = 0.5f;
+					weaponClassEffectivenessMultiplier = 0.5f;
 					break;
 
 				case WeaponClass.TwoHandedAxe:
-					num2 = 0.55f;
+					weaponClassEffectivenessMultiplier = 0.55f;
 					break;
 
 				case WeaponClass.Mace:
-					num2 = 0.5f;
+					weaponClassEffectivenessMultiplier = 0.5f;
 					break;
 
 				case WeaponClass.Pick:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.TwoHandedMace:
-					num2 = 0.55f;
+					weaponClassEffectivenessMultiplier = 0.55f;
 					break;
 
 				case WeaponClass.OneHandedPolearm:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.TwoHandedPolearm:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.LowGripPolearm:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.Arrow:
-					num2 = 3f;
+					weaponClassEffectivenessMultiplier = 3f;
 					break;
 
 				case WeaponClass.Bolt:
-					num2 = 3f;
+					weaponClassEffectivenessMultiplier = 3f;
 					break;
 
 				case WeaponClass.Cartridge:
-					num2 = 3f;
+					weaponClassEffectivenessMultiplier = 3f;
 					break;
 
 				case WeaponClass.Bow:
-					num2 = 0.55f;
+					weaponClassEffectivenessMultiplier = 0.55f;
 					break;
 
 				case WeaponClass.Crossbow:
-					num2 = 0.57f;
+					weaponClassEffectivenessMultiplier = 0.57f;
 					break;
 
 				case WeaponClass.Stone:
-					num2 = 0.1f;
+					weaponClassEffectivenessMultiplier = 0.1f;
 					break;
 
 				case WeaponClass.Boulder:
-					num2 = 0.1f;
+					weaponClassEffectivenessMultiplier = 0.1f;
 					break;
 
 				case WeaponClass.ThrowingAxe:
-					num2 = 0.25f;
+					weaponClassEffectivenessMultiplier = 0.25f;
 					break;
 
 				case WeaponClass.ThrowingKnife:
-					num2 = 0.2f;
+					weaponClassEffectivenessMultiplier = 0.2f;
 					break;
 
 				case WeaponClass.Javelin:
-					num2 = 0.28f;
+					weaponClassEffectivenessMultiplier = 0.28f;
 					break;
 
 				case WeaponClass.Pistol:
-					num2 = 1f;
+					weaponClassEffectivenessMultiplier = 1f;
 					break;
 
 				case WeaponClass.Musket:
-					num2 = 1f;
+					weaponClassEffectivenessMultiplier = 1f;
 					break;
 
 				case WeaponClass.SmallShield:
-					num2 = 0.4f;
+					weaponClassEffectivenessMultiplier = 0.4f;
 					break;
 
 				case WeaponClass.LargeShield:
-					num2 = 0.5f;
+					weaponClassEffectivenessMultiplier = 0.5f;
 					break;
 			}
 
 			if (primaryWeapon.IsRangedWeapon) {
 				if (primaryWeapon.IsConsumable) {
-					num = (primaryWeapon.MissileDamage * primaryWeapon.MissileSpeed * 1.775f +
-						   primaryWeapon.Accuracy      * primaryWeapon.MaxDataValue * 25f    +
-						   primaryWeapon.WeaponLength  * 4f) *
-						  0.006944f                          *
-						  primaryWeapon.MaxDataValue         *
-						  num2;
+					effectiveness =
+						(primaryWeapon.MissileDamage * primaryWeapon.MissileSpeed * 1.775f +
+						 primaryWeapon.Accuracy      * primaryWeapon.MaxDataValue * 25f    +
+						 primaryWeapon.WeaponLength  * 4f) *
+						0.006944f                          *
+						primaryWeapon.MaxDataValue         *
+						weaponClassEffectivenessMultiplier;
 				} else {
-					num = (primaryWeapon.MissileSpeed * primaryWeapon.MissileDamage * 1.75f +
-						   primaryWeapon.ThrustSpeed  * primaryWeapon.Accuracy      * 0.3f) *
-						  0.01f                                                             *
-						  primaryWeapon.MaxDataValue                                        *
-						  num2;
+					effectiveness =
+						(primaryWeapon.MissileSpeed * primaryWeapon.MissileDamage * 1.75f +
+						 primaryWeapon.ThrustSpeed  * primaryWeapon.Accuracy      * 0.3f) *
+						0.01f                                                             *
+						primaryWeapon.MaxDataValue                                        *
+						weaponClassEffectivenessMultiplier;
 				}
 			} else if (primaryWeapon.IsMeleeWeapon) {
-				float num3 = primaryWeapon.ThrustSpeed * primaryWeapon.ThrustDamage * 0.01f;
-				float num4 = primaryWeapon.SwingSpeed  * primaryWeapon.SwingDamage  * 0.01f;
-				float num5 = MathF.Max(num4, num3);
-				float num6 = MathF.Min(num4, num3);
-				num = ((num5 + num6 * num6 / num5) * 120f +
-					   primaryWeapon.Handling      * 15f  +
-					   primaryWeapon.WeaponLength  * 20f  +
-					   itemObject.Weight           * 5f) *
-					  0.01f                              *
-					  num2;
+				float thrustEffectiveness       = primaryWeapon.ThrustSpeed * primaryWeapon.ThrustDamage * 0.01f;
+				float swingEffectiveness        = primaryWeapon.SwingSpeed  * primaryWeapon.SwingDamage  * 0.01f;
+				float higherDamageEffectiveness = MathF.Max(swingEffectiveness, thrustEffectiveness);
+				float lowerDamageEffectiveness  = MathF.Min(swingEffectiveness, thrustEffectiveness);
+				effectiveness =
+					((higherDamageEffectiveness +
+					  lowerDamageEffectiveness * lowerDamageEffectiveness / higherDamageEffectiveness) *
+					 120f                             +
+					 primaryWeapon.Handling     * 15f +
+					 primaryWeapon.WeaponLength * 20f +
+					 itemObject.Weight          * 5f) *
+					0.01f                             *
+					weaponClassEffectivenessMultiplier;
 			} else if (primaryWeapon.IsConsumable) {
-				num = (primaryWeapon.MissileDamage * 550f +
-					   primaryWeapon.MissileSpeed  * 15f  +
-					   primaryWeapon.MaxDataValue  * 60f) *
-					  0.01f                               *
-					  num2;
+				effectiveness =
+					(primaryWeapon.MissileDamage * 550f +
+					 primaryWeapon.MissileSpeed  * 15f  +
+					 primaryWeapon.MaxDataValue  * 60f) *
+					0.01f                               *
+					weaponClassEffectivenessMultiplier;
 			} else if (primaryWeapon.IsShield) {
-				num = (primaryWeapon.BodyArmor    * 60f +
-					   primaryWeapon.ThrustSpeed  * 10f +
-					   primaryWeapon.MaxDataValue * 40f +
-					   primaryWeapon.WeaponLength * 20f) *
-					  0.01f                              *
-					  num2;
+				effectiveness =
+					(primaryWeapon.BodyArmor    * 60f +
+					 primaryWeapon.ThrustSpeed  * 10f +
+					 primaryWeapon.MaxDataValue * 40f +
+					 primaryWeapon.WeaponLength * 20f) *
+					0.01f                              *
+					weaponClassEffectivenessMultiplier;
 			}
 		}
 
 		if (itemObject.HorseComponent != null) {
-			num = (itemObject.HorseComponent.ChargeDamage * itemObject.HorseComponent.Speed +
-				   itemObject.HorseComponent.Maneuver     * itemObject.HorseComponent.Speed +
-				   itemObject.HorseComponent.BodyLength   * itemObject.Weight * 0.025f)           *
-				  (itemObject.HorseComponent.HitPoints + itemObject.HorseComponent.HitPointBonus) *
-				  0.0001f;
+			effectiveness =
+				(itemObject.HorseComponent.ChargeDamage * itemObject.HorseComponent.Speed +
+				 itemObject.HorseComponent.Maneuver     * itemObject.HorseComponent.Speed +
+				 itemObject.HorseComponent.BodyLength   * itemObject.Weight * 0.025f)           *
+				(itemObject.HorseComponent.HitPoints + itemObject.HorseComponent.HitPointBonus) *
+				0.0001f;
 		}
 
-		return num;
+		return effectiveness;
 	}
 }
