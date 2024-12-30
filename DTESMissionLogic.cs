@@ -1,3 +1,4 @@
+#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
@@ -7,20 +8,28 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
+#endregion
 
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
-	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>
-		_tables = [];
+	/// <summary>
+	///     记录所有参战部队 (MobileParty) 对应的分配表。
+	///     在 OnAgentBuild 时需要拿到表中的装备分给 Agent。
+	/// </summary>
+	private readonly Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>> _tables
+		= new Dictionary<MobileParty, ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>>();
 
 	public override void AfterStart() {
 		base.AfterStart();
 		Logger.Instance.Information("AfterStart");
+
+		// 判断此场战斗是否属于可分配装备的类型
 		if (!this.Mission.DoesMissionRequireCivilianEquipment              &&
 			this.Mission.CombatType    == Mission.MissionCombatType.Combat &&
 			Campaign.Current.MainParty != null                             &&
 			MapEvent.PlayerMapEvent    != null) {
+
 			foreach (PartyBase? party in MapEvent.PlayerMapEvent.InvolvedParties) {
 				if (party == null) {
 					continue;
@@ -32,19 +41,27 @@ public class DTESMissionLogic : MissionLogic {
 					continue;
 				}
 
+				// 获取对应的 Armory
 				Armory? armory = GlobalArmories.GetArmory(mobileParty);
 				if (armory == null) {
 					continue;
 				}
 
-				ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>> table =
-					armory.CreateDistributionTable();
-				this._tables.Add(mobileParty, table);
+				// 使用 DistrubutionTable 来完成分配
+				DistrubutionTable distributionTable = new DistrubutionTable(armory);
+				distributionTable.RefreshTable(); // 核心分配逻辑（原先在 Armory.CreateDistributionTable 中的内容）
+				distributionTable.DebugPrint();
+				// 将分配后的结果存入 _tables
+				this._tables.Add(mobileParty, distributionTable.Table);
 			}
 		}
 	}
 
-	// Token: 0x06000317 RID: 791 RVA: 0x0001B920 File Offset: 0x00019B20
+	/// <summary>
+	///     初始化 Agent 的标签（如头顶旗帜等）。
+	/// </summary>
+	/// <param name="agent">要设置标签的 Agent。</param>
+	/// <param name="banner">旗帜。</param>
 	private void InitAgentLabel(Agent agent, Banner? banner) {
 		if (banner == null) {
 			return;
@@ -52,27 +69,17 @@ public class DTESMissionLogic : MissionLogic {
 
 		MetaMesh copy            = MetaMesh.GetCopy("troop_banner_selection", false, true);
 		Material tableauMaterial = Material.GetFromResource("agent_label_with_tableau");
-		if (copy            != null &&
-			tableauMaterial != null) {
+		if (copy != null && tableauMaterial != null) {
 			Texture fromResource = Texture.GetFromResource("banner_top_of_head");
 			tableauMaterial.SetTexture(Material.MBTextureType.DiffuseMap2, fromResource);
-		} else {
+		}
+		else {
 			return;
 		}
 
 		copy.SetMaterial(tableauMaterial);
-		copy.SetVectorArgument(
-			0.5f,
-			0.5f,
-			0.25f,
-			0.25f
-		);
-		copy.SetVectorArgument2(
-			30f,
-			0.4f,
-			0.44f,
-			-1f
-		);
+		copy.SetVectorArgument(0.5f, 0.5f, 0.25f, 0.25f);
+		copy.SetVectorArgument2(30f, 0.4f, 0.44f, -1f);
 		agent.AgentVisuals.AddMultiMesh(copy, BodyMeshTypes.Label);
 	}
 
@@ -80,6 +87,7 @@ public class DTESMissionLogic : MissionLogic {
 		base.OnAgentBuild(agent, banner);
 		if (agent is { IsHuman: true, Character: not null }) {
 			Logger.Instance.Information($"OnAgentBuild:{agent.Character.Name}");
+
 			if (agent.Origin is BasicBattleAgentOrigin) {
 				Logger.Instance.Debug($"{agent.Character.Name} have a BasicBattleAgentOrigin");
 			}
@@ -100,8 +108,9 @@ public class DTESMissionLogic : MissionLogic {
 				Logger.Instance.Debug($"{agent.Character.Name} have a SimpleAgentOrigin");
 			}
 
+			// 只有 PartyGroupAgentOrigin 才能拿到对应的 MobileParty
 			if (agent.Origin is not PartyGroupAgentOrigin pgao) {
-				Logger.Instance.Warning($"{agent.Character.Name} do not have a SimpleAgentOrigin");
+				Logger.Instance.Warning($"{agent.Character.Name} do not have a PartyGroupAgentOrigin");
 				return;
 			}
 
@@ -111,10 +120,9 @@ public class DTESMissionLogic : MissionLogic {
 				return;
 			}
 
-			if (!this._tables.TryGetValue(
-					party,
-					out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>? table
-				)) {
+			// 到这里我们可以根据 MobileParty 找到对应的分配表（_tables）
+			if (!this._tables.TryGetValue(party,
+										  out ConcurrentDictionary<CharacterObject, ConcurrentBag<Equipment>>? table)) {
 				Logger.Instance.Warning("Table not found.");
 				return;
 			}
@@ -124,11 +132,13 @@ public class DTESMissionLogic : MissionLogic {
 				return;
 			}
 
+			// 从该表里拿到角色对应的装备包
 			if (!table.TryGetValue(character, out ConcurrentBag<Equipment>? bag)) {
 				Logger.Instance.Warning("Bag not found.");
 				return;
 			}
 
+			// 如果还能拿到一套装备，就替换当前 Agent 的装备
 			if (!bag.TryTake(out Equipment? eq)) {
 				return;
 			}
