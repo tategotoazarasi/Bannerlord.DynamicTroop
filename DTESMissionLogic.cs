@@ -164,6 +164,23 @@ public class DTESMissionLogic : MissionLogic {
 				return;
 			}
 
+			EquipmentElement weapon0        = agent.SpawnEquipment[EquipmentIndex.Weapon0];
+			float            effectiveness1 = weapon0.Item.Effectiveness;
+			if (agent.Character is CharacterObject co) {
+				float effectiveness2 = weapon0.Item.CalculateEffectiveness(co);
+				Logger.Instance.Information(
+					$"Character:{
+						co.Name
+					} Weapon:{
+						weapon0.Item.Name
+					} effectiveness1:{
+						effectiveness1
+					}, effectiveness2:{
+						effectiveness2
+					}"
+				);
+			}
+
 			agent.UpdateSpawnEquipmentAndRefreshVisuals(eq);
 			this.InitAgentLabel(agent, banner);
 		}

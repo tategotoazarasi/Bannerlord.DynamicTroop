@@ -2,20 +2,21 @@ using System;
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
+using MathF = TaleWorlds.Library.MathF;
 
 namespace TaleWorlds.MountAndBlade;
 
 /// <summary>
-///     Extension methods for <see cref="ItemObject" /> to calculate effectiveness, considering character skills.
+///     Extension methods for <see cref="ItemObject" /> to calculate effectiveness, considering
+///     character skills.
 /// </summary>
 public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of an item, taking into account the character's skills.
 	/// </summary>
-	/// <param name="itemObject">The item to calculate effectiveness for.</param>
-	/// <param name="characterObject">The character using the item.</param>
-	/// <returns>The calculated effectiveness of the item.</returns>
+	/// <param name="itemObject">      The item to calculate effectiveness for. </param>
+	/// <param name="characterObject"> The character using the item. </param>
+	/// <returns> The calculated effectiveness of the item. </returns>
 	public static float CalculateEffectiveness(this ItemObject? itemObject, CharacterObject? characterObject) {
 		if (itemObject == null) {
 			return 0f;
@@ -37,8 +38,8 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of an armor item.
 	/// </summary>
-	/// <param name="itemObject">The armor item.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="itemObject"> The armor item. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateArmorEffectiveness(ItemObject itemObject) {
 		ArmorComponent armorComponent = itemObject.ArmorComponent;
 		float          effectiveness;
@@ -59,9 +60,9 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of a weapon item, considering character skills.
 	/// </summary>
-	/// <param name="itemObject">The weapon item.</param>
-	/// <param name="characterObject">The character using the weapon.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="itemObject">      The weapon item. </param>
+	/// <param name="characterObject"> The character using the weapon. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateWeaponEffectiveness(ItemObject itemObject, CharacterObject? characterObject) {
 		WeaponComponent     weaponComponent = itemObject.WeaponComponent;
 		WeaponComponentData primaryWeapon   = weaponComponent.PrimaryWeapon;
@@ -96,8 +97,8 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Gets the base effectiveness multiplier for a given weapon class.
 	/// </summary>
-	/// <param name="weaponClass">The weapon class.</param>
-	/// <returns>The base effectiveness multiplier.</returns>
+	/// <param name="weaponClass"> The weapon class. </param>
+	/// <returns> The base effectiveness multiplier. </returns>
 	private static float GetWeaponEffectivenessMultiplier(WeaponClass weaponClass) {
 		switch (weaponClass) {
 			case WeaponClass.Dagger:
@@ -149,10 +150,10 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of a ranged weapon, considering character skills.
 	/// </summary>
-	/// <param name="primaryWeapon">The primary weapon data.</param>
-	/// <param name="weaponEffectivenessMultiplier">The weapon effectiveness multiplier.</param>
-	/// <param name="characterObject">The character using the weapon.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="primaryWeapon">                 The primary weapon data. </param>
+	/// <param name="weaponEffectivenessMultiplier"> The weapon effectiveness multiplier. </param>
+	/// <param name="characterObject">               The character using the weapon. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateRangedWeaponEffectiveness(
 		WeaponComponentData primaryWeapon,
 		float               weaponEffectivenessMultiplier,
@@ -219,11 +220,11 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of a melee weapon, considering character skills.
 	/// </summary>
-	/// <param name="primaryWeapon">The primary weapon data.</param>
-	/// <param name="weaponEffectivenessMultiplier">The weapon effectiveness multiplier.</param>
-	/// <param name="characterObject">The character using the weapon.</param>
-	/// <param name="weaponWeight">The weight of the weapon.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="primaryWeapon">                 The primary weapon data. </param>
+	/// <param name="weaponEffectivenessMultiplier"> The weapon effectiveness multiplier. </param>
+	/// <param name="characterObject">               The character using the weapon. </param>
+	/// <param name="weaponWeight">                  The weight of the weapon. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateMeleeWeaponEffectiveness(
 		WeaponComponentData primaryWeapon,
 		float               weaponEffectivenessMultiplier,
@@ -305,22 +306,28 @@ public static class ItemObjectEffectivenessExtension {
 			}
 		}
 
-		float maxDamage = MathF.Max(swingDamage * swingSpeed, thrustDamage * thrustSpeed);
-		float minDamage = MathF.Min(swingDamage * swingSpeed, thrustDamage * thrustSpeed);
-		float effectiveness = (minDamage * minDamage / maxDamage + maxDamage) * 1.2f  +
-							  primaryWeapon.Handling                          * 0.15f +
-							  primaryWeapon.WeaponLength                      * 0.2f  +
-							  weaponWeight                                    * 0.05f;
-		effectiveness *= weaponEffectivenessMultiplier;
+		// Use the original formula from ItemObject.cs
+		float thrustEffectiveness = thrustSpeed * thrustDamage * 0.01f;
+		float swingEffectiveness  = swingSpeed  * swingDamage  * 0.01f;
+		float maxEffectiveness    = MathF.Max(swingEffectiveness, thrustEffectiveness);
+		float minEffectiveness    = MathF.Min(swingEffectiveness, thrustEffectiveness);
+		float effectiveness =
+			((maxEffectiveness + minEffectiveness * minEffectiveness / maxEffectiveness) * 120f +
+			 primaryWeapon.Handling                                                      * 15f  +
+			 primaryWeapon.WeaponLength                                                  * 20f  +
+			 weaponWeight                                                                * 5f) *
+			0.01f                                                                              *
+			weaponEffectivenessMultiplier;
+
 		return effectiveness;
 	}
 
 	/// <summary>
 	///     Calculates the effectiveness of a consumable item.
 	/// </summary>
-	/// <param name="primaryWeapon">The primary weapon data.</param>
-	/// <param name="weaponEffectivenessMultiplier">The weapon effectiveness multiplier.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="primaryWeapon">                 The primary weapon data. </param>
+	/// <param name="weaponEffectivenessMultiplier"> The weapon effectiveness multiplier. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateConsumableEffectiveness(
 		WeaponComponentData primaryWeapon,
 		float               weaponEffectivenessMultiplier
@@ -336,9 +343,9 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of a shield.
 	/// </summary>
-	/// <param name="primaryWeapon">The primary weapon data.</param>
-	/// <param name="weaponEffectivenessMultiplier">The weapon effectiveness multiplier.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="primaryWeapon">                 The primary weapon data. </param>
+	/// <param name="weaponEffectivenessMultiplier"> The weapon effectiveness multiplier. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateShieldEffectiveness(
 		WeaponComponentData primaryWeapon,
 		float               weaponEffectivenessMultiplier
@@ -355,8 +362,8 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the effectiveness of a horse item.
 	/// </summary>
-	/// <param name="itemObject">The horse item.</param>
-	/// <returns>The calculated effectiveness.</returns>
+	/// <param name="itemObject"> The horse item. </param>
+	/// <returns> The calculated effectiveness. </returns>
 	private static float CalculateHorseEffectiveness(ItemObject itemObject) {
 		HorseComponent horseComponent = itemObject.HorseComponent;
 		float effectiveness =
@@ -414,10 +421,10 @@ public static class ItemObjectEffectivenessExtension {
 	/// <summary>
 	///     Calculates the weapon damage multiplier based on character skills.
 	/// </summary>
-	/// <param name="characterObject">The character.</param>
-	/// <param name="skill">The relevant skill.</param>
-	/// <param name="damageEffect">The damage effect of the skill.</param>
-	/// <returns>The weapon damage multiplier.</returns>
+	/// <param name="characterObject"> The character. </param>
+	/// <param name="skill">           The relevant skill. </param>
+	/// <param name="damageEffect">    The damage effect of the skill. </param>
+	/// <returns> The weapon damage multiplier. </returns>
 	private static float GetWeaponDamageMultiplier(
 		CharacterObject characterObject,
 		SkillObject     skill,
