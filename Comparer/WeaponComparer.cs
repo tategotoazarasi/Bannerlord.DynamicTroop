@@ -58,7 +58,7 @@ public class WeaponComparer : IComparer<ItemObject> {
 		v += this.CompareWeaponClass(x, y);
 		v += this.CompareWeaponDamageType(x, y);
 		v += this.CompareFlags(x, y);
-		return (int)(v / 4);
+		return (int)(v / 3);
 	}
 
 	/// <summary>
@@ -76,6 +76,10 @@ public class WeaponComparer : IComparer<ItemObject> {
 	/// <param name="y"> The second ItemObject. </param>
 	/// <returns> A similarity score between 0 and 100 based on the class relationship. </returns>
 	private float CompareWeaponClass(ItemObject x, ItemObject y) {
+		if (x.ItemType == y.ItemType) {
+			return 0;
+		}
+
 		float xy = this.CompareWeaponClassOneWay(x, y);
 		float yx = this.CompareWeaponClassOneWay(y, x);
 		return (xy + yx) / 2;
@@ -182,10 +186,28 @@ public class WeaponComparer : IComparer<ItemObject> {
 		WeaponFlags flagY = y.Weapons.Select(w => w.WeaponFlags).Aggregate((current, flag) => current | flag);
 		int         bc    = BitCount(flagX & flagY);
 		float       v     = 0;
-		v += bc * 25 / (float)BitCount(flagX);
-		v += bc * 25 / (float)BitCount(flagY);
-		v += x.IsCouchable() == y.IsCouchable() ? 50 : 0;
-		return v;
+		int         bcx   = BitCount(flagX);
+		int         bcy   = BitCount(flagY);
+		if (bcx != 0) {
+			v += bc * 100 / (float)bcx;
+		} else {
+			v += 100;
+		}
+
+		if (bcy != 0) {
+			v += bc * 100 / (float)bcy;
+		} else {
+			v += 100;
+		}
+
+		v += x.IsSuitableForMount()   == y.IsSuitableForMount() ? 100 : 0;
+		v += x.IsBracable()           == y.IsBracable() ? 100 : 0;
+		v += x.IsBonusAgainstShield() == y.IsBonusAgainstShield() ? 100 : 0;
+		v += x.CanKnockdown()         == y.CanKnockdown() ? 100 : 0;
+		v += x.CanDismount()          == y.CanDismount() ? 100 : 0;
+		v += x.CantUseWithShields()   == y.CantUseWithShields() ? 100 : 0;
+		v += x.IsCouchable()          == y.IsCouchable() ? 800 : 0;
+		return v / 16;
 	}
 
 	/// <summary>

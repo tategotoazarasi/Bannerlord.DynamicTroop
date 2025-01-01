@@ -37,23 +37,34 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 													  ) >
 													  0
 										  );
-		WeaponComparer comparer = new();
+		WeaponComparer                   comparer = new();
+		HashSet<(string, string, float)> results  = new(); // Use a HashSet to store unique results
 		foreach (ItemObject? weapon1 in weapons) {
 			foreach (ItemObject? weapon2 in weapons) {
 				if (weapon1 == weapon2) {
 					continue;
 				}
 
-				Logger.Instance.Information(
-					$"Weapon1: {
-						weapon1.Name
-					}, Weapon2: {
-						weapon2.Name
-					}, Similarity: {
-						comparer.Compare(weapon1, weapon2)
-					}"
-				);
+				float similarity = comparer.Compare(weapon1, weapon2);
+
+				// Create a canonical representation of the pair (order-independent)
+				string weapon1Name = weapon1.Name.ToString();
+				string weapon2Name = weapon2.Name.ToString();
+				(string, string) orderedPair = string.CompareOrdinal(weapon1Name, weapon2Name) < 0
+												   ? (weapon1Name, weapon2Name)
+												   : (weapon2Name, weapon1Name);
+
+				// Add to HashSet, duplicates will be ignored
+				results.Add((orderedPair.Item1, orderedPair.Item2, similarity));
 			}
+		}
+
+		// Sort the results by similarity (descending)
+		List<(string, string, float)> sortedResults = results.OrderByDescending(r => r.Item3).ToList();
+
+		// Output the sorted results
+		foreach ((string weapon1Name, string weapon2Name, float similarity) in sortedResults) {
+			Logger.Instance.Information($"Weapon1: {weapon1Name}, Weapon2: {weapon2Name}, Similarity: {similarity}");
 		}
 	}
 
