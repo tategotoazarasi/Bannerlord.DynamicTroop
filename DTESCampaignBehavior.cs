@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DTES2.Comparer;
 using DTES2.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -12,6 +13,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.ObjectSystem;
 
 namespace DTES2;
 
@@ -21,6 +23,38 @@ public class DTESCampaignBehavior : CampaignBehaviorBase {
 		CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, this.OnMobilePartyCreated);
 		CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, this.OnMobilePartyDestroyed);
 		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, this.OnSessionLaunched);
+
+		IEnumerable<ItemObject> weapons = MBObjectManager.
+										  Instance.
+										  GetObjectTypeList<ItemObject>().
+										  Where(
+											  item => item.HasWeaponComponent &&
+													  (item.ItemType == ItemObject.ItemTypeEnum.OneHandedWeapon ||
+													   item.ItemType == ItemObject.ItemTypeEnum.TwoHandedWeapon ||
+													   item.ItemType == ItemObject.ItemTypeEnum.Polearm) &&
+													  item.Weapons.Count(
+														  w => (w.WeaponFlags & WeaponFlags.MeleeWeapon) != 0
+													  ) >
+													  0
+										  );
+		WeaponComparer comparer = new();
+		foreach (ItemObject? weapon1 in weapons) {
+			foreach (ItemObject? weapon2 in weapons) {
+				if (weapon1 == weapon2) {
+					continue;
+				}
+
+				Logger.Instance.Information(
+					$"Weapon1: {
+						weapon1.Name
+					}, Weapon2: {
+						weapon2.Name
+					}, Similarity: {
+						comparer.Compare(weapon1, weapon2)
+					}"
+				);
+			}
+		}
 	}
 
 	public void OnTroopRecruited(
