@@ -1,5 +1,7 @@
+#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using DTES2.Extensions;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.MapEvents;
@@ -8,7 +10,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
-
+#endregion
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
