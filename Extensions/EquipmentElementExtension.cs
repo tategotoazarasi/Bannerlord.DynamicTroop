@@ -1,9 +1,8 @@
-#region
 using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
-#endregion
+
 namespace DTES2.Extensions;
 
 /// <summary>
@@ -17,43 +16,52 @@ public static class EquipmentElementExtension {
 	/// <param name="characterObject">使用该装备的角色（可为空）。</param>
 	/// <returns>最终计算得到的有效性数值。</returns>
 	public static float CalculateEffectiveness(
-		this EquipmentElement? equipmentElement,
-		CharacterObject?       characterObject
+		this EquipmentElement equipmentElement,
+		CharacterObject?      characterObject
 	) {
-		// 若 equipmentElement 为 null，或没有对应 ItemObject，直接返回 0。
-		if (
-			equipmentElement == null || equipmentElement.Value.IsEmpty || equipmentElement.Value.Item == null
-			) {
-			return 0f;
-		}
+		string cacheKey = $"{
+			nameof(EquipmentElementExtension)
+		}.{
+			nameof(CalculateEffectiveness)
+		}:{
+			equipmentElement.Item?.StringId ?? ""
+		}:{
+			equipmentElement.ItemModifier?.StringId ?? ""
+		}:{
+			equipmentElement.IsQuestItem
+		}:{
+			equipmentElement.CosmeticItem?.StringId ?? ""
+		}";
+		return CacheManager.GetOrAdd(
+			() => {
+				// 基础有效性初始为 1f
+				float finalEffectiveness = 1f;
 
-		// 基础有效性初始为 1f
-		float finalEffectiveness = 1f;
+				// 根据物品类型，执行相应的计算逻辑
+				ItemObject itemObj = equipmentElement.Item;
+				if (itemObj.HasArmorComponent) {
+					// 盔甲的有效性
+					finalEffectiveness = CalculateArmorEffectiveness(equipmentElement, itemObj.Type);
+				} else if (itemObj.WeaponComponent != null) {
+					// 武器的有效性
+					// 注意：WeaponComponentData 有 PrimaryWeapon、SecondaryWeapon 等，这里仅示例 PrimaryWeapon
+					WeaponComponentData weaponData = itemObj.WeaponComponent.PrimaryWeapon;
+					if (weaponData != null) {
+						finalEffectiveness = CalculateWeaponEffectiveness(
+							equipmentElement,
+							weaponData,
+							characterObject
+						);
+					}
+				} else if (itemObj.HorseComponent != null) {
+					// 马匹（或马具）的有效性
+					finalEffectiveness = CalculateHorseEffectiveness(equipmentElement);
+				}
 
-		// 根据物品类型，执行相应的计算逻辑
-		ItemObject itemObj = equipmentElement.Value.Item;
-		if (itemObj.HasArmorComponent) {
-			// 盔甲的有效性
-			finalEffectiveness = CalculateArmorEffectiveness(equipmentElement.Value, itemObj.Type);
-		}
-		else if (itemObj.WeaponComponent != null) {
-			// 武器的有效性
-			// 注意：WeaponComponentData 有 PrimaryWeapon、SecondaryWeapon 等，这里仅示例 PrimaryWeapon
-			WeaponComponentData weaponData = itemObj.WeaponComponent.PrimaryWeapon;
-			if (weaponData != null) {
-				finalEffectiveness = CalculateWeaponEffectiveness(
-					equipmentElement.Value,
-					weaponData,
-					characterObject
-				);
-			}
-		}
-		else if (itemObj.HorseComponent != null) {
-			// 马匹（或马具）的有效性
-			finalEffectiveness = CalculateHorseEffectiveness(equipmentElement.Value);
-		}
-
-		return finalEffectiveness;
+				return finalEffectiveness;
+			},
+			cacheKey
+		);
 	}
 
 	/// <summary>
@@ -73,6 +81,7 @@ public static class EquipmentElementExtension {
 			int mountBodyArmor = equipmentElement.GetModifiedMountBodyArmor();
 			return mountBodyArmor * 1.67f;
 		}
+
 		// 普通人体盔甲
 		// 原逻辑：
 		// armorValue = (HeadArmor*34 + BodyArmor*42 + LegArmor*12 + ArmArmor*12) * 0.03f
@@ -108,25 +117,20 @@ public static class EquipmentElementExtension {
 			if (weaponData.IsConsumable) {
 				// 远程 + 消耗品（例如箭、弹药）
 				baseValue = CalculateRangedConsumableEffectiveness(eq, weaponData);
-			}
-			else {
+			} else {
 				// 远程 + 非消耗品（例如弓、弩）
 				baseValue = CalculateRangedWeaponEffectiveness(eq, weaponData);
 			}
-		}
-		else if (weaponData.IsMeleeWeapon) {
+		} else if (weaponData.IsMeleeWeapon) {
 			// 近战武器
 			baseValue = CalculateMeleeWeaponEffectiveness(eq, weaponData);
-		}
-		else if (weaponData.IsConsumable) {
+		} else if (weaponData.IsConsumable) {
 			// 非射击类的消耗品（如石块、特殊投掷道具等）
 			baseValue = CalculatePureConsumableEffectiveness(eq, weaponData);
-		}
-		else if (weaponData.IsShield) {
+		} else if (weaponData.IsShield) {
 			// 盾牌
 			baseValue = CalculateShieldEffectiveness(eq, weaponData);
-		}
-		else {
+		} else {
 			// 兜底
 			baseValue = 1f;
 		}
@@ -148,10 +152,7 @@ public static class EquipmentElementExtension {
 	/// <summary>
 	///     近战武器基础有效性计算，使用装备元素的修正属性（伤害、速度、长度、Handling、重量等）。
 	/// </summary>
-	private static float CalculateMeleeWeaponEffectiveness(
-		EquipmentElement    eq,
-		WeaponComponentData weaponData
-	) {
+	private static float CalculateMeleeWeaponEffectiveness(EquipmentElement eq, WeaponComponentData weaponData) {
 		// 原逻辑（对于 PrimaryWeapon 的 thrust / swing）：
 		// float thrustVal = (thrustSpeed * thrustDamage) * 0.01f;
 		// float swingVal  = (swingSpeed  * swingDamage ) * 0.01f;
@@ -174,11 +175,10 @@ public static class EquipmentElementExtension {
 		float maxVal    = MathF.Max(thrustVal, swingVal);
 		float minVal    = MathF.Min(thrustVal, swingVal);
 
-		float combined =
-			(maxVal + minVal * minVal / (maxVal == 0 ? 1 : maxVal)) * 120f +
-			handling                                                * 15f  +
-			weaponLength                                            * 20f  +
-			weight                                                  * 5f;
+		float combined = (maxVal + minVal * minVal / (maxVal == 0 ? 1 : maxVal)) * 120f +
+						 handling                                                * 15f  +
+						 weaponLength                                            * 20f  +
+						 weight                                                  * 5f;
 
 		float result = combined * 0.01f;
 		return result;
@@ -187,10 +187,7 @@ public static class EquipmentElementExtension {
 	/// <summary>
 	///     非消耗型远程武器基础有效性（如弓、弩），使用装备元素的修正属性。
 	/// </summary>
-	private static float CalculateRangedWeaponEffectiveness(
-		EquipmentElement    eq,
-		WeaponComponentData weaponData
-	) {
+	private static float CalculateRangedWeaponEffectiveness(EquipmentElement eq, WeaponComponentData weaponData) {
 		// 原逻辑：
 		// result = ((MissileSpeed * MissileDamage) * 1.75f + (ThrustSpeed * Accuracy) * 0.3f) * 0.01f * MaxDataValue
 		int missileSpeed  = eq.GetModifiedMissileSpeedForUsage(0);
@@ -208,10 +205,7 @@ public static class EquipmentElementExtension {
 	/// <summary>
 	///     远程 + 消耗品（例如箭、弹药等）基础有效性计算。
 	/// </summary>
-	private static float CalculateRangedConsumableEffectiveness(
-		EquipmentElement    eq,
-		WeaponComponentData weaponData
-	) {
+	private static float CalculateRangedConsumableEffectiveness(EquipmentElement eq, WeaponComponentData weaponData) {
 		// 原逻辑：
 		// result = ((MissileDamage * MissileSpeed) * 1.775f + (Accuracy * MaxDataValue) * 25f + (WeaponLength * 4f))
 		//          * 0.006944f * MaxDataValue
@@ -232,10 +226,7 @@ public static class EquipmentElementExtension {
 	/// <summary>
 	///     非射击类的消耗品（如投掷石块、特殊道具）基础有效性计算。
 	/// </summary>
-	private static float CalculatePureConsumableEffectiveness(
-		EquipmentElement    eq,
-		WeaponComponentData weaponData
-	) {
+	private static float CalculatePureConsumableEffectiveness(EquipmentElement eq, WeaponComponentData weaponData) {
 		// 原逻辑：
 		// result = ((MissileDamage * 550f) + (MissileSpeed * 15f) + (MaxDataValue * 60f)) * 0.01f
 		int missileDamage = eq.GetModifiedMissileDamageForUsage(0);
@@ -250,10 +241,7 @@ public static class EquipmentElementExtension {
 	/// <summary>
 	///     盾牌的基础有效性计算。
 	/// </summary>
-	private static float CalculateShieldEffectiveness(
-		EquipmentElement    eq,
-		WeaponComponentData weaponData
-	) {
+	private static float CalculateShieldEffectiveness(EquipmentElement eq, WeaponComponentData weaponData) {
 		// 原逻辑：
 		// result = ((BodyArmor * 60f) + (ThrustSpeed * 10f) + (MaxDataValue * 40f) + (WeaponLength * 20f)) * 0.01f
 		int bodyArmor    = eq.GetModifiedBodyArmor(); // 盾牌的 BodyArmor 在 WeaponComponent 的 PrimaryWeapon.BodyArmor 中
@@ -261,8 +249,7 @@ public static class EquipmentElementExtension {
 		int maxDataValue = weaponData.MaxDataValue;
 		int weaponLength = weaponData.WeaponLength;
 
-		float baseValue =
-			bodyArmor * 60f + thrustSpeed * 10f + maxDataValue * 40f + weaponLength * 20f;
+		float baseValue = bodyArmor * 60f + thrustSpeed * 10f + maxDataValue * 40f + weaponLength * 20f;
 
 		return baseValue * 0.01f;
 	}
@@ -336,7 +323,8 @@ public static class EquipmentElementExtension {
 		CharacterObject?    characterObject,
 		float               weaponEffectiveness
 	) {
-		if (characterObject == null || weaponData == null) {
+		if (characterObject == null ||
+			weaponData      == null) {
 			return weaponEffectiveness;
 		}
 
@@ -347,7 +335,7 @@ public static class EquipmentElementExtension {
 		}
 
 		// 使用 ExplainedNumber 来叠加说明
-		ExplainedNumber explained = new ExplainedNumber(weaponEffectiveness);
+		ExplainedNumber explained = new(weaponEffectiveness);
 
 		// 根据不同的技能对象，加不同的 perk 效果（伤害 / 速度 / 精度）
 		if (skill == DefaultSkills.OneHanded) {
@@ -363,8 +351,7 @@ public static class EquipmentElementExtension {
 				characterObject,
 				ref explained
 			);
-		}
-		else if (skill == DefaultSkills.TwoHanded) {
+		} else if (skill == DefaultSkills.TwoHanded) {
 			SkillHelper.AddSkillBonusForCharacter(
 				skill,
 				DefaultSkillEffects.TwoHandedDamage,
@@ -377,8 +364,7 @@ public static class EquipmentElementExtension {
 				characterObject,
 				ref explained
 			);
-		}
-		else if (skill == DefaultSkills.Polearm) {
+		} else if (skill == DefaultSkills.Polearm) {
 			SkillHelper.AddSkillBonusForCharacter(
 				skill,
 				DefaultSkillEffects.PolearmDamage,
@@ -391,8 +377,7 @@ public static class EquipmentElementExtension {
 				characterObject,
 				ref explained
 			);
-		}
-		else if (skill == DefaultSkills.Bow) {
+		} else if (skill == DefaultSkills.Bow) {
 			SkillHelper.AddSkillBonusForCharacter(
 				skill,
 				DefaultSkillEffects.BowDamage,
@@ -405,8 +390,7 @@ public static class EquipmentElementExtension {
 				characterObject,
 				ref explained
 			);
-		}
-		else if (skill == DefaultSkills.Throwing) {
+		} else if (skill == DefaultSkills.Throwing) {
 			SkillHelper.AddSkillBonusForCharacter(
 				skill,
 				DefaultSkillEffects.ThrowingDamage,
@@ -425,8 +409,7 @@ public static class EquipmentElementExtension {
 				characterObject,
 				ref explained
 			);
-		}
-		else if (skill == DefaultSkills.Crossbow) {
+		} else if (skill == DefaultSkills.Crossbow) {
 			SkillHelper.AddSkillBonusForCharacter(
 				skill,
 				DefaultSkillEffects.CrossbowAccuracy,

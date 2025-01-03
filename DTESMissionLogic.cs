@@ -1,4 +1,3 @@
-#region
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using DTES2.Extensions;
@@ -10,7 +9,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
-#endregion
+
 namespace DTES2;
 
 public class DTESMissionLogic : MissionLogic {
@@ -169,16 +168,16 @@ public class DTESMissionLogic : MissionLogic {
 			EquipmentElement weapon0        = agent.SpawnEquipment[EquipmentIndex.Weapon0];
 			float            effectiveness1 = weapon0.Item.Effectiveness;
 			if (agent.Character is CharacterObject co) {
-				float effectiveness2 = weapon0.Item.CalculateEffectiveness(co);
+				float effectiveness3 = weapon0.CalculateEffectiveness(co);
 				Logger.Instance.Information(
 					$"Character:{
 						co.Name
 					} Weapon:{
-						weapon0.Item.Name
-					} effectiveness1:{
+						weapon0.GetModifiedItemName()
+					} i:{
 						effectiveness1
-					}, effectiveness2:{
-						effectiveness2
+					}, ec:{
+						effectiveness3
 					}"
 				);
 			}
