@@ -1,0 +1,97 @@
+<Project Sdk="Bannerlord.BUTRModule.Sdk/1.1.0.104">
+
+    <PropertyGroup>
+        <Version>0.0.1</Version>
+        <TargetFramework>net472</TargetFramework>
+        <Platforms>x64</Platforms>
+        <LangVersion>10.0</LangVersion>
+        <Nullable>enable</Nullable>
+
+        <EnableSourceLink>false</EnableSourceLink>
+        <EmbedUntrackedSources>false</EmbedUntrackedSources>
+
+        <BuildForWindows>false</BuildForWindows>
+        <BuildForWindowsStore>false</BuildForWindowsStore>
+
+        <ModuleId>$(MSBuildProjectName)</ModuleId>
+        <ModuleName>$(MSBuildProjectName)</ModuleName>
+        <ModuleUrl></ModuleUrl>
+        <GameFolder>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>
+        <!-- Module manually override GameVersion -->
+        <!-- <OverrideGameVersion>v1.0.0</OverrideGameVersion> -->
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(TargetFramework) == 'net472'">
+        <!-- Steam/GOG/Epic versions of the game -->
+        <BuildForWindows>true</BuildForWindows>
+    </PropertyGroup>
+
+    <!-- Development Variables -->
+    <PropertyGroup>
+        <UIExtenderExVersion>2.13.2</UIExtenderExVersion>
+        <ButterLibVersion>2.10.3</ButterLibVersion>
+        <MCMVersion>5.11.3</MCMVersion>
+        <HarmonyExtensionsVersion>3.2.0.77</HarmonyExtensionsVersion>
+        <!--
+    <BUTRSharedVersion>3.0.0.135</BUTRSharedVersion>
+    <BUTRModuleManagerVersion>5.0.198</BUTRModuleManagerVersion>
+    -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="log4net" Version="3.2.0"/>
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" PrivateAssets="all" IncludeAssets="compile"/>
+        <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+        <Content Include="log4net.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="DynamicTroopEquipmentReupload.Test\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="DynamicTroopEquipmentReupload.Test\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="DynamicTroopEquipmentReupload.Test\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="0Harmony">
+            <HintPath>$(GameFolder)\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Bannerlord.Harmony">
+            <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\Bannerlord.Harmony.dll</HintPath>
+        </Reference>
+        <Reference Include="log4net">
+            <HintPath>..\..\Downloads\Compressed\log4net.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+        <Reference Include="MathNet.Numerics">
+            <HintPath>..\MathNet.Numerics.dll</HintPath>
+            <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Bannerlord.ButterLib" Version="2.10.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Bannerlord.MCM" Version="5.11.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.3.13.105254"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Update="Bannerlord.UIExtenderEx" Version="2.13.2"/>
+    </ItemGroup>
+
+</Project>

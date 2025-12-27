@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Bannerlord.DynamicTroop.Extensions;
+using System.Collections.Generic;
+using DynamicTroopEquipmentReupload.Extensions;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop.Comparers;
+namespace DynamicTroopEquipmentReupload.Comparers;
 
 public class ArmorComparer : IComparer<ItemObject> {
 	public int Compare(ItemObject x, ItemObject y) { return y.CompareArmor(x); }

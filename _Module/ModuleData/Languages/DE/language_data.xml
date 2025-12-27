@@ -4,5 +4,5 @@
               xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/ModuleLanguageData.xsd"
               id="Deutsch" name="Deutsch" subtitle_extension="de"
               supported_iso="de,deu,ger,de-de,de-at,de-li,de-lu,de-ch" under_development="false">
-	<LanguageFile xml_path="DE/strings.xml" />
+    <LanguageFile xml_path="DE/strings.xml"/>
 </LanguageData>

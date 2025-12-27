@@ -1,8 +1,8 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop.Patches;
+namespace DynamicTroopEquipmentReupload.Patches;
 
 [HarmonyPatch(typeof(CharacterObject), "get_UpgradeRequiresItemFromCategory")]
 public class GetUpgradeRequiresItemFromCategoryPatch {

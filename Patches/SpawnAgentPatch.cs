@@ -1,144 +1,128 @@
+#region
+
 using System;
-using System.Collections.Generic;
-using Bannerlord.DynamicTroop.Extensions;
+using System.Linq;
+using DynamicTroopEquipmentReupload.Extensions;
 using HarmonyLib;
-using SandBox.Tournaments.MissionLogics;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.Core;
-using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.ObjectSystem;
 
-namespace Bannerlord.DynamicTroop.Patches;
+#endregion
 
-[HarmonyPatch(typeof(Mission), "SpawnAgent")]
-public class SpawnAgentPatch {
-	/// <summary>
-	///     在生成士兵之前执行的逻辑。
-	/// </summary>
-	/// <param name="__instance">     当前Mission的实例。 </param>
-	/// <param name="agentBuildData"> 士兵生成数据。 </param>
-	private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData) {
-		Global.Debug($"SpawnAgentPatch for {agentBuildData.AgentCharacter.GetName()}");
-		try {
-			if (!IsCombatMissionWithValidData(__instance, agentBuildData)) return;
-			
-			var party = Global.GetAgentParty(agentBuildData.AgentOrigin);
-			if (!IsPartyValidForProcessing(party)) {
-				if ((ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? false) && agentBuildData.AgentCharacter is CharacterObject character) {
-					Assignment assignment = new(character);
+namespace DynamicTroopEquipmentReupload.Patches;
+
+[HarmonyPatch(typeof(Mission), nameof(Mission.SpawnAgent))]
+public static class SpawnAgentPatch {
+	private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData, ref SpawnAgentState? __state) {
+		if (__instance.GetMissionBehavior<MissionAgentSpawnLogic>() == null) { return; }
+
+		if (agentBuildData.AgentOrigin == null) { return; }
+
+		// party not valid
+		if (!IsPartyValidForProcessing(agentBuildData.AgentOrigin)) {
+			if (ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? false) {
+				if (agentBuildData.AgentOrigin.Troop is CharacterObject troopCharacterObject && !troopCharacterObject.IsHero) {
+					var assignment = new Assignment(troopCharacterObject);
 					assignment.FillEmptySlots();
 					agentBuildData = agentBuildData.Equipment(assignment.Equipment);
 				}
-				
-				return;
 			}
-			
-			var missionLogic = __instance.GetMissionBehavior<DynamicTroopMissionLogic>();
-			if (missionLogic == null) {
-				Global.Error("missionLogic is null");
-				return;
-			}
-			
-			Global.Debug($"Spawning {agentBuildData.AgentCharacter.GetName()} for {party.Name}");
-			ProcessAgentSpawn(agentBuildData, party, missionLogic);
-			UpdateBattleSides(missionLogic, party, agentBuildData.AgentTeam.Side);
+
+			return;
 		}
-		catch (Exception e) { Global.Error(e.ToString()); }
+
+		var dynamicTroopMissionLogic = __instance.GetMissionBehavior<DynamicTroopMissionLogic>();
+		if (dynamicTroopMissionLogic == null) { return; }
+
+		var party = Global.GetAgentParty(agentBuildData.AgentOrigin);
+		if (party == null) { return; }
+
+		var isMainParty = party == Campaign.Current.MainParty;
+		if (!isMainParty && !party.IsValid()) { return; }
+
+		dynamicTroopMissionLogic.TryInitializeDistributors();
+
+		if (!dynamicTroopMissionLogic.Distributors.TryGetValue(party.Id, out var distributor) || distributor == null) { return; }
+
+
+		var troopCharacter = agentBuildData.AgentOrigin.Troop as CharacterObject;
+		if (troopCharacter == null || troopCharacter.IsHero) { return; }
+
+		var assignmentOrNull = distributor.Assignments.FirstOrDefault(x => x.Character == troopCharacter && !x.IsAssigned);
+		if (assignmentOrNull == null) { return; }
+
+		assignmentOrNull.IsAssigned = true;
+
+
+		var isInPlayerParty = agentBuildData.AgentOrigin.IsUnderPlayersCommand;
+
+		if (!isInPlayerParty) { assignmentOrNull.FillEmptySlots(); }
+
+
+		agentBuildData = agentBuildData.Equipment(assignmentOrNull.Equipment);
+		__state        = new SpawnAgentState(assignmentOrNull, isInPlayerParty, isMainParty, distributor);
 	}
-	
-	/// <summary>
-	///     判断当前任务是否为有效的战斗任务，并且士兵生成数据是否有效。
-	/// </summary>
-	/// <param name="mission">        当前任务。 </param>
-	/// <param name="agentBuildData"> 士兵生成数据。 </param>
-	/// <returns> 如果是有效的战斗任务并且数据有效，则返回true。 </returns>
-	private static bool IsCombatMissionWithValidData(Mission mission, AgentBuildData agentBuildData) {
-		return mission is { CombatType: Mission.MissionCombatType.Combat, PlayerTeam: not null } &&
-			   !mission.HasMissionBehavior<TournamentBehavior>()                                 &&
-			   !mission.HasMissionBehavior<CustomBattleAgentLogic>()                             &&
-			   mission.HasMissionBehavior<DynamicTroopMissionLogic>()                            &&
-			   agentBuildData is {
-									 AgentCharacter   : not null,
-									 AgentFormation   : not null,
-									 AgentTeam.IsValid: true,
-									 AgentOrigin      : not null
-								 } &&
-			   Global.GetAgentParty(agentBuildData.AgentOrigin) != null;
-	}
-	
-	private static bool IsPartyValidForProcessing(MobileParty? party) {
-		return party != null && (party.IsValid() || party == MobileParty.MainParty);
-	}
-	
-	/// <summary>
-	///     处理士兵生成的逻辑。
-	/// </summary>
-	/// <param name="agentBuildData"> 士兵生成数据。 </param>
-	/// <param name="party">          相关联的部队。 </param>
-	/// <param name="missionLogic">   任务逻辑。 </param>
-	private static void ProcessAgentSpawn(AgentBuildData agentBuildData, MobileParty party, DynamicTroopMissionLogic missionLogic) {
-		if (agentBuildData.AgentCharacter.IsHero) return;
-		
-		EnsureDistributorExists(missionLogic, party);
-		
-		var assignment = GetAssignmentForCharacter(missionLogic, party, agentBuildData.AgentCharacter.StringId);
-		if (assignment != null) {
-			if (!Global.IsInPlayerParty(agentBuildData.AgentOrigin)) assignment.FillEmptySlots();
-			
-			agentBuildData = agentBuildData.Equipment(assignment.Equipment);
-			AssignOrSpawnEquipment(agentBuildData, assignment, missionLogic, party);
-			assignment.IsAssigned = true;
+
+	private static void Postfix(Agent __result, SpawnAgentState? __state) {
+		if (__result == null || __state == null) { return; }
+
+		var equipmentToConsume = __state.Assignment.CreateEquipmentForArmoryConsumption();
+
+		if (__state.IsMainParty) { ArmyArmory.AssignEquipment(equipmentToConsume); }
+		else { __state.Distributor.Spawn(equipmentToConsume); }
+
+		// Underequipped morale penalty (player party only)
+		if (__state.IsInPlayerParty && (ModSettings.Instance?.Underequipped ?? true)) {
+			var penalty = __state.Assignment.UnderEquippedMoralePenalty;
+			if (penalty > 0f) { ApplyMoralePenalty(__result, penalty); }
 		}
-		else { Global.Error($"Assignment not found for {agentBuildData.AgentCharacter.StringId}"); }
+
+		var dynamicTroopMissionLogic = Mission.Current.GetMissionBehavior<DynamicTroopMissionLogic>();
+		dynamicTroopMissionLogic?.RegisterSpawnedAgentAssignment(__result, __state.Assignment);
 	}
-	
-	/// <summary>
-	///     确保给定部队的装备分配器存在。
-	/// </summary>
-	/// <param name="missionLogic"> 任务逻辑。 </param>
-	/// <param name="party">        部队。 </param>
-	private static void EnsureDistributorExists(DynamicTroopMissionLogic missionLogic, MobileParty party) {
-		if (missionLogic.Distributors.ContainsKey(party.Id)) return;
-		
-		var partyArmory = EveryoneCampaignBehavior.PartyArmories.TryGetValue(party.Id, out var armory) ? armory : new Dictionary<ItemObject, int>();
-		missionLogic.Distributors.Add(party.Id, new PartyEquipmentDistributor(Mission.Current, party, partyArmory));
-		Global.Debug($"Party {party.Name} involved");
+
+	private static void ApplyMoralePenalty(Agent agent, float penalty) {
+		var currentMorale = agent.GetMorale();
+
+		if (currentMorale < 0f)
+			return;
+
+		agent.SetMorale(Math.Max(0f, currentMorale - penalty));
 	}
-	
-	/// <summary>
-	///     根据给定的部队和角色ID获取分配的装备。
-	/// </summary>
-	/// <param name="missionLogic">      任务逻辑。 </param>
-	/// <param name="party">             部队对象。 </param>
-	/// <param name="characterStringId"> 角色ID。 </param>
-	/// <returns> 找到的分配任务，如果没有则返回null。 </returns>
-	private static Assignment? GetAssignmentForCharacter(DynamicTroopMissionLogic missionLogic, MBObjectBase party, string characterStringId) {
-		return missionLogic.Distributors[party.Id].Assignments.FirstOrDefaultQ(a => !a.IsAssigned && a.Character.StringId == characterStringId);
+
+
+	private static bool IsPartyValidForProcessing(IAgentOriginBase agentOrigin) {
+		var party = agentOrigin switch {
+						PartyAgentOrigin partyAgentOrigin           => partyAgentOrigin.Party,
+						PartyGroupAgentOrigin partyGroupAgentOrigin => partyGroupAgentOrigin.Party,
+						SimpleAgentOrigin simpleAgentOrigin         => simpleAgentOrigin.Party,
+						_                                           => null
+					};
+
+		if (party is not { IsValid: true, MobileParty: not null }) { return false; }
+
+		var mobileParty = party.MobileParty;
+		if (mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsMilitia || mobileParty.IsBandit) { return false; }
+
+		return true;
 	}
-	
-	/// <summary>
-	///     分配士兵的装备。
-	/// </summary>
-	/// <param name="agentBuildData"> 士兵生成数据。 </param>
-	/// <param name="assignment">     分配任务。 </param>
-	/// <param name="missionLogic">   任务逻辑。 </param>
-	/// <param name="party">          部队对象。 </param>
-	private static void AssignOrSpawnEquipment(AgentBuildData agentBuildData, Assignment assignment, DynamicTroopMissionLogic missionLogic, MBObjectBase party) {
-		if (Global.IsInPlayerParty(agentBuildData.AgentOrigin))
-			ArmyArmory.AssignEquipment(assignment.Equipment);
-		else
-			missionLogic.Distributors[party.Id].Spawn(assignment.Equipment);
-	}
-	
-	/// <summary>
-	///     更新任务逻辑中的部队战斗方面信息。
-	/// </summary>
-	/// <param name="missionLogic"> 任务逻辑。 </param>
-	/// <param name="party">        部队对象。 </param>
-	/// <param name="side">         战斗中的一方。 </param>
-	private static void UpdateBattleSides(DynamicTroopMissionLogic missionLogic, MBObjectBase party, BattleSideEnum side) {
-		if (!missionLogic.PartyBattleSides.ContainsKey(party.Id)) missionLogic.PartyBattleSides.Add(party.Id, side);
+
+	private sealed class SpawnAgentState {
+		public SpawnAgentState(Assignment assignment, bool isInPlayerParty, bool isMainParty, PartyEquipmentDistributor distributor) {
+			Assignment      = assignment;
+			IsInPlayerParty = isInPlayerParty;
+			IsMainParty     = isMainParty;
+			Distributor     = distributor;
+		}
+
+		public Assignment Assignment { get; }
+
+		public bool IsInPlayerParty { get; }
+
+		public bool IsMainParty { get; }
+
+		public PartyEquipmentDistributor Distributor { get; }
 	}
 }

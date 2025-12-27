@@ -1,6 +1,6 @@
-﻿using TaleWorlds.Localization;
+using TaleWorlds.Localization;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public static class LocalizedTexts {
 	public static readonly TextObject SettingEasy = new("{=setting_easy}Easy");

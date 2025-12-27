@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace Bannerlord.DynamicTroop.Extensions;
+namespace DynamicTroopEquipmentReupload.Extensions;
 
 public static class AgentExtension {
 	public static bool IsValid(this Agent? agent) {

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using Bannerlord.DynamicTroop.Extensions;
+using DynamicTroopEquipmentReupload.Extensions;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace Bannerlord.DynamicTroop.Patches;
+namespace DynamicTroopEquipmentReupload.Patches;
 
 [HarmonyPatch(typeof(RecruitmentVM), "ExecuteDone")]
 public class RecruitmentPatch {
@@ -51,7 +51,7 @@ public class RecruitmentPatch {
 					items.Add(equipmentElement.Item);
 					items = items.Distinct().ToList();
 					equipmentElements.Add(new EquipmentElement(WeightedRandomSelector.SelectItem(items,
-																   equipmentElement.Item.Effectiveness)));
+																								 equipmentElement.Item.Effectiveness)));
 				}
 				else { equipmentElements.Add(equipmentElement); }
 			}
@@ -63,7 +63,7 @@ public class RecruitmentPatch {
 		}
 
 		foreach (var equipment in character.BattleEquipments)
-			if (equipment.IsValid)
+			if (!equipment.IsEmpty())
 				foreach (var slot in Assignment.WeaponSlots) {
 					var item = equipment.GetEquipmentFromSlot(slot);
 					if (item is not { IsEmpty: false, Item: not null } || !item.Item.HasWeaponComponent) continue;
@@ -87,7 +87,7 @@ public class RecruitmentPatch {
 		if (character?.BattleEquipments?.IsEmpty() ?? true) return list;
 
 		foreach (var equipment in character.BattleEquipments)
-			if (equipment is { IsValid: true })
+			if (!equipment.IsEmpty())
 				foreach (var slot in Global.EquipmentSlots) {
 					var item = equipment.GetEquipmentFromSlot(slot);
 					if (item is { IsEmpty: false, Item: not null }) list.Add(item);

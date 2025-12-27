@@ -1,12 +1,12 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
-using Bannerlord.DynamicTroop.Comparers;
-using Bannerlord.DynamicTroop.Extensions;
-using Bannerlord.DynamicTroop.Patches;
+using DynamicTroopEquipmentReupload.Comparers;
+using DynamicTroopEquipmentReupload.Extensions;
+using DynamicTroopEquipmentReupload.Patches;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -22,7 +22,7 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemO
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	public static Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
@@ -43,8 +43,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 				  { ItemObject.ItemTypeEnum.Crossbow, memberCnt => Math.Max(2     * memberCnt, memberCnt + 100) }, {
 																													   ItemObject.ItemTypeEnum.OneHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
 																												   }, {
-					  ItemObject.ItemTypeEnum.TwoHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
-				  },
+																														  ItemObject.ItemTypeEnum.TwoHandedWeapon, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400)
+																													  },
 				  { ItemObject.ItemTypeEnum.Polearm, memberCnt => Math.Max(8 * memberCnt, 4 * memberCnt + 400) }
 			  };
 
@@ -79,6 +79,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void OnNewGameCreated(CampaignGameStarter starter) {
 		Global.Debug("OnNewGameCreated() called");
 		PartyArmories.Clear();
+
+		CharacterObjectExtension.Init();
 	}
 
 
@@ -295,7 +297,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private static float CalculateTotalStrength(IEnumerable<MapEventParty> parties) {
-		return parties.SumQ(party => party.Party.TotalStrength);
+		return parties.SumQ(party => party.Party.EstimatedStrength);
 	}
 
 	/// <summary>
@@ -363,7 +365,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		var cumulativeStrength = 0f;
 
 		foreach (var party in parties) {
-			cumulativeStrength += party.Party.TotalStrength;
+			cumulativeStrength += party.Party.EstimatedStrength;
 			if (cumulativeStrength >= randomValue) return party.Party.MobileParty;
 		}
 

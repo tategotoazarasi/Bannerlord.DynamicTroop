@@ -1,7 +1,7 @@
-﻿using TaleWorlds.Core;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public static class Helper {
 	public static EquipmentIndex? ItemEnumTypeToEquipmentIndex(ItemObject.ItemTypeEnum itemType) {

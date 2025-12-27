@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop.Comparers;
+namespace DynamicTroopEquipmentReupload.Comparers;
 
 public class EquipmentElementComparerArmory : IEqualityComparer<EquipmentElement> {
 	public bool Equals(EquipmentElement x, EquipmentElement y) {

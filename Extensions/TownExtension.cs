@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -6,7 +6,7 @@ using TaleWorlds.Core;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop.Extensions;
+namespace DynamicTroopEquipmentReupload.Extensions;
 
 public static class TownExtension {
 	public static List<ItemObject> GetRandomEquipments(this Town? town) {
@@ -17,7 +17,7 @@ public static class TownExtension {
 			if (village.VillageState != Village.VillageStates.Normal) continue;
 
 			var items = Cache.GetItemsByTierAndCulture(2 * (int)village.GetProsperityLevel() +
-													   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
+													   (int)(ModSettings.Instance?.Difficulty ?? 0f),
 													   town.Culture);
 			if (items != null && !items.IsEmpty()) list.Add(items.GetRandomElement());
 		}
@@ -26,7 +26,7 @@ public static class TownExtension {
 
 		var items2 =
 			Cache.GetItemsByTierAndCulture(2 * (int)town.GetProsperityLevel() +
-										   (ModSettings.Instance?.Difficulty.SelectedIndex ?? 0),
+										   (int)(ModSettings.Instance?.Difficulty ?? 0f),
 										   town.Culture);
 		if (items2 != null && !items2.IsEmpty()) list.Add(items2.GetRandomElement());
 		return list;

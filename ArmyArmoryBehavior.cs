@@ -1,18 +1,18 @@
-﻿#region
+#region
 
 using System;
 using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
+using Helpers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
-using TaleWorlds.CampaignSystem.Inventory;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	private Data _data = new();
@@ -45,12 +45,41 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	public override void RegisterEvents() {
 		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
 		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
+		CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
 	}
+
 
 	private void OnNewGameCreated(CampaignGameStarter starter) {
 		Global.Debug("OnNewGameCreated() called");
 		ArmyArmory.Armory.Clear();
 	}
+
+	private void OnDailyTick() {
+		var settings = ModSettings.Instance;
+		if (settings == null)
+			return;
+
+		// Only if Commander's Greed is OFF.
+		if (settings.CommandersGreed)
+			return;
+
+		var currentDayNumber = (int)CampaignTime.Now.ToDays;
+
+		// Run every 3 days.
+		if (_data.LastScrapDayNumber >= 0 && currentDayNumber - _data.LastScrapDayNumber < 3)
+			return;
+
+		_data.LastScrapDayNumber = currentDayNumber;
+
+		var cap                    = settings.ScrapCapPerCategory;
+		var targetCountPerCategory = cap - 1;
+
+		if (targetCountPerCategory <= 0)
+			return;
+
+		ScrapArmyArmoryByCategory(targetCountPerCategory);
+	}
+
 
 	private void Save() {
 		var i = ArmyArmory.Armory.GetEnumerator();
@@ -78,6 +107,65 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		Global.Debug($"loaded {tempData.Armory.Count} entries for player");
 	}
 
+	private static void ScrapArmyArmoryByCategory(int targetCountPerCategory) {
+		var itemsByType = new Dictionary<ItemObject.ItemTypeEnum, List<(EquipmentElement Equipment, int Amount)>>();
+
+		var enumerator = ArmyArmory.Armory.GetEnumerator();
+		while (enumerator.MoveNext()) {
+			var element = enumerator.Current;
+
+			if (element is not { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: > 0 })
+				continue;
+
+			var equipmentElement = element.EquipmentElement;
+			var itemType         = equipmentElement.Item.ItemType;
+
+			if (!itemsByType.TryGetValue(itemType, out var list)) {
+				list = new List<(EquipmentElement Equipment, int Amount)>();
+				itemsByType.Add(itemType, list);
+			}
+
+
+			list.Add((equipmentElement, element.Amount));
+		}
+
+		enumerator.Dispose();
+
+		foreach (var kvp in itemsByType) {
+			var entries = kvp.Value;
+
+			var totalCount = 0;
+			for (var i = 0; i < entries.Count; i++)
+				totalCount += entries[i].Amount;
+
+			if (totalCount <= targetCountPerCategory)
+				continue;
+
+			var removeNeeded = totalCount - targetCountPerCategory;
+
+			// lowest value first
+			entries.Sort((a, b) => {
+				var valueCompare = a.Equipment.ItemValue.CompareTo(b.Equipment.ItemValue);
+				if (valueCompare != 0)
+					return valueCompare;
+
+				var itemCompare = string.CompareOrdinal(a.Equipment.Item.StringId, b.Equipment.Item.StringId);
+				return itemCompare != 0
+						   ? itemCompare
+						   : string.CompareOrdinal(a.Equipment.ItemModifier?.StringId, b.Equipment.ItemModifier?.StringId);
+			});
+
+			for (var i = 0; i < entries.Count && removeNeeded > 0; i++) {
+				(var equipment, var amount) = entries[i];
+				var removeCount = Math.Min(amount, removeNeeded);
+
+				ArmyArmory.Armory.AddToCounts(equipment, -removeCount);
+				removeNeeded -= removeCount;
+			}
+		}
+	}
+
+
 	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
 
 	private void AddTownMenuOptions(CampaignGameStarter starter) {
@@ -98,12 +186,15 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		// 创建子菜单
 		starter.AddGameMenu("army_armory_submenu", LocalizedTexts.ArmoryManageOption.ToString(), args => { });
 
-		// 在子菜单中添加选项
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "view_armory",
 								  LocalizedTexts.ArmorViewOption.ToString(),
 								  args => true,
-								  args => { InventoryManager.OpenScreenAsStash(ArmyArmory.Armory); });
+								  args => {
+									  // roster so the player can leave items
+									  InventoryScreenHelper.OpenScreenAsStash(ArmyArmory.Armory);
+								  });
+
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "sell_for_throwing",
@@ -153,5 +244,6 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	[Serializable]
 	private class Data {
 		[SaveableField(1)] public Dictionary<string, int> Armory = new();
+		[SaveableField(2)] public int LastScrapDayNumber = -1;
 	}
 }
