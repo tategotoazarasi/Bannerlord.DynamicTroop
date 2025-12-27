@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection;
@@ -7,23 +7,23 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.MountAndBlade;
 
-namespace Bannerlord.DynamicTroop.Extensions;
+namespace DynamicTroopEquipmentReupload.Extensions;
 
 public static class ItemObjectExtension {
 	public static bool IsArrow(this ItemObject? equipment) {
 		return equipment != null &&
 			   (equipment.ItemType == ItemObject.ItemTypeEnum.Arrows ||
-				(equipment.Weapons != null &&
-				 equipment.Weapons.AnyQ(weaponComponentData =>
-											weaponComponentData is { WeaponClass: WeaponClass.Arrow })));
+				equipment.Weapons != null &&
+				equipment.Weapons.AnyQ(weaponComponentData =>
+										   weaponComponentData is { WeaponClass: WeaponClass.Arrow }));
 	}
 
 	public static bool IsBolt(this ItemObject? equipment) {
 		return equipment != null &&
 			   (equipment.ItemType == ItemObject.ItemTypeEnum.Bolts ||
-				(equipment.Weapons != null &&
-				 equipment.Weapons.Any(weaponComponentData =>
-										   weaponComponentData is { WeaponClass: WeaponClass.Bolt })));
+				equipment.Weapons != null &&
+				equipment.Weapons.Any(weaponComponentData =>
+										  weaponComponentData is { WeaponClass: WeaponClass.Bolt }));
 	}
 
 	public static bool IsConsumable(this ItemObject? item) {
@@ -142,7 +142,7 @@ public static class ItemObjectExtension {
 									 CampaignUIHelper.GetFlagDetailsForWeapon(weaponComponentData,
 																			  MBItem
 																				  .GetItemUsageSetFlags(weaponComponentData
-																					  .ItemUsage)))
+																											.ItemUsage)))
 					 .AnyQ(flagDetail => flagDetail.Item1 != null    &&
 										 !flagDetail.Item1.IsEmpty() &&
 										 flagCondition(flagDetail.Item1));
@@ -151,9 +151,9 @@ public static class ItemObjectExtension {
 	public static int CalculateWeaponTierBonus(this ItemObject? weapon, bool mounted) {
 		if (weapon == null || mounted) return 0; // 如果骑马，则不应用任何加成
 
-		var bonus = 0;
+		var                                 bonus       = 0;
 		MBReadOnlyList<WeaponComponentData> weaponFlags = weapon.WeaponComponent.Weapons;
-		var weaponFlag = (WeaponFlags)weaponFlags.Aggregate(0u, (current, flag) => current | (uint)flag.WeaponFlags);
+		var                                 weaponFlag  = (WeaponFlags)weaponFlags.Aggregate(0u, (current, flag) => current | (uint)flag.WeaponFlags);
 
 		// 为每个匹配的WeaponFlag增加加成
 		if (weaponFlag.HasFlag(WeaponFlags.BonusAgainstShield)) bonus++;

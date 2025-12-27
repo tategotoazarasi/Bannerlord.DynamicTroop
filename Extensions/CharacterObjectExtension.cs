@@ -7,7 +7,7 @@ using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 using TaleWorlds.ObjectSystem;
 
-namespace Bannerlord.DynamicTroop.Extensions;
+namespace DynamicTroopEquipmentReupload.Extensions;
 
 public static class CharacterObjectExtension {
 	public enum TroopType {
@@ -19,9 +19,9 @@ public static class CharacterObjectExtension {
 		Elite
 	}
 
-	private static readonly Dictionary<CharacterObject, TroopType> TypeDict = new();
+	private static readonly ConcurrentDictionary<CharacterObject, TroopType> TypeDict = new();
 
-	private static readonly Queue<(CharacterObject, TroopType)> TroopQueue = new();
+	private static readonly ConcurrentQueue<(CharacterObject character, TroopType troopType)> TroopQueue = new();
 
 	private static MBReadOnlyList<SkillObject> _cachedSkillValue = new();
 
@@ -63,7 +63,7 @@ public static class CharacterObjectExtension {
 
 		if (CachedCharacterEquipmentValue.TryGetValue(character, out var value)) return value;
 
-		value = CalculateEquipmentValue(character);
+		value = character.CalculateEquipmentValue();
 		CachedCharacterEquipmentValue.TryAdd(character, value);
 		return value;
 	}
@@ -73,7 +73,7 @@ public static class CharacterObjectExtension {
 
 		if (CachedCharacterSkillValue.TryGetValue(character, out var value)) return value;
 
-		value = CalculateSkillValue(character);
+		value = character.CalculateSkillValue();
 		CachedCharacterSkillValue.TryAdd(character, value);
 		return value;
 	}
@@ -100,18 +100,18 @@ public static class CharacterObjectExtension {
 			Enqueue(culture?.MeleeEliteMilitiaTroop,  TroopType.Militia);
 			Enqueue(culture?.RangedEliteMilitiaTroop, TroopType.Militia);
 			Enqueue(culture?.RangedMilitiaTroop,      TroopType.Militia);
-			Enqueue(culture?.MilitiaArcher,           TroopType.Militia);
 			Enqueue(culture?.MilitiaVeteranArcher,    TroopType.Militia);
-			Enqueue(culture?.MilitiaSpearman,         TroopType.Militia);
-			Enqueue(culture?.MilitiaVeteranSpearman,  TroopType.Militia);
 		}
 
-		while (!TroopQueue.IsEmpty()) {
-			(var character, var typ) = TroopQueue.Dequeue();
-			if (TypeDict.ContainsKey(character)) continue;
+		while (TroopQueue.TryDequeue(out var entry)) {
+			var character = entry.character;
+			var typ       = entry.troopType;
 
-			TypeDict.Add(character, typ);
-			foreach (var next in character.UpgradeTargets) Enqueue(next, typ);
+			if (!TypeDict.TryAdd(character, typ))
+				continue;
+
+			foreach (var next in character.UpgradeTargets)
+				Enqueue(next, typ);
 		}
 	}
 

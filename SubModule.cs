@@ -11,7 +11,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public class SubModule : MBSubModuleBase {
 	public static ModSettings? Settings;
@@ -19,7 +19,7 @@ public class SubModule : MBSubModuleBase {
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
 
-		Harmony harmony = new("com.bannerlord.mod.dynamic_troop");
+		var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
 		harmony.PatchAll(Assembly.GetExecutingAssembly());
 
 		// 获取 Mod 目录的路径
@@ -82,16 +82,30 @@ public class SubModule : MBSubModuleBase {
 		if (game.GameType is Campaign) AddBehaviors(gameStarterObject as CampaignGameStarter);
 	}
 
-	private void AddBehaviors(CampaignGameStarter gameStarterObject) {
+	private void AddBehaviors(CampaignGameStarter? gameStarterObject) {
 		gameStarterObject?.AddBehavior(new ArmyArmoryBehavior());
 		gameStarterObject?.AddBehavior(new EveryoneCampaignBehavior());
+		gameStarterObject?.AddBehavior(new CutTheirSupplyBehavior());
 	}
 
 	public override void OnMissionBehaviorInitialize(Mission mission) {
-		if (mission.CombatType == Mission.MissionCombatType.Combat &&
-			!mission.HasMissionBehavior<TournamentBehavior>()      &&
-			!mission.HasMissionBehavior<CustomBattleAgentLogic>())
-			mission.AddMissionBehavior(new DynamicTroopMissionLogic());
+		if (mission.HasMissionBehavior<DynamicTroopMissionLogic>()) {
+			base.OnMissionBehaviorInitialize(mission);
+			return;
+		}
+
+		if (mission.DoesMissionRequireCivilianEquipment) {
+			base.OnMissionBehaviorInitialize(mission);
+			return;
+		}
+
+		if (mission.HasMissionBehavior<TournamentBehavior>() ||
+			mission.HasMissionBehavior<CustomBattleAgentLogic>()) {
+			base.OnMissionBehaviorInitialize(mission);
+			return;
+		}
+
+		mission.AddMissionBehavior(new DynamicTroopMissionLogic());
 
 		base.OnMissionBehaviorInitialize(mission);
 	}

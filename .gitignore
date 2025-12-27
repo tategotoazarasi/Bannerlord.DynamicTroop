@@ -503,3 +503,6 @@ _Module/README.md
 _Module/LICENSE.txt
 .idea/.idea.Bannerlord.DynamicTroop/.idea/
 doc/
+/DynamicTroopEquipmentReupload.sln
+*.sln.docstates
+FodyWeavers.xsd

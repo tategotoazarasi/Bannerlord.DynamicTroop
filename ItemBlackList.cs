@@ -1,20 +1,20 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 /// <summary>
 ///     Provides functionality to test if an item should be blacklisted.
 /// </summary>
 public static class ItemBlackList {
-	private static readonly Dictionary<ItemObject, bool> Cache = new();
+	private static readonly ConcurrentDictionary<ItemObject, bool> Cache = new();
 
 	/// <summary>
 	///     Represents a collection of string IDs used for blacklisting items.
@@ -91,7 +91,7 @@ public static class ItemBlackList {
 		if (blackList != null) {
 			StringIds.UnionWith(blackList.string_id ?? Enumerable.Empty<string>());
 			Names.UnionWith(blackList.name          ?? Enumerable.Empty<string>());
-			foreach (var pattern in blackList.string_id ?? Enumerable.Empty<string>()) {
+			foreach (var pattern in blackList.string_id_regex ?? new List<string>()) {
 				if (pattern == null) continue;
 				try { StringIdPatterns.Add(new Regex(pattern, RegexOptions.Compiled)); }
 				catch (Exception e) { Global.Error(e.Message); }
@@ -120,27 +120,23 @@ public static class ItemBlackList {
 	/// <returns>True if the item passes the blacklisting conditions, false otherwise.</returns>
 	public static bool Test(ItemObject item) {
 		try {
-			if (Cache.TryGetValue(item, out var result)) { return result; }
+			if (Cache.TryGetValue(item, out var cachedResult))
+				return cachedResult;
 
-			if (item is not { StringId: not null, Name: not null } || item.StringId.IsEmpty() || item.Name.ToString().IsEmpty()) return true;
+			if (item == null || item.StringId.IsEmpty() || item.Name == null || item.Name.ToString().IsEmpty())
+				return true;
+
 			var stringId = item.StringId;
 			var name     = item.Name.ToString();
 
-			// 并行执行所有匹配检查
-			var isBlacklisted = new[] {
-										  // StringIds 和 Names 检查可以直接并行
-										  Task.Run(() => !StringIds.Contains(stringId)),
-										  Task.Run(() => !Names.Contains(name)),
-										  // 正则表达式检查需要更细粒度的并行操作
-										  Task.Run(() => !StringIdPatterns.AsParallel().Any(pattern => pattern.IsMatch(stringId))),
-										  Task.Run(() => !NamePatterns.AsParallel().Any(pattern => pattern.IsMatch(name)))
-									  };
+			var isAllowed =
+				!StringIds.Contains(stringId)                               &&
+				!Names.Contains(name)                                       &&
+				!StringIdPatterns.Any(pattern => pattern.IsMatch(stringId)) &&
+				!NamePatterns.Any(pattern => pattern.IsMatch(name));
 
-			// 等待所有任务完成，并检查所有条件是否满足
-			result = Task.WhenAll(isBlacklisted).Result.All(matchResult => matchResult);
-
-			Cache[item] = result;
-			return result;
+			Cache[item] = isAllowed;
+			return isAllowed;
 		}
 		catch (Exception e) {
 			Global.Error(e.Message);

@@ -1,3 +1,16 @@
+LICENSE NOTICE
+
+2025 - naber1089
+
+This project includes and incorporates software originally licensed under the
+MIT License by Tategoto Azarasi (2023). The portions of this project that are
+derived from that original work remain covered by the terms and conditions
+of the MIT License. The full MIT License text is provided below and shall be
+included with any copies, distributions, or derivative works where applicable,
+in accordance with the requirements of the original license.
+
+-------------------------------------------------------------------------------
+
 MIT License
 
 Copyright (c) 2023 Tategoto Azarasi

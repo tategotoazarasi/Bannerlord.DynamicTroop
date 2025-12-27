@@ -1,181 +1,116 @@
-﻿#region
+#region
 
 using log4net.Core;
 using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Base.Global;
-using MCM.Common;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public class ModSettings : AttributeGlobalSettings<ModSettings> {
 	private readonly bool _culturalPreference;
 
-	private bool _assignExtraEquipments = true;
+	public override string Id => "DynamicTroopSettings";
 
-	private bool _debugMode; // 默认禁用调试模式
+	public override string DisplayName => "Dynamic Troop";
 
-	private float _dropRate = 1f;
+	public override string FolderName => "DynamicTroop";
 
-	private bool _randomizeNonHeroLedAiPartiesArmor;
+	public override string FormatType => "json2";
 
-	private bool _randomizeStartingEquipment;
+	[SettingPropertyBool("{=debug_mode}Debug mode", RequireRestart = false, HintText = "{=debug_mode_description}Enables detailed debug logs for troubleshooting.", Order = 1)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool DebugMode { get; set; }
 
-	private bool _removeCivilianEquipmentsInRandom;
+	[SettingPropertyFloatingInteger("{=drop_rate}Drop Rate", 0, 5, "#0.00", RequireRestart = false, HintText = "{=drop_rate_description}Adjusts the drop rate multiplier for looted equipment.", Order = 2)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public float DropRate { get; set; } = 1f;
 
-	private bool _useVanillaLootingSystem;
+	[SettingPropertyFloatingInteger("{=difficulty}Difficulty", 0, 5, "#0.00", RequireRestart = false, HintText = "{=difficulty_description}Adjusts the difficulty multiplier for equipment assignment.", Order = 3)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public float Difficulty { get; set; } = 1f;
 
-	public override string Id => "bannerlord.dynamictroop";
+	[SettingPropertyBool("{=randomize_ai_equipment}Randomize non-hero-led party",
+						 RequireRestart = false,
+						 HintText = "{=randomize_ai_equipment_description}If enabled, agents whose parties are not processed by the armory system may receive randomized equipment.",
+						 Order = 4)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool RandomizeNonHeroLedAiPartiesArmor { get; set; }
 
-	public override string FormatType => "json";
+	[SettingPropertyBool("{=use_vanilla_looting_system}Use vanilla looting system", RequireRestart = false, HintText = "{=use_vanilla_looting_system_description}Use Bannerlord's vanilla loot calculation instead of the armory-based loot.", Order = 5)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool UseVanillaLootingSystem { get; set; }
 
-	public override string DisplayName => LocalizedTexts.ModName.ToString();
+	//RecruitmentPatch now it actually randomizes recruit start gear
+	[SettingPropertyBool("{=randomize_starting_equipment}Randomize recruit starting equipment",
+						 RequireRestart = false,
+						 HintText = "{=randomize_starting_equipment_description}If enabled, recruits may receive randomized starting equipment when they are recruited.",
+						 Order = 6)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool RandomizeStartingEquipment { get; set; } = true;
 
-	[SettingPropertyFloatingInteger("{=drop_rate}Drop Rate",
-									0f,
-									1f,
-									"#0%",
-									Order = 2,
-									RequireRestart = false,
-									HintText =
-										"{=drop_rate_hint}Equipment drop rate on enemy down. This also affects the distribution of looting from the enemy's remaining armory after battle.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public float DropRate
-	{
-		get => _dropRate;
-		set
-		{
-			_dropRate = value;
-			OnPropertyChanged();
-		}
-	}
+	[SettingPropertyBool("{=remove_civilian_equipments}Remove civilian equipments in random",
+						 RequireRestart = false,
+						 HintText = "{=remove_civilian_equipments_description}If enabled, civilian equipment will be excluded from random equipment selection.",
+						 Order = 7)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool RemoveCivilianEquipmentsInRandom { get; set; } = true;
 
-	[SettingPropertyDropdown("{=difficulty}Difficulty",
-							 Order = 3,
-							 RequireRestart = false,
-							 HintText =
-								 "{=difficulty_hint}Adjusts the quantity and quality of daily equipment received by all AI troops.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public Dropdown<string> Difficulty { get; set; } = new(new[] {
-																	 LocalizedTexts.SettingEasy.ToString(),
-																	 LocalizedTexts.SettingNormal.ToString(),
-																	 LocalizedTexts.SettingHard.ToString(),
-																	 LocalizedTexts.SettingVeryHard.ToString()
-																 },
-														   1);
-
-	[SettingPropertyBool("{=randomized_non_hero_led_ai_parties_armor}Randomize Non-Hero-Led AI Parties Armor",
-						 Order = 4,
+	[SettingPropertyBool("Loyal Equipments",
 						 RequireRestart = false,
 						 HintText =
-							 "{=randomized_non_hero_led_ai_parties_armor_hint}Soldiers in AI parties without armory system will be equipped with randomized armor in battle, determined by their tier and cultural origins.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool RandomizeNonHeroLedAiPartiesArmor
-	{
-		get => _randomizeNonHeroLedAiPartiesArmor;
-		set
-		{
-			if (_randomizeNonHeroLedAiPartiesArmor != value) {
-				_randomizeNonHeroLedAiPartiesArmor = value;
-				OnPropertyChanged();
-			}
-		}
+							 "ON (default): Soldiers will prioritize their vanilla equipments and the closest equipment to their vanilla equipments, up to +2 tier of what they had before. OFF: Soldiers will take the best gear possible, following the +2 tier rule.",
+						 Order = 8)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool PreferDefaultEquipmentThenClosest { get; set; } = true;
+
+	[SettingPropertyBool("Emergency Loadout", RequireRestart = false, HintText = "ON (default): If the soldiers are going to be missing a weapon/armor at the beginning of the battle, they will have it from a t1 unit of their culture.", Order = 9)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool EnableEmergencyLoadout { get; set; } = true;
+
+	[SettingPropertyBool("Underequipped", RequireRestart = false, HintText = "ON (default): If soldiers have a worse overall gear than what they had by default, they will lose morale.", Order = 10)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool Underequipped { get; set; } = true;
+
+	[SettingPropertyBool("Commander's Greed", RequireRestart = false, HintText = "OFF (default): the Player can't take stuff from the troop equipment pool.", Order = 11)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool CommandersGreed { get; set; }
+
+	[SettingPropertyInteger("Scrap cap per category",
+							200,
+							3500,
+							RequireRestart = false,
+							HintText = "Only active when Commander's Greed is OFF. Every 3 days, if any item category in the troop stash exceeds this cap, the lowest-value items are deleted until the category drops to (cap - 1).",
+							Order = 11)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public int ScrapCapPerCategory { get; set; } = 600;
+
+
+	[SettingPropertyBool("{=assign_extra_equipments}Assign Extra Equipments", RequireRestart = false, HintText = "{=assign_extra_equipments_description}If enabled, leftover equipment will be distributed to fill empty slots when possible.", Order = 12)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public bool AssignExtraEquipments { get; set; } = true;
+
+	[SettingPropertyInteger("{=log_level}Log Level", 0, 5, RequireRestart = false, HintText = "{=log_level_description}0=Debug, 1=Info, 2=Warn, 3=Error, 4=Fatal, 5=All", Order = 13)]
+	[SettingPropertyGroup("{=settings}Settings")]
+	public int LogLevelIndex { get; set; }
+
+	public Level MinimumLogLevel => GetMinimumLogLevel(LogLevelIndex);
+
+	private static Level GetMinimumLogLevel(int index) {
+		// 0=Debug, 1=Info, 2=Warn, 3=Error, 4=Fatal, 5=All
+		return index switch {
+				   0 => Level.Debug,
+				   1 => Level.Info,
+				   2 => Level.Warn,
+				   3 => Level.Error,
+				   4 => Level.Fatal,
+				   _ => Level.All
+			   };
 	}
 
-	[SettingPropertyBool("{=use_vanilla_looting_system}Use Vanilla Looting System",
-						 Order = 5,
-						 RequireRestart = false,
-						 HintText =
-							 "{=use_vanilla_looting_system_hint}Enable this option to use the game's default looting system instead of looting from the enemy's armory.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool UseVanillaLootingSystem
-	{
-		get => _useVanillaLootingSystem;
-		set
-		{
-			if (_useVanillaLootingSystem != value) {
-				_useVanillaLootingSystem = value;
-				OnPropertyChanged();
-			}
-		}
+	private void LogLevelDropdownChanged(int selectedIndex) {
+		LogLevelIndex = selectedIndex;
 	}
-
-	[SettingPropertyBool("{=randomize_starting_equipment}Randomize Recruit Equipment",
-						 Order = 6,
-						 RequireRestart = false,
-						 HintText =
-							 "{=randomize_starting_equipment_hint}Enable this option to receive randomized instead of fixed equipment when recruiting soldiers, depending on the culture and tier of the soldiers being recruited.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool RandomizeStartingEquipment
-	{
-		get => _randomizeStartingEquipment;
-		set
-		{
-			if (_randomizeStartingEquipment != value) {
-				_randomizeStartingEquipment = value;
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	[SettingPropertyBool("{=remove_civilian_equipments_in_random}Remove Civilian Equipments in Random",
-						 Order = 7,
-						 RequireRestart = false,
-						 HintText =
-							 "{=remove_civilian_equipments_in_random_hint}Removes civilian equipment from all random equipment acquisition processes. This prevents soldiers from using skirts or crowns but increases the quality of equipment obtained randomly.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool RemoveCivilianEquipmentsInRandom
-	{
-		get => _removeCivilianEquipmentsInRandom;
-		set
-		{
-			if (_removeCivilianEquipmentsInRandom != value) {
-				_removeCivilianEquipmentsInRandom = value;
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	[SettingPropertyBool("{=assign_extra_equipments}Assign Extra Equipments",
-						 Order = 8,
-						 RequireRestart = false,
-						 HintText =
-							 "{=assign_extra_equipments_hint}Surplus arrows, shields, throwing weapons, and two-handed/polearms are allocated based on existing equipment.")]
-	[SettingPropertyGroup("{=settings}Settings", GroupOrder = 1)]
-	public bool AssignExtraEquipments
-	{
-		get => _assignExtraEquipments;
-		set
-		{
-			if (_assignExtraEquipments != value) {
-				_assignExtraEquipments = value;
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	[SettingPropertyBool("{=toggle_debug_mode}Debug Mode",
-						 Order = 1,
-						 RequireRestart = false,
-						 HintText = "{=toggle_debug_mode_hint}For Devs only.",
-						 IsToggle = true)]
-	[SettingPropertyGroup("{=debug}Debug", GroupOrder = 2)]
-	public bool DebugMode
-	{
-		get => _debugMode;
-		set
-		{
-			if (_debugMode != value) {
-				_debugMode = value;
-				OnPropertyChanged();
-			}
-		}
-	}
-
-	[SettingPropertyDropdown("{=log_level}Log Level", Order = 2, RequireRestart = false, HintText = "")]
-	[SettingPropertyGroup("{=debug}Debug")]
-	public Dropdown<Level> LogLevel { get; set; } =
-		new(new[] { Level.Debug, Level.Info, Level.Warn, Level.Error, Level.Fatal, Level.All }, 5);
 }

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop.Extensions;
+namespace DynamicTroopEquipmentReupload.Extensions;
 
 [Obsolete]
 public static class TroopRosterElementExtension {

@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using System;
 using System.Linq;
@@ -11,7 +11,7 @@ using TaleWorlds.Library;
 
 #endregion
 
-namespace Bannerlord.DynamicTroop.Patches;
+namespace DynamicTroopEquipmentReupload.Patches;
 
 [HarmonyPatch(typeof(MapEventSide), "ItemRosterForPlayerLootShare")]
 public static class ItemRosterForPlayerLootSharePatch {
@@ -44,11 +44,11 @@ public static class ItemRosterForPlayerLootSharePatch {
 
 		if (replaceRoster.IsEmpty()) return;
 
-		replaceRoster.Add(__result.Where(static element => element is {
-																		  IsEmpty: false, Amount: > 0, EquipmentElement.Item: not null
-																	  } &&
-														   (element.EquipmentElement.Item.IsTradeGood || element.EquipmentElement.Item.IsBannerItem || element.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Animal)));
-		__result.Clear();
+		var originalRoster = __result;
+
+		replaceRoster.Add(originalRoster.Where(static element => element is { IsEmpty: false, Amount: > 0, EquipmentElement.Item: not null } &&
+																 (element.EquipmentElement.Item.IsTradeGood || element.EquipmentElement.Item.IsBannerItem || element.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Animal)));
+
 		__result = replaceRoster;
 	}
 }

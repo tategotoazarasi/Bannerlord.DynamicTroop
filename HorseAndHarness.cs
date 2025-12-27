@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public class HorseAndHarness : IComparable {
 	public HorseAndHarness(EquipmentElement horse, EquipmentElement? harness) {

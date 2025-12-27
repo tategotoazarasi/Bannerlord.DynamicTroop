@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Library;
 
-namespace Bannerlord.DynamicTroop.Patches;
+namespace DynamicTroopEquipmentReupload.Patches;
 
 [HarmonyPatch(typeof(TroopRoster), "AddToCounts")]
 public static class BuyMercenariesPatch {

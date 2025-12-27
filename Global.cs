@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Bannerlord.DynamicTroop.Extensions;
+using DynamicTroopEquipmentReupload.Extensions;
 using log4net;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
@@ -16,7 +16,7 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public static class Global {
 	public static readonly EquipmentIndex[] EquipmentSlots = {
@@ -61,6 +61,7 @@ public static class Global {
 															ItemObject.ItemTypeEnum.HorseHarness,
 															ItemObject.ItemTypeEnum.Bow,
 															ItemObject.ItemTypeEnum.Crossbow,
+															ItemObject.ItemTypeEnum.Shield,
 															ItemObject.ItemTypeEnum.OneHandedWeapon,
 															ItemObject.ItemTypeEnum.TwoHandedWeapon,
 															ItemObject.ItemTypeEnum.Polearm,
@@ -78,6 +79,16 @@ public static class Global {
 
 	private static readonly Dictionary<ItemObject.ItemTypeEnum, CraftingTemplate[]> CraftingTemplatesByItemType = new();
 
+	public static bool IsTroopPoolStashSessionActive { get; private set; }
+
+	public static void BeginTroopPoolStashSession() {
+		IsTroopPoolStashSessionActive = true;
+	}
+
+	public static void EndTroopPoolStashSession() {
+		IsTroopPoolStashSessionActive = false;
+	}
+
 	public static void InitializeCraftingTemplatesByItemType() {
 		ItemObject.ItemTypeEnum[] itemTypes = {
 												  ItemObject.ItemTypeEnum.OneHandedWeapon,
@@ -91,12 +102,25 @@ public static class Global {
 		}
 	}
 
+	public static EquipmentIndex? GetEquipmentIndexByItemType(ItemObject.ItemTypeEnum type) {
+		return type switch {
+				   ItemObject.ItemTypeEnum.HeadArmor => EquipmentIndex.Head,
+				   ItemObject.ItemTypeEnum.BodyArmor => EquipmentIndex.Body,
+				   ItemObject.ItemTypeEnum.LegArmor  => EquipmentIndex.Leg,
+				   ItemObject.ItemTypeEnum.HandArmor => EquipmentIndex.Gloves,
+				   ItemObject.ItemTypeEnum.Cape      => EquipmentIndex.Cape,
+				   _                                 => null
+			   };
+	}
+
+
 	public static List<WeaponClass> GetWeaponClass(ItemObject item) {
 		return item is { HasWeaponComponent: true } ? item.WeaponComponent.Weapons.SelectQ(weapon => weapon.WeaponClass).Distinct().OrderByQ(weaponClass => weaponClass).ToListQ() : new List<WeaponClass>();
 	}
 
 	public static void Log(string message, Color color, Level level, int skipFrames = 1) {
-		if (SubModule.Settings is { DebugMode: true } && (SubModule.Settings.LogLevel.SelectedValue == Level.All || level >= SubModule.Settings.LogLevel.SelectedValue)) {
+		if (SubModule.Settings is { DebugMode: true } &&
+			(SubModule.Settings.MinimumLogLevel == Level.All || level >= SubModule.Settings.MinimumLogLevel)) {
 			MessageDisplayService.EnqueueMessage(new InformationMessage(message, color));
 
 			// 使用 log4net 记录日志
@@ -139,14 +163,24 @@ public static class Global {
 	public static void Fatal(string message) { Log(message, Colors.Magenta, Level.Fatal, 2); }
 
 	public static bool HaveSameWeaponClass(List<WeaponClass> list1, List<WeaponClass> list2) {
-		var thrown1 = list1.WhereQ(weaponClass => weaponClass is WeaponClass.ThrowingKnife or WeaponClass.ThrowingAxe or WeaponClass.Stone or WeaponClass.Javelin).ToArrayQ();
-		if (!thrown1.IsEmpty()) return list2.AnyQ(weaponClass => thrown1.Contains(weaponClass));
+		if (list1.IsEmpty() || list2.IsEmpty()) { return false; }
 
-		var thrown2 = list2.WhereQ(weaponClass => weaponClass is WeaponClass.ThrowingKnife or WeaponClass.ThrowingAxe or WeaponClass.Stone or WeaponClass.Javelin).ToArrayQ();
+		static bool IsThrown(WeaponClass wc) {
+			return wc is WeaponClass.ThrowingKnife or WeaponClass.ThrowingAxe or WeaponClass.Stone or WeaponClass.Javelin;
+		}
 
-		// 直接返回判断条件的结果
-		return !thrown2.IsEmpty() && list1.AnyQ(weaponClass => thrown2.Contains(weaponClass));
+		var thrown1 = list1.WhereQ(IsThrown).ToArrayQ();
+		var thrown2 = list2.WhereQ(IsThrown).ToArrayQ();
+
+		if (!thrown1.IsEmpty() || !thrown2.IsEmpty()) {
+			var lhs = !thrown1.IsEmpty() ? thrown1 : list1.ToArrayQ();
+			var rhs = !thrown2.IsEmpty() ? thrown2 : list2.ToArrayQ();
+			return lhs.AnyQ(wc => rhs.Contains(wc));
+		}
+
+		return list1.AnyQ(wc => list2.Contains(wc));
 	}
+
 
 	public static bool FullySameWeaponClass(ItemObject weapon1, ItemObject weapon2) {
 		//var list1 = GetWeaponClass(weapon1);
@@ -163,42 +197,59 @@ public static class Global {
 	}
 
 	public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {
-		if (!agent.IsValid()) return;
+		ProcessAgentEquipment(agent, processEquipmentItem, null);
+	}
 
+	public static void ProcessAgentEquipment(
+		Agent                                                        agent,
+		Action<ItemObject>                                           processEquipmentItem,
+		Func<EquipmentIndex, MissionWeapon, EquipmentElement, bool>? shouldProcessSlot) {
 		var missionEquipment = agent.Equipment;
 		var spawnEquipment   = agent.SpawnEquipment;
 
-		if (missionEquipment == null || spawnEquipment == null) return;
-
-		// 处理武器槽装备
-		foreach (var slot in Assignment.WeaponSlots) {
-			var element = missionEquipment[slot];
-			if (element.IsEmpty || element.Item == null) continue;
-
-			if (IsAmmoAndEmpty(element)) {
-				Log($"Empty Ammo {element.Item.StringId}", Colors.Green, Level.Debug);
+		foreach (var slot in EquipmentSlots) {
+			var spawnElement = spawnEquipment[slot];
+			if (spawnElement.IsEmpty || spawnElement.Item is null)
 				continue;
+
+			var isWeaponSlot =
+				slot == EquipmentIndex.Weapon0 ||
+				slot == EquipmentIndex.Weapon1 ||
+				slot == EquipmentIndex.Weapon2 ||
+				slot == EquipmentIndex.Weapon3;
+
+			var missionWeapon = default(MissionWeapon);
+			if (isWeaponSlot) { missionWeapon = missionEquipment[slot]; }
+
+			if (spawnElement.Item.ItemType == ItemObject.ItemTypeEnum.Banner || spawnElement.Item.IsBannerItem)
+				continue;
+
+			if (isWeaponSlot) {
+				var isAmmoOrThrown =
+					spawnElement.Item.ItemType == ItemObject.ItemTypeEnum.Arrows ||
+					spawnElement.Item.ItemType == ItemObject.ItemTypeEnum.Bolts  ||
+					spawnElement.Item.ItemType == ItemObject.ItemTypeEnum.Thrown;
+
+				if (isAmmoOrThrown && (missionWeapon.IsEmpty || IsAmmoAndEmpty(missionWeapon)))
+					continue;
+
+				if (spawnElement.Item.ItemType == ItemObject.ItemTypeEnum.Shield && !missionWeapon.IsEmpty && missionWeapon.HitPoints <= 0)
+					continue;
 			}
 
-			processEquipmentItem(element.Item);
-		}
+			if (shouldProcessSlot != null && !shouldProcessSlot(slot, missionWeapon, spawnElement))
+				continue;
 
-		// 处理装甲和马匹槽装备
-		foreach (var slot in ArmourAndHorsesSlots) {
-			var element = spawnEquipment[slot];
-			if (element.IsEmpty || element.Item == null) continue;
-
-			processEquipmentItem(element.Item);
+			processEquipmentItem(spawnElement.Item);
 		}
 	}
+
 
 	private static bool IsAmmoAndEmpty(MissionWeapon? mw) {
 		return mw is { IsEmpty: false, Item.HasWeaponComponent: true, Amount: 0 } && (mw.Value.IsAnyAmmo() || mw.Value.Item.IsThrowing());
 	}
 
-	public static bool IsInPlayerParty(IAgentOriginBase? agentOrigin) {
-		if (agentOrigin == null) return false;
-
+	public static bool IsInPlayerParty(IAgentOriginBase agentOrigin) {
 		var party = agentOrigin switch {
 						PartyAgentOrigin partyAgentOrigin           => partyAgentOrigin.Party,
 						PartyGroupAgentOrigin partyGroupAgentOrigin => partyGroupAgentOrigin.Party,
@@ -206,7 +257,9 @@ public static class Global {
 						_                                           => null
 					};
 
-		return party != null ? IsPartyInPlayerCommand(party) : agentOrigin.IsUnderPlayersCommand;
+		if (agentOrigin.IsUnderPlayersCommand) { return true; }
+
+		return party != null && IsPartyInPlayerCommand(party);
 	}
 
 	public static MobileParty? GetAgentParty(IAgentOriginBase? origin) {
@@ -220,7 +273,8 @@ public static class Global {
 	}
 
 	private static bool IsPartyInPlayerCommand(PartyBase? party) {
-		return party != null && party == PartyBase.MainParty;
+		var mainParty = Campaign.Current?.MainParty;
+		return party?.MobileParty != null && mainParty != null && party.MobileParty == mainParty;
 	}
 
 	public static int CountCharacterEquipmentItemTypes(CharacterObject? character, ItemObject.ItemTypeEnum? itemType) {

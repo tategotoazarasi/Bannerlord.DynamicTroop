@@ -5,7 +5,7 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 /// <summary>
 ///     提供基于权重的随机选择功能，用于从一组物品中根据特定规则选择单个物品。
@@ -20,19 +20,29 @@ public static class WeightedRandomSelector {
 	/// <param name="targetValue"> 目标效能值，用于确定正态分布的中心。 </param>
 	/// <returns> 根据加权概率选中的物品。 </returns>
 	public static ItemObject SelectItem(List<ItemObject> items, float targetValue) {
-		// 使用 MathNet.Numerics 计算均值和标准差
+		if (items == null || items.Count == 0)
+			throw new ArgumentException("items cannot be null or empty", nameof(items));
+
+		if (items.Count == 1)
+			return items[0];
+
 		var effectiveness     = items.Select(item => (double)item.Effectiveness).ToArray();
-		var mean              = effectiveness.Average();
 		var standardDeviation = effectiveness.StandardDeviation();
 
-		// 计算每个item的权重
-		var weights = items.Select(item => (float)Normal.PDF(item.Effectiveness, mean, standardDeviation)).ToList();
+		// Uniform fallback
+		if (double.IsNaN(standardDeviation) || standardDeviation <= 0.0001)
+			return items[_random.Next(items.Count)];
 
-		// 归一化权重
-		var totalWeight       = weights.Sum();
+		var mean = (double)targetValue;
+
+		// Normal.PDF(mean, stddev, x)
+		var weights = items.Select(item => (float)Normal.PDF(mean, standardDeviation, item.Effectiveness)).ToList();
+
+		var totalWeight = weights.Sum();
+		if (totalWeight <= 0 || float.IsNaN(totalWeight) || float.IsInfinity(totalWeight))
+			return items[_random.Next(items.Count)];
+
 		var normalizedWeights = weights.Select(weight => weight / totalWeight).ToList();
-
-		// 加权随机选择
 		return WeightedRandomChoose(items, normalizedWeights);
 	}
 

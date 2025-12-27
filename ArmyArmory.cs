@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using Bannerlord.DynamicTroop.Comparers;
-using Bannerlord.DynamicTroop.Extensions;
+using DynamicTroopEquipmentReupload.Comparers;
+using DynamicTroopEquipmentReupload.Extensions;
 using log4net.Core;
 using Newtonsoft.Json;
+using SandBox.Missions.MissionLogics.Hideout;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
@@ -19,7 +20,7 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.Equip
 
 #endregion
 
-namespace Bannerlord.DynamicTroop;
+namespace DynamicTroopEquipmentReupload;
 
 public static class ArmyArmory {
 	public static ItemRoster Armory = new();
@@ -53,6 +54,7 @@ public static class ArmyArmory {
 
 	public static void AssignEquipment(Equipment equipment) {
 		foreach (var slot in Global.EquipmentSlots) {
+			if (Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
 			var element = equipment.GetEquipmentFromSlot(slot);
 
 			// 使用模式匹配来检查条件，并反转if语句来减少嵌套

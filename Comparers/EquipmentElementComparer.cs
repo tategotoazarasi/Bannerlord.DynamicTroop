@@ -1,16 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TaleWorlds.Core;
 
-namespace Bannerlord.DynamicTroop.Comparers;
+namespace DynamicTroopEquipmentReupload.Comparers;
 
 public class EquipmentElementComparer : IEqualityComparer<EquipmentElement> {
 	public bool Equals(EquipmentElement x, EquipmentElement y) {
-		/*// 检查是否为同一个对象的引用或都为 null
-		if (ReferenceEquals(x, y)) return true;
+		if (x.Item        == null || y.Item == null)
+			return x.Item == y.Item;
 
-		if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false;
-
-		// 在这里添加比较逻辑 例如，比较 EquipmentElement 的某些特定属性*/
 		return x.Item.StringId == y.Item.StringId;
 	}
 
