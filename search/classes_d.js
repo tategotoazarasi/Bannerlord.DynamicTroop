@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['townextension_0',['TownExtension',['../dc/d6a/a00261.html',1,'']]],
-  ['trooprosterelementextension_1',['TroopRosterElementExtension',['../da/d53/a00265.html',1,'']]]
+  ['townextension_0',['TownExtension',['../dc/ded/a00252.html',1,'DynamicTroopEquipmentReupload::Extensions']]],
+  ['trooprosterelementextension_1',['TroopRosterElementExtension',['../d0/def/a00256.html',1,'DynamicTroopEquipmentReupload::Extensions']]]
 ];

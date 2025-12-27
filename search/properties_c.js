@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['usevanillalootingsystem_0',['UseVanillaLootingSystem',['../d3/d4a/a00297.html#a21ef8e9de79e6c00068491d2abf6d8f7',1,'ModSettings']]]
+  ['tier_0',['Tier',['../db/d12/a00268.html#aa5d48f41455f594cb09b392321905834',1,'DynamicTroopEquipmentReupload::HorseAndHarness']]]
 ];

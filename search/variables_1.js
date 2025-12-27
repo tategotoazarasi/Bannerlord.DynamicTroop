@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['armorviewoption_0',['ArmorViewOption',['../d4/d66/a00289.html#ad93abf52390cf98c0e41a02acf3d386c',1,'LocalizedTexts']]],
-  ['armory_1',['Armory',['../d8/d64/a00181.html#ada0a72d9262020f688c2e760caeec5c1',1,'ArmyArmory.Armory()'],['../da/deb/a00189.html#aa3089116af5ed02804f8c23b295165d2',1,'ArmyArmoryBehavior.Data.Armory()']]],
-  ['armorymanageoption_2',['ArmoryManageOption',['../d4/d66/a00289.html#ad81e9b86126ed2d99a4d3d91f16ee7cd',1,'LocalizedTexts']]],
-  ['armourandhorsesslots_3',['ArmourAndHorsesSlots',['../d5/d42/a00269.html#a9a24f1e4497c8b41acfcbb4625d4c522',1,'Global']]],
-  ['armourslots_4',['ArmourSlots',['../d5/d42/a00269.html#a01346867f307a0fa574dd7972a0a4193',1,'Global']]],
-  ['assignments_5',['Assignments',['../d3/d07/a00305.html#a5deef853a63fc55633427893c9a0b31d',1,'PartyEquipmentDistributor']]]
+  ['armorviewoption_0',['ArmorViewOption',['../d0/dcd/a00280.html#af7af91f0264e1987e2e6123aed495a44',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
+  ['armory_1',['Armory',['../d6/dfb/a00172.html#a5d794427507b337893c5035ec4c28844',1,'DynamicTroopEquipmentReupload.ArmyArmory.Armory'],['../d0/d81/a00180.html#a5e9317ef9d391228186927ff0e10f639',1,'DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Data.Armory']]],
+  ['armorymanageoption_2',['ArmoryManageOption',['../d0/dcd/a00280.html#a9d94152a785216c5064ef866dff4c115',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
+  ['armourandhorsesslots_3',['ArmourAndHorsesSlots',['../dd/dd7/a00260.html#ad749f64c2e293928ee17309f8394a2f1',1,'DynamicTroopEquipmentReupload::Global']]],
+  ['armourslots_4',['ArmourSlots',['../dd/dd7/a00260.html#a7199c64f239963afb458697793f6a483',1,'DynamicTroopEquipmentReupload::Global']]],
+  ['arrival_5fdistance_5fsquared_5',['ARRIVAL_DISTANCE_SQUARED',['../dd/dc1/a00212.html#af5d8927317c004b8976134f8a2734239',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['assignments_6',['Assignments',['../db/d7b/a00296.html#a8f7a68e8256d5677cf58b6109a951d53',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]]
 ];

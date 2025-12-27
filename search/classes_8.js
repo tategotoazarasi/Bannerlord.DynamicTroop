@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['localizedtexts_0',['LocalizedTexts',['../d4/d66/a00289.html',1,'']]]
+  ['localizedtexts_0',['LocalizedTexts',['../d0/dcd/a00280.html',1,'DynamicTroopEquipmentReupload']]]
 ];

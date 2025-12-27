@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['loglevel_0',['LogLevel',['../d3/d4a/a00297.html#ac117c0e9ec2ee97d66a15e73786dd22c',1,'ModSettings']]],
-  ['looteditemscount_1',['LootedItemsCount',['../da/d50/a00301.html#ae8913d8f9e1d5e5709317136c4a509b0',1,'PartyBattleRecord']]]
+  ['loglevelindex_0',['LogLevelIndex',['../da/ddc/a00288.html#a998ee1028c5fa3426001b820a47a9805',1,'DynamicTroopEquipmentReupload::ModSettings']]],
+  ['looteditemscount_1',['LootedItemsCount',['../d8/d0a/a00292.html#aae411507d4b4a32fbe046e6bd83e0bbd',1,'DynamicTroopEquipmentReupload::PartyBattleRecord']]]
 ];

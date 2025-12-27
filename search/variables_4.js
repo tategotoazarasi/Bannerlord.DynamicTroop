@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['equipment_0',['Equipment',['../dd/df4/a00193.html#a98f4aebfe6ba4ace4b7f4c4b8d45d8cf',1,'Assignment']]],
-  ['equipmentandthresholds_1',['EquipmentAndThresholds',['../d6/de1/a00233.html#a3b786a150d6796ff70ff06aae3eae514',1,'EveryoneCampaignBehavior']]],
-  ['equipmentslots_2',['EquipmentSlots',['../d5/d42/a00269.html#a1d525e4c45a4e712c182122d1b616120',1,'Global']]]
+  ['disable_5ftrade_5fblock_5ffor_5ftest_0',['DISABLE_TRADE_BLOCK_FOR_TEST',['../d4/d8f/a00324.html#acdc1d285fbdb9ab0e1e66a67774aeb7a',1,'DynamicTroopEquipmentReupload::ReinforcementCaravanConversationPatches']]],
+  ['distributors_1',['Distributors',['../d5/d0b/a00220.html#a67fd2f99bea429230c8e6202296bf155',1,'DynamicTroopEquipmentReupload::DynamicTroopMissionLogic']]]
 ];

@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['bandit_0',['Bandit',['../d6/d22/a00245.html#a3584fe6076b49652a7b1ec65cd7a6111a7534759ceb94c0e91b13a22fe6e16980',1,'CharacterObjectExtension']]],
-  ['basic_1',['Basic',['../d6/d22/a00245.html#a3584fe6076b49652a7b1ec65cd7a6111a972e73b7a882d0802a4e3a16946a2f94',1,'CharacterObjectExtension']]],
-  ['begingamestart_2',['BeginGameStart',['../d2/d0a/a00333.html#a7aae39ecd0ac53d25e76a18dbde6f603',1,'SubModule']]],
-  ['blacklist_3',['BlackList',['../d3/d58/a00285.html',1,'ItemBlackList.BlackList'],['../dd/de3/a00201.html',1,'ItemBlackListTest.BlackList']]],
-  ['buymercenariespatch_4',['BuyMercenariesPatch',['../d2/d71/a00309.html',1,'']]],
-  ['buymercenariespatch_2ecs_5',['BuyMercenariesPatch.cs',['../db/db6/a00074.html',1,'']]]
+  ['bandit_0',['Bandit',['../d7/d40/a00236.html#ae5c7b2ba8dac122201b1efd76af816c7a7534759ceb94c0e91b13a22fe6e16980',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
+  ['base_5fchance_5fat_5fmin_5fprosperity_1',['BASE_CHANCE_AT_MIN_PROSPERITY',['../dd/dc1/a00212.html#a422cd0fa47a3e95d0cc81246afc5e267',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['basic_2',['Basic',['../d7/d40/a00236.html#ae5c7b2ba8dac122201b1efd76af816c7a972e73b7a882d0802a4e3a16946a2f94',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
+  ['begingamestart_3',['BeginGameStart',['../dd/d1d/a00336.html#ac0b3d45f2387ca6089457319af77e30a',1,'DynamicTroopEquipmentReupload::SubModule']]],
+  ['begintrooppoolstashsession_4',['BeginTroopPoolStashSession',['../dd/dd7/a00260.html#a50da2eff40cb20bcfe76db4ccca4b522',1,'DynamicTroopEquipmentReupload::Global']]],
+  ['blacklist_5',['BlackList',['../dc/d28/a00276.html',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
+  ['buymercenariespatch_6',['BuyMercenariesPatch',['../db/da2/a00300.html',1,'DynamicTroopEquipmentReupload::Patches']]],
+  ['buymercenariespatch_2ecs_7',['BuyMercenariesPatch.cs',['../da/d2a/a00086.html',1,'']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['materialtype_0',['MaterialType',['../d6/d4b/a00277.html#a818a1a85729acb235f690fd01fd78b0f',1,'HorseAndHarness']]]
+  ['materialtype_0',['MaterialType',['../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93',1,'DynamicTroopEquipmentReupload::HorseAndHarness']]],
+  ['minimumloglevel_1',['MinimumLogLevel',['../da/ddc/a00288.html#ab4bcd01d322323b45434c45f88a686c4',1,'DynamicTroopEquipmentReupload::ModSettings']]]
 ];

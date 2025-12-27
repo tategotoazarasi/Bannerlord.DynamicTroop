@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['formattype_0',['FormatType',['../d3/d4a/a00297.html#a406732159d01887c91972e74b60f78b6',1,'ModSettings']]]
+  ['foldername_0',['FolderName',['../da/ddc/a00288.html#a7007333c0d68ef6d33dad1dbc74471cd',1,'DynamicTroopEquipmentReupload::ModSettings']]],
+  ['formattype_1',['FormatType',['../da/ddc/a00288.html#a8631c53e910336c3805743223ae027d9',1,'DynamicTroopEquipmentReupload::ModSettings']]]
 ];

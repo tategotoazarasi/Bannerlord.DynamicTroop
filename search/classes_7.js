@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['itemblacklist_0',['ItemBlackList',['../d2/d04/a00281.html',1,'']]],
-  ['itemblacklisttest_1',['ItemBlackListTest',['../de/db1/a00197.html',1,'']]],
-  ['itemobjectextension_2',['ItemObjectExtension',['../de/dbc/a00249.html',1,'']]],
-  ['itemrosterforplayerlootsharepatch_3',['ItemRosterForPlayerLootSharePatch',['../da/de0/a00317.html',1,'']]]
+  ['inventorylogic_5ftransferitem_5fcommandersgreedpatch_0',['InventoryLogic_TransferItem_CommandersGreedPatch',['../d5/d0f/a00308.html',1,'DynamicTroopEquipmentReupload::Patches']]],
+  ['itemblacklist_1',['ItemBlackList',['../d9/dd6/a00272.html',1,'DynamicTroopEquipmentReupload']]],
+  ['itemobjectextension_2',['ItemObjectExtension',['../d9/d21/a00240.html',1,'DynamicTroopEquipmentReupload::Extensions']]],
+  ['itemrosterforplayerlootsharepatch_3',['ItemRosterForPlayerLootSharePatch',['../d7/df2/a00312.html',1,'DynamicTroopEquipmentReupload::Patches']]]
 ];

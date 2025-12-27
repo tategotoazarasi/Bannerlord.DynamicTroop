@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['partyarmories_0',['PartyArmories',['../d6/de1/a00233.html#a17fa01c679fde70807b1d57508f795f1',1,'EveryoneCampaignBehavior.PartyArmories()'],['../d4/d08/a00237.html#a365963217cb53b336e0e97f6c2248127',1,'EveryoneCampaignBehavior.Data.PartyArmories()']]],
-  ['partybattlesides_1',['PartyBattleSides',['../dd/d2d/a00229.html#a0509949b1b835658c4cba517836553d6',1,'DynamicTroopMissionLogic']]]
+  ['lastscrapdaynumber_0',['LastScrapDayNumber',['../d0/d81/a00180.html#a1772c41390f172dd4812c78c868d3dae',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior::Data']]],
+  ['lootaddedmessage_1',['LootAddedMessage',['../d0/dcd/a00280.html#a9ef4a4221de9365bbd3d098c8c241a7f',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
+  ['looteditems_2',['LootedItems',['../d8/d0a/a00292.html#ad656a5a3143561376114ce8c12b89ce1',1,'DynamicTroopEquipmentReupload::PartyBattleRecord']]]
 ];
