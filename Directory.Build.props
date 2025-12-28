@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <BANNERLORD_GAME_DIR>/home/wangzhiheng/Documents/Mount &amp; Blade II Bannerlord</BANNERLORD_GAME_DIR>
+
+        <GameFolder>$(BANNERLORD_GAME_DIR)</GameFolder>
+
+        <TargetFramework>net472</TargetFramework>
+    </PropertyGroup>
+</Project>
