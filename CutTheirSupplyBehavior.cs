@@ -148,7 +148,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 	}
 
 	private static bool ReinforcementCaravanBuyProductsDisabledOnClickableCondition(out TextObject explanation) {
-		explanation = new TextObject("{=dt_reinforcement_caravan_trade_disabled_expl}These caravans do not trade.");
+		explanation = LocalizedTexts.ReinforcementCaravanTradeDisabled;
 		return false;
 	}
 
@@ -557,7 +557,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		if (caravanParty == null)
 			return;
 
-		caravanParty.Party.SetCustomName(new TextObject("Reinforcement Caravan"));
+		caravanParty.Party.SetCustomName(LocalizedTexts.ReinforcementCaravan);
 		ReinforcementCaravanIds.Add(caravanParty.Id);
 		caravanParty.Ai.SetDoNotMakeNewDecisions(true);
 

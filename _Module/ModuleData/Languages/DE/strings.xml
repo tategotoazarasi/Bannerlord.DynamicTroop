@@ -1,11 +1,73 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
 <base type="string">
     <tags>
         <tag language="Deutsch"/>
     </tags>
     <strings>
-        <string id="armory_view_option" text="Waffenarsenals der Streitkräfte"/>
-        <string id="loot_added_message" text="Beutestück {ITEM_COUNT} zur Truppenwaffenkammer hinzugefügt."/>
+        <string id="mod_name" text="Dynamisches Truppenausrüstungssystem"/>
+        <string id="settings" text="Einstellungen"/>
+        <string id="debug_mode" text="Debug-Modus"/>
+        <string id="debug_mode_description" text="Aktiviert detaillierte Debug-Protokolle zur Fehlerbehebung."/>
+        <string id="drop_rate" text="Droprate"/>
+        <string id="drop_rate_description"
+                text="Passt den Multiplikator für die Droprate von erbeuteter Ausrüstung an."/>
+        <string id="difficulty" text="Schwierigkeit"/>
+        <string id="difficulty_description"
+                text="Passt den Schwierigkeitsmultiplikator für die Ausrüstungszuweisung an."/>
+        <string id="randomize_ai_equipment" text="Nicht-heldengeführte Trupps zufällig ausrüsten"/>
+        <string id="randomize_ai_equipment_description"
+                text="Wenn aktiviert, können Agenten, deren Trupps nicht vom Waffenkammer-System verarbeitet werden, zufällige Ausrüstung erhalten."/>
+        <string id="use_vanilla_looting_system" text="Vanilla-Beutesystem verwenden"/>
+        <string id="use_vanilla_looting_system_description"
+                text="Benutzt die Vanilla-Beuteberechnung von Bannerlord anstelle der auf der Waffenkammer basierenden Beute."/>
+        <string id="randomize_starting_equipment" text="Startausrüstung von Rekruten zufällig bestimmen"/>
+        <string id="randomize_starting_equipment_description"
+                text="Wenn aktiviert, erhalten Rekruten bei der Anwerbung möglicherweise eine zufällige Startausrüstung."/>
+        <string id="remove_civilian_equipments" text="Zivile Ausrüstung aus der Zufallsauswahl entfernen"/>
+        <string id="remove_civilian_equipments_description"
+                text="Wenn aktiviert, wird zivile Ausrüstung von der zufälligen Ausrüstungsauswahl ausgeschlossen."/>
+        <string id="loyal_equipments" text="Loyale Ausrüstungen"/>
+        <string id="loyal_equipments_desc"
+                text="EIN (Standard): Soldaten bevorzugen ihre Vanilla-Ausrüstung und die nächstbeste Ausrüstung bis zu +2 Stufen über ihrer bisherigen. AUS: Soldaten nehmen die bestmögliche Ausrüstung, wobei die +2-Stufen-Regel gilt."/>
+        <string id="emergency_loadout" text="Notfallausrüstung"/>
+        <string id="emergency_loadout_desc"
+                text="EIN (Standard): Wenn Soldaten zu Beginn des Kampfes eine Waffe/Rüstung fehlt, erhalten sie eine von einer T1-Einheit ihrer Kultur."/>
+        <string id="underequipped" text="Unterausgestattet"/>
+        <string id="underequipped_desc"
+                text="EIN (Standard): Wenn Soldaten eine schlechtere Gesamtausrüstung als standardmäßig haben, verlieren sie an Moral."/>
+        <string id="commanders_greed" text="Gier des Kommandanten"/>
+        <string id="commanders_greed_desc"
+                text="AUS (Standard): Der Spieler kann keine Gegenstände aus dem Ausrüstungspool der Truppen nehmen."/>
+        <string id="scrap_cap_per_category" text="Schrott-Obergrenze pro Kategorie"/>
+        <string id="scrap_cap_per_category_desc"
+                text="Nur aktiv, wenn 'Gier des Kommandanten' AUS ist. Alle 3 Tage werden die wertlosesten Gegenstände gelöscht, wenn eine Gegenstandskategorie im Truppenlager diese Obergrenze überschreitet, bis die Kategorie auf (Obergrenze - 1) sinkt."/>
+        <string id="assign_extra_equipments" text="Zusätzliche Ausrüstung zuweisen"/>
+        <string id="assign_extra_equipments_description"
+                text="Wenn aktiviert, wird übrig gebliebene Ausrüstung verteilt, um leere Plätze zu füllen, wenn möglich."/>
+        <string id="log_level" text="Protokollebene"/>
+        <string id="log_level_description" text="0=Debug, 1=Info, 2=Warn, 3=Fehler, 4=Fatal, 5=Alle"/>
+
+        <string id="armory_view_option" text="Waffenkammer der Armee ansehen"/>
+        <string id="armory_manage_option" text="Waffenkammer verwalten"/>
+        <string id="sell_for_throwing" text="Überschüssige Ausrüstung gegen Wurfwaffen tauschen"/>
+        <string id="sell_for_throwing_text"
+                text="Überschüssige Ausrüstung im Wert von {VALUE} verkauft und {COUNT} Wurfwaffen erhalten"/>
+        <string id="loot_added_message" text="{ITEM_COUNT} Gegenstände vom Feind erbeutet"/>
+        <string id="items_recover_from_fallen_message" text="{ITEM_COUNT} von deinen gefallenen Soldaten geborgen"/>
+        <string id="return_to_town" text="Zum Stadtmenü zurückkehren"/>
+
+        <string id="setting_easy" text="Einfach"/>
+        <string id="setting_normal" text="Normal"/>
+        <string id="setting_hard" text="Schwer"/>
+        <string id="setting_very_hard" text="Sehr schwer"/>
+
+        <string id="debug_clear_invalid_items" text="DEBUG: Ungültige Gegenstände löschen"/>
+        <string id="debug_remove_player_crafted_items" text="DEBUG: Vom Spieler hergestellte Gegenstände entfernen"/>
+        <string id="debug_rebuild_armory" text="DEBUG: Spieler-Waffenkammer neu aufbauen"/>
+        <string id="debug_export_armory" text="DEBUG: Spieler-Waffenkammer exportieren"/>
+        <string id="debug_import_armory" text="DEBUG: Spieler-Waffenkammer importieren"/>
+
+        <string id="reinforcement_caravan" text="Verstärkungs-Karawane"/>
+        <string id="reinforcement_caravan_trade_disabled" text="Diese Karawanen handeln nicht."/>
     </strings>
 </base>

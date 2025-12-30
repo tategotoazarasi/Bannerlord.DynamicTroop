@@ -1,49 +1,65 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
 <base type="string">
     <tags>
         <tag language="简体中文"/>
     </tags>
     <strings>
         <string id="mod_name" text="动态部队装备"/>
-        <string id="armory_view_option" text="查看部队军火库"/>
-        <string id="loot_added_message" text="已添加 {ITEM_COUNT} 件战利品到部队军火库。"/>
-        <string id="toggle_debug_mode" text="调试模式"/>
-        <string id="toggle_debug_mode_hint" text="供开发人员使用"/>
-        <string id="debug" text="调试"/>
-        <string id="log_level" text="日志级别"/>
-        <string id="drop_rate" text="装备爆率"/>
-        <string id="drop_rate_hint" text="敌人被击倒时的装备爆率，也影响战后从敌人剩余军械库中获取战利品的分配。"/>
         <string id="settings" text="设置"/>
-        <string id="same_cultural_preference" text="同文化偏好"/>
-        <string id="same_cultural_preference_hint"
-                text="士兵会更倾向选择同文化的装备，这并不代表他们就不会使用其他文化的装备"/>
+        <string id="debug_mode" text="调试模式"/>
+        <string id="debug_mode_description" text="启用详细的调试日志以进行故障排除。"/>
+        <string id="drop_rate" text="装备爆率"/>
+        <string id="drop_rate_description" text="调整掉落装备的掉率乘数。"/>
+        <string id="difficulty" text="难度"/>
+        <string id="difficulty_description" text="调整装备分配的难度乘数。"/>
+        <string id="randomize_ai_equipment" text="随机化非英雄领导的部队"/>
+        <string id="randomize_ai_equipment_description"
+                text="如果启用，那些不受军械库系统处理的部队中的士兵可能会获得随机装备。"/>
+        <string id="use_vanilla_looting_system" text="使用原版战利品系统"/>
+        <string id="use_vanilla_looting_system_description" text="使用《霸主》原版战利品计算，而不是基于军械库的战利品。"/>
+        <string id="randomize_starting_equipment" text="随机化招募装备"/>
+        <string id="randomize_starting_equipment_description"
+                text="如果启用，新兵在被招募时可能会获得随机化的初始装备。"/>
+        <string id="remove_civilian_equipments" text="在随机池中移除民用装备"/>
+        <string id="remove_civilian_equipments_description" text="如果启用，民用装备将被排除在随机装备选择之外。"/>
+        <string id="loyal_equipments" text="忠诚装备"/>
+        <string id="loyal_equipments_desc"
+                text="开（默认）：士兵将优先使用他们的原版装备以及与原版装备最接近的装备，最高不超过原版装备+2等级。关：士兵将选择最好的装备，遵循+2等级规则。"/>
+        <string id="emergency_loadout" text="紧急备用装备"/>
+        <string id="emergency_loadout_desc"
+                text="开（默认）：如果士兵在战斗开始时缺少武器/盔甲，他们将从自己文化的1级单位那里获得一件。"/>
+        <string id="underequipped" text="装备不足"/>
+        <string id="underequipped_desc" text="开（默认）：如果士兵的整体装备比默认装备差，他们会士气下降。"/>
+        <string id="commanders_greed" text="指挥官的贪婪"/>
+        <string id="commanders_greed_desc" text="关（默认）：玩家不能从部队装备池中拿取物品。"/>
+        <string id="scrap_cap_per_category" text="每类物品的废弃上限"/>
+        <string id="scrap_cap_per_category_desc"
+                text="仅在“指挥官的贪婪”关闭时生效。每3天，如果部队储藏中的任何物品类别超过此上限，价值最低的物品将被删除，直到该类别降至（上限 - 1）。"/>
+        <string id="assign_extra_equipments" text="分配额外装备"/>
+        <string id="assign_extra_equipments_description" text="如果启用，剩余的装备将被分配以填补可能的空缺栏位。"/>
+        <string id="log_level" text="日志级别"/>
+        <string id="log_level_description" text="0=调试, 1=信息, 2=警告, 3=错误, 4=致命, 5=全部"/>
+
+        <string id="armory_view_option" text="查看部队军火库"/>
+        <string id="armory_manage_option" text="管理军火库"/>
+        <string id="sell_for_throwing" text="出售多余装备以换取投掷武器"/>
+        <string id="sell_for_throwing_text" text="出售了价值{VALUE}的多余装备，换取了{COUNT}件投掷武器"/>
+        <string id="loot_added_message" text="从敌人处缴获了 {ITEM_COUNT} 件物品"/>
+        <string id="items_recover_from_fallen_message" text="从倒下的我方士兵身上回收了 {ITEM_COUNT} 件装备"/>
+        <string id="return_to_town" text="返回城镇菜单"/>
+
         <string id="setting_easy" text="简单"/>
         <string id="setting_normal" text="中等"/>
         <string id="setting_hard" text="困难"/>
         <string id="setting_very_hard" text="非常困难"/>
-        <string id="difficulty" text="难度"/>
-        <string id="difficulty_hint" text="此选项会影响AI部队每日获得的装备的数量和质量"/>
-        <string id="armory_manage_option" text="管理军火库"/>
-        <string id="sell_for_throwing" text="出售多余装备以换取投掷武器"/>
-        <string id="return_to_town" text="返回城镇菜单"/>
-        <string id="sell_for_throwing_text" text="出售了价值{VALUE}的多余装备，换取了{COUNT}件投掷武器"/>
-        <string id="randomized_non_hero_led_ai_parties_armor" text="无军械库部队获得随机盔甲"/>
-        <string id="randomized_non_hero_led_ai_parties_armor_hint"
-                text="无军械库系统的部队的士兵在战斗中将装备基于其等级和文化的随机盔甲"/>
-        <string id="use_vanilla_looting_system" text="使用原版战利品系统"/>
-        <string id="use_vanilla_looting_system_hint" text="启用此选项以关闭本mod的战利品系统"/>
-        <string id="items_recover_from_fallen_message" text="从倒下的我方士兵身上回收了 {ITEM_COUNT} 件装备"/>
-        <string id="randomize_starting_equipment" text="随机化招募装备"/>
-        <string id="randomize_starting_equipment_hint"
-                text="启用此选项以随机化招募的士兵带来的初始装备，取决于所招募士兵的文化和等级"/>
-        <string id="remove_civilian_equipments_in_random" text="从随机列表中移除民用装备"/>
-        <string id="remove_civilian_equipments_in_random_hint"
-                text="启用此选项后，游戏内所有随机分配的装备将不包括民用物品。这可以避免士兵随机获得如女装或王冠等物品，但同时提升了随机装备的整体质量"/>
-        <!--<string id="ai_crafting" text="[实验性功能] 启用AI锻造"/>-->
-        <!--<string id="ai_crafting_hint" text="AI部队每天收到随机的打造装备。 警告: 此功能可能会增加存档文件大小，可能存在导致坏档的bug，可能导致大地图卡顿，高内存占用和较长的存读档时间"/>-->
-        <string id="assign_extra_equipments" text="分配额外装备"/>
-        <string id="assign_extra_equipments_hint"
-                text="将根据士兵已有的装备分配多余的箭矢、盾牌、投掷武器和双手/长杆武器。"/>
+
+        <string id="debug_clear_invalid_items" text="调试：清理无效物品"/>
+        <string id="debug_remove_player_crafted_items" text="调试：移除玩家打造的物品"/>
+        <string id="debug_rebuild_armory" text="调试：重建玩家军械库"/>
+        <string id="debug_export_armory" text="调试：导出玩家军械库"/>
+        <string id="debug_import_armory" text="调试：导入玩家军械库"/>
+
+        <string id="reinforcement_caravan" text="增援商队"/>
+        <string id="reinforcement_caravan_trade_disabled" text="这些商队不进行交易。"/>
     </strings>
 </base>

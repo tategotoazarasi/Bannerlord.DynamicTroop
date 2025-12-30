@@ -31,6 +31,20 @@ public static class LocalizedTexts {
 
 	public static readonly TextObject ReturnToTown = new("{=return_to_town}Return to Town Menu");
 
+	public static readonly TextObject DebugClearInvalidItems = new("{=debug_clear_invalid_items}DEBUG: Clear invalid items");
+
+	public static readonly TextObject DebugRemovePlayerCraftedItems = new("{=debug_remove_player_crafted_items}DEBUG: Remove player crafted items");
+
+	public static readonly TextObject DebugRebuildArmory = new("{=debug_rebuild_armory}DEBUG: Rebuild player armory");
+
+	public static readonly TextObject DebugExportArmory = new("{=debug_export_armory}DEBUG: Export player armory");
+
+	public static readonly TextObject DebugImportArmory = new("{=debug_import_armory}DEBUG: Import player armory");
+
+	public static readonly TextObject ReinforcementCaravan = new("{=reinforcement_caravan}Reinforcement Caravan");
+
+	public static readonly TextObject ReinforcementCaravanTradeDisabled = new("{=reinforcement_caravan_trade_disabled}These caravans do not trade.");
+
 	public static string GetSoldExcessEquipmentForThrowingWeapons(int value, int count) {
 		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("VALUE", value);
 		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("COUNT", count);

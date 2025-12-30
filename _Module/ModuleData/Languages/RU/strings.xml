@@ -1,11 +1,71 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-
 <base type="string">
     <tags>
         <tag language="Русский"/>
     </tags>
     <strings>
-        <string id="armory_view_option" text="Военный арсенал"/>
-        <string id="loot_added_message" text="В военный арсенал добавлено {ITEM_COUNT} предмета."/>
+        <string id="mod_name" text="Динамическая система снаряжения войск"/>
+        <string id="settings" text="Настройки"/>
+        <string id="debug_mode" text="Режим отладки"/>
+        <string id="debug_mode_description" text="Включает подробные журналы отладки для устранения неполадок."/>
+        <string id="drop_rate" text="Шанс выпадения"/>
+        <string id="drop_rate_description" text="Регулирует множитель шанса выпадения добытого снаряжения."/>
+        <string id="difficulty" text="Сложность"/>
+        <string id="difficulty_description" text="Регулирует множитель сложности для назначения снаряжения."/>
+        <string id="randomize_ai_equipment" text="Случайное снаряжение для отрядов без героя"/>
+        <string id="randomize_ai_equipment_description"
+                text="Если включено, агенты, чьи отряды не обрабатываются системой арсенала, могут получить случайное снаряжение."/>
+        <string id="use_vanilla_looting_system" text="Использовать ванильную систему добычи"/>
+        <string id="use_vanilla_looting_system_description"
+                text="Использовать ванильный расчет добычи Bannerlord вместо добычи на основе арсенала."/>
+        <string id="randomize_starting_equipment" text="Случайное стартовое снаряжение для новобранцев"/>
+        <string id="randomize_starting_equipment_description"
+                text="Если включено, новобранцы при найме могут получить случайное стартовое снаряжение."/>
+        <string id="remove_civilian_equipments" text="Удалить гражданское снаряжение из случайного выбора"/>
+        <string id="remove_civilian_equipments_description"
+                text="Если включено, гражданское снаряжение будет исключено из случайного выбора снаряжения."/>
+        <string id="loyal_equipments" text="Лояльное снаряжение"/>
+        <string id="loyal_equipments_desc"
+                text="ВКЛ (по умолч.): Солдаты будут отдавать предпочтение своему ванильному снаряжению и снаряжению, наиболее близкому к нему, до +2 уровня выше. ВЫКЛ: Солдаты будут брать лучшее возможное снаряжение, следуя правилу +2 уровня."/>
+        <string id="emergency_loadout" text="Экстренная экипировка"/>
+        <string id="emergency_loadout_desc"
+                text="ВКЛ (по умолч.): Если у солдат в начале боя отсутствует оружие/броня, они получат его от юнита 1-го уровня своей культуры."/>
+        <string id="underequipped" text="Недоснаряжение"/>
+        <string id="underequipped_desc"
+                text="ВКЛ (по умолч.): Если общее снаряжение солдат хуже, чем по умолчанию, их боевой дух упадет."/>
+        <string id="commanders_greed" text="Жадность командира"/>
+        <string id="commanders_greed_desc"
+                text="ВЫКЛ (по умолч.): Игрок не может брать вещи из пула снаряжения войск."/>
+        <string id="scrap_cap_per_category" text="Лимит утиля на категорию"/>
+        <string id="scrap_cap_per_category_desc"
+                text="Действует только при выключенной 'Жадности командира'. Каждые 3 дня, если какая-либо категория предметов в хранилище отряда превышает этот лимит, предметы с наименьшей стоимостью удаляются, пока категория не опустится до (лимит - 1)."/>
+        <string id="assign_extra_equipments" text="Назначить дополнительное снаряжение"/>
+        <string id="assign_extra_equipments_description"
+                text="Если включено, оставшееся снаряжение будет распределено для заполнения пустых слотов, когда это возможно."/>
+        <string id="log_level" text="Уровень журнала"/>
+        <string id="log_level_description" text="0=Отладка, 1=Инфо, 2=Предупр., 3=Ошибка, 4=Критич., 5=Все"/>
+
+        <string id="armory_view_option" text="Просмотреть арсенал армии"/>
+        <string id="armory_manage_option" text="Управлять арсеналом"/>
+        <string id="sell_for_throwing" text="Продать излишки снаряжения за метательное оружие"/>
+        <string id="sell_for_throwing_text"
+                text="Продано излишков снаряжения на {VALUE} и получено {COUNT} метательного оружия"/>
+        <string id="loot_added_message" text="захвачено {ITEM_COUNT} предметов у врага"/>
+        <string id="items_recover_from_fallen_message" text="возвращено {ITEM_COUNT} с ваших павших солдат"/>
+        <string id="return_to_town" text="Вернуться в меню города"/>
+
+        <string id="setting_easy" text="Легко"/>
+        <string id="setting_normal" text="Нормально"/>
+        <string id="setting_hard" text="Сложно"/>
+        <string id="setting_very_hard" text="Очень сложно"/>
+
+        <string id="debug_clear_invalid_items" text="ОТЛАДКА: Очистить неверные предметы"/>
+        <string id="debug_remove_player_crafted_items" text="ОТЛАДКА: Удалить созданные игроком предметы"/>
+        <string id="debug_rebuild_armory" text="ОТЛАДКА: Перестроить арсенал игрока"/>
+        <string id="debug_export_armory" text="ОТЛАДКА: Экспортировать арсенал игрока"/>
+        <string id="debug_import_armory" text="ОТЛАДКА: Импортировать арсенал игрока"/>
+
+        <string id="reinforcement_caravan" text="Караван с подкреплением"/>
+        <string id="reinforcement_caravan_trade_disabled" text="Эти караваны не торгуют."/>
     </strings>
 </base>

@@ -45,7 +45,7 @@ internal static class ReinforcementCaravanConversationPatches {
 	}
 
 	private static bool ReinforcementTradeLineOnClickableCondition(out TextObject explanation) {
-		explanation = new TextObject("{=dt_reinforcement_caravan_trade_disabled_expl}These caravans do not trade.");
+		explanation = LocalizedTexts.ReinforcementCaravanTradeDisabled;
 		return false;
 	}
 

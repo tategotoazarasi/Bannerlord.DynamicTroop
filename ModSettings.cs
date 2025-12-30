@@ -58,31 +58,34 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool RemoveCivilianEquipmentsInRandom { get; set; } = true;
 
-	[SettingPropertyBool("Loyal Equipments",
+	[SettingPropertyBool("{=loyal_equipments}Loyal Equipments",
 						 RequireRestart = false,
 						 HintText =
-							 "ON (default): Soldiers will prioritize their vanilla equipments and the closest equipment to their vanilla equipments, up to +2 tier of what they had before. OFF: Soldiers will take the best gear possible, following the +2 tier rule.",
+							 "{=loyal_equipments_desc}ON (default): Soldiers will prioritize their vanilla equipments and the closest equipment to their vanilla equipments, up to +2 tier of what they had before. OFF: Soldiers will take the best gear possible, following the +2 tier rule.",
 						 Order = 8)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool PreferDefaultEquipmentThenClosest { get; set; } = true;
 
-	[SettingPropertyBool("Emergency Loadout", RequireRestart = false, HintText = "ON (default): If the soldiers are going to be missing a weapon/armor at the beginning of the battle, they will have it from a t1 unit of their culture.", Order = 9)]
+	[SettingPropertyBool("{=emergency_loadout}Emergency Loadout",
+						 RequireRestart = false,
+						 HintText = "{=emergency_loadout_desc}ON (default): If the soldiers are going to be missing a weapon/armor at the beginning of the battle, they will have it from a t1 unit of their culture.",
+						 Order = 9)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool EnableEmergencyLoadout { get; set; } = true;
 
-	[SettingPropertyBool("Underequipped", RequireRestart = false, HintText = "ON (default): If soldiers have a worse overall gear than what they had by default, they will lose morale.", Order = 10)]
+	[SettingPropertyBool("{=underequipped}Underequipped", RequireRestart = false, HintText = "{=underequipped_desc}ON (default): If soldiers have a worse overall gear than what they had by default, they will lose morale.", Order = 10)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool Underequipped { get; set; } = true;
 
-	[SettingPropertyBool("Commander's Greed", RequireRestart = false, HintText = "OFF (default): the Player can't take stuff from the troop equipment pool.", Order = 11)]
+	[SettingPropertyBool("{=commanders_greed}Commander's Greed", RequireRestart = false, HintText = "{=commanders_greed_desc}OFF (default): the Player can't take stuff from the troop equipment pool.", Order = 11)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool CommandersGreed { get; set; }
 
-	[SettingPropertyInteger("Scrap cap per category",
+	[SettingPropertyInteger("{=scrap_cap_per_category}Scrap cap per category",
 							200,
 							3500,
 							RequireRestart = false,
-							HintText = "Only active when Commander's Greed is OFF. Every 3 days, if any item category in the troop stash exceeds this cap, the lowest-value items are deleted until the category drops to (cap - 1).",
+							HintText = "{=scrap_cap_per_category_desc}Only active when Commander's Greed is OFF. Every 3 days, if any item category in the troop stash exceeds this cap, the lowest-value items are deleted until the category drops to (cap - 1).",
 							Order = 11)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public int ScrapCapPerCategory { get; set; } = 600;

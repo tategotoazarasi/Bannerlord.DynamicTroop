@@ -204,31 +204,31 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_clear_invalid_items",
-								  "DEBUG: Clear invalid items",
+								  LocalizedTexts.DebugClearInvalidItems.ToString(),
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.DebugClearEmptyItem(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_remove_player_crafted_items",
-								  "DEBUG: Remove player crafted items",
+								  LocalizedTexts.DebugRemovePlayerCraftedItems.ToString(),
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.DebugRemovePlayerCraftedItems(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_rebuild_armory",
-								  "DEBUG: Rebuild player armory",
+								  LocalizedTexts.DebugRebuildArmory.ToString(),
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.RebuildArmory(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_export_armory",
-								  "DEBUG: Export player armory",
+								  LocalizedTexts.DebugExportArmory.ToString(),
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.Export(); });
 
 		starter.AddGameMenuOption("army_armory_submenu",
 								  "debug_import_armory",
-								  "DEBUG: Import player armory",
+								  LocalizedTexts.DebugImportArmory.ToString(),
 								  args => ModSettings.Instance?.DebugMode ?? false,
 								  args => { ArmyArmory.Import(); });
 
