@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['readme_0',['README',['../df/dee/a00369.html',1,'']]]
+  ['dynamic_20troop_20equipment_20system_20reupload_0',['Dynamic Troop Equipment System (Reupload)',['../df/dee/a00369.html',1,'']]]
 ];

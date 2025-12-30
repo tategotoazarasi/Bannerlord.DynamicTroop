@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: README</title>
+<title>动态装备系统: Dynamic Troop Equipment System (Reupload)</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -84,79 +84,180 @@ $(function(){ initResizable(false); });
 </div><!-- top -->
 <div id="doc-content">
 <div><div class="header">
-  <div class="headertitle"><div class="title">README</div></div>
+  <div class="headertitle"><div class="title">Dynamic Troop Equipment System (Reupload)</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>-------&mdash; WIP HERE -------&mdash;</p>
-<p># Dynamic Troop Equipment System</p>
-<p>The Dynamic Troop Equipment System mod revolutionizes the game's troop upgrade and equipment system by replacing it with a dynamic army armory and equipment distribution system.</p>
-<p>New features, as of 1.3.11:</p>
-<p>Loyal Equipments , MCM Tweakable, if ON (default): Soldiers will prioritize their vanilla equipments and the closest equipment to their vanilla equipments, up to +2 tier of what they had before. OFF: Soldiers will take the best gear possible, following the +2 tier rule.</p>
-<p>Emergency Loadout, MCM Tweakable, if ON (default): If a soldier is missing equipment, they will be issued Tier 1 gear from their culture as a substitute. OFF: Missing equipment slots will remain empty if no matching item is found in the stash.</p>
-<p>Underequipped, MCM Tweakable, if ON (default): If soldiers have a worse overall gear than what they had by default, they will lose morale.</p>
-<p>Commander's Greed, MCM Tweakable, if OFF (default): the Player can't take stuff from the troop equipment pool.</p>
-<p>Scrap (Active only if "Commander's Greed" is disabled):</p>
-<p>Every 3 days, the mod cleans up the player party's equipment stash. If the item count in any specific category (e.g., Body Armor, Helmets, 1H Weapons, 2H Weapons, etc.) exceeds 600, the system automatically deletes the lowest-value items in that category until the count drops back to 599.</p>
-<p>Cut Their Supply:</p>
-<p>Every day, each AI-controlled town has a variable chance to send a ‘Reinforcement Caravan’ to one of its ruling clan’s parties, supplying equipment to their stash. The chance scales with the town’s prosperity. These can be attacked to prevent your enemies from strengthening their forces.</p>
-<p>And countless of bug fixes..</p>
-<p>## Armory System</p>
-<p>- Soldiers no longer magically receive new equipment upon leveling up.</p>
-<p>- Parties now have dynamic armory. Equipment from defeated non-hero enemy units is added to this armory.</p>
-<p>- Each soldier's equipment is no longer fixed; instead, they select the most suitable gear from the army's armory when entering the battlefield, and return it to the armory upon leaving the battlefield or falling in battle.</p>
-<p>- Newly recruited soldiers contribute their initial gear to the armory.</p>
-<p>- The armory can be accessed and managed from the town menus.</p>
-<p>## Equipment Distribution Logic</p>
-<p>- Before battle, the armory evaluates each soldier's equipment slots. It then equips them with the highest quality weapon available that matches their original equipment from the vanilla game.</p>
-<p>- Weapon matching and distribution occur in four distinct rounds:</p>
-<p>&#160; - **1st Round:** Requires an exact match in weapon type and function. For example, a one-handed sword only for slashing can only be matched with another one-handed sword of the same type. A one-handed sword that can both stab and slash, or a one-handed sword that is slash-only but can also be wielded with two hands, does not qualify for a match. *In this round, when allocating polearms to cavalry, only lances specifically for mounted combat are considered, and infantry will not be assigned such lances.*</p>
-<p>&#160; - **2nd Round:** Subtype matching. For instance, a weapon that can be used as a one-handed polearm can be matched with another that functions as a one-handed polearm, even if the latter can also be used as a two-handed polearm, or if one is for slashing and the other for stabbing. Throwing weapons and melee weapons are not regarded as the same category.</p>
-<p>&#160; - **3rd Round:** Broad type matching (e.g., both are “one-handed weapons”). For example, a one-handed sword can be matched with a one-handed axe. *In this round, when allocating polearms to cavalry, only lances specifically for mounted combat are considered, and infantry will not be assigned such lances.*</p>
-<p>&#160; - **4th Round:** Broad type matching (e.g., both are “one-handed weapons”).</p>
-<p>&#160; - Each round only fills slots left empty from the previous round.</p>
-<p>- Soldiers without weapons are allocated a random melee weapon.</p>
-<p>- Higher-tier soldiers are prioritized.</p>
-<p>- Surplus arrows, shields, throwing weapons, and two-handed/polearms are allocated based on existing equipment.</p>
-<p>- Mounted units, including archers, won't receive weapons unsuitable for use on horseback.</p>
-<p>## Functionality for AI Parties</p>
-<p>- AI parties led by heroes will have access to an armory mechanism.</p>
-<p>- Upon creation, AI parties receive original equipment consistent with the soldiers in their party, similar to when the player recruits new troops.</p>
-<p>- AI parties can loot enemy armories through battle.</p>
-<p>- Daily, AI parties receive random equipment, as detailed below:</p>
-<p>&#160; - They obtain equipment that their soldiers would normally have in the vanilla game, with the quantity depending on the total number of troops in the party.</p>
-<p>&#160; - They randomly receive equipment matching their clan's culture. The quantity is influenced by the clan tier, which also serves as the upper limit for the level of equipment received.</p>
-<p>&#160; - Equipment is received based on their fiefs, with each town, castle, or village providing one piece of equipment daily, aligned with the culture of the settlement. The tier of equipment provided is capped by the settlement's prosperity level.</p>
-<p>## Additional Mechanics</p>
-<p>- Consumable weapons (arrows, bolts, throwing weapons) are only recoverable if not completely used up.</p>
-<p>- Cavalry upgrades do not require horses.</p>
-<p>- Soldiers are limited to using weapons within their skill level.</p>
-<p>- Broken shields and used ammunition are not collected.</p>
-<p>- Armor receiving fatal or critical hits may not be salvageable.</p>
-<p>- After defeating an enemy army with an armory, the standard loot system is replaced with the remaining contents of the enemy's armory.</p>
-<p>- Upon the initial launch of this mod, a blacklist.json file will be generated in the mod folder. You can edit the item blacklist within this file. When editing, you can use either regular expressions or exact matching to filter items, based on their stringId and localized name. Items that meet these matching criteria will not appear randomly in the game or be lootable.</p>
-<p>## Compatibility and Requirements</p>
-<p>- Should be compatible with mods not introducing new equipment types.</p>
-<p>- Note that there may be bugs related to crafted equipments.</p>
-<p>- Requires Harmony, UIExtenderEx, ButterLib and MCM.</p>
-<p>## FAQ</p>
-<p>**Q: I have some feedbacks!**</p>
-<p>A: You can share it with me the same way you send bug reports, as explained below.</p>
-<p>**Q: Why is my army naked?**</p>
-<p>A: If you load a save that wasn't previously using this mod, your armory will be empty. You need to manually purchase weapons and put them in the armory for your soldiers. Ensure your soldiers have enough equipment; otherwise, they will appear naked or unarmed.</p>
-<p>**Q: My equipment is missing!**</p>
-<p>A: Armor that protects a fatally or critically hit area can be damaged when soldiers are killed or knocked out. If multiple armors protect the same area, one is randomly chosen to be damaged based on their protection value.</p>
-<p>Used arrows, bolts, throwing weapons, and damaged shields are also not recoverable.</p>
-<p>If you use mods that cause weapons to drop (like RBM) or other mods leading to soldiers discarding their weapons, dropped weapons won't be collected unless picked up again by soldiers.</p>
-<p>When equipment is assigned from or returned to the armory, its modifier (prefix) is removed. Consequently, your equipment with prefixes may no longer exist as distinct items after a battle; instead, they merge with the unmodified versions of that same equipment.</p>
-<p>**Q: I've encountered a bug!**</p>
-<p>A: Please send your save, steps to reproduce it and BetterExceptionWindow .htm report if it's a crash.</p>
-<p>You can either use Discord: aliemirbehar or bugs section in the nexus page.</p>
-<p>## Credits</p>
-<p>- **The original owner of the mod:** tategotoazarasi</p>
-<p>- **Russian localization:** UmarKot</p>
-<p>- **German localization:** pandory</p>
-<p>## Links</p>
-<p>- [GitHub Repository](<a href="https://github.com/tategotoazarasi/DynamicTroopEquipmentReupload">https://github.com/tategotoazarasi/DynamicTroopEquipmentReupload</a>) - source for the version 1.1 </p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md0"></a></p>
+<p><a href="https://deepwiki.com/tategotoazarasi/Bannerlord.DynamicTroop"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki" style="pointer-events: none;" class="inline"/></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" style="pointer-events: none;" class="inline"/></a> <a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/9537"><img src="https://img.shields.io/badge/Nexus%20Mods-Dynamic%20Troop-orange" alt="Nexus Mods" class="inline"/></a></p>
+<p><b>Dynamic Troop Equipment System</b> revolutionizes <em>Mount &amp; Blade II: Bannerlord</em>'s troop upgrade and equipment mechanics. Gone are the days when soldiers magically conjure armor upon leveling up. Instead, this mod introduces a persistent, dynamic army armory where every piece of equipment must be looted, purchased, or scavenged.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+📖 Table of Contents</h1>
+<ul>
+<li>Overview</li>
+<li>Key Features<ul>
+<li>The Armory System</li>
+<li>Battle Equipment Distribution</li>
+<li>Looting &amp; Recovery</li>
+<li>AI &amp; Logistics</li>
+</ul>
+</li>
+<li>Configuration (MCM)</li>
+<li>Advanced Customization</li>
+<li>Installation</li>
+<li>Compatibility</li>
+<li>FAQ</li>
+<li>Credits</li>
+<li>License</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md3"></a>
+Overview</h1>
+<p>In the vanilla game, upgrading a troop instantly grants them high-tier gear. With this mod, <b>soldiers are only as good as the gear you have in your stash.</b> You must manage a stockpile of weapons, armor, and horses. If you run out of Tier 5 armor, your Tier 5 troops will fight with whatever lower-tier gear is available—or go into battle naked.</p>
+<p>This mod adds a layer of strategic depth, making looting essential and economic management crucial for maintaining an elite fighting force.</p>
+<hr  />
+<h1><a class="anchor" id="autotoc_md5"></a>
+Key Features</h1>
+<h2><a class="anchor" id="autotoc_md6"></a>
+The Armory System</h2>
+<ul>
+<li><b>Persistent Inventory:</b> Your party has a dedicated "Army Armory" (separate from your personal inventory).</li>
+<li><b>Recruitment:</b> New recruits bring their starting gear into the armory.</li>
+<li><b>Management:</b> Access the armory via Town Menus (<code>Manage Armory</code>) or view it while in settlements.</li>
+<li><b>Scrapping:</b> To prevent save bloat, the mod includes an automatic "Scrap" system. If "Commander's Greed" is disabled, the armory automatically sells/deletes the lowest-tier excess items every 3 days if a category exceeds the configured cap.</li>
+<li><b>Trade-in:</b> You can exchange excess low-tier equipment for throwing weapons via the town menu to keep your skirmishers supplied.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md7"></a>
+Battle Equipment Distribution</h2>
+<p>Before every battle, the mod dynamically assigns gear to your troops based on their class requirements and what is available in the armory.</p>
+<ol type="1">
+<li><b>Priority Assignment:</b> Higher-tier troops get first pick of the best gear.</li>
+<li><b>Matching Logic:</b><ul>
+<li><b>Round 1 (Strict):</b> Exact match of weapon class and usage (e.g., a slash-only 1H sword looks for a slash-only 1H sword).</li>
+<li><b>Round 2 (Subtype):</b> Matches weapon functionality (e.g., any 1H polearm).</li>
+<li><b>Round 3 (Broad):</b> Broad category matching (e.g., any 1H weapon).</li>
+<li><b>Round 4 (Fill):</b> Fills remaining empty slots with any valid broad match.</li>
+</ul>
+</li>
+<li><b>Loyal Equipments:</b> (Configurable) Troops prefer their "vanilla" default gear or gear closest to it (up to +2 tiers higher), rather than simply grabbing the most expensive item available.</li>
+<li><b>Emergency Loadout:</b> If the armory is empty, troops will fallback to a "Tier 1" emergency kit based on their culture to avoid being completely unarmed (Configurable).</li>
+<li><b>Underequipped Penalty:</b> If a high-tier soldier is forced to wear low-tier gear due to shortages, they suffer a morale penalty in battle.</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md8"></a>
+Looting &amp; Recovery</h2>
+<ul>
+<li><b>Scavenging:</b> Equipment is not static. When an enemy falls, their gear is added to the "Loot" pool. When your soldier falls, their gear is added to the "Recovery" pool.</li>
+<li><b>Drop Rates:</b> Looting is calculated based on a configurable drop rate.</li>
+<li><b>Durability:</b><ul>
+<li>Armor protecting a body part that receives a fatal blow has a chance to be destroyed.</li>
+<li>Shields that break in battle are lost.</li>
+<li>Spent ammunition (arrows/bolts) is lost; unused ammo is recovered.</li>
+</ul>
+</li>
+<li><b>Map Events:</b> Post-battle loot is shared dynamically between allied parties based on contribution.</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md9"></a>
+AI &amp; Logistics ("Cut Their Supply")</h2>
+<ul>
+<li><b>AI Armories:</b> AI Lord parties also utilize this system. They generate equipment daily based on their clan tier, fiefs, and prosperity.</li>
+<li><b>Reinforcement Caravans:</b> Enemy towns will dispatch physical "Reinforcement Caravan" parties carrying gear and troops to their Lords.<ul>
+<li><b>Strategic Interception:</b> You can attack these caravans to deny the enemy lord their equipment supply, effectively weakening their armies over time.</li>
+<li><em>Note: These caravans do not trade with the player.</em></li>
+</ul>
+</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md11"></a>
+Configuration</h1>
+<p>This mod relies on <b>Mod Configuration Menu (MCM)</b>. You can tweak the following settings in-game:</p>
+<ul>
+<li><b>Difficulty:</b> Scales the equipment generation for AI and shops.</li>
+<li><b>Drop Rate:</b> Multiplier for how much loot you get from enemies.</li>
+<li><b>Commander's Greed:</b><ul>
+<li><em>OFF (Default):</em> You cannot take items <em>out</em> of the Army Armory for personal use (selling/smelting). Keeps the economy balanced.</li>
+<li><em>ON:</em> You can treat the Army Armory like a personal stash.</li>
+</ul>
+</li>
+<li><b>Loyal Equipments:</b> Toggles whether troops prioritize their cultural/default gear style over raw stats.</li>
+<li><b>Underequipped:</b> Toggles the morale penalty for soldiers with gear below their rank.</li>
+<li><b>Emergency Loadout:</b> Toggles whether troops get free T1 gear if the armory is empty.</li>
+<li><b>Randomize Recruit Gear:</b> Recruits start with varied equipment within their tier/culture.</li>
+<li><b>Scrap Cap:</b> Sets the limit for item stacks before the auto-cleaner deletes junk (optimization).</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md13"></a>
+Advanced Customization</h1>
+<h2><a class="anchor" id="autotoc_md14"></a>
+Item Blacklist</h2>
+<p>You can prevent specific items from being used by the system (e.g., overpowered modded weapons or bugged items).</p><ol type="1">
+<li>Navigate to the module folder: <code>Modules/DynamicTroopEquipmentReupload/</code></li>
+<li>Edit <code>blacklist.json</code>.</li>
+<li>You can block items by <code>string_id</code>, <code>name</code>, or using Regex patterns.</li>
+</ol>
+<h2><a class="anchor" id="autotoc_md15"></a>
+Debugging</h2>
+<p>The mod includes extensive logging capabilities via <code>log4net</code>.</p><ul>
+<li>Check <code>log.txt</code> in the module folder for detailed operations.</li>
+<li>In-game menu options allow exporting/importing the armory state for testing.</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md17"></a>
+Installation</h1>
+<ol type="1">
+<li>Download the mod.</li>
+<li>Ensure you have the dependencies installed:<ul>
+<li><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/2006">Harmony</a></li>
+<li><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/2018">ButterLib</a></li>
+<li><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/2102">UIExtenderEx</a></li>
+<li><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/612">Mod Configuration Menu (MCM)</a></li>
+</ul>
+</li>
+<li>Extract the <code><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></code> folder into your game's <code>Modules</code> directory.</li>
+<li>Enable the mod in the Bannerlord Launcher.</li>
+<li><b>Recommended:</b> Use <a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/1">BLSE (Bannerlord Software Extender)</a> for better stability.</li>
+</ol>
+<hr  />
+<h1><a class="anchor" id="autotoc_md19"></a>
+Compatibility</h1>
+<ul>
+<li><b>Save Game:</b> Safe to add to an existing save (your armory will start empty). <b>Do not remove</b> from an active save without backing up; troops may revert to default or lose gear depending on how the game handles the transition.</li>
+<li><b>Item Mods (OSA, RBM, etc.):</b> Highly compatible. The mod reads item stats dynamically.<ul>
+<li><em>Confirmed working:</em> Realistic Battle Mod (RBM), Open Source Armory (OSA), BannerKings.</li>
+</ul>
+</li>
+<li><b>Dismemberment Mods:</b> May have compatibility issues depending on how the death event is handled.</li>
+<li><b>Total Conversions:</b> Generally compatible if they use standard equipment sets.</li>
+</ul>
+<hr  />
+<h1><a class="anchor" id="autotoc_md21"></a>
+FAQ</h1>
+<p><b>Q: My soldiers are spawning naked!</b> <b>A:</b> Your armory is empty. You must loot enemies or buy gear in towns and deposit it into the Army Armory (via the Town Menu). If you are mid-game, you start with nothing.</p>
+<p><b>Q: Why do my troops keep losing their gear?</b> <b>A:</b> Gear is destroyed on death (armor breaking mechanics) or lost if it breaks (shields). If you use "Commander's Greed = OFF", the system also scraps low-tier junk automatically to prevent save file lag.</p>
+<p><b>Q: Can I use this with RBM?</b> <b>A:</b> Yes, it is fully compatible.</p>
+<p><b>Q: Do horses consume the armory stock?</b> <b>A:</b> Upgrading a troop to cavalry requires a horse item (standard game mechanic), but <em>deploying</em> them into battle requires a horse in the Army Armory. Avoid sending cavalry into Hideouts, as a game bug can sometimes cause them to lose their mounts.</p>
+<p><b>Q: Can I take items out of the armory to sell?</b> <b>A:</b> Only if you enable "Commander's Greed" in the Mod Options. By default, this is disabled to prevent the player from exploiting the army pool for infinite money.</p>
+<hr  />
+<h1><a class="anchor" id="autotoc_md23"></a>
+Credits</h1>
+<p>This project is an open-source continuation and reupload of the original Dynamic Troop Equipment System.</p>
+<ul>
+<li><b>Original Author:</b> <a href="https://github.com/tategotoazarasi">@tategotoazarasi</a> - Created the core concept and logic.</li>
+<li><b>Current Maintainer:</b> <a href="https://github.com/alemreM">@alemreM</a> - Updates, fixes, and reupload.</li>
+<li><b>Russian Localization:</b> UmarKot</li>
+<li><b>German Localization:</b> pandory</li>
+<li><b>Chinese Localization:</b> Included in the base module.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md24"></a>
+License</h1>
+<p>This project is licensed under the MIT License.</p>
+<hr  />
+<h2><a class="anchor" id="autotoc_md26"></a>
+Links</h2>
+<ul>
+<li><a href="https://github.com/tategotoazarasi/Bannerlord.DynamicTroop"><b>GitHub Repository</b></a></li>
+<li><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/9537"><b>Nexus Mods</b></a></li>
+<li><a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3119116807"><b>Steam Workshop</b></a></li>
+<li><a href="https://discord.gg/NybRg85KVK"><b>Discord</b></a> </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

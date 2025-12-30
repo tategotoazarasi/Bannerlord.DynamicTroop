@@ -1,8 +1,23 @@
 var searchData=
 [
-  ['name_0',['name',['../dc/d28/a00276.html#a310f7e8492a6f782db2dc2fd34dc00f0',1,'DynamicTroopEquipmentReupload::ItemBlackList::BlackList']]],
-  ['name_5fregex_1',['name_regex',['../dc/d28/a00276.html#a2deb558ca73b8716b3474580fad238ff',1,'DynamicTroopEquipmentReupload::ItemBlackList::BlackList']]],
-  ['namepatterns_2',['NamePatterns',['../d9/dd6/a00272.html#adf83f5d02b236ea0787dce1ef935d75b',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
-  ['names_3',['Names',['../d9/dd6/a00272.html#adb3226410ebdd98cf3b2247d611db04b',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
-  ['none_4',['None',['../d7/d40/a00236.html#ae5c7b2ba8dac122201b1efd76af816c7a6adf97f83acf6453d4a6a4b1070f3754',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]]
+  ['markslotastemporary_0',['MarkSlotAsTemporary',['../d2/d94/a00184.html#af7f9428899b6b0fca4fd9901b7dda3e0',1,'DynamicTroopEquipmentReupload::Assignment']]],
+  ['markunderequippedassignmentsifenabled_1',['MarkUnderEquippedAssignmentsIfEnabled',['../db/d7b/a00296.html#a230c34a9d0579a83daddbdc822ea18c3',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['matchharness_2',['MatchHarness',['../d9/d21/a00240.html#a0561fe150375cc6bbfc66531393032fc',1,'DynamicTroopEquipmentReupload::Extensions::ItemObjectExtension']]],
+  ['materialtype_3',['MaterialType',['../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93',1,'DynamicTroopEquipmentReupload::HorseAndHarness']]],
+  ['max_5fdaily_5fchance_4',['MAX_DAILY_CHANCE',['../dd/dc1/a00212.html#a73c7b5a6ca9864b52ea4a9a3a961978f',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['max_5ftier_5fabove_5fdefault_5',['MAX_TIER_ABOVE_DEFAULT',['../db/d7b/a00296.html#a71c14d514656e329a12864fbdd87e946',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['mercenary_6',['Mercenary',['../d7/d40/a00236.html#ae5c7b2ba8dac122201b1efd76af816c7ac31a034a992485076246638bccd0c3d7',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
+  ['messageavailable_7',['MessageAvailable',['../db/dc3/a00284.html#aa691a4285cd27a6d6495fcc54fcdd9aa',1,'MessageDisplayService']]],
+  ['messagedisplayservice_8',['MessageDisplayService',['../db/dc3/a00284.html',1,'MessageDisplayService'],['../db/dc3/a00284.html#ae83bdba3e71cf247cd1d77da59bcf5fe',1,'MessageDisplayService.MessageDisplayService()']]],
+  ['messagedisplayservice_2ecs_9',['MessageDisplayService.cs',['../db/db2/a00020.html',1,'']]],
+  ['messagequeue_10',['MessageQueue',['../db/dc3/a00284.html#a4f096a7b51d3ecc68c40a3175be980a0',1,'MessageDisplayService']]],
+  ['militia_11',['Militia',['../d7/d40/a00236.html#ae5c7b2ba8dac122201b1efd76af816c7ae4a1ba7fe91aa1392926140395a4bdff',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
+  ['min_5fprosperity_12',['MIN_PROSPERITY',['../dd/dc1/a00212.html#a6f3bb92e9b3aca390f0f14a13ef0a903',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['minimumloglevel_13',['MinimumLogLevel',['../da/ddc/a00288.html#ab4bcd01d322323b45434c45f88a686c4',1,'DynamicTroopEquipmentReupload::ModSettings']]],
+  ['mobilepartyextension_14',['MobilePartyExtension',['../d6/d08/a00244.html',1,'DynamicTroopEquipmentReupload::Extensions']]],
+  ['mobilepartyextension_2ecs_15',['MobilePartyExtension.cs',['../d6/d5b/a00026.html',1,'']]],
+  ['modname_16',['ModName',['../d0/dcd/a00280.html#aac45d15eb241a0083cbfd3c1ddf99651',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
+  ['modsettings_17',['ModSettings',['../da/ddc/a00288.html',1,'DynamicTroopEquipmentReupload']]],
+  ['modsettings_2ecs_18',['ModSettings.cs',['../d3/d8b/a00059.html',1,'']]],
+  ['moverostertoarmory_19',['MoveRosterToArmory',['../d5/ddf/a00224.html#ae891d4d30a9c90d1be960aaec93bc93a',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
 ];
