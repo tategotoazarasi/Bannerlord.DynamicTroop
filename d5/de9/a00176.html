@@ -194,31 +194,31 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  204</span> </div>
 <div class="line"><span class="lineno">  205</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
 <div class="line"><span class="lineno">  206</span>                                  <span class="stringliteral">&quot;debug_clear_invalid_items&quot;</span>,</div>
-<div class="line"><span class="lineno">  207</span>                                  <span class="stringliteral">&quot;DEBUG: Clear invalid items&quot;</span>,</div>
+<div class="line"><span class="lineno">  207</span>                                  LocalizedTexts.DebugClearInvalidItems.ToString(),</div>
 <div class="line"><span class="lineno">  208</span>                                  args =&gt; ModSettings.Instance?.DebugMode ?? <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  209</span>                                  args =&gt; { ArmyArmory.DebugClearEmptyItem(); });</div>
 <div class="line"><span class="lineno">  210</span> </div>
 <div class="line"><span class="lineno">  211</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
 <div class="line"><span class="lineno">  212</span>                                  <span class="stringliteral">&quot;debug_remove_player_crafted_items&quot;</span>,</div>
-<div class="line"><span class="lineno">  213</span>                                  <span class="stringliteral">&quot;DEBUG: Remove player crafted items&quot;</span>,</div>
+<div class="line"><span class="lineno">  213</span>                                  LocalizedTexts.DebugRemovePlayerCraftedItems.ToString(),</div>
 <div class="line"><span class="lineno">  214</span>                                  args =&gt; ModSettings.Instance?.DebugMode ?? <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  215</span>                                  args =&gt; { ArmyArmory.DebugRemovePlayerCraftedItems(); });</div>
 <div class="line"><span class="lineno">  216</span> </div>
 <div class="line"><span class="lineno">  217</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
 <div class="line"><span class="lineno">  218</span>                                  <span class="stringliteral">&quot;debug_rebuild_armory&quot;</span>,</div>
-<div class="line"><span class="lineno">  219</span>                                  <span class="stringliteral">&quot;DEBUG: Rebuild player armory&quot;</span>,</div>
+<div class="line"><span class="lineno">  219</span>                                  LocalizedTexts.DebugRebuildArmory.ToString(),</div>
 <div class="line"><span class="lineno">  220</span>                                  args =&gt; ModSettings.Instance?.DebugMode ?? <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  221</span>                                  args =&gt; { ArmyArmory.RebuildArmory(); });</div>
 <div class="line"><span class="lineno">  222</span> </div>
 <div class="line"><span class="lineno">  223</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
 <div class="line"><span class="lineno">  224</span>                                  <span class="stringliteral">&quot;debug_export_armory&quot;</span>,</div>
-<div class="line"><span class="lineno">  225</span>                                  <span class="stringliteral">&quot;DEBUG: Export player armory&quot;</span>,</div>
+<div class="line"><span class="lineno">  225</span>                                  LocalizedTexts.DebugExportArmory.ToString(),</div>
 <div class="line"><span class="lineno">  226</span>                                  args =&gt; ModSettings.Instance?.DebugMode ?? <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  227</span>                                  args =&gt; { ArmyArmory.Export(); });</div>
 <div class="line"><span class="lineno">  228</span> </div>
 <div class="line"><span class="lineno">  229</span>        starter.AddGameMenuOption(<span class="stringliteral">&quot;army_armory_submenu&quot;</span>,</div>
 <div class="line"><span class="lineno">  230</span>                                  <span class="stringliteral">&quot;debug_import_armory&quot;</span>,</div>
-<div class="line"><span class="lineno">  231</span>                                  <span class="stringliteral">&quot;DEBUG: Import player armory&quot;</span>,</div>
+<div class="line"><span class="lineno">  231</span>                                  LocalizedTexts.DebugImportArmory.ToString(),</div>
 <div class="line"><span class="lineno">  232</span>                                  args =&gt; ModSettings.Instance?.DebugMode ?? <span class="keyword">false</span>,</div>
 <div class="line"><span class="lineno">  233</span>                                  args =&gt; { ArmyArmory.Import(); });</div>
 <div class="line"><span class="lineno">  234</span> </div>
@@ -231,7 +231,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  241</span>                                  <span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">  242</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d3a/a00101_source.html#l00016">DynamicTroopEquipmentReupload.LocalizedTexts.ArmorViewOption</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00018">DynamicTroopEquipmentReupload.LocalizedTexts.ArmoryManageOption</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00025">DynamicTroopEquipmentReupload.ModSettings.DebugMode</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00032">DynamicTroopEquipmentReupload.LocalizedTexts.ReturnToTown</a>, and <a class="el" href="../../d4/d3a/a00101_source.html#l00020">DynamicTroopEquipmentReupload.LocalizedTexts.SellForThrowing</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d3a/a00101_source.html#l00016">DynamicTroopEquipmentReupload.LocalizedTexts.ArmorViewOption</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00018">DynamicTroopEquipmentReupload.LocalizedTexts.ArmoryManageOption</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00034">DynamicTroopEquipmentReupload.LocalizedTexts.DebugClearInvalidItems</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00040">DynamicTroopEquipmentReupload.LocalizedTexts.DebugExportArmory</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00042">DynamicTroopEquipmentReupload.LocalizedTexts.DebugImportArmory</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00025">DynamicTroopEquipmentReupload.ModSettings.DebugMode</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00038">DynamicTroopEquipmentReupload.LocalizedTexts.DebugRebuildArmory</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00036">DynamicTroopEquipmentReupload.LocalizedTexts.DebugRemovePlayerCraftedItems</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00032">DynamicTroopEquipmentReupload.LocalizedTexts.ReturnToTown</a>, and <a class="el" href="../../d4/d3a/a00101_source.html#l00020">DynamicTroopEquipmentReupload.LocalizedTexts.SellForThrowing</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00171">AddTownMenuOptions()</a>.</p>
 

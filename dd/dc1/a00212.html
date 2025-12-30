@@ -1234,10 +1234,12 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00150">150</a> of file <a class="el" href="../../da/d45/a00011_source.html">CutTheirSupplyBehavior.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  150</span>                                                                                                                {</div>
-<div class="line"><span class="lineno">  151</span>        explanation = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=dt_reinforcement_caravan_trade_disabled_expl}These caravans do not trade.&quot;</span>);</div>
+<div class="line"><span class="lineno">  151</span>        explanation = LocalizedTexts.ReinforcementCaravanTradeDisabled;</div>
 <div class="line"><span class="lineno">  152</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno">  153</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d4/d3a/a00101_source.html#l00046">DynamicTroopEquipmentReupload.LocalizedTexts.ReinforcementCaravanTradeDisabled</a>.</p>
+
 </div>
 </div>
 <a id="aaf70053ac60815e813848ab404b95292" name="aaf70053ac60815e813848ab404b95292"></a>
@@ -1370,7 +1372,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  557</span>        <span class="keywordflow">if</span> (caravanParty == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  558</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  559</span> </div>
-<div class="line"><span class="lineno">  560</span>        caravanParty.Party.SetCustomName(<span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;Reinforcement Caravan&quot;</span>));</div>
+<div class="line"><span class="lineno">  560</span>        caravanParty.Party.SetCustomName(LocalizedTexts.ReinforcementCaravan);</div>
 <div class="line"><span class="lineno">  561</span>        ReinforcementCaravanIds.Add(caravanParty.Id);</div>
 <div class="line"><span class="lineno">  562</span>        caravanParty.Ai.SetDoNotMakeNewDecisions(<span class="keyword">true</span>);</div>
 <div class="line"><span class="lineno">  563</span> </div>
@@ -1404,7 +1406,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  591</span>        _targetByCaravanId[caravanParty.Id] = targetParty.Id;</div>
 <div class="line"><span class="lineno">  592</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00075">_activeCaravanBySourceSettlementId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00076">_ownerClanByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00082">_sourceSettlementByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00084">_targetByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00499">AddExtraCultureTroops()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00522">AddReinforcementSupplies()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00053">EXTRA_TROOP_COUNT</a>, <a class="el" href="../../da/d45/a00011_source.html#l00594">GetRandomGearItems()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00072">ReinforcementCaravanIds</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00075">_activeCaravanBySourceSettlementId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00076">_ownerClanByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00082">_sourceSettlementByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00084">_targetByCaravanId</a>, <a class="el" href="../../da/d45/a00011_source.html#l00499">AddExtraCultureTroops()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00522">AddReinforcementSupplies()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00053">EXTRA_TROOP_COUNT</a>, <a class="el" href="../../da/d45/a00011_source.html#l00594">GetRandomGearItems()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00044">DynamicTroopEquipmentReupload.LocalizedTexts.ReinforcementCaravan</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00072">ReinforcementCaravanIds</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00156">OnDailyTickTown()</a>.</p>
 
