@@ -1,12 +1,14 @@
 #region
 
-using System;
-using System.Collections.Generic;
 using Bannerlord.ButterLib.SaveSystem.Extensions;
 using Helpers;
+using System;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameMenus;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
@@ -46,6 +48,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
 		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
 		CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+		CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, OnHeroPrisonerTaken);
 	}
 
 
@@ -80,6 +83,64 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		ScrapArmyArmoryByCategory(targetCountPerCategory);
 	}
 
+	private void OnHeroPrisonerTaken(PartyBase capturerParty, Hero prisonerHero) {
+		if (prisonerHero != Hero.MainHero)
+			return;
+
+		ApplyCapturedArmoryLoss();
+	}
+
+	private static void ApplyCapturedArmoryLoss() {
+		const int LOSS_NUMERATOR = 4;
+		const int LOSS_DENOMINATOR = 5;
+
+		var removals = new List<(EquipmentElement Equipment, int RemoveCount)>();
+
+		var removedItemCount = 0;
+		long removedValue = 0;
+
+		var enumerator = ArmyArmory.Armory.GetEnumerator();
+		while (enumerator.MoveNext())
+		{
+			var element = enumerator.Current;
+
+			if (element is not { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: > 0 })
+				continue;
+
+			var amount = element.Amount;
+
+			// exact 80% with integer math + randomized remainder (vanilla-like)
+			var weightedAmount = (long)amount * LOSS_NUMERATOR;
+			var baseLoss = (int)(weightedAmount / LOSS_DENOMINATOR);
+			var remainder = (int)(weightedAmount % LOSS_DENOMINATOR);
+
+			var extraLoss = remainder > 0 && MBRandom.RandomInt(LOSS_DENOMINATOR) < remainder ? 1 : 0;
+			var removeCount = Math.Min(amount, baseLoss + extraLoss);
+
+			if (removeCount <= 0)
+				continue;
+
+			removals.Add((element.EquipmentElement, removeCount));
+		}
+		enumerator.Dispose();
+
+		for (var i = 0; i < removals.Count; i++)
+		{
+			(var equipment, var removeCount) = removals[i];
+
+			ArmyArmory.Armory.AddToCounts(equipment, -removeCount);
+
+			removedItemCount += removeCount;
+			removedValue += (long)equipment.ItemValue * removeCount;
+		}
+
+		if (removedItemCount > 0)
+		{
+			MessageDisplayService.EnqueueMessage(new InformationMessage(
+				$"You were captured and lost {removedItemCount} items from the Army Armory (value: {removedValue}).",
+				Colors.Red));
+		}
+	}
 
 	private void Save() {
 		var i = ArmyArmory.Armory.GetEnumerator();

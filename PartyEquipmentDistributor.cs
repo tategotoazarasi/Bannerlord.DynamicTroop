@@ -19,6 +19,7 @@ namespace DynamicTroopEquipmentReupload;
 
 public class PartyEquipmentDistributor {
 	private const int MAX_TIER_ABOVE_DEFAULT = 2;
+	private const float CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER = 2f;
 
 	private const float UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER = 2f;
 
@@ -441,38 +442,33 @@ public class PartyEquipmentDistributor {
 		Global.Log($"(random) weapon {selected.Item.StringId} selected for {_party.Name}", Colors.Green, Level.Debug);
 		return selected;
 	}
-
 	private void AssignEquipmentType(ItemTypeEnum type) {
 		var armours = _equipmentToAssign
-					  .Where(kv => kv.Key is { IsEmpty: false, Item: not null } &&
-								   kv.Value             > 0                     &&
-								   kv.Key.Item.ItemType == type)
-					  .Select(kv => new KeyValuePair<EquipmentElement, int>(kv.Key, kv.Value))
-					  .ToArray();
+			.Where(kv => kv.Key is { IsEmpty: false, Item: not null } &&
+						 kv.Value > 0 &&
+						 kv.Key.Item.ItemType == type)
+			.Select(kv => new KeyValuePair<EquipmentElement, int>(kv.Key, kv.Value))
+			.ToArray();
 
-		Array.Sort(armours,
-				   static (a, b) => {
-					   var tierCompare = b.Key.Item.Tier.CompareTo(a.Key.Item.Tier);
-					   return tierCompare != 0 ? tierCompare : b.Key.Item.Value.CompareTo(a.Key.Item.Value);
-				   });
-
-		var settings                          = ModSettings.Instance;
+		var settings = ModSettings.Instance;
 		var preferDefaultEquipmentThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
 
 		var slotIndex = Global.GetEquipmentIndexByItemType(type);
 		if (slotIndex == null) { return; }
 
-		for (var assignmentIndex = 0; assignmentIndex < Assignments.Count; assignmentIndex++) {
-			var assignment       = Assignments[assignmentIndex];
+		for (var assignmentIndex = 0; assignmentIndex < Assignments.Count; assignmentIndex++)
+		{
+			var assignment = Assignments[assignmentIndex];
 			var referenceElement = assignment.ReferenceEquipment.GetEquipmentFromSlot(slotIndex.Value);
-			var referenceItem    = referenceElement.Item;
+			var referenceItem = referenceElement.Item;
 
-			// Loyal Equipments: first try exact vanilla equipment.
-			if (preferDefaultEquipmentThenClosest && referenceItem != null) {
-				for (var i = 0; i < armours.Length; i++) {
+			// Loyal ON: first try exact vanilla equipment.
+			if (preferDefaultEquipmentThenClosest && referenceItem != null)
+			{
+				for (var i = 0; i < armours.Length; i++)
+				{
 					var candidate = armours[i];
 					if (candidate.Value <= 0) { continue; }
-
 					if (candidate.Key.Item != referenceItem) { continue; }
 
 					assignment.SetEquipment(slotIndex.Value, candidate.Key);
@@ -485,63 +481,137 @@ public class PartyEquipmentDistributor {
 			if (!assignment.Equipment.GetEquipmentFromSlot(slotIndex.Value).IsEmpty) { continue; }
 
 			var maxAllowedTier = GetMaxAllowedTier(referenceItem);
+			var desiredCulture = assignment.Character.Culture;
 
-			// Loyal Equipments: pick the closest-by-tier item (still capped by +2 tier).
-			if (preferDefaultEquipmentThenClosest && referenceItem != null) {
-				var referenceTier = (int)referenceItem.Tier;
+			// Most-compatible selection (Effectiveness proximity), still capped by +2 tier.
+			if (referenceItem != null)
+			{
+				var targetEffectiveness = referenceItem.Effectiveness;
 
-				var bestIndex    = -1;
-				var bestTierDiff = int.MaxValue;
-				var bestTier     = int.MinValue;
-				var bestValue    = int.MinValue;
+				var bestCultureIndex = -1;
+				var bestCultureDiff = float.MaxValue;
+				var bestCultureEffectiveness = float.MinValue;
 
-				for (var i = 0; i < armours.Length; i++) {
+				var bestAnyIndex = -1;
+				var bestAnyDiff = float.MaxValue;
+				var bestAnyEffectiveness = float.MinValue;
+
+				for (var i = 0; i < armours.Length; i++)
+				{
 					var candidate = armours[i];
 					if (candidate.Value <= 0) { continue; }
 
 					var candidateItem = candidate.Key.Item;
 					if (candidateItem == null) { continue; }
 
-					var candidateTier = (int)candidateItem.Tier;
-					if (candidateTier > maxAllowedTier) { continue; }
+					if ((int)candidateItem.Tier > maxAllowedTier) { continue; }
 
-					var tierDiff = Math.Abs(candidateTier - referenceTier);
+					var diff = Math.Abs(candidateItem.Effectiveness - targetEffectiveness);
+					var effectiveness = candidateItem.Effectiveness;
 
-					if (tierDiff < bestTierDiff || tierDiff == bestTierDiff && candidateTier > bestTier || tierDiff == bestTierDiff && candidateTier == bestTier && candidateItem.Value > bestValue) {
-						bestIndex    = i;
-						bestTierDiff = tierDiff;
-						bestTier     = candidateTier;
-						bestValue    = candidateItem.Value;
+					// ANY culture
+					if (diff < bestAnyDiff ||
+						diff == bestAnyDiff && effectiveness > bestAnyEffectiveness)
+					{
+						bestAnyIndex = i;
+						bestAnyDiff = diff;
+						bestAnyEffectiveness = effectiveness;
+					}
+
+					// CULTURE-compatible
+					if (!IsCultureCompatible(candidateItem, desiredCulture)) { continue; }
+
+					if (diff < bestCultureDiff ||
+						diff == bestCultureDiff && effectiveness > bestCultureEffectiveness)
+					{
+						bestCultureIndex = i;
+						bestCultureDiff = diff;
+						bestCultureEffectiveness = effectiveness;
 					}
 				}
 
-				if (bestIndex >= 0) {
-					var chosen = armours[bestIndex];
+				var chosenIndex = bestAnyIndex;
+
+				if (preferDefaultEquipmentThenClosest && bestCultureIndex >= 0)
+				{
+					chosenIndex = bestCultureIndex;
+
+					if (bestAnyIndex >= 0)
+					{
+						// diff smaller = more compatible
+						var anyIsMoreThanTwiceAsCompatible = bestCultureDiff > (bestAnyDiff * CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER);
+						if (anyIsMoreThanTwiceAsCompatible)
+						{
+							chosenIndex = bestAnyIndex;
+						}
+					}
+				}
+
+
+				if (chosenIndex >= 0)
+				{
+					var chosen = armours[chosenIndex];
 					assignment.SetEquipment(slotIndex.Value, chosen.Key);
-					armours[bestIndex] = new KeyValuePair<EquipmentElement, int>(chosen.Key, chosen.Value - 1);
+					armours[chosenIndex] = new KeyValuePair<EquipmentElement, int>(chosen.Key, chosen.Value - 1);
 					ConsumeEquipmentToAssign(chosen.Key);
 				}
 
 				continue;
 			}
 
-			// Loyal OFF: pick the best available (already sorted best,worst), still capped by +2 tier.
-			for (var i = 0; i < armours.Length; i++) {
-				var candidate = armours[i];
-				if (candidate.Value <= 0) { continue; }
+			// No reference item:
+			{
+				var bestCultureIndex = -1;
+				var bestCultureEffectiveness = float.MinValue;
 
-				var candidateItem = candidate.Key.Item;
-				if (candidateItem == null) { continue; }
+				var bestAnyIndex = -1;
+				var bestAnyEffectiveness = float.MinValue;
 
-				if ((int)candidateItem.Tier > maxAllowedTier) { continue; }
+				for (var i = 0; i < armours.Length; i++)
+				{
+					var candidate = armours[i];
+					if (candidate.Value <= 0) { continue; }
 
-				assignment.SetEquipment(slotIndex.Value, candidate.Key);
-				armours[i] = new KeyValuePair<EquipmentElement, int>(candidate.Key, candidate.Value - 1);
-				ConsumeEquipmentToAssign(candidate.Key);
-				break;
+					var candidateItem = candidate.Key.Item;
+					if (candidateItem == null) { continue; }
+
+					if ((int)candidateItem.Tier > maxAllowedTier) { continue; }
+
+					var effectiveness = candidateItem.Effectiveness;
+
+					// ANY
+					if (effectiveness > bestAnyEffectiveness)
+					{
+						bestAnyIndex = i;
+						bestAnyEffectiveness = effectiveness;
+					}
+
+					// CULTURE-compatible
+					if (!IsCultureCompatible(candidateItem, desiredCulture)) { continue; }
+
+					if (effectiveness > bestCultureEffectiveness)
+					{
+						bestCultureIndex = i;
+						bestCultureEffectiveness = effectiveness;
+					}
+				}
+
+				var chosenIndex =
+					preferDefaultEquipmentThenClosest
+						? (bestCultureIndex >= 0 ? bestCultureIndex : bestAnyIndex)
+						: bestAnyIndex;
+
+				if (chosenIndex >= 0)
+				{
+					var chosen = armours[chosenIndex];
+					assignment.SetEquipment(slotIndex.Value, chosen.Key);
+					armours[chosenIndex] = new KeyValuePair<EquipmentElement, int>(chosen.Key, chosen.Value - 1);
+					ConsumeEquipmentToAssign(chosen.Key);
+				}
 			}
 		}
 	}
+
 
 	private void AssignWeaponByWeaponClass(bool strict) {
 		Global.Log($"AssignWeaponByWeaponClass strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
@@ -563,34 +633,40 @@ public class PartyEquipmentDistributor {
 	private void AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
 		Global.Log($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
-		var settings                 = ModSettings.Instance;
+		var settings = ModSettings.Instance;
 		var preferVanillaThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
 
 		var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-		var currentWeapon   = assignment.GetEquipmentFromSlot(slot);
+		var currentWeapon = assignment.GetEquipmentFromSlot(slot);
 
 		if (currentWeapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null)
 			return;
 
 		var maxAllowedTier = GetMaxAllowedTier(referenceWeapon.Item);
 
-		// Loyal Equipments ON: exact vanilla weapon first (if available)
-		if (preferVanillaThenClosest                         &&
+		// Loyal ON: exact vanilla weapon first (if available)
+		if (preferVanillaThenClosest &&
 			(int)referenceWeapon.Item.Tier <= maxAllowedTier &&
-			TryConsumeExactItem(referenceWeapon.Item, out var exactElement)) {
+			TryConsumeExactItem(referenceWeapon.Item, out var exactElement))
+		{
 			assignment.SetEquipment(slot, exactElement);
 			Global.Log($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 			return;
 		}
 
-		EquipmentElement? bestWeapon = null;
+		var desiredCulture = assignment.Character.Culture;
+		var targetEffectiveness = referenceWeapon.Item.Effectiveness;
 
-		var referenceTier = (int)referenceWeapon.Item.Tier;
-		var bestTierDiff  = int.MaxValue;
-		var bestTier      = int.MinValue;
-		var bestValue     = int.MinValue;
+		EquipmentElement? bestAnyWeapon = null;
+		var bestAnyDiff = float.MaxValue;
+		var bestAnyEffectiveness = float.MinValue;
 
-		foreach (var kv in _equipmentToAssign) {
+		EquipmentElement? bestCultureWeapon = null;
+		var bestCultureDiff = float.MaxValue;
+		var bestCultureEffectiveness = float.MinValue;
+
+		foreach (var kv in _equipmentToAssign)
+		{
 			if (kv.Value <= 0)
 				continue;
 
@@ -606,20 +682,51 @@ public class PartyEquipmentDistributor {
 			if (!IsWeaponSuitable(element, referenceWeapon.Item, assignment, strict))
 				continue;
 
-			var itemTier = (int)item.Tier;
-			var tierDiff = Math.Abs(itemTier - referenceTier);
+			var diff = Math.Abs(item.Effectiveness - targetEffectiveness);
+			var effectiveness = item.Effectiveness;
 
-			if (tierDiff < bestTierDiff || tierDiff == bestTierDiff && itemTier > bestTier || tierDiff == bestTierDiff && itemTier == bestTier && item.Value > bestValue) {
-				bestTierDiff = tierDiff;
-				bestTier     = itemTier;
-				bestValue    = item.Value;
-				bestWeapon   = element;
+			// ANY culture
+			if (diff < bestAnyDiff ||
+				diff == bestAnyDiff && effectiveness > bestAnyEffectiveness)
+			{
+				bestAnyDiff = diff;
+				bestAnyEffectiveness = effectiveness;
+				bestAnyWeapon = element;
+			}
+
+			// CULTURE-compatible
+			if (!IsCultureCompatible(item, desiredCulture))
+				continue;
+
+			if (diff < bestCultureDiff ||
+				diff == bestCultureDiff && effectiveness > bestCultureEffectiveness)
+			{
+				bestCultureDiff = diff;
+				bestCultureEffectiveness = effectiveness;
+				bestCultureWeapon = element;
 			}
 		}
 
+		EquipmentElement? bestWeapon = bestAnyWeapon;
+
+		if (preferVanillaThenClosest && bestCultureWeapon.HasValue)
+		{
+			bestWeapon = bestCultureWeapon;
+
+			if (bestAnyWeapon.HasValue)
+			{
+				// diff smaller = more compatible
+				var anyIsMoreThanTwiceAsCompatible = bestCultureDiff > (bestAnyDiff * CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER);
+				if (anyIsMoreThanTwiceAsCompatible)
+				{
+					bestWeapon = bestAnyWeapon;
+				}
+			}
+		}
 
 		AssignWeaponIfAvailable(slot, assignment, bestWeapon);
 	}
+
 
 	private void AssignWeaponByItemEnumType(bool strict) {
 		Global.Log($"AssignWeaponByItemEnumType strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
@@ -635,34 +742,40 @@ public class PartyEquipmentDistributor {
 	private void AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
 		Global.Log($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
-		var settings                 = ModSettings.Instance;
+		var settings = ModSettings.Instance;
 		var preferVanillaThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
 
 		var referenceWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-		var currentWeapon   = assignment.GetEquipmentFromSlot(slot);
+		var currentWeapon = assignment.GetEquipmentFromSlot(slot);
 
 		if (currentWeapon is { IsEmpty: false, Item: not null } || referenceWeapon.IsEmpty || referenceWeapon.Item == null)
 			return;
 
 		var maxAllowedTier = GetMaxAllowedTier(referenceWeapon.Item);
 
-		// Loyal Equipments ON: exact vanilla weapon first (if available)
-		if (preferVanillaThenClosest                         &&
+		// Loyal ON: exact vanilla weapon first (if available)
+		if (preferVanillaThenClosest &&
 			(int)referenceWeapon.Item.Tier <= maxAllowedTier &&
-			TryConsumeExactItem(referenceWeapon.Item, out var exactElement)) {
+			TryConsumeExactItem(referenceWeapon.Item, out var exactElement))
+		{
 			assignment.SetEquipment(slot, exactElement);
 			Global.Log($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 			return;
 		}
 
-		EquipmentElement? bestWeapon = null;
+		var desiredCulture = assignment.Character.Culture;
+		var targetEffectiveness = referenceWeapon.Item.Effectiveness;
 
-		var referenceTier = (int)referenceWeapon.Item.Tier;
-		var bestTierDiff  = int.MaxValue;
-		var bestTier      = int.MinValue;
-		var bestValue     = int.MinValue;
+		EquipmentElement? bestAnyWeapon = null;
+		var bestAnyDiff = float.MaxValue;
+		var bestAnyEffectiveness = float.MinValue;
 
-		foreach (var kv in _equipmentToAssign) {
+		EquipmentElement? bestCultureWeapon = null;
+		var bestCultureDiff = float.MaxValue;
+		var bestCultureEffectiveness = float.MinValue;
+
+		foreach (var kv in _equipmentToAssign)
+		{
 			if (kv.Value <= 0)
 				continue;
 
@@ -678,20 +791,52 @@ public class PartyEquipmentDistributor {
 			if (!IsWeaponSuitable(element, referenceWeapon.Item, assignment, strict))
 				continue;
 
-			var itemTier = (int)item.Tier;
-			var tierDiff = Math.Abs(itemTier - referenceTier);
+			var diff = Math.Abs(item.Effectiveness - targetEffectiveness);
+			var effectiveness = item.Effectiveness;
 
-			if (tierDiff < bestTierDiff || tierDiff == bestTierDiff && itemTier > bestTier || tierDiff == bestTierDiff && itemTier == bestTier && item.Value > bestValue) {
-				bestTierDiff = tierDiff;
-				bestTier     = itemTier;
-				bestValue    = item.Value;
-				bestWeapon   = element;
+			// ANY culture
+			if (diff < bestAnyDiff ||
+				diff == bestAnyDiff && effectiveness > bestAnyEffectiveness)
+			{
+				bestAnyDiff = diff;
+				bestAnyEffectiveness = effectiveness;
+				bestAnyWeapon = element;
+			}
+
+			// CULTURE-compatible
+			if (!IsCultureCompatible(item, desiredCulture))
+				continue;
+
+			if (diff < bestCultureDiff ||
+				diff == bestCultureDiff && effectiveness > bestCultureEffectiveness)
+			{
+				bestCultureDiff = diff;
+				bestCultureEffectiveness = effectiveness;
+				bestCultureWeapon = element;
 			}
 		}
 
+		// Loyal OFF must ignore culture.
+		EquipmentElement? bestWeapon = bestAnyWeapon;
+
+		if (preferVanillaThenClosest && bestCultureWeapon.HasValue)
+		{
+			bestWeapon = bestCultureWeapon;
+
+			if (bestAnyWeapon.HasValue)
+			{
+				// diff smaller = more compatible
+				var anyIsMoreThanTwiceAsCompatible = bestCultureDiff > (bestAnyDiff * CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER);
+				if (anyIsMoreThanTwiceAsCompatible)
+				{
+					bestWeapon = bestAnyWeapon;
+				}
+			}
+		}
 
 		AssignWeaponIfAvailable(slot, assignment, bestWeapon);
 	}
+
 
 	private bool IsWeaponSuitable(EquipmentElement equipment, ItemObject referenceWeapon, Assignment assignment, bool strict) {
 		if (equipment.IsEmpty                                            ||
@@ -739,7 +884,10 @@ public class PartyEquipmentDistributor {
 		}
 
 		foreach (var slot in Global.EquipmentSlots) {
-			if (_mission.HasMissionBehavior<HideoutMissionController>() && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
+			if ((_mission.HasMissionBehavior<HideoutMissionController>() == true ||
+				 _mission.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
+				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+				continue;
 			var element = equipment.GetEquipmentFromSlot(slot);
 			if (element is not { IsEmpty: false, Item: not null }) { continue; }
 
@@ -779,6 +927,9 @@ public class PartyEquipmentDistributor {
 		}
 
 		return Math.Min(6, (int)referenceItem.Tier + MAX_TIER_ABOVE_DEFAULT);
+	}
+	private static bool IsCultureCompatible(ItemObject item, BasicCultureObject? culture) {
+		return culture == null || item.Culture == null || item.Culture == culture;
 	}
 
 

@@ -203,6 +203,7 @@ public class Assignment : IComparable {
 
 	public void FillEmptySlots() {
 		var isHideoutBattle = Mission.Current?.HasMissionBehavior<HideoutMissionController>() ?? false;
+		var isSiegeBattle = Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() ?? false;
 
 		foreach (var slot in Global.ArmourSlots) {
 			var referenceEquipment = ReferenceEquipment.GetEquipmentFromSlot(slot);
@@ -233,8 +234,9 @@ public class Assignment : IComparable {
 		}
 
 		foreach (var slot in Global.EquipmentSlots) {
-			// hideout harness fix
+			// hideout and siege harness fix
 			if (isHideoutBattle && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
+			if ((isHideoutBattle || isSiegeBattle) && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
 
 			if (GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
 				SetEquipment(slot, ReferenceEquipment.GetEquipmentFromSlot(slot));

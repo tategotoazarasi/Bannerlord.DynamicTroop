@@ -26,6 +26,9 @@ public static class ArmyArmory {
 	public static ItemRoster Armory = new();
 
 	private static ItemObject[]? _cachedThrownWeapons;
+	private static ItemObject[]? _cachedArrows;
+
+	private static ItemObject[]? _cachedBolts;
 
 	public static void AddItemToArmory(ItemObject item, int count = 1) {
 		if (!ItemBlackList.Test(item)) return;
@@ -54,7 +57,10 @@ public static class ArmyArmory {
 
 	public static void AssignEquipment(Equipment equipment) {
 		foreach (var slot in Global.EquipmentSlots) {
-			if (Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
+			if ((Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true ||
+				 Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
+				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+				continue;
 			var element = equipment.GetEquipmentFromSlot(slot);
 
 			// 使用模式匹配来检查条件，并反转if语句来减少嵌套
@@ -73,26 +79,185 @@ public static class ArmyArmory {
 	}
 
 	public static void SellExcessEquipmentForThrowingWeapons() {
-		var value         = SellExcessEquipment();
-		var originalValue = value;
-		_cachedThrownWeapons ??= MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-												?.WhereQ(item => item.IsThrowingWeaponCanBeAcquired())
-												.ToArrayQ();
-		var cnt = 0;
-		while (value > 0) {
-			var item = _cachedThrownWeapons.GetRandomElement();
-			if (item != null) {
-				AddItemToArmory(item);
-				value -= item.Value;
-				cnt++;
+		var soldValue = SellExcessEquipment();
+		if (soldValue <= 0)
+		{
+			MessageDisplayService.EnqueueMessage(new InformationMessage(
+				LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons(0, 0, 0),
+				Colors.Green));
+			return;
+		}
+
+		_cachedThrownWeapons ??= MBObjectManager.Instance
+			.GetObjectTypeList<ItemObject>()
+			?.WhereQ(item => item.IsThrowingWeaponCanBeAcquired())
+			.ToArrayQ() ?? Array.Empty<ItemObject>();
+
+		_cachedArrows ??= MBObjectManager.Instance
+			.GetObjectTypeList<ItemObject>()
+			?.WhereQ(item => item.IsArrow() && item.Value > 0)
+			.ToArrayQ() ?? Array.Empty<ItemObject>();
+
+		_cachedBolts ??= MBObjectManager.Instance
+			.GetObjectTypeList<ItemObject>()
+			?.WhereQ(item => item.IsBolt() && item.Value > 0)
+			.ToArrayQ() ?? Array.Empty<ItemObject>();
+
+		var playerParty = MobileParty.MainParty;
+		var troopRoster = playerParty?.MemberRoster?.GetTroopRoster();
+		if (troopRoster == null) return;
+
+		// (cavalry + infantry) = X, (horse archer + archers) = Y, X+Y=100
+		var infantryAndCavalryCount = 0;
+		var archerAndHorseArcherCount = 0;
+
+		// split
+		var bowUserCount = 0;
+		var crossbowUserCount = 0;
+
+		// weighting for type of ranged ammo / throwing weapon
+		var preferredThrowingWeights = new Dictionary<ItemObject, int>();
+		var preferredArrowWeights = new Dictionary<ItemObject, int>();
+		var preferredBoltWeights = new Dictionary<ItemObject, int>();
+
+		foreach (var troop in troopRoster)
+		{
+			if (troop.Character is not { IsHero: false } character) continue;
+
+			var troopCount = troop.Number;
+			if (troopCount <= 0) continue;
+
+			var isRanged = character.IsRanged;
+			if (isRanged)
+				archerAndHorseArcherCount += troopCount;
+			else
+				infantryAndCavalryCount += troopCount;
+
+			var referenceEquipment = character.RandomBattleEquipment;
+
+			var usesBow = false;
+			var usesCrossbow = false;
+
+			ItemObject? preferredThrowing = null;
+			ItemObject? preferredArrows = null;
+			ItemObject? preferredBolts = null;
+
+			foreach (var slot in Assignment.WeaponSlots)
+			{
+				var equipmentElement = referenceEquipment.GetEquipmentFromSlot(slot);
+				if (equipmentElement is not { IsEmpty: false, Item: { } item }) continue;
+
+				if (!usesBow && item.IsBow())
+					usesBow = true;
+
+				if (!usesCrossbow && item.IsCrossBow())
+					usesCrossbow = true;
+
+				if (preferredThrowing == null && item.IsThrowingWeaponCanBeAcquired())
+					preferredThrowing = item;
+
+				if (preferredArrows == null && item.IsArrow())
+					preferredArrows = item;
+
+				if (preferredBolts == null && item.IsBolt())
+					preferredBolts = item;
+			}
+			if (isRanged)
+			{
+				if (usesCrossbow)
+				{
+					crossbowUserCount += troopCount;
+					if (preferredBolts != null)
+						preferredBoltWeights[preferredBolts] = preferredBoltWeights.TryGetValue(preferredBolts, out var count)
+							? count + troopCount
+							: troopCount;
+				}
+				else if (usesBow)
+				{
+					bowUserCount += troopCount;
+					if (preferredArrows != null)
+						preferredArrowWeights[preferredArrows] = preferredArrowWeights.TryGetValue(preferredArrows, out var count)
+							? count + troopCount
+							: troopCount;
+				}
+			}
+			else if (preferredThrowing != null)
+			{
+				preferredThrowingWeights[preferredThrowing] = preferredThrowingWeights.TryGetValue(preferredThrowing, out var count)
+					? count + troopCount
+					: troopCount;
 			}
 		}
 
-		MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts
-																		.GetSoldExcessEquipmentForThrowingWeapons(originalValue -
-																												  value,
-																												  cnt),
-																	Colors.Green));
+		static ItemObject? GetWeightedRandomItem(Dictionary<ItemObject, int> weightByItem) {
+			if (weightByItem.Count == 0) return null;
+
+			var totalWeight = 0;
+			foreach (var kv in weightByItem)
+				totalWeight += kv.Value;
+
+			if (totalWeight <= 0) return null;
+
+			var roll = MBRandom.RandomInt(totalWeight);
+			foreach (var kv in weightByItem)
+			{
+				roll -= kv.Value;
+				if (roll < 0)
+					return kv.Key;
+			}
+
+			return null;
+		}
+		var totalTroopCount = infantryAndCavalryCount + archerAndHorseArcherCount;
+
+		var throwingBudget = totalTroopCount > 0
+			? (int)Math.Round(soldValue * (double)infantryAndCavalryCount / totalTroopCount)
+			: soldValue;
+
+		var ammoBudget = soldValue - throwingBudget;
+		var totalRangedWeaponUsers = bowUserCount + crossbowUserCount;
+		var arrowBudget = totalRangedWeaponUsers > 0
+			? (int)Math.Round(ammoBudget * (double)bowUserCount / totalRangedWeaponUsers)
+			: ammoBudget;
+
+		var boltBudget = ammoBudget - arrowBudget;
+
+		var throwingCount = 0;
+		var ammoCount = 0;
+		var remainingThrowingBudget = throwingBudget;
+		while (remainingThrowingBudget > 0)
+		{
+			var item = GetWeightedRandomItem(preferredThrowingWeights) ?? _cachedThrownWeapons.GetRandomElement();
+			if (item == null) break;
+
+			AddItemToArmory(item);
+			remainingThrowingBudget -= item.Value;
+			throwingCount++;
+		}
+		var remainingArrowBudget = arrowBudget;
+		while (remainingArrowBudget > 0)
+		{
+			var item = GetWeightedRandomItem(preferredArrowWeights) ?? _cachedArrows.GetRandomElement();
+			if (item == null) break;
+
+			AddItemToArmory(item);
+			remainingArrowBudget -= item.Value;
+			ammoCount++;
+		}
+		var remainingBoltBudget = boltBudget;
+		while (remainingBoltBudget > 0)
+		{
+			var item = GetWeightedRandomItem(preferredBoltWeights) ?? _cachedBolts.GetRandomElement();
+			if (item == null) break;
+
+			AddItemToArmory(item);
+			remainingBoltBudget -= item.Value;
+			ammoCount++;
+		}
+
+		MessageDisplayService.EnqueueMessage(new InformationMessage(
+			LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons(soldValue, throwingCount, ammoCount),
+			Colors.Green));
 	}
 
 	private static int SellExcessEquipment() {

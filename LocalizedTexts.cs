@@ -18,10 +18,10 @@ public static class LocalizedTexts {
 	public static readonly TextObject ArmoryManageOption = new("{=armory_manage_option}Manage Armory");
 
 	public static readonly TextObject SellForThrowing =
-		new("{=sell_for_throwing}Trade Excess Equipment for Throwing Weapons");
+		new("{=sell_for_throwing}Trade Excess Equipment for Throwing Weapons and Arrows");
 
 	private static readonly TextObject SoldExcessEquipmentForThrowingWeapons =
-		new("{=sell_for_throwing_text}Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons");
+		new("{=sell_for_throwing_text}Sold excess equipment worth {VALUE} and obtained {THROWING_COUNT} throwing weapons and {AMMO_COUNT} ammunition");
 
 	private static readonly TextObject LootAddedMessage =
 		new("{=loot_added_message}looted {ITEM_COUNT} items from enemy");
@@ -45,9 +45,10 @@ public static class LocalizedTexts {
 
 	public static readonly TextObject ReinforcementCaravanTradeDisabled = new("{=reinforcement_caravan_trade_disabled}These caravans do not trade.");
 
-	public static string GetSoldExcessEquipmentForThrowingWeapons(int value, int count) {
+	public static string GetSoldExcessEquipmentForThrowingWeapons(int value, int throwingCount, int ammoCount) {
 		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("VALUE", value);
-		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("COUNT", count);
+		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("THROWING_COUNT", throwingCount);
+		_ = SoldExcessEquipmentForThrowingWeapons.SetTextVariable("AMMO_COUNT", ammoCount);
 		return SoldExcessEquipmentForThrowingWeapons.ToString();
 	}
 

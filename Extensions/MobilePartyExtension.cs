@@ -46,6 +46,10 @@ public static class MobilePartyExtension {
 		if (party == null) return list;
 
 		var batchSize = 50 - (int)(ModSettings.Instance?.Difficulty ?? 0f) * 10;
+		if (batchSize == 0)
+		{
+			batchSize = 5;
+		}
 		var cnt       = party.MemberRoster?.TotalManCount ?? 0;
 		var rosterWithoutHeroes = party.MemberRoster?.GetTroopRoster()
 									   ?.Where(member => !member.Character?.IsHero ?? false)

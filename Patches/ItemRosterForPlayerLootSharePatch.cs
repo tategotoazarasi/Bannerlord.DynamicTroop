@@ -23,7 +23,9 @@ public static class ItemRosterForPlayerLootSharePatch {
 
 		Global.Debug("Postfix fired");
 		ItemRoster                    replaceRoster      = new();
-		var                           playerContribution = __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1);
+		var playerContribution =
+			__instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1f);
+		playerContribution = MBMath.ClampFloat(playerContribution, 0f, 1f);
 		MBReadOnlyList<MapEventParty> defeatedParties    = __instance.MapEvent.PartiesOnSide(__instance.MapEvent.DefeatedSide);
 		if (defeatedParties == null) return;
 
@@ -33,12 +35,17 @@ public static class ItemRosterForPlayerLootSharePatch {
 
 			foreach (var entry in EveryoneCampaignBehavior.PartyArmories[mobilePartyId.Value]) {
 				if (!ItemBlackList.Test(entry.Key)) continue;
-				if (entry.Value * playerContribution < 1) {
-					for (var i = 0; i < entry.Value; i++)
-						if (random.NextDouble() <= entry.Value * playerContribution)
-							_ = replaceRoster.AddToCounts(entry.Key, 1);
-				}
-				else { _ = replaceRoster.AddToCounts(entry.Key, (int)Math.Round(entry.Value * playerContribution)); }
+				var expectedCount = entry.Value * playerContribution;
+
+				var lootCount = (int)expectedCount;
+				var fractional = expectedCount - lootCount;
+
+				if (fractional > 0f && random.NextDouble() < fractional)
+					lootCount++;
+				lootCount = Math.Min(lootCount, entry.Value);
+				if (lootCount > 0)
+					replaceRoster.AddToCounts(entry.Key, lootCount);
+
 			}
 		}
 

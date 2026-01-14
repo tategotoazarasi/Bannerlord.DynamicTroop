@@ -100,7 +100,12 @@ public class SubModule : MBSubModuleBase {
 		}
 
 		if (mission.HasMissionBehavior<TournamentBehavior>() ||
-			mission.HasMissionBehavior<CustomBattleAgentLogic>()) {
+			mission.HasMissionBehavior<TournamentFightMissionController>() ||
+			mission.HasMissionBehavior<TournamentArcheryMissionController>() ||
+			mission.HasMissionBehavior<TournamentJoustingMissionController>() ||
+			mission.HasMissionBehavior<TownHorseRaceMissionController>() ||
+			mission.HasMissionBehavior<CustomBattleAgentLogic>())
+		{
 			base.OnMissionBehaviorInitialize(mission);
 			return;
 		}

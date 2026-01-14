@@ -141,6 +141,54 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			var hitBodyPart = blow.VictimBodyPart;
 			var armors      = affectedAgent.GetAgentArmors();
 			var hitArmor    = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);
+			// Extra armor break: ONLY for enemy casualties, tierbased.
+			// This is an addition to the existing hitArmor destruction logic.
+			ItemObject? extraBrokenArmor = null;
+
+			var isEnemyCasualty = false;
+
+			if (PartyBattleSides.TryGetValue(affectedPartyId.Value, out var affectedSide))
+			{
+				isEnemyCasualty = affectedSide != Mission.PlayerTeam.Side;
+			}
+
+			if (isEnemyCasualty)
+			{
+				var troopTier = 0;
+				if (affectedAgent.Character is CharacterObject characterObject)
+					troopTier = characterObject.Tier;
+
+				var extraBreakChance = troopTier switch {
+					3 => 0.25f,
+					4 => 0.35f,
+					5 => 0.45f,
+					_ => troopTier >= 6 ? 0.60f : 0f
+				};
+
+				if (extraBreakChance > 0f && _random.NextFloat() <= extraBreakChance)
+				{
+					// Pick an additional armor piece to destroy (excluding hitArmor)
+					var candidates = new List<ItemObject>();
+
+					foreach (var armor in armors)
+					{
+						if (armor == null)
+							continue;
+
+						if (hitArmor != null && armor.StringId == hitArmor.StringId)
+							continue;
+
+						if (armor.ItemType == ItemObject.ItemTypeEnum.HorseHarness)
+							continue;
+
+						candidates.Add(armor);
+					}
+
+					if (candidates.Count > 0)
+						extraBrokenArmor = candidates[_random.Next(candidates.Count)];
+				}
+			}
+
 
 			ProcessAgentEquipmentRespectingTemporarySlots(
 				affectedAgent,
@@ -149,6 +197,9 @@ public class DynamicTroopMissionLogic : MissionLogic {
 						return;
 
 					if (hitArmor != null && item.StringId == hitArmor.StringId)
+						return;
+
+					if (extraBrokenArmor != null && item.StringId == extraBrokenArmor.StringId)
 						return;
 
 					var dropRate = SubModule.Settings?.DropRate ?? 1f;
