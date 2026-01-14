@@ -11,5 +11,6 @@ var searchData=
   ['caravansources_8',['CaravanSources',['../d6/d43/a00216.html#a8eb709a043ec342da4ecb603d575a386',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior::Data']]],
   ['caravantargets_9',['CaravanTargets',['../d6/d43/a00216.html#aa62342049d7e707fd612a2f221e26e31',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior::Data']]],
   ['chance_5fper_5fprosperity_5fpoint_10',['CHANCE_PER_PROSPERITY_POINT',['../dd/dc1/a00212.html#a568424c076dafe9677519aa8df7608f5',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['craftingtemplatesbyitemtype_11',['CraftingTemplatesByItemType',['../dd/dd7/a00260.html#ab28fd5d7d3294e3292cc272bcf131838',1,'DynamicTroopEquipmentReupload::Global']]]
+  ['craftingtemplatesbyitemtype_11',['CraftingTemplatesByItemType',['../dd/dd7/a00260.html#ab28fd5d7d3294e3292cc272bcf131838',1,'DynamicTroopEquipmentReupload::Global']]],
+  ['culture_5foverride_5fcompatibility_5fmultiplier_12',['CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER',['../db/d7b/a00296.html#a26b56636c32e3493570e580a008764d3',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]]
 ];

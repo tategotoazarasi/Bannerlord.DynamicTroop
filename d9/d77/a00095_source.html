@@ -205,20 +205,25 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        }</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">if</span> (mission.HasMissionBehavior&lt;TournamentBehavior&gt;() ||</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            mission.HasMissionBehavior&lt;CustomBattleAgentLogic&gt;()) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            base.OnMissionBehaviorInitialize(mission);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        mission.AddMissionBehavior(<span class="keyword">new</span> <a class="code hl_class" href="../../d5/d0b/a00220.html">DynamicTroopMissionLogic</a>());</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        base.OnMissionBehaviorInitialize(mission);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            mission.HasMissionBehavior&lt;TournamentFightMissionController&gt;() ||</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            mission.HasMissionBehavior&lt;TournamentArcheryMissionController&gt;() ||</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            mission.HasMissionBehavior&lt;TournamentJoustingMissionController&gt;() ||</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            mission.HasMissionBehavior&lt;TownHorseRaceMissionController&gt;() ||</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            mission.HasMissionBehavior&lt;CustomBattleAgentLogic&gt;())</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            base.OnMissionBehaviorInitialize(mission);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        mission.AddMissionBehavior(<span class="keyword">new</span> <a class="code hl_class" href="../../d5/d0b/a00220.html">DynamicTroopMissionLogic</a>());</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        base.OnMissionBehaviorInitialize(mission);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
 </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
 </div>
 <div class="ttc" id="aa00113_html"><div class="ttname"><a href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></div><div class="ttdef"><b>Definition</b> <a href="../../d1/d44/a00098_source.html#l00007">ArmorSelector.cs:7</a></div></div>
-<div class="ttc" id="aa00176_html"><div class="ttname"><a href="../../d5/de9/a00176.html">DynamicTroopEquipmentReupload.ArmyArmoryBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2e/a00056_source.html#l00017">ArmyArmoryBehavior.cs:17</a></div></div>
+<div class="ttc" id="aa00176_html"><div class="ttname"><a href="../../d5/de9/a00176.html">DynamicTroopEquipmentReupload.ArmyArmoryBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2e/a00056_source.html#l00019">ArmyArmoryBehavior.cs:19</a></div></div>
 <div class="ttc" id="aa00212_html"><div class="ttname"><a href="../../dd/dc1/a00212.html">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d45/a00011_source.html#l00023">CutTheirSupplyBehavior.cs:23</a></div></div>
 <div class="ttc" id="aa00220_html"><div class="ttname"><a href="../../d5/d0b/a00220.html">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic</a></div><div class="ttdef"><b>Definition</b> <a href="../../d0/dc2/a00104_source.html#l00017">DynamicTroopMissionLogic.cs:17</a></div></div>
 <div class="ttc" id="aa00224_html"><div class="ttname"><a href="../../d5/ddf/a00224.html">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../d4/d51/a00017_source.html#l00027">EveryoneCampaignBehavior.cs:27</a></div></div>

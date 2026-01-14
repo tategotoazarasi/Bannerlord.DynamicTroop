@@ -45,8 +45,9 @@ var searchData=
   ['createrandomcrafteditemsbyitemtype_42',['CreateRandomCraftedItemsByItemType',['../dd/dd7/a00260.html#a0db194d9e646951fdbb330abfee24d39',1,'DynamicTroopEquipmentReupload::Global']]],
   ['credits_43',['Credits',['../df/dee/a00369.html#autotoc_md23',1,'']]],
   ['culture_44',['Culture',['../db/d12/a00268.html#a56b1f05b9cffaca91723acb6f7d502f6',1,'DynamicTroopEquipmentReupload::HorseAndHarness']]],
-  ['customization_45',['Advanced Customization',['../df/dee/a00369.html#autotoc_md13',1,'']]],
-  ['cut_20their_20supply_46',['AI &amp; Logistics (&quot;Cut Their Supply&quot;)',['../df/dee/a00369.html#autotoc_md9',1,'']]],
-  ['cuttheirsupplybehavior_47',['CutTheirSupplyBehavior',['../dd/dc1/a00212.html',1,'DynamicTroopEquipmentReupload']]],
-  ['cuttheirsupplybehavior_2ecs_48',['CutTheirSupplyBehavior.cs',['../da/d45/a00011.html',1,'']]]
+  ['culture_5foverride_5fcompatibility_5fmultiplier_45',['CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER',['../db/d7b/a00296.html#a26b56636c32e3493570e580a008764d3',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['customization_46',['Advanced Customization',['../df/dee/a00369.html#autotoc_md13',1,'']]],
+  ['cut_20their_20supply_47',['AI &amp; Logistics (&quot;Cut Their Supply&quot;)',['../df/dee/a00369.html#autotoc_md9',1,'']]],
+  ['cuttheirsupplybehavior_48',['CutTheirSupplyBehavior',['../dd/dc1/a00212.html',1,'DynamicTroopEquipmentReupload']]],
+  ['cuttheirsupplybehavior_2ecs_49',['CutTheirSupplyBehavior.cs',['../da/d45/a00011.html',1,'']]]
 ];

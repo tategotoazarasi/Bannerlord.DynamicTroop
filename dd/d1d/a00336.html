@@ -379,15 +379,20 @@ Private Member Functions</h2></td></tr>
 <div class="line"><span class="lineno">  100</span>        }</div>
 <div class="line"><span class="lineno">  101</span> </div>
 <div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (mission.HasMissionBehavior&lt;TournamentBehavior&gt;() ||</div>
-<div class="line"><span class="lineno">  103</span>            mission.HasMissionBehavior&lt;CustomBattleAgentLogic&gt;()) {</div>
-<div class="line"><span class="lineno">  104</span>            base.OnMissionBehaviorInitialize(mission);</div>
-<div class="line"><span class="lineno">  105</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>        mission.AddMissionBehavior(<span class="keyword">new</span> DynamicTroopMissionLogic());</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>        base.OnMissionBehaviorInitialize(mission);</div>
-<div class="line"><span class="lineno">  111</span>    }</div>
+<div class="line"><span class="lineno">  103</span>            mission.HasMissionBehavior&lt;TournamentFightMissionController&gt;() ||</div>
+<div class="line"><span class="lineno">  104</span>            mission.HasMissionBehavior&lt;TournamentArcheryMissionController&gt;() ||</div>
+<div class="line"><span class="lineno">  105</span>            mission.HasMissionBehavior&lt;TournamentJoustingMissionController&gt;() ||</div>
+<div class="line"><span class="lineno">  106</span>            mission.HasMissionBehavior&lt;TownHorseRaceMissionController&gt;() ||</div>
+<div class="line"><span class="lineno">  107</span>            mission.HasMissionBehavior&lt;CustomBattleAgentLogic&gt;())</div>
+<div class="line"><span class="lineno">  108</span>        {</div>
+<div class="line"><span class="lineno">  109</span>            base.OnMissionBehaviorInitialize(mission);</div>
+<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  111</span>        }</div>
+<div class="line"><span class="lineno">  112</span> </div>
+<div class="line"><span class="lineno">  113</span>        mission.AddMissionBehavior(<span class="keyword">new</span> DynamicTroopMissionLogic());</div>
+<div class="line"><span class="lineno">  114</span> </div>
+<div class="line"><span class="lineno">  115</span>        base.OnMissionBehaviorInitialize(mission);</div>
+<div class="line"><span class="lineno">  116</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>

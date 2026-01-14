@@ -131,6 +131,10 @@ Static Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
+<tr class="memitem:a0daf97be43cf745a38b2f19cc59e8b43" id="r_a0daf97be43cf745a38b2f19cc59e8b43"><td class="memItemLeft" align="right" valign="top">static ? ItemObject[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0daf97be43cf745a38b2f19cc59e8b43">_cachedArrows</a></td></tr>
+<tr class="separator:a0daf97be43cf745a38b2f19cc59e8b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40cc7b726da9f6a47a2da55190c92ef0" id="r_a40cc7b726da9f6a47a2da55190c92ef0"><td class="memItemLeft" align="right" valign="top">static ? ItemObject[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a40cc7b726da9f6a47a2da55190c92ef0">_cachedBolts</a></td></tr>
+<tr class="separator:a40cc7b726da9f6a47a2da55190c92ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acfd6daa7cb6aaafeac009ec542fb5b07" id="r_acfd6daa7cb6aaafeac009ec542fb5b07"><td class="memItemLeft" align="right" valign="top">static ? ItemObject[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acfd6daa7cb6aaafeac009ec542fb5b07">_cachedThrownWeapons</a></td></tr>
 <tr class="separator:acfd6daa7cb6aaafeac009ec542fb5b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -165,15 +169,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00030">30</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   30</span>                                                                       {</div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">if</span> (!ItemBlackList.Test(item)) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   32</span>        _ = Armory.AddToCounts(item, count);</div>
-<div class="line"><span class="lineno">   33</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00033">33</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   33</span>                                                                       {</div>
+<div class="line"><span class="lineno">   34</span>        <span class="keywordflow">if</span> (!ItemBlackList.Test(item)) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   35</span>        _ = Armory.AddToCounts(item, count);</div>
+<div class="line"><span class="lineno">   36</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, and <a class="el" href="../../d4/d81/a00110_source.html#l00121">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d2a/a00086_source.html#l00012">DynamicTroopEquipmentReupload.Patches.BuyMercenariesPatch.Prefix()</a>, <a class="el" href="../../d1/d09/a00077_source.html#l00015">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.Prefix()</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00316">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00291">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnItemsToDestination()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00075">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d2a/a00086_source.html#l00012">DynamicTroopEquipmentReupload.Patches.BuyMercenariesPatch.Prefix()</a>, <a class="el" href="../../d1/d09/a00077_source.html#l00015">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.Prefix()</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00367">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00342">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnItemsToDestination()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00081">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -200,26 +204,29 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00055">55</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                                                            {</div>
-<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
-<div class="line"><span class="lineno">   57</span>            <span class="keywordflow">if</span> (Mission.Current?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span> &amp;&amp; (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   58</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno">   59</span> </div>
-<div class="line"><span class="lineno">   60</span>            <span class="comment">// 使用模式匹配来检查条件，并反转if语句来减少嵌套</span></div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">if</span> (element.IsEmpty || element.Item is <span class="keyword">null</span>) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>            var itemToAssign =</div>
-<div class="line"><span class="lineno">   64</span>                Armory.FirstOrDefaultQ(a =&gt; !a.IsEmpty                                                &amp;&amp;</div>
-<div class="line"><span class="lineno">   65</span>                                            a.EquipmentElement.Item.StringId == element.Item.StringId &amp;&amp;</div>
-<div class="line"><span class="lineno">   66</span>                                            a.Amount                         &gt; 0);</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>            <span class="keywordflow">if</span> (!itemToAssign.IsEmpty)</div>
-<div class="line"><span class="lineno">   69</span>                _ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">   71</span>                Global.Log($<span class="stringliteral">&quot;Assigning Empty item {element.Item.StringId}&quot;</span>, Colors.Red, Level.Warn);</div>
-<div class="line"><span class="lineno">   72</span>        }</div>
-<div class="line"><span class="lineno">   73</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00058">58</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   58</span>                                                            {</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
+<div class="line"><span class="lineno">   60</span>            <span class="keywordflow">if</span> ((Mission.Current?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span> ||</div>
+<div class="line"><span class="lineno">   61</span>                 Mission.Current?.HasMissionBehavior&lt;MissionSiegeEnginesLogic&gt;() == <span class="keyword">true</span>) &amp;&amp;</div>
+<div class="line"><span class="lineno">   62</span>                (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))</div>
+<div class="line"><span class="lineno">   63</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   64</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno">   65</span> </div>
+<div class="line"><span class="lineno">   66</span>            <span class="comment">// 使用模式匹配来检查条件，并反转if语句来减少嵌套</span></div>
+<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">if</span> (element.IsEmpty || element.Item is <span class="keyword">null</span>) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   68</span> </div>
+<div class="line"><span class="lineno">   69</span>            var itemToAssign =</div>
+<div class="line"><span class="lineno">   70</span>                Armory.FirstOrDefaultQ(a =&gt; !a.IsEmpty                                                &amp;&amp;</div>
+<div class="line"><span class="lineno">   71</span>                                            a.EquipmentElement.Item.StringId == element.Item.StringId &amp;&amp;</div>
+<div class="line"><span class="lineno">   72</span>                                            a.Amount                         &gt; 0);</div>
+<div class="line"><span class="lineno">   73</span> </div>
+<div class="line"><span class="lineno">   74</span>            <span class="keywordflow">if</span> (!itemToAssign.IsEmpty)</div>
+<div class="line"><span class="lineno">   75</span>                _ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);</div>
+<div class="line"><span class="lineno">   76</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">   77</span>                Global.Log($<span class="stringliteral">&quot;Assigning Empty item {element.Item.StringId}&quot;</span>, Colors.Red, Level.Warn);</div>
+<div class="line"><span class="lineno">   78</span>        }</div>
+<div class="line"><span class="lineno">   79</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
@@ -250,24 +257,24 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00141">141</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  141</span>                                             {</div>
-<div class="line"><span class="lineno">  142</span>        var toRemove = Armory</div>
-<div class="line"><span class="lineno">  143</span>                       .WhereQ(kv =&gt; kv is not {</div>
-<div class="line"><span class="lineno">  144</span>                                                   IsEmpty         : <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  145</span>                                                   EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> },</div>
-<div class="line"><span class="lineno">  146</span>                                                   Amount          : &gt; 0</div>
-<div class="line"><span class="lineno">  147</span>                                               }                                                          ||</div>
-<div class="line"><span class="lineno">  148</span>                                     kv.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Invalid ||</div>
-<div class="line"><span class="lineno">  149</span>                                     kv.EquipmentElement.Item.StringId == <span class="keyword">null</span>                            ||</div>
-<div class="line"><span class="lineno">  150</span>                                     kv.EquipmentElement.Item.StringId.IsEmpty())</div>
-<div class="line"><span class="lineno">  151</span>                       .ToArrayQ();</div>
-<div class="line"><span class="lineno">  152</span>        <span class="keywordflow">if</span> (toRemove == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> toRemove) Armory.Remove(item);</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>        Global.Debug($<span class="stringliteral">&quot;Removed {toRemove.Length} empty entries from player&#39;s armory&quot;</span>);</div>
-<div class="line"><span class="lineno">  157</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00306">306</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  306</span>                                             {</div>
+<div class="line"><span class="lineno">  307</span>        var toRemove = Armory</div>
+<div class="line"><span class="lineno">  308</span>                       .WhereQ(kv =&gt; kv is not {</div>
+<div class="line"><span class="lineno">  309</span>                                                   IsEmpty         : <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  310</span>                                                   EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> },</div>
+<div class="line"><span class="lineno">  311</span>                                                   Amount          : &gt; 0</div>
+<div class="line"><span class="lineno">  312</span>                                               }                                                          ||</div>
+<div class="line"><span class="lineno">  313</span>                                     kv.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Invalid ||</div>
+<div class="line"><span class="lineno">  314</span>                                     kv.EquipmentElement.Item.StringId == <span class="keyword">null</span>                            ||</div>
+<div class="line"><span class="lineno">  315</span>                                     kv.EquipmentElement.Item.StringId.IsEmpty())</div>
+<div class="line"><span class="lineno">  316</span>                       .ToArrayQ();</div>
+<div class="line"><span class="lineno">  317</span>        <span class="keywordflow">if</span> (toRemove == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  318</span> </div>
+<div class="line"><span class="lineno">  319</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> toRemove) Armory.Remove(item);</div>
+<div class="line"><span class="lineno">  320</span> </div>
+<div class="line"><span class="lineno">  321</span>        Global.Debug($<span class="stringliteral">&quot;Removed {toRemove.Length} empty entries from player&#39;s armory&quot;</span>);</div>
+<div class="line"><span class="lineno">  322</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
 
@@ -296,20 +303,20 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00174">174</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  174</span>                                                       {</div>
-<div class="line"><span class="lineno">  175</span>        var toRemove = Armory</div>
-<div class="line"><span class="lineno">  176</span>                       .WhereQ(kv =&gt; kv is not {</div>
-<div class="line"><span class="lineno">  177</span>                                                   IsEmpty         : <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  178</span>                                                   EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item.IsCraftedByPlayer: <span class="keyword">true</span> }</div>
-<div class="line"><span class="lineno">  179</span>                                               })</div>
-<div class="line"><span class="lineno">  180</span>                       .ToArrayQ();</div>
-<div class="line"><span class="lineno">  181</span>        <span class="keywordflow">if</span> (toRemove == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  182</span> </div>
-<div class="line"><span class="lineno">  183</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> toRemove) Armory.Remove(item);</div>
-<div class="line"><span class="lineno">  184</span> </div>
-<div class="line"><span class="lineno">  185</span>        Global.Debug($<span class="stringliteral">&quot;Removed {toRemove.Length} player crafted entries from player&#39;s armory&quot;</span>);</div>
-<div class="line"><span class="lineno">  186</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00339">339</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  339</span>                                                       {</div>
+<div class="line"><span class="lineno">  340</span>        var toRemove = Armory</div>
+<div class="line"><span class="lineno">  341</span>                       .WhereQ(kv =&gt; kv is not {</div>
+<div class="line"><span class="lineno">  342</span>                                                   IsEmpty         : <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  343</span>                                                   EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item.IsCraftedByPlayer: <span class="keyword">true</span> }</div>
+<div class="line"><span class="lineno">  344</span>                                               })</div>
+<div class="line"><span class="lineno">  345</span>                       .ToArrayQ();</div>
+<div class="line"><span class="lineno">  346</span>        <span class="keywordflow">if</span> (toRemove == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  347</span> </div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> toRemove) Armory.Remove(item);</div>
+<div class="line"><span class="lineno">  349</span> </div>
+<div class="line"><span class="lineno">  350</span>        Global.Debug($<span class="stringliteral">&quot;Removed {toRemove.Length} player crafted entries from player&#39;s armory&quot;</span>);</div>
+<div class="line"><span class="lineno">  351</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
 
@@ -338,27 +345,27 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00210">210</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  210</span>                                {</div>
-<div class="line"><span class="lineno">  211</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  212</span>            Dictionary&lt;string, int&gt; dict = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">  213</span>            <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> Armory) {</div>
-<div class="line"><span class="lineno">  214</span>                var stringId = rosterElement.EquipmentElement.Item?.StringId;</div>
-<div class="line"><span class="lineno">  215</span>                var cnt      = rosterElement.Amount;</div>
-<div class="line"><span class="lineno">  216</span>                <span class="keywordflow">if</span> (stringId == <span class="keyword">null</span> || cnt &lt;= 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  217</span>                <span class="keywordflow">if</span> (dict.ContainsKey(stringId)) { dict[stringId] += cnt; }</div>
-<div class="line"><span class="lineno">  218</span>                <span class="keywordflow">else</span> { dict.Add(stringId, cnt); }</div>
-<div class="line"><span class="lineno">  219</span>            }</div>
-<div class="line"><span class="lineno">  220</span> </div>
-<div class="line"><span class="lineno">  221</span>            <span class="comment">// 使用 Newtonsoft.Json 的 JsonSerializer 进行序列化</span></div>
-<div class="line"><span class="lineno">  222</span>            var json = JsonConvert.SerializeObject(dict, Formatting.Indented);</div>
-<div class="line"><span class="lineno">  223</span>            <span class="comment">// 写入到 armory.json 文件</span></div>
-<div class="line"><span class="lineno">  224</span>            var filename = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), <span class="stringliteral">&quot;../../armory.json&quot;</span>);</div>
-<div class="line"><span class="lineno">  225</span>            File.WriteAllText(filename, json);</div>
-<div class="line"><span class="lineno">  226</span>            Global.Debug($<span class="stringliteral">&quot;Successfully export armory to {filename}&quot;</span>);</div>
-<div class="line"><span class="lineno">  227</span>        }</div>
-<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><span class="lineno">  229</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00375">375</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  375</span>                                {</div>
+<div class="line"><span class="lineno">  376</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  377</span>            Dictionary&lt;string, int&gt; dict = <span class="keyword">new</span>();</div>
+<div class="line"><span class="lineno">  378</span>            <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> Armory) {</div>
+<div class="line"><span class="lineno">  379</span>                var stringId = rosterElement.EquipmentElement.Item?.StringId;</div>
+<div class="line"><span class="lineno">  380</span>                var cnt      = rosterElement.Amount;</div>
+<div class="line"><span class="lineno">  381</span>                <span class="keywordflow">if</span> (stringId == <span class="keyword">null</span> || cnt &lt;= 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  382</span>                <span class="keywordflow">if</span> (dict.ContainsKey(stringId)) { dict[stringId] += cnt; }</div>
+<div class="line"><span class="lineno">  383</span>                <span class="keywordflow">else</span> { dict.Add(stringId, cnt); }</div>
+<div class="line"><span class="lineno">  384</span>            }</div>
+<div class="line"><span class="lineno">  385</span> </div>
+<div class="line"><span class="lineno">  386</span>            <span class="comment">// 使用 Newtonsoft.Json 的 JsonSerializer 进行序列化</span></div>
+<div class="line"><span class="lineno">  387</span>            var json = JsonConvert.SerializeObject(dict, Formatting.Indented);</div>
+<div class="line"><span class="lineno">  388</span>            <span class="comment">// 写入到 armory.json 文件</span></div>
+<div class="line"><span class="lineno">  389</span>            var filename = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), <span class="stringliteral">&quot;../../armory.json&quot;</span>);</div>
+<div class="line"><span class="lineno">  390</span>            File.WriteAllText(filename, json);</div>
+<div class="line"><span class="lineno">  391</span>            Global.Debug($<span class="stringliteral">&quot;Successfully export armory to {filename}&quot;</span>);</div>
+<div class="line"><span class="lineno">  392</span>        }</div>
+<div class="line"><span class="lineno">  393</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
+<div class="line"><span class="lineno">  394</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>.</p>
 
@@ -387,28 +394,28 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00188">188</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>                                {</div>
-<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">  190</span>            <span class="comment">// 获取 armory.json 文件的完整路径</span></div>
-<div class="line"><span class="lineno">  191</span>            var filePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), <span class="stringliteral">&quot;../../armory.json&quot;</span>);</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>            <span class="comment">// 读取文件内容</span></div>
-<div class="line"><span class="lineno">  194</span>            var json = File.ReadAllText(filePath);</div>
-<div class="line"><span class="lineno">  195</span> </div>
-<div class="line"><span class="lineno">  196</span>            <span class="comment">// 使用 Newtonsoft.Json 的 JsonSerializer 进行反序列化</span></div>
-<div class="line"><span class="lineno">  197</span>            var dict = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, int&gt;&gt;(json);</div>
-<div class="line"><span class="lineno">  198</span>            Armory.Clear();</div>
-<div class="line"><span class="lineno">  199</span>            <span class="keywordflow">foreach</span> (var kpv <span class="keywordflow">in</span> dict) {</div>
-<div class="line"><span class="lineno">  200</span>                var item = MBObjectManager.Instance.GetObject&lt;ItemObject&gt;(kpv.Key);</div>
-<div class="line"><span class="lineno">  201</span>                <span class="keywordflow">if</span> (item != <span class="keyword">null</span>) { _ = Armory.AddToCounts(item, kpv.Value); }</div>
-<div class="line"><span class="lineno">  202</span>                <span class="keywordflow">else</span> { Global.Warn($<span class="stringliteral">&quot;cannot get object {kpv.Key}&quot;</span>); }</div>
-<div class="line"><span class="lineno">  203</span>            }</div>
-<div class="line"><span class="lineno">  204</span> </div>
-<div class="line"><span class="lineno">  205</span>            Global.Debug($<span class="stringliteral">&quot;Successfully export armory from {filePath}&quot;</span>);</div>
-<div class="line"><span class="lineno">  206</span>        }</div>
-<div class="line"><span class="lineno">  207</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
-<div class="line"><span class="lineno">  208</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00353">353</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  353</span>                                {</div>
+<div class="line"><span class="lineno">  354</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><span class="lineno">  355</span>            <span class="comment">// 获取 armory.json 文件的完整路径</span></div>
+<div class="line"><span class="lineno">  356</span>            var filePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), <span class="stringliteral">&quot;../../armory.json&quot;</span>);</div>
+<div class="line"><span class="lineno">  357</span> </div>
+<div class="line"><span class="lineno">  358</span>            <span class="comment">// 读取文件内容</span></div>
+<div class="line"><span class="lineno">  359</span>            var json = File.ReadAllText(filePath);</div>
+<div class="line"><span class="lineno">  360</span> </div>
+<div class="line"><span class="lineno">  361</span>            <span class="comment">// 使用 Newtonsoft.Json 的 JsonSerializer 进行反序列化</span></div>
+<div class="line"><span class="lineno">  362</span>            var dict = JsonConvert.DeserializeObject&lt;Dictionary&lt;string, int&gt;&gt;(json);</div>
+<div class="line"><span class="lineno">  363</span>            Armory.Clear();</div>
+<div class="line"><span class="lineno">  364</span>            <span class="keywordflow">foreach</span> (var kpv <span class="keywordflow">in</span> dict) {</div>
+<div class="line"><span class="lineno">  365</span>                var item = MBObjectManager.Instance.GetObject&lt;ItemObject&gt;(kpv.Key);</div>
+<div class="line"><span class="lineno">  366</span>                <span class="keywordflow">if</span> (item != <span class="keyword">null</span>) { _ = Armory.AddToCounts(item, kpv.Value); }</div>
+<div class="line"><span class="lineno">  367</span>                <span class="keywordflow">else</span> { Global.Warn($<span class="stringliteral">&quot;cannot get object {kpv.Key}&quot;</span>); }</div>
+<div class="line"><span class="lineno">  368</span>            }</div>
+<div class="line"><span class="lineno">  369</span> </div>
+<div class="line"><span class="lineno">  370</span>            Global.Debug($<span class="stringliteral">&quot;Successfully export armory from {filePath}&quot;</span>);</div>
+<div class="line"><span class="lineno">  371</span>        }</div>
+<div class="line"><span class="lineno">  372</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
+<div class="line"><span class="lineno">  373</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00159">DynamicTroopEquipmentReupload.Global.Warn()</a>.</p>
 
@@ -437,25 +444,25 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00159">159</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  159</span>                                       {</div>
-<div class="line"><span class="lineno">  160</span>        var toAdd = Armory</div>
-<div class="line"><span class="lineno">  161</span>                    .WhereQ(kv =&gt; kv is {</div>
-<div class="line"><span class="lineno">  162</span>                                            IsEmpty         : <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  163</span>                                            EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> },</div>
-<div class="line"><span class="lineno">  164</span>                                            Amount          : &gt; 0</div>
-<div class="line"><span class="lineno">  165</span>                                        })</div>
-<div class="line"><span class="lineno">  166</span>                    .ToArrayQ();</div>
-<div class="line"><span class="lineno">  167</span>        Armory = <span class="keyword">new</span> ItemRoster();</div>
-<div class="line"><span class="lineno">  168</span>        <span class="keywordflow">if</span> (toAdd == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>        Armory.Add(toAdd);</div>
-<div class="line"><span class="lineno">  171</span>        Global.Debug($<span class="stringliteral">&quot;Armory has been rebuilt with {toAdd.Length} entries&quot;</span>);</div>
-<div class="line"><span class="lineno">  172</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00324">324</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  324</span>                                       {</div>
+<div class="line"><span class="lineno">  325</span>        var toAdd = Armory</div>
+<div class="line"><span class="lineno">  326</span>                    .WhereQ(kv =&gt; kv is {</div>
+<div class="line"><span class="lineno">  327</span>                                            IsEmpty         : <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  328</span>                                            EquipmentElement: { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> },</div>
+<div class="line"><span class="lineno">  329</span>                                            Amount          : &gt; 0</div>
+<div class="line"><span class="lineno">  330</span>                                        })</div>
+<div class="line"><span class="lineno">  331</span>                    .ToArrayQ();</div>
+<div class="line"><span class="lineno">  332</span>        Armory = <span class="keyword">new</span> ItemRoster();</div>
+<div class="line"><span class="lineno">  333</span>        <span class="keywordflow">if</span> (toAdd == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  334</span> </div>
+<div class="line"><span class="lineno">  335</span>        Armory.Add(toAdd);</div>
+<div class="line"><span class="lineno">  336</span>        Global.Debug($<span class="stringliteral">&quot;Armory has been rebuilt with {toAdd.Length} entries&quot;</span>);</div>
+<div class="line"><span class="lineno">  337</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00098">SellExcessEquipment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00263">SellExcessEquipment()</a>.</p>
 
 </div>
 </div>
@@ -482,26 +489,26 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00035">35</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>                                                                                    {</div>
-<div class="line"><span class="lineno">   36</span>        Global.Log(<span class="stringliteral">&quot;ReturnEquipmentToArmoryFromAgents&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   37</span>        var count = 0;</div>
-<div class="line"><span class="lineno">   38</span>        <span class="keywordflow">foreach</span> (var agent <span class="keywordflow">in</span> agents)</div>
-<div class="line"><span class="lineno">   39</span>            <span class="keywordflow">if</span> (agent.IsValid()) {</div>
-<div class="line"><span class="lineno">   40</span>                Global.Log($<span class="stringliteral">&quot;Returning equipment of agent {agent.Character.StringId}&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>                Global.ProcessAgentEquipment(agent,</div>
-<div class="line"><span class="lineno">   43</span>                                             item =&gt; {</div>
-<div class="line"><span class="lineno">   44</span>                                                 _ = Armory.AddToCounts(item, 1);</div>
-<div class="line"><span class="lineno">   45</span>                                                 Global.Log($<span class="stringliteral">&quot;equipment {item.StringId} returned&quot;</span>,</div>
-<div class="line"><span class="lineno">   46</span>                                                            Colors.Green,</div>
-<div class="line"><span class="lineno">   47</span>                                                            Level.Debug);</div>
-<div class="line"><span class="lineno">   48</span>                                                 count++;</div>
-<div class="line"><span class="lineno">   49</span>                                             });</div>
-<div class="line"><span class="lineno">   50</span>            }</div>
-<div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>        Global.Log($<span class="stringliteral">&quot;{count} equipment reclaimed&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00038">38</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   38</span>                                                                                    {</div>
+<div class="line"><span class="lineno">   39</span>        Global.Log(<span class="stringliteral">&quot;ReturnEquipmentToArmoryFromAgents&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">   40</span>        var count = 0;</div>
+<div class="line"><span class="lineno">   41</span>        <span class="keywordflow">foreach</span> (var agent <span class="keywordflow">in</span> agents)</div>
+<div class="line"><span class="lineno">   42</span>            <span class="keywordflow">if</span> (agent.IsValid()) {</div>
+<div class="line"><span class="lineno">   43</span>                Global.Log($<span class="stringliteral">&quot;Returning equipment of agent {agent.Character.StringId}&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">   44</span> </div>
+<div class="line"><span class="lineno">   45</span>                Global.ProcessAgentEquipment(agent,</div>
+<div class="line"><span class="lineno">   46</span>                                             item =&gt; {</div>
+<div class="line"><span class="lineno">   47</span>                                                 _ = Armory.AddToCounts(item, 1);</div>
+<div class="line"><span class="lineno">   48</span>                                                 Global.Log($<span class="stringliteral">&quot;equipment {item.StringId} returned&quot;</span>,</div>
+<div class="line"><span class="lineno">   49</span>                                                            Colors.Green,</div>
+<div class="line"><span class="lineno">   50</span>                                                            Level.Debug);</div>
+<div class="line"><span class="lineno">   51</span>                                                 count++;</div>
+<div class="line"><span class="lineno">   52</span>                                             });</div>
+<div class="line"><span class="lineno">   53</span>            }</div>
+<div class="line"><span class="lineno">   54</span> </div>
+<div class="line"><span class="lineno">   55</span>        Global.Log($<span class="stringliteral">&quot;{count} equipment reclaimed&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">   56</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../d4/dee/a00008_source.html#l00199">DynamicTroopEquipmentReupload.Global.ProcessAgentEquipment()</a>.</p>
 
@@ -530,54 +537,54 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00098">98</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   98</span>                                             {</div>
-<div class="line"><span class="lineno">   99</span>        RebuildArmory();</div>
-<div class="line"><span class="lineno">  100</span>        var excessValue = 0;</div>
-<div class="line"><span class="lineno">  101</span>        var playerParty = MobileParty.MainParty;</div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">if</span> (playerParty?.MemberRoster?.GetTroopRoster() == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>        var memberCnt = playerParty.MemberRoster.GetTroopRoster()</div>
-<div class="line"><span class="lineno">  105</span>                                   .WhereQ(element =&gt; element.Character is { IsHero: false })</div>
-<div class="line"><span class="lineno">  106</span>                                   .SumQ(element =&gt; element.Number);</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">foreach</span> (var equipmentAndThreshold <span class="keywordflow">in</span> EveryoneCampaignBehavior.EquipmentAndThresholds) {</div>
-<div class="line"><span class="lineno">  109</span>            var armorTotalCount = Armory.WhereQ(kv =&gt; kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key)</div>
-<div class="line"><span class="lineno">  110</span>                                        .SumQ(kv =&gt; kv.Amount);</div>
-<div class="line"><span class="lineno">  111</span>            var surplusCount = armorTotalCount - equipmentAndThreshold.Value(memberCnt);</div>
-<div class="line"><span class="lineno">  112</span>            <span class="keywordflow">if</span> (surplusCount &lt;= 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>            var surplusCountCpy = surplusCount;</div>
-<div class="line"><span class="lineno">  115</span> </div>
-<div class="line"><span class="lineno">  116</span>            <span class="comment">// 创建优先级队列</span></div>
-<div class="line"><span class="lineno">  117</span>            <a class="code hl_typedef" href="../../d7/d46/a00002.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> ArmorElementComparer());</div>
-<div class="line"><span class="lineno">  118</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> Armory.WhereQ(kv =&gt; kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key))</div>
-<div class="line"><span class="lineno">  119</span>                armorQueue.Enqueue(kv.EquipmentElement, kv.EquipmentElement.ItemValue);</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>            <span class="comment">// 移除多余的装备</span></div>
-<div class="line"><span class="lineno">  122</span>            <span class="keywordflow">while</span> (surplusCount &gt; 0 &amp;&amp; !armorQueue.IsEmpty) {</div>
-<div class="line"><span class="lineno">  123</span>                var lowestArmor = armorQueue.Dequeue();</div>
-<div class="line"><span class="lineno">  124</span>                var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)),</div>
-<div class="line"><span class="lineno">  125</span>                                             surplusCount);</div>
-<div class="line"><span class="lineno">  126</span> </div>
-<div class="line"><span class="lineno">  127</span>                <span class="comment">//Global.Debug($&quot;countToRemove={countToRemove}, lowestArmorNumber={Armory.GetItemNumber(lowestArmor.Key)}&quot;);</span></div>
-<div class="line"><span class="lineno">  128</span>                _            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); <span class="comment">// 减少数量</span></div>
-<div class="line"><span class="lineno">  129</span>                surplusCount -= countToRemove;</div>
-<div class="line"><span class="lineno">  130</span>                excessValue  += countToRemove * lowestArmor.Key.ItemValue;</div>
-<div class="line"><span class="lineno">  131</span>                Global.Debug($<span class="stringliteral">&quot;Sold {countToRemove}x{lowestArmor.Key.ItemValue} from player&#39;s armory&quot;</span>);</div>
-<div class="line"><span class="lineno">  132</span>            }</div>
-<div class="line"><span class="lineno">  133</span> </div>
-<div class="line"><span class="lineno">  134</span>            Global.Debug($<span class="stringliteral">&quot;Sold {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} items from player&#39;s armory&quot;</span>);</div>
-<div class="line"><span class="lineno">  135</span>        }</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>        Global.Debug($<span class="stringliteral">&quot;Sold {excessValue} denars worth of equipment from player&#39;s armory&quot;</span>);</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">return</span> excessValue;</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00263">263</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  263</span>                                             {</div>
+<div class="line"><span class="lineno">  264</span>        RebuildArmory();</div>
+<div class="line"><span class="lineno">  265</span>        var excessValue = 0;</div>
+<div class="line"><span class="lineno">  266</span>        var playerParty = MobileParty.MainParty;</div>
+<div class="line"><span class="lineno">  267</span>        <span class="keywordflow">if</span> (playerParty?.MemberRoster?.GetTroopRoster() == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">  268</span> </div>
+<div class="line"><span class="lineno">  269</span>        var memberCnt = playerParty.MemberRoster.GetTroopRoster()</div>
+<div class="line"><span class="lineno">  270</span>                                   .WhereQ(element =&gt; element.Character is { IsHero: false })</div>
+<div class="line"><span class="lineno">  271</span>                                   .SumQ(element =&gt; element.Number);</div>
+<div class="line"><span class="lineno">  272</span> </div>
+<div class="line"><span class="lineno">  273</span>        <span class="keywordflow">foreach</span> (var equipmentAndThreshold <span class="keywordflow">in</span> EveryoneCampaignBehavior.EquipmentAndThresholds) {</div>
+<div class="line"><span class="lineno">  274</span>            var armorTotalCount = Armory.WhereQ(kv =&gt; kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key)</div>
+<div class="line"><span class="lineno">  275</span>                                        .SumQ(kv =&gt; kv.Amount);</div>
+<div class="line"><span class="lineno">  276</span>            var surplusCount = armorTotalCount - equipmentAndThreshold.Value(memberCnt);</div>
+<div class="line"><span class="lineno">  277</span>            <span class="keywordflow">if</span> (surplusCount &lt;= 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>            var surplusCountCpy = surplusCount;</div>
+<div class="line"><span class="lineno">  280</span> </div>
+<div class="line"><span class="lineno">  281</span>            <span class="comment">// 创建优先级队列</span></div>
+<div class="line"><span class="lineno">  282</span>            <a class="code hl_typedef" href="../../d7/d46/a00002.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> ArmorElementComparer());</div>
+<div class="line"><span class="lineno">  283</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> Armory.WhereQ(kv =&gt; kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key))</div>
+<div class="line"><span class="lineno">  284</span>                armorQueue.Enqueue(kv.EquipmentElement, kv.EquipmentElement.ItemValue);</div>
+<div class="line"><span class="lineno">  285</span> </div>
+<div class="line"><span class="lineno">  286</span>            <span class="comment">// 移除多余的装备</span></div>
+<div class="line"><span class="lineno">  287</span>            <span class="keywordflow">while</span> (surplusCount &gt; 0 &amp;&amp; !armorQueue.IsEmpty) {</div>
+<div class="line"><span class="lineno">  288</span>                var lowestArmor = armorQueue.Dequeue();</div>
+<div class="line"><span class="lineno">  289</span>                var countToRemove = Math.Min(Armory.GetElementNumber(Armory.FindIndexOfElement(lowestArmor.Key)),</div>
+<div class="line"><span class="lineno">  290</span>                                             surplusCount);</div>
+<div class="line"><span class="lineno">  291</span> </div>
+<div class="line"><span class="lineno">  292</span>                <span class="comment">//Global.Debug($&quot;countToRemove={countToRemove}, lowestArmorNumber={Armory.GetItemNumber(lowestArmor.Key)}&quot;);</span></div>
+<div class="line"><span class="lineno">  293</span>                _            =  Armory.AddToCounts(lowestArmor.Key, -countToRemove); <span class="comment">// 减少数量</span></div>
+<div class="line"><span class="lineno">  294</span>                surplusCount -= countToRemove;</div>
+<div class="line"><span class="lineno">  295</span>                excessValue  += countToRemove * lowestArmor.Key.ItemValue;</div>
+<div class="line"><span class="lineno">  296</span>                Global.Debug($<span class="stringliteral">&quot;Sold {countToRemove}x{lowestArmor.Key.ItemValue} from player&#39;s armory&quot;</span>);</div>
+<div class="line"><span class="lineno">  297</span>            }</div>
+<div class="line"><span class="lineno">  298</span> </div>
+<div class="line"><span class="lineno">  299</span>            Global.Debug($<span class="stringliteral">&quot;Sold {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} items from player&#39;s armory&quot;</span>);</div>
+<div class="line"><span class="lineno">  300</span>        }</div>
+<div class="line"><span class="lineno">  301</span> </div>
+<div class="line"><span class="lineno">  302</span>        Global.Debug($<span class="stringliteral">&quot;Sold {excessValue} denars worth of equipment from player&#39;s armory&quot;</span>);</div>
+<div class="line"><span class="lineno">  303</span>        <span class="keywordflow">return</span> excessValue;</div>
+<div class="line"><span class="lineno">  304</span>    }</div>
 <div class="ttc" id="aa00002_html_a7c5d1fd7721987ec300c0ab950972b31"><div class="ttname"><a href="../../d7/d46/a00002.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a></div><div class="ttdeci">TaleWorlds.Library.PriorityQueue&lt; TaleWorlds.Core.EquipmentElement, int &gt; ItemPriorityQueue</div><div class="ttdef"><b>Definition</b> <a href="../../d7/d46/a00002_source.html#l00019">ArmyArmory.cs:19</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00032">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.EquipmentAndThresholds</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00159">RebuildArmory()</a>.</p>
+<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00026">Armory</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00032">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.EquipmentAndThresholds</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00324">RebuildArmory()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00075">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00081">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -604,35 +611,246 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00075">75</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   75</span>                                                               {</div>
-<div class="line"><span class="lineno">   76</span>        var value         = SellExcessEquipment();</div>
-<div class="line"><span class="lineno">   77</span>        var originalValue = value;</div>
-<div class="line"><span class="lineno">   78</span>        _cachedThrownWeapons ??= MBObjectManager.Instance.GetObjectTypeList&lt;ItemObject&gt;()</div>
-<div class="line"><span class="lineno">   79</span>                                                ?.WhereQ(item =&gt; item.IsThrowingWeaponCanBeAcquired())</div>
-<div class="line"><span class="lineno">   80</span>                                                .ToArrayQ();</div>
-<div class="line"><span class="lineno">   81</span>        var cnt = 0;</div>
-<div class="line"><span class="lineno">   82</span>        <span class="keywordflow">while</span> (value &gt; 0) {</div>
-<div class="line"><span class="lineno">   83</span>            var item = _cachedThrownWeapons.GetRandomElement();</div>
-<div class="line"><span class="lineno">   84</span>            <span class="keywordflow">if</span> (item != <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">   85</span>                AddItemToArmory(item);</div>
-<div class="line"><span class="lineno">   86</span>                value -= item.Value;</div>
-<div class="line"><span class="lineno">   87</span>                cnt++;</div>
-<div class="line"><span class="lineno">   88</span>            }</div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00081">81</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   81</span>                                                               {</div>
+<div class="line"><span class="lineno">   82</span>        var soldValue = SellExcessEquipment();</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">if</span> (soldValue &lt;= 0)</div>
+<div class="line"><span class="lineno">   84</span>        {</div>
+<div class="line"><span class="lineno">   85</span>            MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(</div>
+<div class="line"><span class="lineno">   86</span>                LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons(0, 0, 0),</div>
+<div class="line"><span class="lineno">   87</span>                Colors.Green));</div>
+<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   89</span>        }</div>
 <div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>        MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(LocalizedTexts</div>
-<div class="line"><span class="lineno">   92</span>                                                                        .GetSoldExcessEquipmentForThrowingWeapons(originalValue -</div>
-<div class="line"><span class="lineno">   93</span>                                                                                                                  value,</div>
-<div class="line"><span class="lineno">   94</span>                                                                                                                  cnt),</div>
-<div class="line"><span class="lineno">   95</span>                                                                    Colors.Green));</div>
-<div class="line"><span class="lineno">   96</span>    }</div>
+<div class="line"><span class="lineno">   91</span>        _cachedThrownWeapons ??= MBObjectManager.Instance</div>
+<div class="line"><span class="lineno">   92</span>            .GetObjectTypeList&lt;ItemObject&gt;()</div>
+<div class="line"><span class="lineno">   93</span>            ?.WhereQ(item =&gt; item.IsThrowingWeaponCanBeAcquired())</div>
+<div class="line"><span class="lineno">   94</span>            .ToArrayQ() ?? Array.Empty&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">   95</span> </div>
+<div class="line"><span class="lineno">   96</span>        _cachedArrows ??= MBObjectManager.Instance</div>
+<div class="line"><span class="lineno">   97</span>            .GetObjectTypeList&lt;ItemObject&gt;()</div>
+<div class="line"><span class="lineno">   98</span>            ?.WhereQ(item =&gt; item.IsArrow() &amp;&amp; item.Value &gt; 0)</div>
+<div class="line"><span class="lineno">   99</span>            .ToArrayQ() ?? Array.Empty&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>        _cachedBolts ??= MBObjectManager.Instance</div>
+<div class="line"><span class="lineno">  102</span>            .GetObjectTypeList&lt;ItemObject&gt;()</div>
+<div class="line"><span class="lineno">  103</span>            ?.WhereQ(item =&gt; item.IsBolt() &amp;&amp; item.Value &gt; 0)</div>
+<div class="line"><span class="lineno">  104</span>            .ToArrayQ() ?? Array.Empty&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">  105</span> </div>
+<div class="line"><span class="lineno">  106</span>        var playerParty = MobileParty.MainParty;</div>
+<div class="line"><span class="lineno">  107</span>        var troopRoster = playerParty?.MemberRoster?.GetTroopRoster();</div>
+<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">if</span> (troopRoster == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  109</span> </div>
+<div class="line"><span class="lineno">  110</span>        <span class="comment">// (cavalry + infantry) = X, (horse archer + archers) = Y, X+Y=100</span></div>
+<div class="line"><span class="lineno">  111</span>        var infantryAndCavalryCount = 0;</div>
+<div class="line"><span class="lineno">  112</span>        var archerAndHorseArcherCount = 0;</div>
+<div class="line"><span class="lineno">  113</span> </div>
+<div class="line"><span class="lineno">  114</span>        <span class="comment">// split</span></div>
+<div class="line"><span class="lineno">  115</span>        var bowUserCount = 0;</div>
+<div class="line"><span class="lineno">  116</span>        var crossbowUserCount = 0;</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>        <span class="comment">// weighting for type of ranged ammo / throwing weapon</span></div>
+<div class="line"><span class="lineno">  119</span>        var preferredThrowingWeights = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  120</span>        var preferredArrowWeights = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  121</span>        var preferredBoltWeights = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  122</span> </div>
+<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">foreach</span> (var troop <span class="keywordflow">in</span> troopRoster)</div>
+<div class="line"><span class="lineno">  124</span>        {</div>
+<div class="line"><span class="lineno">  125</span>            <span class="keywordflow">if</span> (troop.Character is not { IsHero: false } character) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>            var troopCount = troop.Number;</div>
+<div class="line"><span class="lineno">  128</span>            <span class="keywordflow">if</span> (troopCount &lt;= 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>            var isRanged = character.IsRanged;</div>
+<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">if</span> (isRanged)</div>
+<div class="line"><span class="lineno">  132</span>                archerAndHorseArcherCount += troopCount;</div>
+<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  134</span>                infantryAndCavalryCount += troopCount;</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            var referenceEquipment = character.RandomBattleEquipment;</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            var usesBow = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  139</span>            var usesCrossbow = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  140</span> </div>
+<div class="line"><span class="lineno">  141</span>            ItemObject? preferredThrowing = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  142</span>            ItemObject? preferredArrows = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  143</span>            ItemObject? preferredBolts = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  144</span> </div>
+<div class="line"><span class="lineno">  145</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Assignment.WeaponSlots)</div>
+<div class="line"><span class="lineno">  146</span>            {</div>
+<div class="line"><span class="lineno">  147</span>                var equipmentElement = referenceEquipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">if</span> (equipmentElement is not { IsEmpty: <span class="keyword">false</span>, Item: { } item }) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>                <span class="keywordflow">if</span> (!usesBow &amp;&amp; item.IsBow())</div>
+<div class="line"><span class="lineno">  151</span>                    usesBow = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  152</span> </div>
+<div class="line"><span class="lineno">  153</span>                <span class="keywordflow">if</span> (!usesCrossbow &amp;&amp; item.IsCrossBow())</div>
+<div class="line"><span class="lineno">  154</span>                    usesCrossbow = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  155</span> </div>
+<div class="line"><span class="lineno">  156</span>                <span class="keywordflow">if</span> (preferredThrowing == <span class="keyword">null</span> &amp;&amp; item.IsThrowingWeaponCanBeAcquired())</div>
+<div class="line"><span class="lineno">  157</span>                    preferredThrowing = item;</div>
+<div class="line"><span class="lineno">  158</span> </div>
+<div class="line"><span class="lineno">  159</span>                <span class="keywordflow">if</span> (preferredArrows == <span class="keyword">null</span> &amp;&amp; item.IsArrow())</div>
+<div class="line"><span class="lineno">  160</span>                    preferredArrows = item;</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>                <span class="keywordflow">if</span> (preferredBolts == <span class="keyword">null</span> &amp;&amp; item.IsBolt())</div>
+<div class="line"><span class="lineno">  163</span>                    preferredBolts = item;</div>
+<div class="line"><span class="lineno">  164</span>            }</div>
+<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">if</span> (isRanged)</div>
+<div class="line"><span class="lineno">  166</span>            {</div>
+<div class="line"><span class="lineno">  167</span>                <span class="keywordflow">if</span> (usesCrossbow)</div>
+<div class="line"><span class="lineno">  168</span>                {</div>
+<div class="line"><span class="lineno">  169</span>                    crossbowUserCount += troopCount;</div>
+<div class="line"><span class="lineno">  170</span>                    <span class="keywordflow">if</span> (preferredBolts != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  171</span>                        preferredBoltWeights[preferredBolts] = preferredBoltWeights.TryGetValue(preferredBolts, out var count)</div>
+<div class="line"><span class="lineno">  172</span>                            ? count + troopCount</div>
+<div class="line"><span class="lineno">  173</span>                            : troopCount;</div>
+<div class="line"><span class="lineno">  174</span>                }</div>
+<div class="line"><span class="lineno">  175</span>                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (usesBow)</div>
+<div class="line"><span class="lineno">  176</span>                {</div>
+<div class="line"><span class="lineno">  177</span>                    bowUserCount += troopCount;</div>
+<div class="line"><span class="lineno">  178</span>                    <span class="keywordflow">if</span> (preferredArrows != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  179</span>                        preferredArrowWeights[preferredArrows] = preferredArrowWeights.TryGetValue(preferredArrows, out var count)</div>
+<div class="line"><span class="lineno">  180</span>                            ? count + troopCount</div>
+<div class="line"><span class="lineno">  181</span>                            : troopCount;</div>
+<div class="line"><span class="lineno">  182</span>                }</div>
+<div class="line"><span class="lineno">  183</span>            }</div>
+<div class="line"><span class="lineno">  184</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (preferredThrowing != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  185</span>            {</div>
+<div class="line"><span class="lineno">  186</span>                preferredThrowingWeights[preferredThrowing] = preferredThrowingWeights.TryGetValue(preferredThrowing, out var count)</div>
+<div class="line"><span class="lineno">  187</span>                    ? count + troopCount</div>
+<div class="line"><span class="lineno">  188</span>                    : troopCount;</div>
+<div class="line"><span class="lineno">  189</span>            }</div>
+<div class="line"><span class="lineno">  190</span>        }</div>
+<div class="line"><span class="lineno">  191</span> </div>
+<div class="line"><span class="lineno">  192</span>        <span class="keyword">static</span> ItemObject? GetWeightedRandomItem(Dictionary&lt;ItemObject, int&gt; weightByItem) {</div>
+<div class="line"><span class="lineno">  193</span>            <span class="keywordflow">if</span> (weightByItem.Count == 0) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  194</span> </div>
+<div class="line"><span class="lineno">  195</span>            var totalWeight = 0;</div>
+<div class="line"><span class="lineno">  196</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> weightByItem)</div>
+<div class="line"><span class="lineno">  197</span>                totalWeight += kv.Value;</div>
+<div class="line"><span class="lineno">  198</span> </div>
+<div class="line"><span class="lineno">  199</span>            <span class="keywordflow">if</span> (totalWeight &lt;= 0) <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>            var roll = MBRandom.RandomInt(totalWeight);</div>
+<div class="line"><span class="lineno">  202</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> weightByItem)</div>
+<div class="line"><span class="lineno">  203</span>            {</div>
+<div class="line"><span class="lineno">  204</span>                roll -= kv.Value;</div>
+<div class="line"><span class="lineno">  205</span>                <span class="keywordflow">if</span> (roll &lt; 0)</div>
+<div class="line"><span class="lineno">  206</span>                    <span class="keywordflow">return</span> kv.Key;</div>
+<div class="line"><span class="lineno">  207</span>            }</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  210</span>        }</div>
+<div class="line"><span class="lineno">  211</span>        var totalTroopCount = infantryAndCavalryCount + archerAndHorseArcherCount;</div>
+<div class="line"><span class="lineno">  212</span> </div>
+<div class="line"><span class="lineno">  213</span>        var throwingBudget = totalTroopCount &gt; 0</div>
+<div class="line"><span class="lineno">  214</span>            ? (int)Math.Round(soldValue * (<span class="keywordtype">double</span>)infantryAndCavalryCount / totalTroopCount)</div>
+<div class="line"><span class="lineno">  215</span>            : soldValue;</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>        var ammoBudget = soldValue - throwingBudget;</div>
+<div class="line"><span class="lineno">  218</span>        var totalRangedWeaponUsers = bowUserCount + crossbowUserCount;</div>
+<div class="line"><span class="lineno">  219</span>        var arrowBudget = totalRangedWeaponUsers &gt; 0</div>
+<div class="line"><span class="lineno">  220</span>            ? (int)Math.Round(ammoBudget * (<span class="keywordtype">double</span>)bowUserCount / totalRangedWeaponUsers)</div>
+<div class="line"><span class="lineno">  221</span>            : ammoBudget;</div>
+<div class="line"><span class="lineno">  222</span> </div>
+<div class="line"><span class="lineno">  223</span>        var boltBudget = ammoBudget - arrowBudget;</div>
+<div class="line"><span class="lineno">  224</span> </div>
+<div class="line"><span class="lineno">  225</span>        var throwingCount = 0;</div>
+<div class="line"><span class="lineno">  226</span>        var ammoCount = 0;</div>
+<div class="line"><span class="lineno">  227</span>        var remainingThrowingBudget = throwingBudget;</div>
+<div class="line"><span class="lineno">  228</span>        <span class="keywordflow">while</span> (remainingThrowingBudget &gt; 0)</div>
+<div class="line"><span class="lineno">  229</span>        {</div>
+<div class="line"><span class="lineno">  230</span>            var item = GetWeightedRandomItem(preferredThrowingWeights) ?? _cachedThrownWeapons.GetRandomElement();</div>
+<div class="line"><span class="lineno">  231</span>            <span class="keywordflow">if</span> (item == <span class="keyword">null</span>) <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  232</span> </div>
+<div class="line"><span class="lineno">  233</span>            AddItemToArmory(item);</div>
+<div class="line"><span class="lineno">  234</span>            remainingThrowingBudget -= item.Value;</div>
+<div class="line"><span class="lineno">  235</span>            throwingCount++;</div>
+<div class="line"><span class="lineno">  236</span>        }</div>
+<div class="line"><span class="lineno">  237</span>        var remainingArrowBudget = arrowBudget;</div>
+<div class="line"><span class="lineno">  238</span>        <span class="keywordflow">while</span> (remainingArrowBudget &gt; 0)</div>
+<div class="line"><span class="lineno">  239</span>        {</div>
+<div class="line"><span class="lineno">  240</span>            var item = GetWeightedRandomItem(preferredArrowWeights) ?? _cachedArrows.GetRandomElement();</div>
+<div class="line"><span class="lineno">  241</span>            <span class="keywordflow">if</span> (item == <span class="keyword">null</span>) <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  242</span> </div>
+<div class="line"><span class="lineno">  243</span>            AddItemToArmory(item);</div>
+<div class="line"><span class="lineno">  244</span>            remainingArrowBudget -= item.Value;</div>
+<div class="line"><span class="lineno">  245</span>            ammoCount++;</div>
+<div class="line"><span class="lineno">  246</span>        }</div>
+<div class="line"><span class="lineno">  247</span>        var remainingBoltBudget = boltBudget;</div>
+<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">while</span> (remainingBoltBudget &gt; 0)</div>
+<div class="line"><span class="lineno">  249</span>        {</div>
+<div class="line"><span class="lineno">  250</span>            var item = GetWeightedRandomItem(preferredBoltWeights) ?? _cachedBolts.GetRandomElement();</div>
+<div class="line"><span class="lineno">  251</span>            <span class="keywordflow">if</span> (item == <span class="keyword">null</span>) <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  252</span> </div>
+<div class="line"><span class="lineno">  253</span>            AddItemToArmory(item);</div>
+<div class="line"><span class="lineno">  254</span>            remainingBoltBudget -= item.Value;</div>
+<div class="line"><span class="lineno">  255</span>            ammoCount++;</div>
+<div class="line"><span class="lineno">  256</span>        }</div>
+<div class="line"><span class="lineno">  257</span> </div>
+<div class="line"><span class="lineno">  258</span>        MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(</div>
+<div class="line"><span class="lineno">  259</span>            LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons(soldValue, throwingCount, ammoCount),</div>
+<div class="line"><span class="lineno">  260</span>            Colors.Green));</div>
+<div class="line"><span class="lineno">  261</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00028">_cachedThrownWeapons</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00030">AddItemToArmory()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">MessageDisplayService.EnqueueMessage()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00098">SellExcessEquipment()</a>.</p>
+<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00029">_cachedArrows</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00031">_cachedBolts</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00028">_cachedThrownWeapons</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00033">AddItemToArmory()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">MessageDisplayService.EnqueueMessage()</a>, <a class="el" href="../../d4/d3a/a00101_source.html#l00048">DynamicTroopEquipmentReupload.LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00263">SellExcessEquipment()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a0daf97be43cf745a38b2f19cc59e8b43" name="a0daf97be43cf745a38b2f19cc59e8b43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0daf97be43cf745a38b2f19cc59e8b43">&#9670;&#160;</a></span>_cachedArrows</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">? ItemObject [] DynamicTroopEquipmentReupload.ArmyArmory._cachedArrows</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00029">29</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00081">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+
+</div>
+</div>
+<a id="a40cc7b726da9f6a47a2da55190c92ef0" name="a40cc7b726da9f6a47a2da55190c92ef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40cc7b726da9f6a47a2da55190c92ef0">&#9670;&#160;</a></span>_cachedBolts</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">? ItemObject [] DynamicTroopEquipmentReupload.ArmyArmory._cachedBolts</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00031">31</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00081">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+
+</div>
+</div>
 <a id="acfd6daa7cb6aaafeac009ec542fb5b07" name="acfd6daa7cb6aaafeac009ec542fb5b07"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acfd6daa7cb6aaafeac009ec542fb5b07">&#9670;&#160;</a></span>_cachedThrownWeapons</h2>
 
@@ -655,7 +873,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00028">28</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00075">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00081">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -681,7 +899,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00026">26</a> of file <a class="el" href="../../d7/d46/a00002_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00030">AddItemToArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00055">AssignEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00141">DebugClearEmptyItem()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00174">DebugRemovePlayerCraftedItems()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00210">Export()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00188">Import()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00097">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Load()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00052">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnNewGameCreated()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00019">DynamicTroopEquipmentReupload.Patches.InventoryLogic_TransferItem_CommandersGreedPatch.Prefix()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00159">RebuildArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">ReturnEquipmentToArmoryFromAgents()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00084">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Save()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00110">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ScrapArmyArmoryByCategory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00098">SellExcessEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00020">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SyncData()</a>, and <a class="el" href="../../d0/dc2/a00104_source.html#l00052">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00033">AddItemToArmory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00093">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ApplyCapturedArmoryLoss()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00058">AssignEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00306">DebugClearEmptyItem()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00339">DebugRemovePlayerCraftedItems()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00375">Export()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00353">Import()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00158">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Load()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00055">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnNewGameCreated()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00019">DynamicTroopEquipmentReupload.Patches.InventoryLogic_TransferItem_CommandersGreedPatch.Prefix()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00324">RebuildArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00038">ReturnEquipmentToArmoryFromAgents()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00145">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Save()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00171">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ScrapArmyArmoryByCategory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00263">SellExcessEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00022">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SyncData()</a>, and <a class="el" href="../../d0/dc2/a00104_source.html#l00052">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>

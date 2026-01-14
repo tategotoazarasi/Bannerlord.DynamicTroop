@@ -149,34 +149,41 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   23</span> </div>
 <div class="line"><span class="lineno">   24</span>        Global.Debug(<span class="stringliteral">&quot;Postfix fired&quot;</span>);</div>
 <div class="line"><span class="lineno">   25</span>        ItemRoster                    replaceRoster      = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">   26</span>        var                           playerContribution = __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1);</div>
-<div class="line"><span class="lineno">   27</span>        MBReadOnlyList&lt;MapEventParty&gt; defeatedParties    = __instance.MapEvent.PartiesOnSide(__instance.MapEvent.DefeatedSide);</div>
-<div class="line"><span class="lineno">   28</span>        <span class="keywordflow">if</span> (defeatedParties == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">foreach</span> (var defeatedParty <span class="keywordflow">in</span> defeatedParties) {</div>
-<div class="line"><span class="lineno">   31</span>            var mobilePartyId = defeatedParty?.Party?.MobileParty?.Id;</div>
-<div class="line"><span class="lineno">   32</span>            <span class="keywordflow">if</span> (mobilePartyId is <span class="keyword">null</span> || !EveryoneCampaignBehavior.PartyArmories.ContainsKey(mobilePartyId.Value)) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   33</span> </div>
-<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> EveryoneCampaignBehavior.PartyArmories[mobilePartyId.Value]) {</div>
-<div class="line"><span class="lineno">   35</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(entry.Key)) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   36</span>                <span class="keywordflow">if</span> (entry.Value * playerContribution &lt; 1) {</div>
-<div class="line"><span class="lineno">   37</span>                    <span class="keywordflow">for</span> (var i = 0; i &lt; entry.Value; i++)</div>
-<div class="line"><span class="lineno">   38</span>                        <span class="keywordflow">if</span> (random.NextDouble() &lt;= entry.Value * playerContribution)</div>
-<div class="line"><span class="lineno">   39</span>                            _ = replaceRoster.AddToCounts(entry.Key, 1);</div>
-<div class="line"><span class="lineno">   40</span>                }</div>
-<div class="line"><span class="lineno">   41</span>                <span class="keywordflow">else</span> { _ = replaceRoster.AddToCounts(entry.Key, (<span class="keywordtype">int</span>)Math.Round(entry.Value * playerContribution)); }</div>
-<div class="line"><span class="lineno">   42</span>            }</div>
-<div class="line"><span class="lineno">   43</span>        }</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">if</span> (replaceRoster.IsEmpty()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>        var originalRoster = __result;</div>
+<div class="line"><span class="lineno">   26</span>        var playerContribution =</div>
+<div class="line"><span class="lineno">   27</span>            __instance.GetPlayerPartyContributionRate() * (ModSettings.Instance?.DropRate ?? 1f);</div>
+<div class="line"><span class="lineno">   28</span>        playerContribution = MBMath.ClampFloat(playerContribution, 0f, 1f);</div>
+<div class="line"><span class="lineno">   29</span>        MBReadOnlyList&lt;MapEventParty&gt; defeatedParties    = __instance.MapEvent.PartiesOnSide(__instance.MapEvent.DefeatedSide);</div>
+<div class="line"><span class="lineno">   30</span>        <span class="keywordflow">if</span> (defeatedParties == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   31</span> </div>
+<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">foreach</span> (var defeatedParty <span class="keywordflow">in</span> defeatedParties) {</div>
+<div class="line"><span class="lineno">   33</span>            var mobilePartyId = defeatedParty?.Party?.MobileParty?.Id;</div>
+<div class="line"><span class="lineno">   34</span>            <span class="keywordflow">if</span> (mobilePartyId is <span class="keyword">null</span> || !EveryoneCampaignBehavior.PartyArmories.ContainsKey(mobilePartyId.Value)) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   35</span> </div>
+<div class="line"><span class="lineno">   36</span>            <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> EveryoneCampaignBehavior.PartyArmories[mobilePartyId.Value]) {</div>
+<div class="line"><span class="lineno">   37</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(entry.Key)) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   38</span>                var expectedCount = entry.Value * playerContribution;</div>
+<div class="line"><span class="lineno">   39</span> </div>
+<div class="line"><span class="lineno">   40</span>                var lootCount = (int)expectedCount;</div>
+<div class="line"><span class="lineno">   41</span>                var fractional = expectedCount - lootCount;</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>                <span class="keywordflow">if</span> (fractional &gt; 0f &amp;&amp; random.NextDouble() &lt; fractional)</div>
+<div class="line"><span class="lineno">   44</span>                    lootCount++;</div>
+<div class="line"><span class="lineno">   45</span>                lootCount = Math.Min(lootCount, entry.Value);</div>
+<div class="line"><span class="lineno">   46</span>                <span class="keywordflow">if</span> (lootCount &gt; 0)</div>
+<div class="line"><span class="lineno">   47</span>                    replaceRoster.AddToCounts(entry.Key, lootCount);</div>
 <div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>        replaceRoster.Add(originalRoster.Where(<span class="keyword">static</span> element =&gt; element is { IsEmpty: false, Amount: &gt; 0, EquipmentElement.Item: not null } &amp;&amp;</div>
-<div class="line"><span class="lineno">   50</span>                                                                 (element.EquipmentElement.Item.IsTradeGood || element.EquipmentElement.Item.IsBannerItem || element.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Animal)));</div>
+<div class="line"><span class="lineno">   49</span>            }</div>
+<div class="line"><span class="lineno">   50</span>        }</div>
 <div class="line"><span class="lineno">   51</span> </div>
-<div class="line"><span class="lineno">   52</span>        __result = replaceRoster;</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
+<div class="line"><span class="lineno">   52</span>        <span class="keywordflow">if</span> (replaceRoster.IsEmpty()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">   53</span> </div>
+<div class="line"><span class="lineno">   54</span>        var originalRoster = __result;</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>        replaceRoster.Add(originalRoster.Where(<span class="keyword">static</span> element =&gt; element is { IsEmpty: false, Amount: &gt; 0, EquipmentElement.Item: not null } &amp;&amp;</div>
+<div class="line"><span class="lineno">   57</span>                                                                 (element.EquipmentElement.Item.IsTradeGood || element.EquipmentElement.Item.IsBannerItem || element.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Animal)));</div>
+<div class="line"><span class="lineno">   58</span> </div>
+<div class="line"><span class="lineno">   59</span>        __result = replaceRoster;</div>
+<div class="line"><span class="lineno">   60</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/dee/a00008_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00029">DynamicTroopEquipmentReupload.ModSettings.DropRate</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00028">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.PartyArmories</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00018">random</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00121">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00044">DynamicTroopEquipmentReupload.ModSettings.UseVanillaLootingSystem</a>.</p>
 
