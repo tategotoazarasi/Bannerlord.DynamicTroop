@@ -39,25 +39,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="log4net" Version="3.2.0"/>
-        <PackageReference Include="MathNet.Numerics" Version="5.0.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" PrivateAssets="all" IncludeAssets="compile"/>
-        <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+        <PackageReference Include="log4net" Version="3.3.2" />
+        <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.4" PrivateAssets="all" IncludeAssets="compile" />
+        <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
         <Content Include="log4net.config">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="DynamicTroopEquipmentReupload.Test\**"/>
+        <Compile Remove="DynamicTroopEquipmentReupload.Test\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="DynamicTroopEquipmentReupload.Test\**"/>
+        <EmbeddedResource Remove="DynamicTroopEquipmentReupload.Test\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="DynamicTroopEquipmentReupload.Test\**"/>
+        <None Remove="DynamicTroopEquipmentReupload.Test\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -79,19 +79,23 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.ButterLib" Version="2.11.0"/>
+        <PackageReference Update="Bannerlord.ButterLib" Version="2.11.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.MCM" Version="5.12.1"/>
+        <PackageReference Update="Bannerlord.MCM" Version="5.12.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.4.7.117484"/>
+        <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.4.7.117484" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.UIExtenderEx" Version="2.13.2"/>
+        <PackageReference Update="Bannerlord.UIExtenderEx" Version="2.13.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.300" />
     </ItemGroup>
 
 </Project>

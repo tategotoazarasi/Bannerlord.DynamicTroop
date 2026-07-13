@@ -132,7 +132,7 @@ public static class ItemObjectExtension {
 
 	public static bool CantUseWithShields(this ItemObject? weapon) {
 		return weapon is { HasWeaponComponent: true } &&
-			   weapon.CheckWeaponFlag(flag => !flag.Contains("cant_use_with_shields"));
+			   weapon.CheckWeaponFlag(flag => flag.Contains("cant_use_with_shields"));
 	}
 
 	private static bool CheckWeaponFlag(this ItemObject? weapon, Func<string, bool> flagCondition) {

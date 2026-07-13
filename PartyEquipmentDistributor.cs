@@ -151,20 +151,101 @@ public class PartyEquipmentDistributor {
 
 		foreach (var assignment in armoryPreview.Assignments)
 		{
+			var expectsMeleeWeapon = false;
+			var expectsShield = false;
+
+			var hasAssignedMeleeWeapon = false;
+			var hasAssignedShield = false;
+			var assignedMeleeCanUseShield = false;
+
 			foreach (var slot in Global.EquipmentSlots)
 			{
 				if (!canUseMountEquipment &&
 					(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 					continue;
 
-				var expectedEquipment = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-				if (expectedEquipment.IsEmpty || expectedEquipment.Item == null)
+				var isWeaponSlot =
+					slot == EquipmentIndex.Weapon0 ||
+					slot == EquipmentIndex.Weapon1 ||
+					slot == EquipmentIndex.Weapon2 ||
+					slot == EquipmentIndex.Weapon3;
+
+				if (!isWeaponSlot)
+				{
+					var expectedEquipment = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
+					if (expectedEquipment.IsEmpty || expectedEquipment.Item == null)
+						continue;
+
+					expectedSlots++;
+
+					var assignedEquipment = assignment.GetEquipmentFromSlot(slot);
+					if (!assignedEquipment.IsEmpty && assignedEquipment.Item != null)
+						equippedSlots++;
+
+					continue;
+				}
+
+				var expectedWeapon = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
+				if (!expectedWeapon.IsEmpty && expectedWeapon.Item != null)
+				{
+					var expectedItem = expectedWeapon.Item;
+
+					if (expectedItem.ItemType == ItemTypeEnum.Shield)
+					{
+						expectsShield = true;
+					}
+					else if (!expectedItem.IsThrowing() &&
+							 (expectedItem.IsOneHanded() ||
+							  expectedItem.IsTwoHanded() ||
+							  expectedItem.IsPolearm()))
+					{
+						expectsMeleeWeapon = true;
+					}
+					else
+					{
+						expectedSlots++;
+
+						var assignedWeapon = assignment.GetEquipmentFromSlot(slot);
+						if (!assignedWeapon.IsEmpty && assignedWeapon.Item != null)
+							equippedSlots++;
+					}
+				}
+				var assignedWeaponElement = assignment.GetEquipmentFromSlot(slot);
+				if (assignedWeaponElement.IsEmpty || assignedWeaponElement.Item == null)
 					continue;
 
+				var assignedItem = assignedWeaponElement.Item;
+
+				if (assignedItem.ItemType == ItemTypeEnum.Shield)
+				{
+					hasAssignedShield = true;
+				}
+				else if (!assignedItem.IsThrowing() &&
+						 (assignedItem.IsOneHanded() ||
+						  assignedItem.IsTwoHanded() ||
+						  assignedItem.IsPolearm()))
+				{
+					hasAssignedMeleeWeapon = true;
+
+					if (assignedItem.IsOneHanded() && !assignedItem.CantUseWithShields())
+						assignedMeleeCanUseShield = true;
+				}
+			}
+
+			if (expectsMeleeWeapon)
+			{
 				expectedSlots++;
 
-				var assignedEquipment = assignment.GetEquipmentFromSlot(slot);
-				if (!assignedEquipment.IsEmpty && assignedEquipment.Item != null)
+				if (hasAssignedMeleeWeapon)
+					equippedSlots++;
+			}
+
+			// a two handed replacement makes the templates shield irrelevant
+			if (expectsShield && (!hasAssignedMeleeWeapon || assignedMeleeCanUseShield))
+			{
+				expectedSlots++;
+
+				if (hasAssignedShield)
 					equippedSlots++;
 			}
 		}
