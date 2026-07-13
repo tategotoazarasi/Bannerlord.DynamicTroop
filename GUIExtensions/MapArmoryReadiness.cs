@@ -74,11 +74,10 @@ internal sealed class MapArmoryReadinessMixin : BaseViewModelMixin<MapBarVM> {
 		var readiness = PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness(!mainPartyAtSea);
 		ArmoryReadinessFillHeight = INDICATOR_HEIGHT * readiness.FillRatio;
 
-		var hintText = new TextObject("{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({EQUIPPED}/{TOTAL} fully equipped)");
+		var hintText = new TextObject("{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)");
 		hintText.SetTextVariable("PERCENT", readiness.Percentage);
-		hintText.SetTextVariable("EQUIPPED", readiness.FullyEquippedTroops);
-		hintText.SetTextVariable("TOTAL", readiness.TotalTroops);
-		ArmoryReadinessHint = new HintViewModel(hintText);
+		hintText.SetTextVariable("FILLED", readiness.EquippedSlots);
+		hintText.SetTextVariable("EXPECTED", readiness.ExpectedSlots);
 	}
 
 	private bool MainPartyTroopCompositionChanged(MobileParty mainParty) {

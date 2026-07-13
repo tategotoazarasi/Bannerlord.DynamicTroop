@@ -85,18 +85,18 @@ public class PartyEquipmentDistributor {
 	}
 
 	internal readonly struct ArmoryReadiness {
-		public ArmoryReadiness(int fullyEquippedTroops, int totalTroops) {
-			FullyEquippedTroops = fullyEquippedTroops;
-			TotalTroops         = totalTroops;
+		public ArmoryReadiness(int equippedSlots, int expectedSlots) {
+			EquippedSlots = equippedSlots;
+			ExpectedSlots = expectedSlots;
 		}
 
-		public int FullyEquippedTroops { get; }
-		public int TotalTroops { get; }
-		public float FillRatio => TotalTroops > 0
-			? FullyEquippedTroops / (float)TotalTroops
+		public int EquippedSlots { get; }
+		public int ExpectedSlots { get; }
+		public float FillRatio => ExpectedSlots > 0
+			? EquippedSlots / (float)ExpectedSlots
 			: 0f;
-		public int Percentage => TotalTroops > 0
-			? (int)((long)FullyEquippedTroops * 100 / TotalTroops)
+		public int Percentage => ExpectedSlots > 0
+			? (int)((long)EquippedSlots * 100 / ExpectedSlots)
 			: 0;
 	}
 
@@ -107,65 +107,69 @@ public class PartyEquipmentDistributor {
 
 		// refreshed campaign map before armory transactions have been finalized
 		var armorySnapshot = new ItemRoster();
-		foreach (var rosterElement in ArmyArmory.Armory) {
+		foreach (var rosterElement in ArmyArmory.Armory)
+		{
 			if (rosterElement.Amount > 0 &&
 				ArmyArmory.TryNormalizeArmoryElement(rosterElement.EquipmentElement, out var equipmentElement))
 				armorySnapshot.AddToCounts(equipmentElement, rosterElement.Amount);
 		}
 
 		var armoryPreview = new PartyEquipmentDistributor(mainParty, armorySnapshot, canUseMountEquipment);
-		var totalTroops = 0;
 
-		foreach (var troop in mainParty.MemberRoster.GetTroopRoster()) {
+		foreach (var troop in mainParty.MemberRoster.GetTroopRoster())
+		{
 			if (troop.Character is not CharacterObject character || character.IsHero || troop.Number <= 0)
 				continue;
 
-			totalTroops += troop.Number;
 			var battleEquipments = character.BattleEquipments
 				.Where(equipment => equipment.IsBattle && !equipment.IsEmpty())
 				.ToArray();
 
-			for (var troopIndex = 0; troopIndex < troop.Number; troopIndex++) {
-				if (battleEquipments.Length == 0)
-					continue;
+			if (battleEquipments.Length == 0)
+				continue;
 
+			for (var troopIndex = 0; troopIndex < troop.Number; troopIndex++)
+			{
 				var authoredEquipment = battleEquipments[troopIndex % battleEquipments.Length];
 				armoryPreview.Assignments.Add(new Assignment(character, authoredEquipment, canUseMountEquipment));
 			}
 		}
 
 		armoryPreview.Assignments.Sort((x, y) => y.CompareTo(x));
+
 		foreach (var rosterElement in armoryPreview._itemRoster!)
 			armoryPreview.AddEquipmentToAssign(rosterElement.EquipmentElement, rosterElement.Amount);
 
-		armoryPreview.DoAssignAsync(assignExtraEquipment: false, applyEmergencyLoadout: false, markUnderEquipped: false, useRandomUnarmedFallback: false);
+		armoryPreview.DoAssignAsync(
+			assignExtraEquipment: false,
+			applyEmergencyLoadout: false,
+			markUnderEquipped: false,
+			useRandomUnarmedFallback: false);
 
-		var fullyEquippedTroops = 0;
-		for (var i = 0; i < armoryPreview.Assignments.Count; i++) {
-			if (HasCompleteArmoryLoadout(armoryPreview.Assignments[i], canUseMountEquipment))
-				fullyEquippedTroops++;
+		var equippedSlots = 0;
+		var expectedSlots = 0;
+
+		foreach (var assignment in armoryPreview.Assignments)
+		{
+			foreach (var slot in Global.EquipmentSlots)
+			{
+				if (!canUseMountEquipment &&
+					(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+					continue;
+
+				var expectedEquipment = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
+				if (expectedEquipment.IsEmpty || expectedEquipment.Item == null)
+					continue;
+
+				expectedSlots++;
+
+				var assignedEquipment = assignment.GetEquipmentFromSlot(slot);
+				if (!assignedEquipment.IsEmpty && assignedEquipment.Item != null)
+					equippedSlots++;
+			}
 		}
 
-		return new ArmoryReadiness(fullyEquippedTroops, totalTroops);
-	}
-
-	private static bool HasCompleteArmoryLoadout(Assignment assignment, bool canUseMountEquipment) {
-		var hasAuthoredEquipment = false;
-
-		foreach (var slot in Global.EquipmentSlots) {
-			if (!canUseMountEquipment && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
-				continue;
-			var requiredEquipment = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);
-			if (requiredEquipment.IsEmpty || requiredEquipment.Item == null)
-				continue;
-
-			hasAuthoredEquipment = true;
-			var assignedEquipment = assignment.GetEquipmentFromSlot(slot);
-			if (assignedEquipment.IsEmpty || assignedEquipment.Item == null)
-				return false;
-		}
-
-		return hasAuthoredEquipment;
+		return new ArmoryReadiness(equippedSlots, expectedSlots);
 	}
 
 	public void RunAsync() {
