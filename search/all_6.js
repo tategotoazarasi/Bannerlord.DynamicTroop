@@ -17,6 +17,5 @@ var searchData=
   ['foldername_14',['FolderName',['../d0/da2/a00307.html#a7007333c0d68ef6d33dad1dbc74471cd',1,'DynamicTroopEquipmentReupload::ModSettings']]],
   ['food_5fper_5ftype_5fcount_15',['FOOD_PER_TYPE_COUNT',['../dc/d28/a00223.html#aa1b3dacc606fbcd744a6487162bf2719',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['formattype_16',['FormatType',['../d0/da2/a00307.html#a8631c53e910336c3805743223ae027d9',1,'DynamicTroopEquipmentReupload::ModSettings']]],
-  ['fullyequippedtroops_17',['FullyEquippedTroops',['../de/dab/a00319.html#ae02a681cf116f69452137613c9056c64',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor::ArmoryReadiness']]],
-  ['fullysameweaponclass_18',['FullySameWeaponClass',['../dd/d86/a00271.html#a0f78c10d5e5742555fabdf5207e2d4af',1,'DynamicTroopEquipmentReupload::Global']]]
+  ['fullysameweaponclass_17',['FullySameWeaponClass',['../dd/d86/a00271.html#a0f78c10d5e5742555fabdf5207e2d4af',1,'DynamicTroopEquipmentReupload::Global']]]
 ];

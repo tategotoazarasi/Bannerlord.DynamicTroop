@@ -33,7 +33,7 @@ var searchData=
   ['armory_30',['Armory',['../dc/d52/a00183.html#afc8d0c4413a791e7f46e2c09cb434bd9',1,'DynamicTroopEquipmentReupload.ArmyArmory.Armory'],['../d9/dd0/a00191.html#a5e9317ef9d391228186927ff0e10f639',1,'DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Data.Armory']]],
   ['armory_20system_31',['The Armory System',['../dd/dea/a00408.html#autotoc_md6',1,'']]],
   ['armorymanageoption_32',['ArmoryManageOption',['../df/d95/a00299.html#a9d94152a785216c5064ef866dff4c115',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
-  ['armoryreadiness_33',['ArmoryReadiness',['../de/dab/a00319.html',1,'DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ArmoryReadiness'],['../de/dab/a00319.html#ad12605aea0e6028a4b9c4b81cf230172',1,'DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ArmoryReadiness.ArmoryReadiness()']]],
+  ['armoryreadiness_33',['ArmoryReadiness',['../de/dab/a00319.html',1,'DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ArmoryReadiness'],['../de/dab/a00319.html#a26de0a7216b887606fba9ec403ce32d2',1,'DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ArmoryReadiness.ArmoryReadiness()']]],
   ['armoryreadinessfillheight_34',['ArmoryReadinessFillHeight',['../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c',1,'DynamicTroopEquipmentReupload::GUIExtensions::MapArmoryReadinessMixin']]],
   ['armoryreadinesshint_35',['ArmoryReadinessHint',['../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988',1,'DynamicTroopEquipmentReupload::GUIExtensions::MapArmoryReadinessMixin']]],
   ['armourandhorsesslots_36',['ArmourAndHorsesSlots',['../dd/d86/a00271.html#ad749f64c2e293928ee17309f8394a2f1',1,'DynamicTroopEquipmentReupload::Global']]],

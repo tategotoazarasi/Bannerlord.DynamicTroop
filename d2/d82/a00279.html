@@ -122,7 +122,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00169">169</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00168">168</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a30c302e7e531548214339e671f037cfd" name="a30c302e7e531548214339e671f037cfd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a30c302e7e531548214339e671f037cfd">&#9670;&#160;</a></span>MapArmoryReadinessPrefab()</h2>
@@ -139,52 +139,52 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00172">172</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  172</span>                                      {</div>
-<div class="line"><span class="lineno">  173</span>        _document = <span class="keyword">new</span> XmlDocument();</div>
-<div class="line"><span class="lineno">  174</span>        _document.LoadXml(<span class="stringliteral">@&quot;</span></div>
-<div class="line"><span class="lineno">  175</span><span class="stringliteral">&lt;ButtonWidget WidthSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><span class="lineno">  176</span><span class="stringliteral">              HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><span class="lineno">  177</span><span class="stringliteral">              SuggestedWidth=&#39;84&#39;</span></div>
-<div class="line"><span class="lineno">  178</span><span class="stringliteral">              SuggestedHeight=&#39;140&#39;</span></div>
-<div class="line"><span class="lineno">  179</span><span class="stringliteral">              HorizontalAlignment=&#39;Left&#39;</span></div>
-<div class="line"><span class="lineno">  180</span><span class="stringliteral">              VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><span class="lineno">  181</span><span class="stringliteral">              PositionXOffset=&#39;8&#39;</span></div>
-<div class="line"><span class="lineno">  182</span><span class="stringliteral">              PositionYOffset=&#39;-72&#39;</span></div>
-<div class="line"><span class="lineno">  183</span><span class="stringliteral">              IsVisible=&#39;@IsArmoryReadinessVisible&#39;</span></div>
-<div class="line"><span class="lineno">  184</span><span class="stringliteral">              UpdateChildrenStates=&#39;true&#39;</span></div>
-<div class="line"><span class="lineno">  185</span><span class="stringliteral">              DoNotPassEventsToChildren=&#39;true&#39;</span></div>
-<div class="line"><span class="lineno">  186</span><span class="stringliteral">              Command.Click=&#39;ExecuteOpenArmyArmory&#39;&gt;</span></div>
-<div class="line"><span class="lineno">  187</span><span class="stringliteral">  &lt;Children&gt;</span></div>
-<div class="line"><span class="lineno">  188</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  189</span><span class="stringliteral">            HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  190</span><span class="stringliteral">            Sprite=&#39;dt_readiness_bg&#39;</span></div>
-<div class="line"><span class="lineno">  191</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
-<div class="line"><span class="lineno">  192</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  193</span><span class="stringliteral">            HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><span class="lineno">  194</span><span class="stringliteral">            SuggestedHeight=&#39;@ArmoryReadinessFillHeight&#39;</span></div>
-<div class="line"><span class="lineno">  195</span><span class="stringliteral">            VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><span class="lineno">  196</span><span class="stringliteral">            ClipContents=&#39;true&#39;</span></div>
-<div class="line"><span class="lineno">  197</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39;&gt;</span></div>
-<div class="line"><span class="lineno">  198</span><span class="stringliteral">      &lt;Children&gt;</span></div>
-<div class="line"><span class="lineno">  199</span><span class="stringliteral">        &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  200</span><span class="stringliteral">                HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><span class="lineno">  201</span><span class="stringliteral">                SuggestedHeight=&#39;140&#39;</span></div>
-<div class="line"><span class="lineno">  202</span><span class="stringliteral">                VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><span class="lineno">  203</span><span class="stringliteral">                Sprite=&#39;dt_readiness_fill&#39;</span></div>
-<div class="line"><span class="lineno">  204</span><span class="stringliteral">                DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
-<div class="line"><span class="lineno">  205</span><span class="stringliteral">      &lt;/Children&gt;</span></div>
-<div class="line"><span class="lineno">  206</span><span class="stringliteral">    &lt;/Widget&gt;</span></div>
-<div class="line"><span class="lineno">  207</span><span class="stringliteral">    &lt;HintWidget DataSource=&#39;{ArmoryReadinessHint}&#39;</span></div>
-<div class="line"><span class="lineno">  208</span><span class="stringliteral">                WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  209</span><span class="stringliteral">                HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><span class="lineno">  210</span><span class="stringliteral">                Command.HoverBegin=&#39;ExecuteBeginHint&#39;</span></div>
-<div class="line"><span class="lineno">  211</span><span class="stringliteral">                Command.HoverEnd=&#39;ExecuteEndHint&#39; /&gt;</span></div>
-<div class="line"><span class="lineno">  212</span><span class="stringliteral">  &lt;/Children&gt;</span></div>
-<div class="line"><span class="lineno">  213</span><span class="stringliteral">&lt;/ButtonWidget&gt;&quot;</span>);</div>
-<div class="line"><span class="lineno">  214</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00171">171</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  171</span>                                      {</div>
+<div class="line"><span class="lineno">  172</span>        _document = <span class="keyword">new</span> XmlDocument();</div>
+<div class="line"><span class="lineno">  173</span>        _document.LoadXml(<span class="stringliteral">@&quot;</span></div>
+<div class="line"><span class="lineno">  174</span><span class="stringliteral">&lt;ButtonWidget WidthSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><span class="lineno">  175</span><span class="stringliteral">              HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><span class="lineno">  176</span><span class="stringliteral">              SuggestedWidth=&#39;84&#39;</span></div>
+<div class="line"><span class="lineno">  177</span><span class="stringliteral">              SuggestedHeight=&#39;140&#39;</span></div>
+<div class="line"><span class="lineno">  178</span><span class="stringliteral">              HorizontalAlignment=&#39;Left&#39;</span></div>
+<div class="line"><span class="lineno">  179</span><span class="stringliteral">              VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><span class="lineno">  180</span><span class="stringliteral">              PositionXOffset=&#39;8&#39;</span></div>
+<div class="line"><span class="lineno">  181</span><span class="stringliteral">              PositionYOffset=&#39;-72&#39;</span></div>
+<div class="line"><span class="lineno">  182</span><span class="stringliteral">              IsVisible=&#39;@IsArmoryReadinessVisible&#39;</span></div>
+<div class="line"><span class="lineno">  183</span><span class="stringliteral">              UpdateChildrenStates=&#39;true&#39;</span></div>
+<div class="line"><span class="lineno">  184</span><span class="stringliteral">              DoNotPassEventsToChildren=&#39;true&#39;</span></div>
+<div class="line"><span class="lineno">  185</span><span class="stringliteral">              Command.Click=&#39;ExecuteOpenArmyArmory&#39;&gt;</span></div>
+<div class="line"><span class="lineno">  186</span><span class="stringliteral">  &lt;Children&gt;</span></div>
+<div class="line"><span class="lineno">  187</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  188</span><span class="stringliteral">            HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  189</span><span class="stringliteral">            Sprite=&#39;dt_readiness_bg&#39;</span></div>
+<div class="line"><span class="lineno">  190</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
+<div class="line"><span class="lineno">  191</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  192</span><span class="stringliteral">            HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><span class="lineno">  193</span><span class="stringliteral">            SuggestedHeight=&#39;@ArmoryReadinessFillHeight&#39;</span></div>
+<div class="line"><span class="lineno">  194</span><span class="stringliteral">            VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><span class="lineno">  195</span><span class="stringliteral">            ClipContents=&#39;true&#39;</span></div>
+<div class="line"><span class="lineno">  196</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39;&gt;</span></div>
+<div class="line"><span class="lineno">  197</span><span class="stringliteral">      &lt;Children&gt;</span></div>
+<div class="line"><span class="lineno">  198</span><span class="stringliteral">        &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  199</span><span class="stringliteral">                HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><span class="lineno">  200</span><span class="stringliteral">                SuggestedHeight=&#39;140&#39;</span></div>
+<div class="line"><span class="lineno">  201</span><span class="stringliteral">                VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><span class="lineno">  202</span><span class="stringliteral">                Sprite=&#39;dt_readiness_fill&#39;</span></div>
+<div class="line"><span class="lineno">  203</span><span class="stringliteral">                DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
+<div class="line"><span class="lineno">  204</span><span class="stringliteral">      &lt;/Children&gt;</span></div>
+<div class="line"><span class="lineno">  205</span><span class="stringliteral">    &lt;/Widget&gt;</span></div>
+<div class="line"><span class="lineno">  206</span><span class="stringliteral">    &lt;HintWidget DataSource=&#39;{ArmoryReadinessHint}&#39;</span></div>
+<div class="line"><span class="lineno">  207</span><span class="stringliteral">                WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  208</span><span class="stringliteral">                HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><span class="lineno">  209</span><span class="stringliteral">                Command.HoverBegin=&#39;ExecuteBeginHint&#39;</span></div>
+<div class="line"><span class="lineno">  210</span><span class="stringliteral">                Command.HoverEnd=&#39;ExecuteEndHint&#39; /&gt;</span></div>
+<div class="line"><span class="lineno">  211</span><span class="stringliteral">  &lt;/Children&gt;</span></div>
+<div class="line"><span class="lineno">  212</span><span class="stringliteral">&lt;/ButtonWidget&gt;&quot;</span>);</div>
+<div class="line"><span class="lineno">  213</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00170">_document</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00169">_document</a>.</p>
 
 </div>
 </div>
@@ -204,7 +204,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00170">_document</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00169">_document</a>.</p>
 
 </div>
 </div>
@@ -229,9 +229,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00170">170</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00169">169</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00172">MapArmoryReadinessPrefab()</a>, and <a class="el" href="#a02dc187c687483d3573aa6dd13155fb2">GetPrefabExtension()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00171">MapArmoryReadinessPrefab()</a>, and <a class="el" href="#a02dc187c687483d3573aa6dd13155fb2">GetPrefabExtension()</a>.</p>
 
 </div>
 </div>
@@ -256,7 +256,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00216">216</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00215">215</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
 
 </div>
 </div>

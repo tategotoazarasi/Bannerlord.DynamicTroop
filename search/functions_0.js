@@ -20,7 +20,7 @@ var searchData=
   ['applycapturedarmoryloss_17',['ApplyCapturedArmoryLoss',['../d6/daa/a00187.html#a6e3a526303aa63ecec774cbb00809b83',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
   ['applyemergencyloadout_18',['ApplyEmergencyLoadout',['../d4/d6f/a00315.html#a4c23274609db4fa47320c69b0a319cb6',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
   ['applymoralepenalty_19',['ApplyMoralePenalty',['../d4/def/a00359.html#a504024410dd478f540059ec122e5ac5b',1,'DynamicTroopEquipmentReupload::Patches::SpawnAgentPatch']]],
-  ['armoryreadiness_20',['ArmoryReadiness',['../de/dab/a00319.html#ad12605aea0e6028a4b9c4b81cf230172',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor::ArmoryReadiness']]],
+  ['armoryreadiness_20',['ArmoryReadiness',['../de/dab/a00319.html#a26de0a7216b887606fba9ec403ce32d2',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor::ArmoryReadiness']]],
   ['assignequipment_21',['AssignEquipment',['../dc/d52/a00183.html#a17afe8d3dc89ecbe9658b042e07d0f6e',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
   ['assignequipmenttype_22',['AssignEquipmentType',['../d4/d6f/a00315.html#a08337aa4df4ad30c0beaaf47c4654083',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
   ['assignextraarrows_23',['AssignExtraArrows',['../d4/d6f/a00315.html#a3671089285a684428fea6d2f4fe1e7c1',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
