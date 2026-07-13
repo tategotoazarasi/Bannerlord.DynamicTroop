@@ -14,7 +14,7 @@ using TaleWorlds.Localization;
 
 namespace DynamicTroopEquipmentReupload.GUIExtensions;
 
-[ViewModelMixin(nameof(MapBarVM.OnRefresh))]
+[ViewModelMixin(nameof(MapBarVM.OnRefresh), handleDerived: true)]
 internal sealed class MapArmoryReadinessMixin : BaseViewModelMixin<MapBarVM> {
 	private const float INDICATOR_HEIGHT = 152f;
 
