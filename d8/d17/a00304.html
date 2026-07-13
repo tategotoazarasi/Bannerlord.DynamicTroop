@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Patches.GetUpgradeRequiresItemFromCategoryPatch Class Reference</title>
+<title>动态装备系统: DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot Struct Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,29 +83,94 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Patches</a></li><li class="navelem"><a class="el" href="../../d8/d17/a00304.html">GetUpgradeRequiresItemFromCategoryPatch</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Patches</a></li><li class="navelem"><a class="el" href="../../db/da2/a00300.html">TownMenuMercenaryEquipmentPatch</a></li><li class="navelem"><a class="el" href="../../d8/d17/a00304.html">PlayerMercenaryRosterSnapshot</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="../../da/d50/a00301.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.GetUpgradeRequiresItemFromCategoryPatch Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a63b1452dd1d108e21f4ccd9aa9ff0712" id="r_a63b1452dd1d108e21f4ccd9aa9ff0712"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a63b1452dd1d108e21f4ccd9aa9ff0712">Prefix</a> (CharacterObject __instance, ref ItemCategory? __result)</td></tr>
-<tr class="separator:a63b1452dd1d108e21f4ccd9aa9ff0712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a127a6a3028140b021beb4f72b28f9616" id="r_a127a6a3028140b021beb4f72b28f9616"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a127a6a3028140b021beb4f72b28f9616">PlayerMercenaryRosterSnapshot</a> (CharacterObject? character)</td></tr>
+<tr class="separator:a127a6a3028140b021beb4f72b28f9616"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeae1b1f14ad3a6d6321bb21118522844" id="r_aeae1b1f14ad3a6d6321bb21118522844"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeae1b1f14ad3a6d6321bb21118522844">GetRecruitedCount</a> ()</td></tr>
+<tr class="separator:aeae1b1f14ad3a6d6321bb21118522844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a1e970fcfeb44ff574466c95e639cf229" id="r_a1e970fcfeb44ff574466c95e639cf229"><td class="memItemLeft" align="right" valign="top">CharacterObject?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e970fcfeb44ff574466c95e639cf229">Character</a><code> [get]</code></td></tr>
+<tr class="separator:a1e970fcfeb44ff574466c95e639cf229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a306d8cb2eb10e84f120dd6479a4d63" id="r_a4a306d8cb2eb10e84f120dd6479a4d63"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4a306d8cb2eb10e84f120dd6479a4d63">PreviousCount</a><code> [get]</code></td></tr>
+<tr class="separator:a4a306d8cb2eb10e84f120dd6479a4d63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../db/dab/a00089_source.html#l00008">8</a> of file <a class="el" href="../../db/dab/a00089_source.html">GetUpgradeRequiresItemFromCategoryPatch.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a63b1452dd1d108e21f4ccd9aa9ff0712" name="a63b1452dd1d108e21f4ccd9aa9ff0712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a63b1452dd1d108e21f4ccd9aa9ff0712">&#9670;&#160;</a></span>Prefix()</h2>
+<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00023">23</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a127a6a3028140b021beb4f72b28f9616" name="a127a6a3028140b021beb4f72b28f9616"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a127a6a3028140b021beb4f72b28f9616">&#9670;&#160;</a></span>PlayerMercenaryRosterSnapshot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot.PlayerMercenaryRosterSnapshot </td>
+          <td>(</td>
+          <td class="paramtype">CharacterObject?</td>          <td class="paramname"><span class="paramname"><em>character</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00024">24</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   24</span>                                                                         {</div>
+<div class="line"><span class="lineno">   25</span>            Character = character;</div>
+<div class="line"><span class="lineno">   26</span>            PreviousCount = character == <span class="keyword">null</span> ? 0 : MobileParty.MainParty.MemberRoster.GetTroopCount(character);</div>
+<div class="line"><span class="lineno">   27</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dc/dee/a00053_source.html#l00029">Character</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00030">PreviousCount</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aeae1b1f14ad3a6d6321bb21118522844" name="aeae1b1f14ad3a6d6321bb21118522844"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeae1b1f14ad3a6d6321bb21118522844">&#9670;&#160;</a></span>GetRecruitedCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot.GetRecruitedCount </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00032">32</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   32</span>                                       {</div>
+<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">return</span> Character == <span class="keyword">null</span></div>
+<div class="line"><span class="lineno">   34</span>                ? 0</div>
+<div class="line"><span class="lineno">   35</span>                : MobileParty.MainParty.MemberRoster.GetTroopCount(Character) - PreviousCount;</div>
+<div class="line"><span class="lineno">   36</span>        }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dc/dee/a00053_source.html#l00029">Character</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00030">PreviousCount</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dc/dee/a00053_source.html#l00017">DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.Postfix()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a1e970fcfeb44ff574466c95e639cf229" name="a1e970fcfeb44ff574466c95e639cf229"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e970fcfeb44ff574466c95e639cf229">&#9670;&#160;</a></span>Character</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -114,36 +179,52 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool DynamicTroopEquipmentReupload.Patches.GetUpgradeRequiresItemFromCategoryPatch.Prefix </td>
-          <td>(</td>
-          <td class="paramtype">CharacterObject</td>          <td class="paramname"><span class="paramname"><em>__instance</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ref ItemCategory?</td>          <td class="paramname"><span class="paramname"><em>__result</em></span>&#160;)</td>
+          <td class="memname">CharacterObject? DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot.Character</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel get">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dab/a00089_source.html#l00009">9</a> of file <a class="el" href="../../db/dab/a00089_source.html">GetUpgradeRequiresItemFromCategoryPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    9</span>                                                                                      {</div>
-<div class="line"><span class="lineno">   10</span>        <span class="comment">// 设置自定义返回值</span></div>
-<div class="line"><span class="lineno">   11</span>        __result = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">   12</span> </div>
-<div class="line"><span class="lineno">   13</span>        <span class="comment">// 返回 false 以阻止原始方法执行</span></div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   15</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00029">29</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   29</span>{ <span class="keyword">get</span>; }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../dc/dee/a00053_source.html#l00024">PlayerMercenaryRosterSnapshot()</a>, <a class="el" href="../../dc/dee/a00053_source.html#l00032">GetRecruitedCount()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00017">DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.Postfix()</a>.</p>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Patches/<a class="el" href="../../db/dab/a00089_source.html">GetUpgradeRequiresItemFromCategoryPatch.cs</a></li>
+<a id="a4a306d8cb2eb10e84f120dd6479a4d63" name="a4a306d8cb2eb10e84f120dd6479a4d63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a306d8cb2eb10e84f120dd6479a4d63">&#9670;&#160;</a></span>PreviousCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int DynamicTroopEquipmentReupload.Patches.TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot.PreviousCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel get">get</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00030">30</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>{ <span class="keyword">get</span>; }</div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../dc/dee/a00053_source.html#l00024">PlayerMercenaryRosterSnapshot()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00032">GetRecruitedCount()</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>Patches/<a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

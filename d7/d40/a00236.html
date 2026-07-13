@@ -147,7 +147,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00012">12</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00012">12</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="ae5c7b2ba8dac122201b1efd76af816c7" name="ae5c7b2ba8dac122201b1efd76af816c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5c7b2ba8dac122201b1efd76af816c7">&#9670;&#160;</a></span>TroopType</h2>
@@ -169,7 +169,7 @@ Static Private Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="ae5c7b2ba8dac122201b1efd76af816c7ab13082ea3fe2642f1fd1fb76de03058b" name="ae5c7b2ba8dac122201b1efd76af816c7ab13082ea3fe2642f1fd1fb76de03058b"></a>Elite&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00013">13</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00013">13</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   13</span>                          {</div>
 <div class="line"><span class="lineno">   14</span>        Militia,</div>
 <div class="line"><span class="lineno">   15</span>        Bandit,</div>
@@ -205,7 +205,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00037">37</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00037">37</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   37</span>                                                                                {</div>
 <div class="line"><span class="lineno">   38</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">   39</span> </div>
@@ -214,19 +214,21 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   42</span>        <span class="keywordflow">if</span> (equipments == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">   43</span> </div>
 <div class="line"><span class="lineno">   44</span>        var cnt = character.BattleEquipments.Count();</div>
-<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">foreach</span> (var equipment <span class="keywordflow">in</span> equipments) {</div>
-<div class="line"><span class="lineno">   46</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
-<div class="line"><span class="lineno">   47</span>                var element = equipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno">   48</span>                <span class="keywordflow">if</span> (element.IsEmpty || element.Item == <span class="keyword">null</span>) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>                totalValue += equipment.GetEquipmentFromSlot(slot).ItemValue;</div>
-<div class="line"><span class="lineno">   51</span>            }</div>
-<div class="line"><span class="lineno">   52</span>        }</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">return</span> totalValue / cnt;</div>
-<div class="line"><span class="lineno">   55</span>    }</div>
+<div class="line"><span class="lineno">   45</span>        <span class="keywordflow">if</span> (cnt == 0) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><span class="lineno">   46</span> </div>
+<div class="line"><span class="lineno">   47</span>        <span class="keywordflow">foreach</span> (var equipment <span class="keywordflow">in</span> equipments) {</div>
+<div class="line"><span class="lineno">   48</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
+<div class="line"><span class="lineno">   49</span>                var element = equipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno">   50</span>                <span class="keywordflow">if</span> (element.IsEmpty || element.Item == <span class="keyword">null</span>) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">   51</span> </div>
+<div class="line"><span class="lineno">   52</span>                totalValue += equipment.GetEquipmentFromSlot(slot).ItemValue;</div>
+<div class="line"><span class="lineno">   53</span>            }</div>
+<div class="line"><span class="lineno">   54</span>        }</div>
+<div class="line"><span class="lineno">   55</span> </div>
+<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">return</span> totalValue / cnt;</div>
+<div class="line"><span class="lineno">   57</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/dee/a00008_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
 
 </div>
 </div>
@@ -253,12 +255,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00057">57</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   57</span>                                                                            {</div>
-<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">return</span> character != <span class="keyword">null</span> ? _cachedSkillValue.SumQ(character.GetSkillValue) : 0;</div>
-<div class="line"><span class="lineno">   59</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00059">59</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                                                                            {</div>
+<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">return</span> character != <span class="keyword">null</span> ? _cachedSkillValue.SumQ(character.GetSkillValue) : 0;</div>
+<div class="line"><span class="lineno">   61</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00026">_cachedSkillValue</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00026">_cachedSkillValue</a>.</p>
 
 </div>
 </div>
@@ -289,16 +291,16 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00118">118</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  118</span>                                                                           {</div>
-<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  120</span> </div>
-<div class="line"><span class="lineno">  121</span>        TroopQueue.Enqueue((character, typ));</div>
-<div class="line"><span class="lineno">  122</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00124">124</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                                           {</div>
+<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  126</span> </div>
+<div class="line"><span class="lineno">  127</span>        TroopQueue.Enqueue((character, typ));</div>
+<div class="line"><span class="lineno">  128</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00024">TroopQueue</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00024">TroopQueue</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00081">Init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>.</p>
 
 </div>
 </div>
@@ -325,18 +327,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00061">61</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   61</span>                                                                      {</div>
-<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">if</span> (CachedCharacterEquipmentValue.TryGetValue(character, out var value)) <span class="keywordflow">return</span> value;</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00063">63</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   63</span>                                                                      {</div>
+<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        value = character.CalculateEquipmentValue();</div>
-<div class="line"><span class="lineno">   67</span>        CachedCharacterEquipmentValue.TryAdd(character, value);</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">return</span> value;</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
+<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">if</span> (CachedCharacterEquipmentValue.TryGetValue(character, out var value)) <span class="keywordflow">return</span> value;</div>
+<div class="line"><span class="lineno">   67</span> </div>
+<div class="line"><span class="lineno">   68</span>        value = character.CalculateEquipmentValue();</div>
+<div class="line"><span class="lineno">   69</span>        CachedCharacterEquipmentValue.TryAdd(character, value);</div>
+<div class="line"><span class="lineno">   70</span>        <span class="keywordflow">return</span> value;</div>
+<div class="line"><span class="lineno">   71</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00028">CachedCharacterEquipmentValue</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00028">CachedCharacterEquipmentValue</a>.</p>
 
 </div>
 </div>
@@ -363,13 +365,13 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00032">32</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00032">32</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   32</span>                                                                          {</div>
 <div class="line"><span class="lineno">   33</span>        <span class="keywordflow">return</span> character == <span class="keyword">null</span>                            ? TroopType.None :</div>
 <div class="line"><span class="lineno">   34</span>               TypeDict.TryGetValue(character, out var typ) ? typ : TroopType.None;</div>
 <div class="line"><span class="lineno">   35</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00016">None</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00022">TypeDict</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00016">None</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00022">TypeDict</a>.</p>
 
 </div>
 </div>
@@ -396,47 +398,51 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00081">81</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   81</span>                              {</div>
-<div class="line"><span class="lineno">   82</span>        var cultureList = MBObjectManager.Instance.GetObjectTypeList&lt;CultureObject&gt;();</div>
-<div class="line"><span class="lineno">   83</span>        _cachedSkillValue = MBObjectManager.Instance.GetObjectTypeList&lt;SkillObject&gt;();</div>
-<div class="line"><span class="lineno">   84</span>        <span class="keywordflow">foreach</span> (var culture <span class="keywordflow">in</span> cultureList) {</div>
-<div class="line"><span class="lineno">   85</span>            Enqueue(culture?.EliteBasicTroop, TroopType.Elite);</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>            MBReadOnlyList&lt;CharacterObject&gt;? basicMercenaryTroops = culture?.BasicMercenaryTroops;</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">if</span> (basicMercenaryTroops != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">   89</span>                <span class="keywordflow">foreach</span> (var troop <span class="keywordflow">in</span> basicMercenaryTroops)</div>
-<div class="line"><span class="lineno">   90</span>                    Enqueue(troop, TroopType.Mercenary);</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>            Enqueue(culture?.BasicTroop, TroopType.Basic);</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>            Enqueue(culture?.BanditChief,  TroopType.Bandit);</div>
-<div class="line"><span class="lineno">   95</span>            Enqueue(culture?.BanditRaider, TroopType.Bandit);</div>
-<div class="line"><span class="lineno">   96</span>            Enqueue(culture?.BanditBandit, TroopType.Bandit);</div>
-<div class="line"><span class="lineno">   97</span>            Enqueue(culture?.BanditBoss,   TroopType.Bandit);</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>            Enqueue(culture?.MeleeMilitiaTroop,       TroopType.Militia);</div>
-<div class="line"><span class="lineno">  100</span>            Enqueue(culture?.MeleeEliteMilitiaTroop,  TroopType.Militia);</div>
-<div class="line"><span class="lineno">  101</span>            Enqueue(culture?.RangedEliteMilitiaTroop, TroopType.Militia);</div>
-<div class="line"><span class="lineno">  102</span>            Enqueue(culture?.RangedMilitiaTroop,      TroopType.Militia);</div>
-<div class="line"><span class="lineno">  103</span>            Enqueue(culture?.MilitiaVeteranArcher,    TroopType.Militia);</div>
-<div class="line"><span class="lineno">  104</span>        }</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">while</span> (TroopQueue.TryDequeue(out var entry)) {</div>
-<div class="line"><span class="lineno">  107</span>            var character = entry.character;</div>
-<div class="line"><span class="lineno">  108</span>            var typ       = entry.troopType;</div>
-<div class="line"><span class="lineno">  109</span> </div>
-<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">if</span> (!TypeDict.TryAdd(character, typ))</div>
-<div class="line"><span class="lineno">  111</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  112</span> </div>
-<div class="line"><span class="lineno">  113</span>            <span class="keywordflow">foreach</span> (var next <span class="keywordflow">in</span> character.UpgradeTargets)</div>
-<div class="line"><span class="lineno">  114</span>                Enqueue(next, typ);</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
-<div class="line"><span class="lineno">  116</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00083">83</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   83</span>                              {</div>
+<div class="line"><span class="lineno">   84</span>        TypeDict.Clear();</div>
+<div class="line"><span class="lineno">   85</span>        CachedCharacterEquipmentValue.Clear();</div>
+<div class="line"><span class="lineno">   86</span>        CachedCharacterSkillValue.Clear();</div>
+<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">while</span> (TroopQueue.TryDequeue(out _)) { }</div>
+<div class="line"><span class="lineno">   88</span>        var cultureList = MBObjectManager.Instance.GetObjectTypeList&lt;CultureObject&gt;();</div>
+<div class="line"><span class="lineno">   89</span>        _cachedSkillValue = MBObjectManager.Instance.GetObjectTypeList&lt;SkillObject&gt;();</div>
+<div class="line"><span class="lineno">   90</span>        <span class="keywordflow">foreach</span> (var culture <span class="keywordflow">in</span> cultureList) {</div>
+<div class="line"><span class="lineno">   91</span>            Enqueue(culture?.EliteBasicTroop, TroopType.Elite);</div>
+<div class="line"><span class="lineno">   92</span> </div>
+<div class="line"><span class="lineno">   93</span>            MBReadOnlyList&lt;CharacterObject&gt;? basicMercenaryTroops = culture?.BasicMercenaryTroops;</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">if</span> (basicMercenaryTroops != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">foreach</span> (var troop <span class="keywordflow">in</span> basicMercenaryTroops)</div>
+<div class="line"><span class="lineno">   96</span>                    Enqueue(troop, TroopType.Mercenary);</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>            Enqueue(culture?.BasicTroop, TroopType.Basic);</div>
+<div class="line"><span class="lineno">   99</span> </div>
+<div class="line"><span class="lineno">  100</span>            Enqueue(culture?.BanditChief,  TroopType.Bandit);</div>
+<div class="line"><span class="lineno">  101</span>            Enqueue(culture?.BanditRaider, TroopType.Bandit);</div>
+<div class="line"><span class="lineno">  102</span>            Enqueue(culture?.BanditBandit, TroopType.Bandit);</div>
+<div class="line"><span class="lineno">  103</span>            Enqueue(culture?.BanditBoss,   TroopType.Bandit);</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>            Enqueue(culture?.MeleeMilitiaTroop,       TroopType.Militia);</div>
+<div class="line"><span class="lineno">  106</span>            Enqueue(culture?.MeleeEliteMilitiaTroop,  TroopType.Militia);</div>
+<div class="line"><span class="lineno">  107</span>            Enqueue(culture?.RangedEliteMilitiaTroop, TroopType.Militia);</div>
+<div class="line"><span class="lineno">  108</span>            Enqueue(culture?.RangedMilitiaTroop,      TroopType.Militia);</div>
+<div class="line"><span class="lineno">  109</span>            Enqueue(culture?.MilitiaVeteranArcher,    TroopType.Militia);</div>
+<div class="line"><span class="lineno">  110</span>        }</div>
+<div class="line"><span class="lineno">  111</span> </div>
+<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">while</span> (TroopQueue.TryDequeue(out var entry)) {</div>
+<div class="line"><span class="lineno">  113</span>            var character = entry.character;</div>
+<div class="line"><span class="lineno">  114</span>            var typ       = entry.troopType;</div>
+<div class="line"><span class="lineno">  115</span> </div>
+<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">if</span> (!TypeDict.TryAdd(character, typ))</div>
+<div class="line"><span class="lineno">  117</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">foreach</span> (var next <span class="keywordflow">in</span> character.UpgradeTargets)</div>
+<div class="line"><span class="lineno">  120</span>                Enqueue(next, typ);</div>
+<div class="line"><span class="lineno">  121</span>        }</div>
+<div class="line"><span class="lineno">  122</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00026">_cachedSkillValue</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00118">Enqueue()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00024">TroopQueue</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00022">TypeDict</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00026">_cachedSkillValue</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00028">CachedCharacterEquipmentValue</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00030">CachedCharacterSkillValue</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00124">Enqueue()</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00024">TroopQueue</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00022">TypeDict</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00087">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.OnGameLoaded()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00079">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.OnNewGameCreated()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d77/a00095_source.html#l00093">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.OnGameLoaded()</a>, and <a class="el" href="../../d9/d77/a00095_source.html#l00083">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.OnNewGameCreated()</a>.</p>
 
 </div>
 </div>
@@ -463,18 +469,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00071">71</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   71</span>                                                                  {</div>
-<div class="line"><span class="lineno">   72</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><span class="lineno">   73</span> </div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">if</span> (CachedCharacterSkillValue.TryGetValue(character, out var value)) <span class="keywordflow">return</span> value;</div>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00073">73</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   73</span>                                                                  {</div>
+<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">if</span> (character == <span class="keyword">null</span>) <span class="keywordflow">return</span> 0;</div>
 <div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>        value = character.CalculateSkillValue();</div>
-<div class="line"><span class="lineno">   77</span>        CachedCharacterSkillValue.TryAdd(character, value);</div>
-<div class="line"><span class="lineno">   78</span>        <span class="keywordflow">return</span> value;</div>
-<div class="line"><span class="lineno">   79</span>    }</div>
+<div class="line"><span class="lineno">   76</span>        <span class="keywordflow">if</span> (CachedCharacterSkillValue.TryGetValue(character, out var value)) <span class="keywordflow">return</span> value;</div>
+<div class="line"><span class="lineno">   77</span> </div>
+<div class="line"><span class="lineno">   78</span>        value = character.CalculateSkillValue();</div>
+<div class="line"><span class="lineno">   79</span>        CachedCharacterSkillValue.TryAdd(character, value);</div>
+<div class="line"><span class="lineno">   80</span>        <span class="keywordflow">return</span> value;</div>
+<div class="line"><span class="lineno">   81</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00030">CachedCharacterSkillValue</a>.</p>
+<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00030">CachedCharacterSkillValue</a>.</p>
 
 </div>
 </div>
@@ -499,9 +505,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00026">26</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00026">26</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00057">CalculateSkillValue()</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00081">Init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00059">CalculateSkillValue()</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>.</p>
 
 </div>
 </div>
@@ -525,9 +531,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00028">28</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00028">28</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00061">EquipmentValue()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00063">EquipmentValue()</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>.</p>
 
 </div>
 </div>
@@ -551,9 +557,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00030">30</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00030">30</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00071">SkillValue()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00073">SkillValue()</a>.</p>
 
 </div>
 </div>
@@ -577,9 +583,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00024">24</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00024">24</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00118">Enqueue()</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00081">Init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00124">Enqueue()</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>.</p>
 
 </div>
 </div>
@@ -603,14 +609,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d87/a00032_source.html#l00022">22</a> of file <a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00022">22</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d87/a00032_source.html#l00032">GetTroopType()</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00081">Init()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00032">GetTroopType()</a>, and <a class="el" href="../../d2/d1f/a00083_source.html#l00083">Init()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Extensions/<a class="el" href="../../dc/d87/a00032_source.html">CharacterObjectExtension.cs</a></li>
+<li>Extensions/<a class="el" href="../../d2/d1f/a00083_source.html">CharacterObjectExtension.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

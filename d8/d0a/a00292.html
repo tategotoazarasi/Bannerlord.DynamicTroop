@@ -130,7 +130,7 @@ Static Private Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00008">8</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00008">8</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aca5b8f4f0b5a06170273be5c741bbfba" name="aca5b8f4f0b5a06170273be5c741bbfba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca5b8f4f0b5a06170273be5c741bbfba">&#9670;&#160;</a></span>AddItemToDictionary()</h2>
@@ -164,16 +164,16 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00027">27</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00027">27</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   27</span>                                                                                                                  {</div>
 <div class="line"><span class="lineno">   28</span>        <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || !ItemBlackList.Test(item)) <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">   29</span> </div>
 <div class="line"><span class="lineno">   30</span>        dictionary[item] = dictionary.TryGetValue(item, out var existingCount) ? existingCount + count : count;</div>
 <div class="line"><span class="lineno">   31</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d81/a00110_source.html#l00121">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df9/a00044_source.html#l00017">AddItemToRecover()</a>, <a class="el" href="../../d5/df9/a00044_source.html#l00021">AddItemToRecover()</a>, <a class="el" href="../../d5/df9/a00044_source.html#l00023">AddLootedItem()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00025">AddLootedItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00017">AddItemToRecover()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00021">AddItemToRecover()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00023">AddLootedItem()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00025">AddLootedItem()</a>.</p>
 
 </div>
 </div>
@@ -192,12 +192,12 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00017">17</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00017">17</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   17</span>                                                  {</div>
 <div class="line"><span class="lineno">   18</span>        AddItemToDictionary(ItemsToRecover, item, 1);</div>
 <div class="line"><span class="lineno">   19</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/df9/a00044_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00009">ItemsToRecover</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00009">ItemsToRecover</a>.</p>
 
 </div>
 </div>
@@ -220,10 +220,10 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00021">21</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00021">21</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   21</span>{ AddItemToDictionary(ItemsToRecover, item, count); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/df9/a00044_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00009">ItemsToRecover</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00009">ItemsToRecover</a>.</p>
 
 </div>
 </div>
@@ -242,12 +242,12 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00023">23</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00023">23</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   23</span>{ AddItemToDictionary(LootedItems, item, 1); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/df9/a00044_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00011">LootedItems</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00011">LootedItems</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d0/dc2/a00104_source.html#l00100">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.OnAgentRemoved()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00102">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.OnAgentRemoved()</a>.</p>
 
 </div>
 </div>
@@ -270,10 +270,10 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00025">25</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00025">25</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   25</span>{ AddItemToDictionary(LootedItems, item, count); }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/df9/a00044_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00011">LootedItems</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dad/a00005_source.html#l00027">AddItemToDictionary()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00011">LootedItems</a>.</p>
 
 </div>
 </div>
@@ -290,9 +290,9 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00009">9</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00009">9</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df9/a00044_source.html#l00017">AddItemToRecover()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00021">AddItemToRecover()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00017">AddItemToRecover()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00021">AddItemToRecover()</a>.</p>
 
 </div>
 </div>
@@ -308,9 +308,9 @@ Static Private Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00011">11</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00011">11</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df9/a00044_source.html#l00023">AddLootedItem()</a>, and <a class="el" href="../../d5/df9/a00044_source.html#l00025">AddLootedItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dad/a00005_source.html#l00023">AddLootedItem()</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00025">AddLootedItem()</a>.</p>
 
 </div>
 </div>
@@ -335,7 +335,7 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00013">13</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00013">13</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 
 </div>
 </div>
@@ -359,12 +359,12 @@ Static Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00015">15</a> of file <a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dad/a00005_source.html#l00015">15</a> of file <a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d5/df9/a00044_source.html">PartyBattleRecord.cs</a></li>
+<li><a class="el" href="../../dd/dad/a00005_source.html">PartyBattleRecord.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

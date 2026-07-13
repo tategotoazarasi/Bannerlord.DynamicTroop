@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch Class Reference</title>
+<title>动态装备系统: DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.EquipmentElementComparer Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,263 +83,100 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Patches</a></li><li class="navelem"><a class="el" href="../../d4/db5/a00328.html">SpawnAgentPatch</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Patches</a></li><li class="navelem"><a class="el" href="../../d4/d8f/a00324.html">RecruitmentPatch</a></li><li class="navelem"><a class="el" href="../../d4/db5/a00328.html">EquipmentElementComparer</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../de/dc8/a00325.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.EquipmentElementComparer Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.EquipmentElementComparer:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="../../d4/db5/a00328.png" alt=""/>
+ </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d50/a00332.html">SpawnAgentState</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a504024410dd478f540059ec122e5ac5b" id="r_a504024410dd478f540059ec122e5ac5b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a504024410dd478f540059ec122e5ac5b">ApplyMoralePenalty</a> (Agent agent, float penalty)</td></tr>
-<tr class="separator:a504024410dd478f540059ec122e5ac5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a858c659766efc9b65627c003014fe5b1" id="r_a858c659766efc9b65627c003014fe5b1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a858c659766efc9b65627c003014fe5b1">IsPartyValidForProcessing</a> (IAgentOriginBase agentOrigin)</td></tr>
-<tr class="separator:a858c659766efc9b65627c003014fe5b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0314162148e76e8211ce901525d5663" id="r_aa0314162148e76e8211ce901525d5663"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0314162148e76e8211ce901525d5663">Postfix</a> (Agent __result, <a class="el" href="../../dc/d50/a00332.html">SpawnAgentState</a>? __state)</td></tr>
-<tr class="separator:aa0314162148e76e8211ce901525d5663"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7eee3bc44863485ba4cb96f9fa8dbbb" id="r_ab7eee3bc44863485ba4cb96f9fa8dbbb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7eee3bc44863485ba4cb96f9fa8dbbb">Prefix</a> (Mission __instance, ref AgentBuildData agentBuildData, ref <a class="el" href="../../dc/d50/a00332.html">SpawnAgentState</a>? __state)</td></tr>
-<tr class="separator:ab7eee3bc44863485ba4cb96f9fa8dbbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a23acb151f89268b9f42576278826dcfc" id="r_a23acb151f89268b9f42576278826dcfc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23acb151f89268b9f42576278826dcfc">Equals</a> (EquipmentElement x, EquipmentElement y)</td></tr>
+<tr class="separator:a23acb151f89268b9f42576278826dcfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b9f1abc4ade3361026e39af035087c" id="r_a60b9f1abc4ade3361026e39af035087c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60b9f1abc4ade3361026e39af035087c">GetHashCode</a> (EquipmentElement obj)</td></tr>
+<tr class="separator:a60b9f1abc4ade3361026e39af035087c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00017">17</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00123">123</a> of file <a class="el" href="../../d5/df9/a00044_source.html">RecruitmentPatch.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a504024410dd478f540059ec122e5ac5b" name="a504024410dd478f540059ec122e5ac5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a504024410dd478f540059ec122e5ac5b">&#9670;&#160;</a></span>ApplyMoralePenalty()</h2>
+<a id="a23acb151f89268b9f42576278826dcfc" name="a23acb151f89268b9f42576278826dcfc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23acb151f89268b9f42576278826dcfc">&#9670;&#160;</a></span>Equals()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.ApplyMoralePenalty </td>
+          <td class="memname">bool DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.EquipmentElementComparer.Equals </td>
           <td>(</td>
-          <td class="paramtype">Agent</td>          <td class="paramname"><span class="paramname"><em>agent</em></span>, </td>
+          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>penalty</em></span>&#160;)</td>
+          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00086">86</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>                                                                       {</div>
-<div class="line"><span class="lineno">   87</span>        var currentMorale = agent.GetMorale();</div>
-<div class="line"><span class="lineno">   88</span> </div>
-<div class="line"><span class="lineno">   89</span>        <span class="keywordflow">if</span> (currentMorale &lt; 0f)</div>
-<div class="line"><span class="lineno">   90</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>        agent.SetMorale(Math.Max(0f, currentMorale - penalty));</div>
-<div class="line"><span class="lineno">   93</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00124">124</a> of file <a class="el" href="../../d5/df9/a00044_source.html">RecruitmentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                                                   {</div>
+<div class="line"><span class="lineno">  125</span>            <span class="comment">// 检查消耗品类型武器，始终返回不相等</span></div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">return</span> !x.Item.IsConsumable() &amp;&amp; !y.Item.IsConsumable() &amp;&amp; Global.FullySameWeaponClass(x.Item, y.Item);</div>
+<div class="line"><span class="lineno">  127</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00068">Postfix()</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00185">DynamicTroopEquipmentReupload.Global.FullySameWeaponClass()</a>.</p>
 
 </div>
 </div>
-<a id="a858c659766efc9b65627c003014fe5b1" name="a858c659766efc9b65627c003014fe5b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a858c659766efc9b65627c003014fe5b1">&#9670;&#160;</a></span>IsPartyValidForProcessing()</h2>
+<a id="a60b9f1abc4ade3361026e39af035087c" name="a60b9f1abc4ade3361026e39af035087c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b9f1abc4ade3361026e39af035087c">&#9670;&#160;</a></span>GetHashCode()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.IsPartyValidForProcessing </td>
+          <td class="memname">int DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.EquipmentElementComparer.GetHashCode </td>
           <td>(</td>
-          <td class="paramtype">IAgentOriginBase</td>          <td class="paramname"><span class="paramname"><em>agentOrigin</em></span></td><td>)</td>
+          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00096">96</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   96</span>                                                                                {</div>
-<div class="line"><span class="lineno">   97</span>        var party = agentOrigin <span class="keywordflow">switch</span> {</div>
-<div class="line"><span class="lineno">   98</span>                        PartyAgentOrigin partyAgentOrigin           =&gt; partyAgentOrigin.Party,</div>
-<div class="line"><span class="lineno">   99</span>                        PartyGroupAgentOrigin partyGroupAgentOrigin =&gt; partyGroupAgentOrigin.Party,</div>
-<div class="line"><span class="lineno">  100</span>                        SimpleAgentOrigin simpleAgentOrigin         =&gt; simpleAgentOrigin.Party,</div>
-<div class="line"><span class="lineno">  101</span>                        _                                           =&gt; <span class="keyword">null</span></div>
-<div class="line"><span class="lineno">  102</span>                    };</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>        <span class="keywordflow">if</span> (party is not { IsValid: <span class="keyword">true</span>, MobileParty: not <span class="keyword">null</span> }) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>        var mobileParty = party.MobileParty;</div>
-<div class="line"><span class="lineno">  107</span>        <span class="keywordflow">if</span> (mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsMilitia || mobileParty.IsBandit) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d5/df9/a00044_source.html#l00129">129</a> of file <a class="el" href="../../d5/df9/a00044_source.html">RecruitmentPatch.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  129</span>                                                     {</div>
+<div class="line"><span class="lineno">  130</span>            <span class="comment">// 对消耗品类型武器，返回不同的哈希值</span></div>
+<div class="line"><span class="lineno">  131</span>            <span class="keywordflow">if</span> (obj.Item.IsConsumable()) <span class="keywordflow">return</span> obj.GetHashCode(); <span class="comment">// 使用对象本身的哈希值</span></div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>            var weaponClasses = Global.GetWeaponClass(obj.Item);</div>
+<div class="line"><span class="lineno">  134</span>            weaponClasses.Sort();</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            var hash = 17;</div>
+<div class="line"><span class="lineno">  137</span>            hash = weaponClasses.Aggregate(hash,</div>
+<div class="line"><span class="lineno">  138</span>                                           (currentHash, weaponClass) =&gt; currentHash * 31 + weaponClass.GetHashCode());</div>
+<div class="line"><span class="lineno">  139</span> </div>
+<div class="line"><span class="lineno">  140</span>            <span class="keywordflow">return</span> hash;</div>
+<div class="line"><span class="lineno">  141</span>        }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00018">Prefix()</a>.</p>
-
-</div>
-</div>
-<a id="aa0314162148e76e8211ce901525d5663" name="aa0314162148e76e8211ce901525d5663"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0314162148e76e8211ce901525d5663">&#9670;&#160;</a></span>Postfix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Postfix </td>
-          <td>(</td>
-          <td class="paramtype">Agent</td>          <td class="paramname"><span class="paramname"><em>__result</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/d50/a00332.html">SpawnAgentState</a>?</td>          <td class="paramname"><span class="paramname"><em>__state</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00068">68</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   68</span>                                                                          {</div>
-<div class="line"><span class="lineno">   69</span>        <span class="keywordflow">if</span> (__result == <span class="keyword">null</span> || __state == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>        var equipmentToConsume = __state.Assignment.CreateEquipmentForArmoryConsumption();</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>        <span class="keywordflow">if</span> (__state.IsMainParty) { ArmyArmory.AssignEquipment(equipmentToConsume); }</div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">else</span> { __state.Distributor.Spawn(equipmentToConsume); }</div>
-<div class="line"><span class="lineno">   75</span> </div>
-<div class="line"><span class="lineno">   76</span>        <span class="comment">// Underequipped morale penalty (player party only)</span></div>
-<div class="line"><span class="lineno">   77</span>        <span class="keywordflow">if</span> (__state.IsInPlayerParty &amp;&amp; (ModSettings.Instance?.Underequipped ?? <span class="keyword">true</span>)) {</div>
-<div class="line"><span class="lineno">   78</span>            var penalty = __state.Assignment.UnderEquippedMoralePenalty;</div>
-<div class="line"><span class="lineno">   79</span>            <span class="keywordflow">if</span> (penalty &gt; 0f) { ApplyMoralePenalty(__result, penalty); }</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
-<div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>        var dynamicTroopMissionLogic = Mission.Current.GetMissionBehavior&lt;DynamicTroopMissionLogic&gt;();</div>
-<div class="line"><span class="lineno">   83</span>        dynamicTroopMissionLogic?.RegisterSpawnedAgentAssignment(__result, __state.Assignment);</div>
-<div class="line"><span class="lineno">   84</span>    }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/d1f/a00083_source.html#l00086">ApplyMoralePenalty()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00058">DynamicTroopEquipmentReupload.ArmyArmory.AssignEquipment()</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00120">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.SpawnAgentState.Assignment</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00172">DynamicTroopEquipmentReupload.Assignment.CreateEquipmentForArmoryConsumption()</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00126">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.SpawnAgentState.Distributor</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00122">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.SpawnAgentState.IsInPlayerParty</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00124">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.SpawnAgentState.IsMainParty</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00389">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.RegisterSpawnedAgentAssignment()</a>, <a class="el" href="../../d6/d2d/a00047_source.html#l00879">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Spawn()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00078">DynamicTroopEquipmentReupload.ModSettings.Underequipped</a>, and <a class="el" href="../../dd/dad/a00005_source.html#l00069">DynamicTroopEquipmentReupload.Assignment.UnderEquippedMoralePenalty</a>.</p>
-
-</div>
-</div>
-<a id="ab7eee3bc44863485ba4cb96f9fa8dbbb" name="ab7eee3bc44863485ba4cb96f9fa8dbbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7eee3bc44863485ba4cb96f9fa8dbbb">&#9670;&#160;</a></span>Prefix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Prefix </td>
-          <td>(</td>
-          <td class="paramtype">Mission</td>          <td class="paramname"><span class="paramname"><em>__instance</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ref AgentBuildData</td>          <td class="paramname"><span class="paramname"><em>agentBuildData</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ref <a class="el" href="../../dc/d50/a00332.html">SpawnAgentState</a>?</td>          <td class="paramname"><span class="paramname"><em>__state</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/d1f/a00083_source.html#l00018">18</a> of file <a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   18</span>                                                                                                                    {</div>
-<div class="line"><span class="lineno">   19</span>        <span class="keywordflow">if</span> (__instance.GetMissionBehavior&lt;MissionAgentSpawnLogic&gt;() == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>        <span class="keywordflow">if</span> (agentBuildData.AgentOrigin == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   22</span> </div>
-<div class="line"><span class="lineno">   23</span>        <span class="comment">// party not valid</span></div>
-<div class="line"><span class="lineno">   24</span>        <span class="keywordflow">if</span> (!IsPartyValidForProcessing(agentBuildData.AgentOrigin)) {</div>
-<div class="line"><span class="lineno">   25</span>            <span class="keywordflow">if</span> (ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? <span class="keyword">false</span>) {</div>
-<div class="line"><span class="lineno">   26</span>                <span class="keywordflow">if</span> (agentBuildData.AgentOrigin.Troop is CharacterObject troopCharacterObject &amp;&amp; !troopCharacterObject.IsHero) {</div>
-<div class="line"><span class="lineno">   27</span>                    var assignment = <span class="keyword">new</span> Assignment(troopCharacterObject);</div>
-<div class="line"><span class="lineno">   28</span>                    assignment.FillEmptySlots();</div>
-<div class="line"><span class="lineno">   29</span>                    agentBuildData = agentBuildData.Equipment(assignment.Equipment);</div>
-<div class="line"><span class="lineno">   30</span>                }</div>
-<div class="line"><span class="lineno">   31</span>            }</div>
-<div class="line"><span class="lineno">   32</span> </div>
-<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">   34</span>        }</div>
-<div class="line"><span class="lineno">   35</span> </div>
-<div class="line"><span class="lineno">   36</span>        var dynamicTroopMissionLogic = __instance.GetMissionBehavior&lt;DynamicTroopMissionLogic&gt;();</div>
-<div class="line"><span class="lineno">   37</span>        <span class="keywordflow">if</span> (dynamicTroopMissionLogic == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>        var party = Global.GetAgentParty(agentBuildData.AgentOrigin);</div>
-<div class="line"><span class="lineno">   40</span>        <span class="keywordflow">if</span> (party == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>        var isMainParty = party == Campaign.Current.MainParty;</div>
-<div class="line"><span class="lineno">   43</span>        <span class="keywordflow">if</span> (!isMainParty &amp;&amp; !party.IsValid()) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   44</span> </div>
-<div class="line"><span class="lineno">   45</span>        dynamicTroopMissionLogic.TryInitializeDistributors();</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>        <span class="keywordflow">if</span> (!dynamicTroopMissionLogic.Distributors.TryGetValue(party.Id, out var distributor) || distributor == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>        var troopCharacter = agentBuildData.AgentOrigin.Troop as CharacterObject;</div>
-<div class="line"><span class="lineno">   51</span>        <span class="keywordflow">if</span> (troopCharacter == <span class="keyword">null</span> || troopCharacter.IsHero) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>        var assignmentOrNull = distributor.Assignments.FirstOrDefault(x =&gt; x.Character == troopCharacter &amp;&amp; !x.IsAssigned);</div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">if</span> (assignmentOrNull == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>        assignmentOrNull.IsAssigned = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>        var isInPlayerParty = agentBuildData.AgentOrigin.IsUnderPlayersCommand;</div>
-<div class="line"><span class="lineno">   60</span> </div>
-<div class="line"><span class="lineno">   61</span>        <span class="keywordflow">if</span> (!isInPlayerParty) { assignmentOrNull.FillEmptySlots(); }</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        agentBuildData = agentBuildData.Equipment(assignmentOrNull.Equipment);</div>
-<div class="line"><span class="lineno">   65</span>        __state        = <span class="keyword">new</span> SpawnAgentState(assignmentOrNull, isInPlayerParty, isMainParty, distributor);</div>
-<div class="line"><span class="lineno">   66</span>    }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/dee/a00008_source.html#l00265">DynamicTroopEquipmentReupload.Global.GetAgentParty()</a>, <a class="el" href="../../d2/d1f/a00083_source.html#l00096">IsPartyValidForProcessing()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00040">DynamicTroopEquipmentReupload.ModSettings.RandomizeNonHeroLedAiPartiesArmor</a>.</p>
+<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00117">DynamicTroopEquipmentReupload.Global.GetWeaponClass()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>Patches/<a class="el" href="../../d2/d1f/a00083_source.html">SpawnAgentPatch.cs</a></li>
+<li>Patches/<a class="el" href="../../d5/df9/a00044_source.html">RecruitmentPatch.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
