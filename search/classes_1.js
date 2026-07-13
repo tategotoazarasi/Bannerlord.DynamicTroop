@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['blacklist_0',['BlackList',['../dc/d28/a00276.html',1,'DynamicTroopEquipmentReupload::ItemBlackList']]]
+  ['blacklist_0',['BlackList',['../d9/d5e/a00295.html',1,'DynamicTroopEquipmentReupload::ItemBlackList']]]
 ];

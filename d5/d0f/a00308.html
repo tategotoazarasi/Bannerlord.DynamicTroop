@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Patches.TavernMercenaryEquipmentPatch Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,98 +83,27 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">Patches</a></li><li class="navelem"><a class="el" href="../../d5/d0f/a00308.html">TavernMercenaryEquipmentPatch</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d1/d5d/a00311.html">PartyBattleRecord</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
-<a href="../../d3/d07/a00305.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.TavernMercenaryEquipmentPatch Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.PartyBattleRecord Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:ae3de9747847d1620a37e0b03a5817078" id="r_ae3de9747847d1620a37e0b03a5817078"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae3de9747847d1620a37e0b03a5817078">Postfix</a> (TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot __state)</td></tr>
-<tr class="separator:ae3de9747847d1620a37e0b03a5817078"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60dd0c261dec2c974dc4e2442cb666dd" id="r_a60dd0c261dec2c974dc4e2442cb666dd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a60dd0c261dec2c974dc4e2442cb666dd">Prefix</a> (out TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot __state)</td></tr>
-<tr class="separator:a60dd0c261dec2c974dc4e2442cb666dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00041">41</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae3de9747847d1620a37e0b03a5817078" name="ae3de9747847d1620a37e0b03a5817078"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3de9747847d1620a37e0b03a5817078">&#9670;&#160;</a></span>Postfix()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void DynamicTroopEquipmentReupload.Patches.TavernMercenaryEquipmentPatch.Postfix </td>
-          <td>(</td>
-          <td class="paramtype">TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot</td>          <td class="paramname"><span class="paramname"><em>__state</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00047">47</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   47</span>                                                                                                       {</div>
-<div class="line"><span class="lineno">   48</span>        var recruitedCount = __state.GetRecruitedCount();</div>
-<div class="line"><span class="lineno">   49</span>        <span class="keywordflow">if</span> (recruitedCount &gt; 0)</div>
-<div class="line"><span class="lineno">   50</span>            RecruitmentPatch.AddStartingEquipmentToPlayerArmory(__state.Character!, recruitedCount);</div>
-<div class="line"><span class="lineno">   51</span>    }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d5/df9/a00044_source.html#l00033">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.AddStartingEquipmentToPlayerArmory()</a>.</p>
-
-</div>
-</div>
-<a id="a60dd0c261dec2c974dc4e2442cb666dd" name="a60dd0c261dec2c974dc4e2442cb666dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60dd0c261dec2c974dc4e2442cb666dd">&#9670;&#160;</a></span>Prefix()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void DynamicTroopEquipmentReupload.Patches.TavernMercenaryEquipmentPatch.Prefix </td>
-          <td>(</td>
-          <td class="paramtype">out TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot</td>          <td class="paramname"><span class="paramname"><em>__state</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dc/dee/a00053_source.html#l00042">42</a> of file <a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   42</span>                                                                                                          {</div>
-<div class="line"><span class="lineno">   43</span>        __state = <span class="keyword">new</span> TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot(</div>
-<div class="line"><span class="lineno">   44</span>            CharacterObject.OneToOneConversationCharacter);</div>
-<div class="line"><span class="lineno">   45</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Patches/<a class="el" href="../../dc/dee/a00053_source.html">BuyMercenariesPatch.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#aca5b8f4f0b5a06170273be5c741bbfba">AddItemToDictionary</a>(IDictionary&lt; ItemObject, int &gt; dictionary, ItemObject? item, int count)</td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#a6cf0e74a7d3c6d088b8f821ac3fd3b30">AddItemToRecover</a>(ItemObject item)</td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#a9948557a2c14bf696cb94eb09ab7c7a8">AddItemToRecover</a>(ItemObject item, int count)</td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#a34b738b1b6c5d1331ddc77923c8e2df3">AddLootedItem</a>(ItemObject item)</td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#a39d285989002da932ba501b276bdb3a6">AddLootedItem</a>(ItemObject item, int count)</td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#ae7fe1ebb28451ddd9794520c71559d6b">ItemsToRecover</a></td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#ae6035bad938989f465b043f22b4ea3d0">ItemsToRecoverCount</a></td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#ad656a5a3143561376114ce8c12b89ce1">LootedItems</a></td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d1/d5d/a00311.html#aae411507d4b4a32fbe046e6bd83e0bbd">LootedItemsCount</a></td><td class="entry"><a class="el" href="../../d1/d5d/a00311.html">DynamicTroopEquipmentReupload.PartyBattleRecord</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2

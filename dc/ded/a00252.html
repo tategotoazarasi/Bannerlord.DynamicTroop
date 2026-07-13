@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Extensions.TownExtension Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,82 +83,24 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d2/da3/a00115.html">Extensions</a></li><li class="navelem"><a class="el" href="../../dc/ded/a00252.html">TownExtension</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d8/d87/a00118.html">Extensions</a></li><li class="navelem"><a class="el" href="../../d4/d04/a00255.html">MobilePartyExtension</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="../../de/dbc/a00249.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Extensions.TownExtension Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0b177644f55acabc29b1c85cb11f1da1" id="r_a0b177644f55acabc29b1c85cb11f1da1"><td class="memItemLeft" align="right" valign="top">static List&lt; ItemObject &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b177644f55acabc29b1c85cb11f1da1">GetRandomEquipments</a> (this Town? town)</td></tr>
-<tr class="separator:a0b177644f55acabc29b1c85cb11f1da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00011">11</a> of file <a class="el" href="../../d0/d89/a00071_source.html">TownExtension.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a0b177644f55acabc29b1c85cb11f1da1" name="a0b177644f55acabc29b1c85cb11f1da1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b177644f55acabc29b1c85cb11f1da1">&#9670;&#160;</a></span>GetRandomEquipments()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static List&lt; ItemObject &gt; DynamicTroopEquipmentReupload.Extensions.TownExtension.GetRandomEquipments </td>
-          <td>(</td>
-          <td class="paramtype">this Town?</td>          <td class="paramname"><span class="paramname"><em>town</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d0/d89/a00071_source.html#l00012">12</a> of file <a class="el" href="../../d0/d89/a00071_source.html">TownExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   12</span>                                                                        {</div>
-<div class="line"><span class="lineno">   13</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">if</span> (town == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
-<div class="line"><span class="lineno">   15</span> </div>
-<div class="line"><span class="lineno">   16</span>        <span class="keywordflow">foreach</span> (var village <span class="keywordflow">in</span> town.Villages) {</div>
-<div class="line"><span class="lineno">   17</span>            <span class="keywordflow">if</span> (village.VillageState != Village.VillageStates.Normal) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">   18</span> </div>
-<div class="line"><span class="lineno">   19</span>            var items = Cache.GetItemsByTierAndCulture(2 * (<span class="keywordtype">int</span>)village.GetProsperityLevel() +</div>
-<div class="line"><span class="lineno">   20</span>                                                       (<span class="keywordtype">int</span>)(ModSettings.Instance?.Difficulty ?? 0f),</div>
-<div class="line"><span class="lineno">   21</span>                                                       town.Culture);</div>
-<div class="line"><span class="lineno">   22</span>            <span class="keywordflow">if</span> (items != <span class="keyword">null</span> &amp;&amp; !items.IsEmpty()) list.Add(items.GetRandomElement());</div>
-<div class="line"><span class="lineno">   23</span>        }</div>
-<div class="line"><span class="lineno">   24</span> </div>
-<div class="line"><span class="lineno">   25</span>        <span class="keywordflow">if</span> (town.IsUnderSiege) <span class="keywordflow">return</span> list;</div>
-<div class="line"><span class="lineno">   26</span> </div>
-<div class="line"><span class="lineno">   27</span>        var items2 =</div>
-<div class="line"><span class="lineno">   28</span>            Cache.GetItemsByTierAndCulture(2 * (<span class="keywordtype">int</span>)town.GetProsperityLevel() +</div>
-<div class="line"><span class="lineno">   29</span>                                           (<span class="keywordtype">int</span>)(ModSettings.Instance?.Difficulty ?? 0f),</div>
-<div class="line"><span class="lineno">   30</span>                                           town.Culture);</div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">if</span> (items2 != <span class="keyword">null</span> &amp;&amp; !items2.IsEmpty()) list.Add(items2.GetRandomElement());</div>
-<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">return</span> list;</div>
-<div class="line"><span class="lineno">   33</span>    }</div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d03/a00062_source.html#l00033">DynamicTroopEquipmentReupload.ModSettings.Difficulty</a>, and <a class="el" href="../../d4/d81/a00110_source.html#l00027">DynamicTroopEquipmentReupload.Cache.GetItemsByTierAndCulture()</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Extensions/<a class="el" href="../../d0/d89/a00071_source.html">TownExtension.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#a77fbc3ae8f3e68784510baa01b1ce09d">GetClanTier</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#a4eee6fc88c95104927a31a9ea6ce6217">GetDailyEquipmentFromFiefs</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#a85c8fb9397b480d50f16e204696c7bfb">GetItems</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#a8043d0ff46ee7434ff4f4e58768a13d3">GetRandomEquipmentsFromClan</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#aad9efdb6344b81377ac97f3e930ac027">GetRandomEquipmentsFromTroop</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d4/d04/a00255.html#a3efde4afa22e4f7db6f5e081b3a0dd80">IsValid</a>(this MobileParty? party)</td><td class="entry"><a class="el" href="../../d4/d04/a00255.html">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2

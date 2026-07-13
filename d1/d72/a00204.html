@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,93 +83,19 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d8/d17/a00114.html">Comparers</a></li><li class="navelem"><a class="el" href="../../d1/d72/a00204.html">EquipmentElementComparer</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d9/d4b/a00117.html">Comparers</a></li><li class="navelem"><a class="el" href="../../de/dd2/a00207.html">ArmorElementComparer</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../dd/de3/a00201.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Comparers.ArmorElementComparer Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="../../d1/d72/a00204.png" alt=""/>
- </div></div>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:ae4cdb5f391859b2bfc50936232ebe552" id="r_ae4cdb5f391859b2bfc50936232ebe552"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4cdb5f391859b2bfc50936232ebe552">Equals</a> (EquipmentElement x, EquipmentElement y)</td></tr>
-<tr class="separator:ae4cdb5f391859b2bfc50936232ebe552"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d02e638c0fe65db4b84859de6edb740" id="r_a5d02e638c0fe65db4b84859de6edb740"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5d02e638c0fe65db4b84859de6edb740">GetHashCode</a> (EquipmentElement obj)</td></tr>
-<tr class="separator:a5d02e638c0fe65db4b84859de6edb740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00006">6</a> of file <a class="el" href="../../d2/de7/a00014_source.html">EquipmentElementComparer.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae4cdb5f391859b2bfc50936232ebe552" name="ae4cdb5f391859b2bfc50936232ebe552"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4cdb5f391859b2bfc50936232ebe552">&#9670;&#160;</a></span>Equals()</h2>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.Equals </td>
-          <td>(</td>
-          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00007">7</a> of file <a class="el" href="../../d2/de7/a00014_source.html">EquipmentElementComparer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    7</span>                                                               {</div>
-<div class="line"><span class="lineno">    8</span>        <span class="keywordflow">if</span> (x.Item        == <span class="keyword">null</span> || y.Item == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">    9</span>            <span class="keywordflow">return</span> x.Item == y.Item;</div>
-<div class="line"><span class="lineno">   10</span> </div>
-<div class="line"><span class="lineno">   11</span>        <span class="keywordflow">return</span> x.Item.StringId == y.Item.StringId;</div>
-<div class="line"><span class="lineno">   12</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a5d02e638c0fe65db4b84859de6edb740" name="a5d02e638c0fe65db4b84859de6edb740"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d02e638c0fe65db4b84859de6edb740">&#9670;&#160;</a></span>GetHashCode()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.GetHashCode </td>
-          <td>(</td>
-          <td class="paramtype">EquipmentElement</td>          <td class="paramname"><span class="paramname"><em>obj</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d2/de7/a00014_source.html#l00014">14</a> of file <a class="el" href="../../d2/de7/a00014_source.html">EquipmentElementComparer.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>                                                 {</div>
-<div class="line"><span class="lineno">   15</span>        <span class="comment">//if (ReferenceEquals(obj, null)) return 0;</span></div>
-<div class="line"><span class="lineno">   16</span> </div>
-<div class="line"><span class="lineno">   17</span>        <span class="comment">// 计算哈希码 例如，结合 EquipmentElement 的某些属性</span></div>
-<div class="line"><span class="lineno">   18</span>        <span class="keywordflow">return</span> obj.Item == <span class="keyword">null</span> ? 0 : obj.Item.StringId.GetHashCode();</div>
-<div class="line"><span class="lineno">   19</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Comparers/<a class="el" href="../../d2/de7/a00014_source.html">EquipmentElementComparer.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../de/dd2/a00207.html">DynamicTroopEquipmentReupload.Comparers.ArmorElementComparer</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../de/dd2/a00207.html#a26ff820964e93c5ffbaa2e11c3cacb9b">Compare</a>(EquipmentElement x, EquipmentElement y)</td><td class="entry"><a class="el" href="../../de/dd2/a00207.html">DynamicTroopEquipmentReupload.Comparers.ArmorElementComparer</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2

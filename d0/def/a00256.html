@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: DynamicTroopEquipmentReupload.Extensions.TroopRosterElementExtension Class Reference</title>
+<title>动态装备系统: Member List</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,74 +83,19 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d2/da3/a00115.html">Extensions</a></li><li class="navelem"><a class="el" href="../../d0/def/a00256.html">TroopRosterElementExtension</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../d8/d87/a00118.html">Extensions</a></li><li class="navelem"><a class="el" href="../../d0/d2f/a00259.html">SettlementExtension</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="../../d0/d3e/a00253.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Extensions.TroopRosterElementExtension Class Reference</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Extensions.SettlementExtension Member List</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4b97ec90832723190e924a88d9edd067" id="r_a4b97ec90832723190e924a88d9edd067"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b97ec90832723190e924a88d9edd067">IsValidForRandom</a> (this TroopRosterElement member, MobileParty party, bool equalTier)</td></tr>
-<tr class="separator:a4b97ec90832723190e924a88d9edd067"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00009">9</a> of file <a class="el" href="../../da/d24/a00068_source.html">TroopRosterElementExtension.cs</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4b97ec90832723190e924a88d9edd067" name="a4b97ec90832723190e924a88d9edd067"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b97ec90832723190e924a88d9edd067">&#9670;&#160;</a></span>IsValidForRandom()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool DynamicTroopEquipmentReupload.Extensions.TroopRosterElementExtension.IsValidForRandom </td>
-          <td>(</td>
-          <td class="paramtype">this TroopRosterElement</td>          <td class="paramname"><span class="paramname"><em>member</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">MobileParty</td>          <td class="paramname"><span class="paramname"><em>party</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>equalTier</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../da/d24/a00068_source.html#l00010">10</a> of file <a class="el" href="../../da/d24/a00068_source.html">TroopRosterElementExtension.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   10</span>                                                                                                           {</div>
-<div class="line"><span class="lineno">   11</span>        <span class="keywordflow">return</span> member is { Character: { IsHero: <span class="keyword">false</span>, BattleEquipments: not <span class="keyword">null</span> } } &amp;&amp;</div>
-<div class="line"><span class="lineno">   12</span>               !member.Character.BattleEquipments.IsEmpty()                           &amp;&amp;</div>
-<div class="line"><span class="lineno">   13</span>               (equalTier</div>
-<div class="line"><span class="lineno">   14</span>                    ? member.Character.Tier == party.GetClanTier()</div>
-<div class="line"><span class="lineno">   15</span>                    : member.Character.Tier &lt;= party.GetClanTier());</div>
-<div class="line"><span class="lineno">   16</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>Extensions/<a class="el" href="../../da/d24/a00068_source.html">TroopRosterElementExtension.cs</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="../../d0/d2f/a00259.html">DynamicTroopEquipmentReupload.Extensions.SettlementExtension</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="../../d0/d2f/a00259.html#affbdff2c913263e7b8531db68001d861">GetRandomEquipment</a>(this Settlement? settlement)</td><td class="entry"><a class="el" href="../../d0/d2f/a00259.html">DynamicTroopEquipmentReupload.Extensions.SettlementExtension</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+</table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2

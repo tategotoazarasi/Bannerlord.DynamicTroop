@@ -94,12 +94,12 @@ $(function(){ initResizable(false); });
 <a href="../../d2/de7/a00014.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System.Collections.Generic;</div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>TaleWorlds.Core;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d8/d17/a00114.html">DynamicTroopEquipmentReupload.Comparers</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d9/d4b/a00117.html">DynamicTroopEquipmentReupload.Comparers</a>;</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../d1/d72/a00204.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d1/d72/a00204.html">EquipmentElementComparer</a> : IEqualityComparer&lt;EquipmentElement&gt; {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../d3/dd5/a00215.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_class" href="../../d3/dd5/a00215.html">EquipmentElementComparer</a> : IEqualityComparer&lt;EquipmentElement&gt; {</div>
 <div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../d1/d72/a00204.html#ae4cdb5f391859b2bfc50936232ebe552">    7</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d1/d72/a00204.html#ae4cdb5f391859b2bfc50936232ebe552">Equals</a>(EquipmentElement x, EquipmentElement y) {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../d3/dd5/a00215.html#ae4cdb5f391859b2bfc50936232ebe552">    7</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/dd5/a00215.html#ae4cdb5f391859b2bfc50936232ebe552">Equals</a>(EquipmentElement x, EquipmentElement y) {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keywordflow">if</span> (x.Item        == <span class="keyword">null</span> || y.Item == <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>            <span class="keywordflow">return</span> x.Item == y.Item;</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
@@ -108,7 +108,7 @@ $(function(){ initResizable(false); });
 </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../d1/d72/a00204.html#a5d02e638c0fe65db4b84859de6edb740">   14</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d1/d72/a00204.html#a5d02e638c0fe65db4b84859de6edb740">GetHashCode</a>(EquipmentElement obj) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../d3/dd5/a00215.html#a5d02e638c0fe65db4b84859de6edb740">   14</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../d3/dd5/a00215.html#a5d02e638c0fe65db4b84859de6edb740">GetHashCode</a>(EquipmentElement obj) {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="comment">//if (ReferenceEquals(obj, null)) return 0;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="comment">// 计算哈希码 例如，结合 EquipmentElement 的某些属性</span></div>
@@ -117,10 +117,10 @@ $(function(){ initResizable(false); });
 </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
 </div>
-<div class="ttc" id="aa00114_html"><div class="ttname"><a href="../../d8/d17/a00114.html">DynamicTroopEquipmentReupload.Comparers</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d45/a00011_source.html#l00005">ArmorComparer.cs:5</a></div></div>
-<div class="ttc" id="aa00204_html"><div class="ttname"><a href="../../d1/d72/a00204.html">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer</a></div><div class="ttdef"><b>Definition</b> <a href="#l00006">EquipmentElementComparer.cs:6</a></div></div>
-<div class="ttc" id="aa00204_html_a5d02e638c0fe65db4b84859de6edb740"><div class="ttname"><a href="../../d1/d72/a00204.html#a5d02e638c0fe65db4b84859de6edb740">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.GetHashCode</a></div><div class="ttdeci">int GetHashCode(EquipmentElement obj)</div><div class="ttdef"><b>Definition</b> <a href="#l00014">EquipmentElementComparer.cs:14</a></div></div>
-<div class="ttc" id="aa00204_html_ae4cdb5f391859b2bfc50936232ebe552"><div class="ttname"><a href="../../d1/d72/a00204.html#ae4cdb5f391859b2bfc50936232ebe552">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.Equals</a></div><div class="ttdeci">bool Equals(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition</b> <a href="#l00007">EquipmentElementComparer.cs:7</a></div></div>
+<div class="ttc" id="aa00117_html"><div class="ttname"><a href="../../d9/d4b/a00117.html">DynamicTroopEquipmentReupload.Comparers</a></div><div class="ttdef"><b>Definition</b> <a href="../../da/d45/a00011_source.html#l00005">ArmorComparer.cs:5</a></div></div>
+<div class="ttc" id="aa00215_html"><div class="ttname"><a href="../../d3/dd5/a00215.html">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer</a></div><div class="ttdef"><b>Definition</b> <a href="#l00006">EquipmentElementComparer.cs:6</a></div></div>
+<div class="ttc" id="aa00215_html_a5d02e638c0fe65db4b84859de6edb740"><div class="ttname"><a href="../../d3/dd5/a00215.html#a5d02e638c0fe65db4b84859de6edb740">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.GetHashCode</a></div><div class="ttdeci">int GetHashCode(EquipmentElement obj)</div><div class="ttdef"><b>Definition</b> <a href="#l00014">EquipmentElementComparer.cs:14</a></div></div>
+<div class="ttc" id="aa00215_html_ae4cdb5f391859b2bfc50936232ebe552"><div class="ttname"><a href="../../d3/dd5/a00215.html#ae4cdb5f391859b2bfc50936232ebe552">DynamicTroopEquipmentReupload.Comparers.EquipmentElementComparer.Equals</a></div><div class="ttdeci">bool Equals(EquipmentElement x, EquipmentElement y)</div><div class="ttdef"><b>Definition</b> <a href="#l00007">EquipmentElementComparer.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

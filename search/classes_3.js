@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['data_0',['Data',['../d0/d81/a00180.html',1,'DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Data'],['../d6/d43/a00216.html',1,'DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.Data'],['../de/dc2/a00228.html',1,'DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.Data']]],
-  ['dynamictroopmissionlogic_1',['DynamicTroopMissionLogic',['../d5/d0b/a00220.html',1,'DynamicTroopEquipmentReupload']]]
+  ['data_0',['Data',['../d9/dd0/a00191.html',1,'DynamicTroopEquipmentReupload.ArmyArmoryBehavior.Data'],['../d9/d01/a00227.html',1,'DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.Data'],['../d0/d27/a00239.html',1,'DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.Data']]],
+  ['dynamictroopmissionlogic_1',['DynamicTroopMissionLogic',['../df/d17/a00231.html',1,'DynamicTroopEquipmentReupload']]]
 ];

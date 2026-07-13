@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['getupgraderequiresitemfromcategorypatch_0',['GetUpgradeRequiresItemFromCategoryPatch',['../d7/df2/a00312.html',1,'DynamicTroopEquipmentReupload::Patches']]],
-  ['global_1',['Global',['../dd/dd7/a00260.html',1,'DynamicTroopEquipmentReupload']]]
+  ['getupgraderequiresitemfromcategorypatch_0',['GetUpgradeRequiresItemFromCategoryPatch',['../df/d91/a00335.html',1,'DynamicTroopEquipmentReupload::Patches']]],
+  ['global_1',['Global',['../dd/d86/a00271.html',1,'DynamicTroopEquipmentReupload']]]
 ];

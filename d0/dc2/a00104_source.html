@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: HorseAndHarness.cs Source File</title>
+<title>动态装备系统: Helper.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -84,70 +84,69 @@ $(function(){ initResizable(false); });
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">HorseAndHarness.cs</div></div>
+  <div class="headertitle"><div class="title">Helper.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d0/dc2/a00104.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>System;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>TaleWorlds.Core;</div>
+<a href="../../d0/dc2/a00104.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>TaleWorlds.Core;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>TaleWorlds.MountAndBlade;</div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a>;</div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html">    6</a></span><span class="keyword">public</span> <span class="keyword">class </span><a class="code hl_function" href="../../db/d12/a00268.html#a4533c49abdc839e348587c2f70ba1d67">HorseAndHarness</a> : IComparable {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../dd/dfe/a00283.html">    6</a></span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../dd/dfe/a00283.html">Helper</a> {</div>
 <div class="foldopen" id="foldopen00007" data-start="{" data-end="}">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a4533c49abdc839e348587c2f70ba1d67">    7</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../db/d12/a00268.html#a4533c49abdc839e348587c2f70ba1d67">HorseAndHarness</a>(EquipmentElement horse, EquipmentElement? harness) {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <a class="code hl_property" href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">Horse</a> = horse;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="keywordflow">if</span> (harness is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> }) <a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a> = harness;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    }</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../dd/dfe/a00283.html#afa972c0043471e924b582d48bbfb0581">    7</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> EquipmentIndex? <a class="code hl_function" href="../../dd/dfe/a00283.html#afa972c0043471e924b582d48bbfb0581">ItemEnumTypeToEquipmentIndex</a>(ItemObject.ItemTypeEnum itemType) {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keywordflow">return</span> itemType <span class="keywordflow">switch</span> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>                   ItemObject.ItemTypeEnum.HeadArmor    =&gt; EquipmentIndex.Head,</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>                   ItemObject.ItemTypeEnum.HandArmor    =&gt; EquipmentIndex.Gloves,</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>                   ItemObject.ItemTypeEnum.BodyArmor    =&gt; EquipmentIndex.Body,</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>                   ItemObject.ItemTypeEnum.LegArmor     =&gt; EquipmentIndex.Leg,</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>                   ItemObject.ItemTypeEnum.Cape         =&gt; EquipmentIndex.Cape,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                   ItemObject.ItemTypeEnum.Horse        =&gt; EquipmentIndex.Horse,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>                   ItemObject.ItemTypeEnum.HorseHarness =&gt; EquipmentIndex.HorseHarness,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                   _                                    =&gt; <span class="keyword">null</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>               };</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
 </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">   12</a></span>    <span class="keyword">public</span> EquipmentElement <a class="code hl_property" href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">Horse</a> { <span class="keyword">get</span>; }</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">   14</a></span>    <span class="keyword">public</span> EquipmentElement? <a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#aa5d48f41455f594cb09b392321905834">   16</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_property" href="../../db/d12/a00268.html#aa5d48f41455f594cb09b392321905834">Tier</a> =&gt; (int)<a class="code hl_property" href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">Horse</a>.Item.Tier + (<span class="keywordtype">int</span>)(<a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a>?.Item?.Tier ?? ItemObject.ItemTiers.Tier1);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a94d93f2fd3d90f4368e6094d730ec9d7">   18</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_property" href="../../db/d12/a00268.html#a94d93f2fd3d90f4368e6094d730ec9d7">Value</a> =&gt; Horse.Item.Value + (<a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a>?.Item?.Value ?? 0);</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93">   20</a></span>    <span class="keyword">public</span> ArmorComponent.ArmorMaterialTypes <a class="code hl_property" href="../../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93">MaterialType</a> =&gt;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a>?.Item?.ArmorComponent?.MaterialType ?? ArmorComponent.ArmorMaterialTypes.None;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a56b1f05b9cffaca91723acb6f7d502f6">   23</a></span>    <span class="keyword">public</span> BasicCultureObject <a class="code hl_property" href="../../db/d12/a00268.html#a56b1f05b9cffaca91723acb6f7d502f6">Culture</a> =&gt; <a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a>?.Item?.Culture ?? <a class="code hl_property" href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">Horse</a>.Item.Culture;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../db/d12/a00268.html#a8641c10b588b028d3a83a56d5ccfd374">   25</a></span>    <span class="keyword">public</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../db/d12/a00268.html#a8641c10b588b028d3a83a56d5ccfd374">CompareTo</a>(<span class="keywordtype">object</span>? obj) {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">if</span> (obj == <span class="keyword">null</span>) <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">if</span> (obj is not <a class="code hl_function" href="../../db/d12/a00268.html#a4533c49abdc839e348587c2f70ba1d67">HorseAndHarness</a> other) <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Object is not a HorseAndHarness&quot;</span>);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="comment">// 规则 1: 没有马甲的排在有马甲的前面</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (<a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a> == <span class="keyword">null</span> &amp;&amp; other.Harness != <span class="keyword">null</span>) <span class="keywordflow">return</span> -1;</div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../dd/dfe/a00283.html#a828cc2c7d651d4c551b981f94b1182ac">   20</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> ItemObject.ItemTypeEnum? <a class="code hl_function" href="../../dd/dfe/a00283.html#a828cc2c7d651d4c551b981f94b1182ac">EquipmentIndexToItemEnumType</a>(EquipmentIndex index) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">return</span> index <span class="keywordflow">switch</span> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                   EquipmentIndex.Head         =&gt; ItemObject.ItemTypeEnum.HeadArmor,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                   EquipmentIndex.Gloves       =&gt; ItemObject.ItemTypeEnum.HandArmor,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                   EquipmentIndex.Body         =&gt; ItemObject.ItemTypeEnum.BodyArmor,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                   EquipmentIndex.Leg          =&gt; ItemObject.ItemTypeEnum.LegArmor,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                   EquipmentIndex.Cape         =&gt; ItemObject.ItemTypeEnum.Cape,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                   EquipmentIndex.Horse        =&gt; ItemObject.ItemTypeEnum.Horse,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                   EquipmentIndex.HorseHarness =&gt; ItemObject.ItemTypeEnum.HorseHarness,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                   _                           =&gt; <span class="keyword">null</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>               };</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">if</span> (<a class="code hl_property" href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">Harness</a> != <span class="keyword">null</span> &amp;&amp; other.Harness == <span class="keyword">null</span>) <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="comment">// 规则 2: Tier 低的排在 Tier 高的前面</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        var tierComparison = <a class="code hl_property" href="../../db/d12/a00268.html#aa5d48f41455f594cb09b392321905834">Tier</a>.CompareTo(other.Tier);</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">if</span> (tierComparison != 0) <span class="keywordflow">return</span> tierComparison;</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="comment">// 规则 3: ArmorMaterialTypes 低的排在 ArmorMaterialTypes 高的前面</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        var materialTypeComparison = <a class="code hl_property" href="../../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93">MaterialType</a>.CompareTo(other.MaterialType);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">if</span> (materialTypeComparison != 0) <span class="keywordflow">return</span> materialTypeComparison;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// 规则 4: Value 低的排在 Value 高的前面</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> <a class="code hl_property" href="../../db/d12/a00268.html#a94d93f2fd3d90f4368e6094d730ec9d7">Value</a>.CompareTo(other.Value);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="}">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="../../dd/dfe/a00283.html#a3f173f65297c06226e8a30576f4f3012">   33</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="../../dd/dfe/a00283.html#a3f173f65297c06226e8a30576f4f3012">GetArmorValueForBodyPart</a>(ArmorComponent armorComponent, BoneBodyPartType bodyPart) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">return</span> bodyPart <span class="keywordflow">switch</span> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                   BoneBodyPartType.Head          =&gt; armorComponent.HeadArmor,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                   BoneBodyPartType.Neck          =&gt; armorComponent.HeadArmor,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                   BoneBodyPartType.Chest         =&gt; armorComponent.BodyArmor,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                   BoneBodyPartType.Abdomen       =&gt; armorComponent.BodyArmor,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                   BoneBodyPartType.ShoulderLeft  =&gt; armorComponent.BodyArmor,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                   BoneBodyPartType.ShoulderRight =&gt; armorComponent.BodyArmor,</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>                   BoneBodyPartType.ArmLeft       =&gt; armorComponent.ArmArmor,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                   BoneBodyPartType.ArmRight      =&gt; armorComponent.ArmArmor,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                   BoneBodyPartType.Legs          =&gt; armorComponent.LegArmor,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                   _                              =&gt; 0</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>               };</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    }</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
 </div>
-<div class="ttc" id="aa00113_html"><div class="ttname"><a href="../../d3/d00/a00113.html">DynamicTroopEquipmentReupload</a></div><div class="ttdef"><b>Definition</b> <a href="../../d6/d5b/a00026_source.html#l00007">ArmorSelector.cs:7</a></div></div>
-<div class="ttc" id="aa00268_html_a4533c49abdc839e348587c2f70ba1d67"><div class="ttname"><a href="../../db/d12/a00268.html#a4533c49abdc839e348587c2f70ba1d67">DynamicTroopEquipmentReupload.HorseAndHarness.HorseAndHarness</a></div><div class="ttdeci">HorseAndHarness(EquipmentElement horse, EquipmentElement? harness)</div><div class="ttdef"><b>Definition</b> <a href="#l00007">HorseAndHarness.cs:7</a></div></div>
-<div class="ttc" id="aa00268_html_a56b1f05b9cffaca91723acb6f7d502f6"><div class="ttname"><a href="../../db/d12/a00268.html#a56b1f05b9cffaca91723acb6f7d502f6">DynamicTroopEquipmentReupload.HorseAndHarness.Culture</a></div><div class="ttdeci">BasicCultureObject Culture</div><div class="ttdef"><b>Definition</b> <a href="#l00023">HorseAndHarness.cs:23</a></div></div>
-<div class="ttc" id="aa00268_html_a7885ceaa4393139b69bfa4c98fac9d34"><div class="ttname"><a href="../../db/d12/a00268.html#a7885ceaa4393139b69bfa4c98fac9d34">DynamicTroopEquipmentReupload.HorseAndHarness.Horse</a></div><div class="ttdeci">EquipmentElement Horse</div><div class="ttdef"><b>Definition</b> <a href="#l00012">HorseAndHarness.cs:12</a></div></div>
-<div class="ttc" id="aa00268_html_a8641c10b588b028d3a83a56d5ccfd374"><div class="ttname"><a href="../../db/d12/a00268.html#a8641c10b588b028d3a83a56d5ccfd374">DynamicTroopEquipmentReupload.HorseAndHarness.CompareTo</a></div><div class="ttdeci">int CompareTo(object? obj)</div><div class="ttdef"><b>Definition</b> <a href="#l00025">HorseAndHarness.cs:25</a></div></div>
-<div class="ttc" id="aa00268_html_a906e1bc9e2c9d354b6fcf8774e17bb93"><div class="ttname"><a href="../../db/d12/a00268.html#a906e1bc9e2c9d354b6fcf8774e17bb93">DynamicTroopEquipmentReupload.HorseAndHarness.MaterialType</a></div><div class="ttdeci">ArmorComponent.ArmorMaterialTypes MaterialType</div><div class="ttdef"><b>Definition</b> <a href="#l00020">HorseAndHarness.cs:20</a></div></div>
-<div class="ttc" id="aa00268_html_a94d93f2fd3d90f4368e6094d730ec9d7"><div class="ttname"><a href="../../db/d12/a00268.html#a94d93f2fd3d90f4368e6094d730ec9d7">DynamicTroopEquipmentReupload.HorseAndHarness.Value</a></div><div class="ttdeci">int Value</div><div class="ttdef"><b>Definition</b> <a href="#l00018">HorseAndHarness.cs:18</a></div></div>
-<div class="ttc" id="aa00268_html_aa5d48f41455f594cb09b392321905834"><div class="ttname"><a href="../../db/d12/a00268.html#aa5d48f41455f594cb09b392321905834">DynamicTroopEquipmentReupload.HorseAndHarness.Tier</a></div><div class="ttdeci">int Tier</div><div class="ttdef"><b>Definition</b> <a href="#l00016">HorseAndHarness.cs:16</a></div></div>
-<div class="ttc" id="aa00268_html_ae3673740939164020270f08d5df80f3e"><div class="ttname"><a href="../../db/d12/a00268.html#ae3673740939164020270f08d5df80f3e">DynamicTroopEquipmentReupload.HorseAndHarness.Harness</a></div><div class="ttdeci">EquipmentElement? Harness</div><div class="ttdef"><b>Definition</b> <a href="#l00014">HorseAndHarness.cs:14</a></div></div>
+<div class="ttc" id="aa00116_html"><div class="ttname"><a href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></div><div class="ttdef"><b>Definition</b> <a href="../../d6/d5b/a00026_source.html#l00007">ArmorSelector.cs:7</a></div></div>
+<div class="ttc" id="aa00283_html"><div class="ttname"><a href="../../dd/dfe/a00283.html">DynamicTroopEquipmentReupload.Helper</a></div><div class="ttdef"><b>Definition</b> <a href="#l00006">Helper.cs:6</a></div></div>
+<div class="ttc" id="aa00283_html_a3f173f65297c06226e8a30576f4f3012"><div class="ttname"><a href="../../dd/dfe/a00283.html#a3f173f65297c06226e8a30576f4f3012">DynamicTroopEquipmentReupload.Helper.GetArmorValueForBodyPart</a></div><div class="ttdeci">static int GetArmorValueForBodyPart(ArmorComponent armorComponent, BoneBodyPartType bodyPart)</div><div class="ttdef"><b>Definition</b> <a href="#l00033">Helper.cs:33</a></div></div>
+<div class="ttc" id="aa00283_html_a828cc2c7d651d4c551b981f94b1182ac"><div class="ttname"><a href="../../dd/dfe/a00283.html#a828cc2c7d651d4c551b981f94b1182ac">DynamicTroopEquipmentReupload.Helper.EquipmentIndexToItemEnumType</a></div><div class="ttdeci">static ItemObject.? ItemTypeEnum EquipmentIndexToItemEnumType(EquipmentIndex index)</div><div class="ttdef"><b>Definition</b> <a href="#l00020">Helper.cs:20</a></div></div>
+<div class="ttc" id="aa00283_html_afa972c0043471e924b582d48bbfb0581"><div class="ttname"><a href="../../dd/dfe/a00283.html#afa972c0043471e924b582d48bbfb0581">DynamicTroopEquipmentReupload.Helper.ItemEnumTypeToEquipmentIndex</a></div><div class="ttdeci">static ? EquipmentIndex ItemEnumTypeToEquipmentIndex(ItemObject.ItemTypeEnum itemType)</div><div class="ttdef"><b>Definition</b> <a href="#l00007">Helper.cs:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
