@@ -176,162 +176,163 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;PERCENT&quot;</span>, readiness.Percentage);</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;FILLED&quot;</span>, readiness.EquippedSlots);</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;EXPECTED&quot;</span>, readiness.ExpectedSlots);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <a class="code hl_property" href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">ArmoryReadinessHint</a> = <span class="keyword">new</span> HintViewModel(hintText);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
 </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">   83</a></span>    <span class="keyword">private</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">MainPartyTroopCompositionChanged</a>(MobileParty mainParty) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                currentTroopCounts[character] = rosterElement.Number;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        }</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Count) {</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            var compositionChanged = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                    compositionChanged = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                }</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            }</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Clear();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Add(troopCount.Key, troopCount.Value);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">   84</a></span>    <span class="keyword">private</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">MainPartyTroopCompositionChanged</a>(MobileParty mainParty) {</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                currentTroopCounts[character] = rosterElement.Number;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Count) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            var compositionChanged = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                <span class="keywordflow">if</span> (!<a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                    compositionChanged = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Clear();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">_lastMainPartyTroopCounts</a>.Add(troopCount.Key, troopCount.Value);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
 </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">  111</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">CanOpenArmory</a>(MapBarVM mapBar, MobileParty? mainParty) {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>               mapBar.IsEnabled &amp;&amp;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">  112</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">CanOpenArmory</a>(MapBarVM mapBar, MobileParty? mainParty) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>               mapBar.IsEnabled &amp;&amp;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
 </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    [DataSourceMethod]</div>
-<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">  123</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">ExecuteOpenArmyArmory</a>() {</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        var mapBar = ViewModel;</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; <a class="code hl_function" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">CanOpenArmory</a>(mapBar, mainParty))</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            <a class="code hl_class" href="../../d6/daa/a00187.html">ArmyArmoryBehavior</a>.<a class="code hl_function" href="../../d6/daa/a00187.html#ac26ec40663c03170097989b927a5504f">OpenArmoryScreen</a>();</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    [DataSourceMethod]</div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="}">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">  124</a></span>    <span class="keyword">public</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">ExecuteOpenArmyArmory</a>() {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        var mapBar = ViewModel;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; <a class="code hl_function" href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">CanOpenArmory</a>(mapBar, mainParty))</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <a class="code hl_class" href="../../d6/daa/a00187.html">ArmyArmoryBehavior</a>.<a class="code hl_function" href="../../d6/daa/a00187.html#ac26ec40663c03170097989b927a5504f">OpenArmoryScreen</a>();</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
 </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    [DataSourceProperty]</div>
-<div class="foldopen" id="foldopen00131" data-start="{" data-end="};">
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">  131</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_property" href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">IsArmoryReadinessVisible</a> {</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a>;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a> == value)</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a> = value;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        }</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    [DataSourceProperty]</div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="};">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">  132</a></span>    <span class="keyword">public</span> <span class="keywordtype">bool</span> <a class="code hl_property" href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">IsArmoryReadinessVisible</a> {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a>;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a> == value)</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">_isArmoryReadinessVisible</a> = value;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        }</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
 </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    [DataSourceProperty]</div>
-<div class="foldopen" id="foldopen00143" data-start="{" data-end="};">
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">  143</a></span>    <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_property" href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">ArmoryReadinessFillHeight</a> {</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a>;</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a>.Equals(value))</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a> = value;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        }</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    [DataSourceProperty]</div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="};">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">  144</a></span>    <span class="keyword">public</span> <span class="keywordtype">float</span> <a class="code hl_property" href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">ArmoryReadinessFillHeight</a> {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a>;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a>.Equals(value))</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">_armoryReadinessFillHeight</a> = value;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    }</div>
 </div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    [DataSourceProperty]</div>
-<div class="foldopen" id="foldopen00155" data-start="{" data-end="};">
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">  155</a></span>    <span class="keyword">public</span> HintViewModel <a class="code hl_property" href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">ArmoryReadinessHint</a> {</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a>;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="keywordflow">if</span> (ReferenceEquals(<a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a>, value))</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a> = value;</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        }</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    [DataSourceProperty]</div>
+<div class="foldopen" id="foldopen00156" data-start="{" data-end="};">
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">  156</a></span>    <span class="keyword">public</span> HintViewModel <a class="code hl_property" href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">ArmoryReadinessHint</a> {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keyword">get</span> =&gt; <a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a>;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            <span class="keywordflow">if</span> (ReferenceEquals(<a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a>, value))</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            <a class="code hl_variable" href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">_armoryReadinessHint</a> = value;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        }</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    }</div>
 </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>}</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>}</div>
 </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>[PrefabExtension(<span class="stringliteral">&quot;MapBar&quot;</span>, <span class="stringliteral">&quot;descendant::ListPanel[@Id=&#39;MapBar&#39;]&quot;</span>)]</div>
-<div class="foldopen" id="foldopen00168" data-start="{" data-end="};">
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html">  168</a></span><span class="keyword">internal</span> <span class="keyword">sealed</span> <span class="keyword">class </span><a class="code hl_function" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">MapArmoryReadinessPrefab</a> : PrefabExtensionInsertPatch {</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">  169</a></span>    <span class="keyword">private</span> readonly XmlDocument <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
-<div class="foldopen" id="foldopen00171" data-start="{" data-end="}">
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">  171</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">MapArmoryReadinessPrefab</a>() {</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a> = <span class="keyword">new</span> XmlDocument();</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>.LoadXml(<span class="stringliteral">@&quot;</span></div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="stringliteral">&lt;ButtonWidget WidthSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="stringliteral">              HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="stringliteral">              SuggestedWidth=&#39;84&#39;</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="stringliteral">              SuggestedHeight=&#39;140&#39;</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="stringliteral">              HorizontalAlignment=&#39;Left&#39;</span></div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="stringliteral">              VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="stringliteral">              PositionXOffset=&#39;8&#39;</span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="stringliteral">              PositionYOffset=&#39;-72&#39;</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="stringliteral">              IsVisible=&#39;@IsArmoryReadinessVisible&#39;</span></div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="stringliteral">              UpdateChildrenStates=&#39;true&#39;</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="stringliteral">              DoNotPassEventsToChildren=&#39;true&#39;</span></div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="stringliteral">              Command.Click=&#39;ExecuteOpenArmyArmory&#39;&gt;</span></div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="stringliteral">  &lt;Children&gt;</span></div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="stringliteral">            HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="stringliteral">            Sprite=&#39;dt_readiness_bg&#39;</span></div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="stringliteral">            HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="stringliteral">            SuggestedHeight=&#39;@ArmoryReadinessFillHeight&#39;</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="stringliteral">            VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="stringliteral">            ClipContents=&#39;true&#39;</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39;&gt;</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="stringliteral">      &lt;Children&gt;</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="stringliteral">        &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="stringliteral">                HeightSizePolicy=&#39;Fixed&#39;</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="stringliteral">                SuggestedHeight=&#39;140&#39;</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="stringliteral">                VerticalAlignment=&#39;Bottom&#39;</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="stringliteral">                Sprite=&#39;dt_readiness_fill&#39;</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="stringliteral">                DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">      &lt;/Children&gt;</span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">    &lt;/Widget&gt;</span></div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">    &lt;HintWidget DataSource=&#39;{ArmoryReadinessHint}&#39;</span></div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">                WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">                HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">                Command.HoverBegin=&#39;ExecuteBeginHint&#39;</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">                Command.HoverEnd=&#39;ExecuteEndHint&#39; /&gt;</span></div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="stringliteral">  &lt;/Children&gt;</span></div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="stringliteral">&lt;/ButtonWidget&gt;&quot;</span>);</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    }</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>[PrefabExtension(<span class="stringliteral">&quot;MapBar&quot;</span>, <span class="stringliteral">&quot;descendant::ListPanel[@Id=&#39;MapBar&#39;]&quot;</span>)]</div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="};">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html">  169</a></span><span class="keyword">internal</span> <span class="keyword">sealed</span> <span class="keyword">class </span><a class="code hl_function" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">MapArmoryReadinessPrefab</a> : PrefabExtensionInsertPatch {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">  170</a></span>    <span class="keyword">private</span> readonly XmlDocument <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="foldopen" id="foldopen00172" data-start="{" data-end="}">
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">  172</a></span>    <span class="keyword">public</span> <a class="code hl_function" href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">MapArmoryReadinessPrefab</a>() {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a> = <span class="keyword">new</span> XmlDocument();</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>.LoadXml(<span class="stringliteral">@&quot;</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="stringliteral">&lt;ButtonWidget WidthSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="stringliteral">              HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="stringliteral">              SuggestedWidth=&#39;84&#39;</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="stringliteral">              SuggestedHeight=&#39;140&#39;</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="stringliteral">              HorizontalAlignment=&#39;Left&#39;</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="stringliteral">              VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="stringliteral">              PositionXOffset=&#39;8&#39;</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="stringliteral">              PositionYOffset=&#39;-72&#39;</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="stringliteral">              IsVisible=&#39;@IsArmoryReadinessVisible&#39;</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="stringliteral">              UpdateChildrenStates=&#39;true&#39;</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="stringliteral">              DoNotPassEventsToChildren=&#39;true&#39;</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="stringliteral">              Command.Click=&#39;ExecuteOpenArmyArmory&#39;&gt;</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="stringliteral">  &lt;Children&gt;</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="stringliteral">            HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="stringliteral">            Sprite=&#39;dt_readiness_bg&#39;</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="stringliteral">    &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="stringliteral">            HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="stringliteral">            SuggestedHeight=&#39;@ArmoryReadinessFillHeight&#39;</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="stringliteral">            VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="stringliteral">            ClipContents=&#39;true&#39;</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="stringliteral">            DoNotAcceptEvents=&#39;true&#39;&gt;</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="stringliteral">      &lt;Children&gt;</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="stringliteral">        &lt;Widget WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="stringliteral">                HeightSizePolicy=&#39;Fixed&#39;</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="stringliteral">                SuggestedHeight=&#39;140&#39;</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="stringliteral">                VerticalAlignment=&#39;Bottom&#39;</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="stringliteral">                Sprite=&#39;dt_readiness_fill&#39;</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="stringliteral">                DoNotAcceptEvents=&#39;true&#39; /&gt;</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="stringliteral">      &lt;/Children&gt;</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="stringliteral">    &lt;/Widget&gt;</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="stringliteral">    &lt;HintWidget DataSource=&#39;{ArmoryReadinessHint}&#39;</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="stringliteral">                WidthSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="stringliteral">                HeightSizePolicy=&#39;StretchToParent&#39;</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="stringliteral">                Command.HoverBegin=&#39;ExecuteBeginHint&#39;</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="stringliteral">                Command.HoverEnd=&#39;ExecuteEndHint&#39; /&gt;</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="stringliteral">  &lt;/Children&gt;</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="stringliteral">&lt;/ButtonWidget&gt;&quot;</span>);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    }</div>
 </div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">  215</a></span>    <span class="keyword">public</span> <span class="keyword">override</span> InsertType <a class="code hl_property" href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">Type</a> =&gt; InsertType.Prepend;</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    [PrefabExtensionXmlDocument]</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a02dc187c687483d3573aa6dd13155fb2">  218</a></span>    <span class="keyword">public</span> XmlDocument <a class="code hl_function" href="../../d2/d82/a00279.html#a02dc187c687483d3573aa6dd13155fb2">GetPrefabExtension</a>() =&gt; <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>;</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>}</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">  216</a></span>    <span class="keyword">public</span> <span class="keyword">override</span> InsertType <a class="code hl_property" href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">Type</a> =&gt; InsertType.Prepend;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    [PrefabExtensionXmlDocument]</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a02dc187c687483d3573aa6dd13155fb2">  219</a></span>    <span class="keyword">public</span> XmlDocument <a class="code hl_function" href="../../d2/d82/a00279.html#a02dc187c687483d3573aa6dd13155fb2">GetPrefabExtension</a>() =&gt; <a class="code hl_variable" href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">_document</a>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>}</div>
 </div>
 </div>
 <div class="ttc" id="aa00119_html"><div class="ttname"><a href="../../df/d6a/a00119.html">DynamicTroopEquipmentReupload.GUIExtensions</a></div><div class="ttdef"><b>Definition</b> <a href="#l00015">MapArmoryReadiness.cs:15</a></div></div>
@@ -340,28 +341,28 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aa00187_html"><div class="ttname"><a href="../../d6/daa/a00187.html">DynamicTroopEquipmentReupload.ArmyArmoryBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../db/dab/a00089_source.html#l00019">ArmyArmoryBehavior.cs:19</a></div></div>
 <div class="ttc" id="aa00187_html_ac26ec40663c03170097989b927a5504f"><div class="ttname"><a href="../../d6/daa/a00187.html#ac26ec40663c03170097989b927a5504f">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen</a></div><div class="ttdeci">static void OpenArmoryScreen()</div><div class="ttdef"><b>Definition</b> <a href="../../db/dab/a00089_source.html#l00178">ArmyArmoryBehavior.cs:178</a></div></div>
 <div class="ttc" id="aa00275_html_a0740138b35939a8a4b171555eefdd27f"><div class="ttname"><a href="../../d3/d5e/a00275.html#a0740138b35939a8a4b171555eefdd27f">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._lastArmoryVersion</a></div><div class="ttdeci">int _lastArmoryVersion</div><div class="ttdef"><b>Definition</b> <a href="#l00023">MapArmoryReadiness.cs:23</a></div></div>
-<div class="ttc" id="aa00275_html_a0f88c7784ea96eb4740573d92a97b988"><div class="ttname"><a href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ArmoryReadinessHint</a></div><div class="ttdeci">HintViewModel ArmoryReadinessHint</div><div class="ttdef"><b>Definition</b> <a href="#l00155">MapArmoryReadiness.cs:155</a></div></div>
+<div class="ttc" id="aa00275_html_a0f88c7784ea96eb4740573d92a97b988"><div class="ttname"><a href="../../d3/d5e/a00275.html#a0f88c7784ea96eb4740573d92a97b988">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ArmoryReadinessHint</a></div><div class="ttdeci">HintViewModel ArmoryReadinessHint</div><div class="ttdef"><b>Definition</b> <a href="#l00156">MapArmoryReadiness.cs:156</a></div></div>
 <div class="ttc" id="aa00275_html_a13a7143947924e7cd71dd1069a3f71c1"><div class="ttname"><a href="../../d3/d5e/a00275.html#a13a7143947924e7cd71dd1069a3f71c1">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._lastPreferDefaultEquipmentThenClosest</a></div><div class="ttdeci">bool _lastPreferDefaultEquipmentThenClosest</div><div class="ttdef"><b>Definition</b> <a href="#l00026">MapArmoryReadiness.cs:26</a></div></div>
 <div class="ttc" id="aa00275_html_a14bba5ea94d36e07dd59f5632b61c127"><div class="ttname"><a href="../../d3/d5e/a00275.html#a14bba5ea94d36e07dd59f5632b61c127">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._armoryReadinessFillHeight</a></div><div class="ttdeci">float _armoryReadinessFillHeight</div><div class="ttdef"><b>Definition</b> <a href="#l00029">MapArmoryReadiness.cs:29</a></div></div>
 <div class="ttc" id="aa00275_html_a19394c8047daf66b5d02b0bad3b6ad80"><div class="ttname"><a href="../../d3/d5e/a00275.html#a19394c8047daf66b5d02b0bad3b6ad80">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.OnRefresh</a></div><div class="ttdeci">override void OnRefresh()</div><div class="ttdef"><b>Definition</b> <a href="#l00036">MapArmoryReadiness.cs:36</a></div></div>
-<div class="ttc" id="aa00275_html_a38d5782eabef88716f9fc1fc8181f06c"><div class="ttname"><a href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ArmoryReadinessFillHeight</a></div><div class="ttdeci">float ArmoryReadinessFillHeight</div><div class="ttdef"><b>Definition</b> <a href="#l00143">MapArmoryReadiness.cs:143</a></div></div>
+<div class="ttc" id="aa00275_html_a38d5782eabef88716f9fc1fc8181f06c"><div class="ttname"><a href="../../d3/d5e/a00275.html#a38d5782eabef88716f9fc1fc8181f06c">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ArmoryReadinessFillHeight</a></div><div class="ttdeci">float ArmoryReadinessFillHeight</div><div class="ttdef"><b>Definition</b> <a href="#l00144">MapArmoryReadiness.cs:144</a></div></div>
 <div class="ttc" id="aa00275_html_a4bf0c8f2431c3f512a461eae9566ae62"><div class="ttname"><a href="../../d3/d5e/a00275.html#a4bf0c8f2431c3f512a461eae9566ae62">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._hasReadinessContextSnapshot</a></div><div class="ttdeci">bool _hasReadinessContextSnapshot</div><div class="ttdef"><b>Definition</b> <a href="#l00025">MapArmoryReadiness.cs:25</a></div></div>
 <div class="ttc" id="aa00275_html_a6e55391bc297b9255a7ce394f01f0f65"><div class="ttname"><a href="../../d3/d5e/a00275.html#a6e55391bc297b9255a7ce394f01f0f65">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.MapArmoryReadinessMixin</a></div><div class="ttdeci">MapArmoryReadinessMixin(MapBarVM mapBar)</div><div class="ttdef"><b>Definition</b> <a href="#l00032">MapArmoryReadiness.cs:32</a></div></div>
 <div class="ttc" id="aa00275_html_a707da87515512624fec04f83d0e8350e"><div class="ttname"><a href="../../d3/d5e/a00275.html#a707da87515512624fec04f83d0e8350e">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._lastMemberRosterVersion</a></div><div class="ttdeci">int _lastMemberRosterVersion</div><div class="ttdef"><b>Definition</b> <a href="#l00024">MapArmoryReadiness.cs:24</a></div></div>
-<div class="ttc" id="aa00275_html_a7a670486c8c0c3c5e7276582ca4866ff"><div class="ttname"><a href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.MainPartyTroopCompositionChanged</a></div><div class="ttdeci">bool MainPartyTroopCompositionChanged(MobileParty mainParty)</div><div class="ttdef"><b>Definition</b> <a href="#l00083">MapArmoryReadiness.cs:83</a></div></div>
+<div class="ttc" id="aa00275_html_a7a670486c8c0c3c5e7276582ca4866ff"><div class="ttname"><a href="../../d3/d5e/a00275.html#a7a670486c8c0c3c5e7276582ca4866ff">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.MainPartyTroopCompositionChanged</a></div><div class="ttdeci">bool MainPartyTroopCompositionChanged(MobileParty mainParty)</div><div class="ttdef"><b>Definition</b> <a href="#l00084">MapArmoryReadiness.cs:84</a></div></div>
 <div class="ttc" id="aa00275_html_a7c1298847dfbb269028d1f90878360ee"><div class="ttname"><a href="../../d3/d5e/a00275.html#a7c1298847dfbb269028d1f90878360ee">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._lastMainPartyAtSea</a></div><div class="ttdeci">bool _lastMainPartyAtSea</div><div class="ttdef"><b>Definition</b> <a href="#l00027">MapArmoryReadiness.cs:27</a></div></div>
-<div class="ttc" id="aa00275_html_a8155182d3d23d64bb5b41b64bf87e6ea"><div class="ttname"><a href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.IsArmoryReadinessVisible</a></div><div class="ttdeci">bool IsArmoryReadinessVisible</div><div class="ttdef"><b>Definition</b> <a href="#l00131">MapArmoryReadiness.cs:131</a></div></div>
+<div class="ttc" id="aa00275_html_a8155182d3d23d64bb5b41b64bf87e6ea"><div class="ttname"><a href="../../d3/d5e/a00275.html#a8155182d3d23d64bb5b41b64bf87e6ea">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.IsArmoryReadinessVisible</a></div><div class="ttdeci">bool IsArmoryReadinessVisible</div><div class="ttdef"><b>Definition</b> <a href="#l00132">MapArmoryReadiness.cs:132</a></div></div>
 <div class="ttc" id="aa00275_html_a87c8384282a344eea7d5e2fccc3377a4"><div class="ttname"><a href="../../d3/d5e/a00275.html#a87c8384282a344eea7d5e2fccc3377a4">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._trackedMainParty</a></div><div class="ttdeci">MobileParty? _trackedMainParty</div><div class="ttdef"><b>Definition</b> <a href="#l00022">MapArmoryReadiness.cs:22</a></div></div>
-<div class="ttc" id="aa00275_html_ab0917e99733d6c96a8fea07827d4268e"><div class="ttname"><a href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ExecuteOpenArmyArmory</a></div><div class="ttdeci">void ExecuteOpenArmyArmory()</div><div class="ttdef"><b>Definition</b> <a href="#l00123">MapArmoryReadiness.cs:123</a></div></div>
-<div class="ttc" id="aa00275_html_ab6ced41be8f607ee478547ffcbb67890"><div class="ttname"><a href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.CanOpenArmory</a></div><div class="ttdeci">static bool CanOpenArmory(MapBarVM mapBar, MobileParty? mainParty)</div><div class="ttdef"><b>Definition</b> <a href="#l00111">MapArmoryReadiness.cs:111</a></div></div>
+<div class="ttc" id="aa00275_html_ab0917e99733d6c96a8fea07827d4268e"><div class="ttname"><a href="../../d3/d5e/a00275.html#ab0917e99733d6c96a8fea07827d4268e">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.ExecuteOpenArmyArmory</a></div><div class="ttdeci">void ExecuteOpenArmyArmory()</div><div class="ttdef"><b>Definition</b> <a href="#l00124">MapArmoryReadiness.cs:124</a></div></div>
+<div class="ttc" id="aa00275_html_ab6ced41be8f607ee478547ffcbb67890"><div class="ttname"><a href="../../d3/d5e/a00275.html#ab6ced41be8f607ee478547ffcbb67890">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.CanOpenArmory</a></div><div class="ttdeci">static bool CanOpenArmory(MapBarVM mapBar, MobileParty? mainParty)</div><div class="ttdef"><b>Definition</b> <a href="#l00112">MapArmoryReadiness.cs:112</a></div></div>
 <div class="ttc" id="aa00275_html_abd7a5ab16d5da2045c907201dd1bb7e3"><div class="ttname"><a href="../../d3/d5e/a00275.html#abd7a5ab16d5da2045c907201dd1bb7e3">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._lastMainPartyTroopCounts</a></div><div class="ttdeci">readonly Dictionary&lt; CharacterObject, int &gt; _lastMainPartyTroopCounts</div><div class="ttdef"><b>Definition</b> <a href="#l00021">MapArmoryReadiness.cs:21</a></div></div>
 <div class="ttc" id="aa00275_html_acb0d3078242ca1726f38f8628519f268"><div class="ttname"><a href="../../d3/d5e/a00275.html#acb0d3078242ca1726f38f8628519f268">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._armoryReadinessHint</a></div><div class="ttdeci">HintViewModel _armoryReadinessHint</div><div class="ttdef"><b>Definition</b> <a href="#l00030">MapArmoryReadiness.cs:30</a></div></div>
 <div class="ttc" id="aa00275_html_ae444f02773c471bc0aefc782d0ae719d"><div class="ttname"><a href="../../d3/d5e/a00275.html#ae444f02773c471bc0aefc782d0ae719d">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.INDICATOR_HEIGHT</a></div><div class="ttdeci">const float INDICATOR_HEIGHT</div><div class="ttdef"><b>Definition</b> <a href="#l00019">MapArmoryReadiness.cs:19</a></div></div>
 <div class="ttc" id="aa00275_html_ae9b96e957d92f5bc5add6a998b39d0b5"><div class="ttname"><a href="../../d3/d5e/a00275.html#ae9b96e957d92f5bc5add6a998b39d0b5">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin._isArmoryReadinessVisible</a></div><div class="ttdeci">bool _isArmoryReadinessVisible</div><div class="ttdef"><b>Definition</b> <a href="#l00028">MapArmoryReadiness.cs:28</a></div></div>
 <div class="ttc" id="aa00279_html_a02dc187c687483d3573aa6dd13155fb2"><div class="ttname"><a href="../../d2/d82/a00279.html#a02dc187c687483d3573aa6dd13155fb2">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab.GetPrefabExtension</a></div><div class="ttdeci">XmlDocument GetPrefabExtension()</div></div>
-<div class="ttc" id="aa00279_html_a232e1bb53f1e89925b51e40f8f3b12db"><div class="ttname"><a href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab._document</a></div><div class="ttdeci">readonly XmlDocument _document</div><div class="ttdef"><b>Definition</b> <a href="#l00169">MapArmoryReadiness.cs:169</a></div></div>
-<div class="ttc" id="aa00279_html_a30c302e7e531548214339e671f037cfd"><div class="ttname"><a href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab.MapArmoryReadinessPrefab</a></div><div class="ttdeci">MapArmoryReadinessPrefab()</div><div class="ttdef"><b>Definition</b> <a href="#l00171">MapArmoryReadiness.cs:171</a></div></div>
-<div class="ttc" id="aa00279_html_a76f15e3fe5969c79330c18401a93bd4c"><div class="ttname"><a href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab.Type</a></div><div class="ttdeci">override InsertType Type</div><div class="ttdef"><b>Definition</b> <a href="#l00215">MapArmoryReadiness.cs:215</a></div></div>
+<div class="ttc" id="aa00279_html_a232e1bb53f1e89925b51e40f8f3b12db"><div class="ttname"><a href="../../d2/d82/a00279.html#a232e1bb53f1e89925b51e40f8f3b12db">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab._document</a></div><div class="ttdeci">readonly XmlDocument _document</div><div class="ttdef"><b>Definition</b> <a href="#l00170">MapArmoryReadiness.cs:170</a></div></div>
+<div class="ttc" id="aa00279_html_a30c302e7e531548214339e671f037cfd"><div class="ttname"><a href="../../d2/d82/a00279.html#a30c302e7e531548214339e671f037cfd">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab.MapArmoryReadinessPrefab</a></div><div class="ttdeci">MapArmoryReadinessPrefab()</div><div class="ttdef"><b>Definition</b> <a href="#l00172">MapArmoryReadiness.cs:172</a></div></div>
+<div class="ttc" id="aa00279_html_a76f15e3fe5969c79330c18401a93bd4c"><div class="ttname"><a href="../../d2/d82/a00279.html#a76f15e3fe5969c79330c18401a93bd4c">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessPrefab.Type</a></div><div class="ttdeci">override InsertType Type</div><div class="ttdef"><b>Definition</b> <a href="#l00216">MapArmoryReadiness.cs:216</a></div></div>
 <div class="ttc" id="aa00307_html"><div class="ttname"><a href="../../d0/da2/a00307.html">DynamicTroopEquipmentReupload.ModSettings</a></div><div class="ttdef"><b>Definition</b> <a href="../../df/d03/a00062_source.html#l00012">ModSettings.cs:12</a></div></div>
 <div class="ttc" id="aa00307_html_aa82eddd7d3e620d48883e13b51fd107c"><div class="ttname"><a href="../../d0/da2/a00307.html#aa82eddd7d3e620d48883e13b51fd107c">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a></div><div class="ttdeci">bool PreferDefaultEquipmentThenClosest</div><div class="ttdef"><b>Definition</b> <a href="../../df/d03/a00062_source.html#l00067">ModSettings.cs:67</a></div></div>
 <div class="ttc" id="aa00315_html"><div class="ttname"><a href="../../d4/d6f/a00315.html">DynamicTroopEquipmentReupload.PartyEquipmentDistributor</a></div><div class="ttdef"><b>Definition</b> <a href="../../d7/d46/a00002_source.html#l00020">PartyEquipmentDistributor.cs:20</a></div></div>

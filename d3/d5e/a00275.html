@@ -218,19 +218,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00111">111</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                                               {</div>
-<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  113</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  114</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
-<div class="line"><span class="lineno">  115</span>               mapBar.IsEnabled &amp;&amp;</div>
-<div class="line"><span class="lineno">  116</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
-<div class="line"><span class="lineno">  117</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
-<div class="line"><span class="lineno">  118</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  119</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  120</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00112">112</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  112</span>                                                                               {</div>
+<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  114</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  115</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  116</span>               mapBar.IsEnabled &amp;&amp;</div>
+<div class="line"><span class="lineno">  117</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  118</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
+<div class="line"><span class="lineno">  119</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  120</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  121</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00123">ExecuteOpenArmyArmory()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00124">ExecuteOpenArmyArmory()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -249,15 +249,15 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00123">123</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  123</span>                                        {</div>
-<div class="line"><span class="lineno">  124</span>        var mapBar = ViewModel;</div>
-<div class="line"><span class="lineno">  125</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  126</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; CanOpenArmory(mapBar, mainParty))</div>
-<div class="line"><span class="lineno">  127</span>            ArmyArmoryBehavior.OpenArmoryScreen();</div>
-<div class="line"><span class="lineno">  128</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00124">124</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  124</span>                                        {</div>
+<div class="line"><span class="lineno">  125</span>        var mapBar = ViewModel;</div>
+<div class="line"><span class="lineno">  126</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  127</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; CanOpenArmory(mapBar, mainParty))</div>
+<div class="line"><span class="lineno">  128</span>            ArmyArmoryBehavior.OpenArmoryScreen();</div>
+<div class="line"><span class="lineno">  129</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00111">CanOpenArmory()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00112">CanOpenArmory()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>.</p>
 
 </div>
 </div>
@@ -284,34 +284,34 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00083">83</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   83</span>                                                                         {</div>
-<div class="line"><span class="lineno">   84</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
-<div class="line"><span class="lineno">   85</span> </div>
-<div class="line"><span class="lineno">   86</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
-<div class="line"><span class="lineno">   87</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
-<div class="line"><span class="lineno">   88</span>                currentTroopCounts[character] = rosterElement.Number;</div>
-<div class="line"><span class="lineno">   89</span>        }</div>
-<div class="line"><span class="lineno">   90</span> </div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == _lastMainPartyTroopCounts.Count) {</div>
-<div class="line"><span class="lineno">   92</span>            var compositionChanged = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   93</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
-<div class="line"><span class="lineno">   94</span>                <span class="keywordflow">if</span> (!_lastMainPartyTroopCounts.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
-<div class="line"><span class="lineno">   95</span>                    compositionChanged = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   96</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   97</span>                }</div>
-<div class="line"><span class="lineno">   98</span>            }</div>
-<div class="line"><span class="lineno">   99</span> </div>
-<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
-<div class="line"><span class="lineno">  101</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  102</span>        }</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>        _lastMainPartyTroopCounts.Clear();</div>
-<div class="line"><span class="lineno">  105</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
-<div class="line"><span class="lineno">  106</span>            _lastMainPartyTroopCounts.Add(troopCount.Key, troopCount.Value);</div>
-<div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  109</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00084">84</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   84</span>                                                                         {</div>
+<div class="line"><span class="lineno">   85</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
+<div class="line"><span class="lineno">   86</span> </div>
+<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
+<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
+<div class="line"><span class="lineno">   89</span>                currentTroopCounts[character] = rosterElement.Number;</div>
+<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == _lastMainPartyTroopCounts.Count) {</div>
+<div class="line"><span class="lineno">   93</span>            var compositionChanged = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
+<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">if</span> (!_lastMainPartyTroopCounts.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
+<div class="line"><span class="lineno">   96</span>                    compositionChanged = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   97</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">   98</span>                }</div>
+<div class="line"><span class="lineno">   99</span>            }</div>
+<div class="line"><span class="lineno">  100</span> </div>
+<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
+<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  103</span>        }</div>
+<div class="line"><span class="lineno">  104</span> </div>
+<div class="line"><span class="lineno">  105</span>        _lastMainPartyTroopCounts.Clear();</div>
+<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
+<div class="line"><span class="lineno">  107</span>            _lastMainPartyTroopCounts.Add(troopCount.Key, troopCount.Value);</div>
+<div class="line"><span class="lineno">  108</span> </div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  110</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>.</p>
 
@@ -380,9 +380,10 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   78</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;PERCENT&quot;</span>, readiness.Percentage);</div>
 <div class="line"><span class="lineno">   79</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;FILLED&quot;</span>, readiness.EquippedSlots);</div>
 <div class="line"><span class="lineno">   80</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;EXPECTED&quot;</span>, readiness.ExpectedSlots);</div>
-<div class="line"><span class="lineno">   81</span>    }</div>
+<div class="line"><span class="lineno">   81</span>        ArmoryReadinessHint = <span class="keyword">new</span> HintViewModel(hintText);</div>
+<div class="line"><span class="lineno">   82</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00025">_hasReadinessContextSnapshot</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00023">_lastArmoryVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00027">_lastMainPartyAtSea</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00024">_lastMemberRosterVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00026">_lastPreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00022">_trackedMainParty</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00143">ArmoryReadinessFillHeight</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00111">CanOpenArmory()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00019">INDICATOR_HEIGHT</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00131">IsArmoryReadinessVisible</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00083">MainPartyTroopCompositionChanged()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../df/d03/a00062_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00025">_hasReadinessContextSnapshot</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00023">_lastArmoryVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00027">_lastMainPartyAtSea</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00024">_lastMemberRosterVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00026">_lastPreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00022">_trackedMainParty</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00144">ArmoryReadinessFillHeight</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00156">ArmoryReadinessHint</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00112">CanOpenArmory()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00019">INDICATOR_HEIGHT</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00132">IsArmoryReadinessVisible</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00084">MainPartyTroopCompositionChanged()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../df/d03/a00062_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
 
 </div>
 </div>
@@ -561,7 +562,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00021">21</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00083">MainPartyTroopCompositionChanged()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00084">MainPartyTroopCompositionChanged()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -690,17 +691,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00143">143</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  143</span>                                           {</div>
-<div class="line"><span class="lineno">  144</span>        <span class="keyword">get</span> =&gt; _armoryReadinessFillHeight;</div>
-<div class="line"><span class="lineno">  145</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  146</span>            <span class="keywordflow">if</span> (_armoryReadinessFillHeight.Equals(value))</div>
-<div class="line"><span class="lineno">  147</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>            _armoryReadinessFillHeight = value;</div>
-<div class="line"><span class="lineno">  150</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  151</span>        }</div>
-<div class="line"><span class="lineno">  152</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00144">144</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  144</span>                                           {</div>
+<div class="line"><span class="lineno">  145</span>        <span class="keyword">get</span> =&gt; _armoryReadinessFillHeight;</div>
+<div class="line"><span class="lineno">  146</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">if</span> (_armoryReadinessFillHeight.Equals(value))</div>
+<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  149</span> </div>
+<div class="line"><span class="lineno">  150</span>            _armoryReadinessFillHeight = value;</div>
+<div class="line"><span class="lineno">  151</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  152</span>        }</div>
+<div class="line"><span class="lineno">  153</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
@@ -726,18 +727,20 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00155">155</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  155</span>                                             {</div>
-<div class="line"><span class="lineno">  156</span>        <span class="keyword">get</span> =&gt; _armoryReadinessHint;</div>
-<div class="line"><span class="lineno">  157</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  158</span>            <span class="keywordflow">if</span> (ReferenceEquals(_armoryReadinessHint, value))</div>
-<div class="line"><span class="lineno">  159</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  160</span> </div>
-<div class="line"><span class="lineno">  161</span>            _armoryReadinessHint = value;</div>
-<div class="line"><span class="lineno">  162</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  163</span>        }</div>
-<div class="line"><span class="lineno">  164</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00156">156</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  156</span>                                             {</div>
+<div class="line"><span class="lineno">  157</span>        <span class="keyword">get</span> =&gt; _armoryReadinessHint;</div>
+<div class="line"><span class="lineno">  158</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">if</span> (ReferenceEquals(_armoryReadinessHint, value))</div>
+<div class="line"><span class="lineno">  160</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  161</span> </div>
+<div class="line"><span class="lineno">  162</span>            _armoryReadinessHint = value;</div>
+<div class="line"><span class="lineno">  163</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  164</span>        }</div>
+<div class="line"><span class="lineno">  165</span>    }</div>
 </div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
+
 </div>
 </div>
 <a id="a8155182d3d23d64bb5b41b64bf87e6ea" name="a8155182d3d23d64bb5b41b64bf87e6ea"></a>
@@ -760,17 +763,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00131">131</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  131</span>                                         {</div>
-<div class="line"><span class="lineno">  132</span>        <span class="keyword">get</span> =&gt; _isArmoryReadinessVisible;</div>
-<div class="line"><span class="lineno">  133</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (_isArmoryReadinessVisible == value)</div>
-<div class="line"><span class="lineno">  135</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            _isArmoryReadinessVisible = value;</div>
-<div class="line"><span class="lineno">  138</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  139</span>        }</div>
-<div class="line"><span class="lineno">  140</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00132">132</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  132</span>                                         {</div>
+<div class="line"><span class="lineno">  133</span>        <span class="keyword">get</span> =&gt; _isArmoryReadinessVisible;</div>
+<div class="line"><span class="lineno">  134</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">if</span> (_isArmoryReadinessVisible == value)</div>
+<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  137</span> </div>
+<div class="line"><span class="lineno">  138</span>            _isArmoryReadinessVisible = value;</div>
+<div class="line"><span class="lineno">  139</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  140</span>        }</div>
+<div class="line"><span class="lineno">  141</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
