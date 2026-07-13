@@ -206,8 +206,21 @@ public class PartyEquipmentDistributor {
 						expectedSlots++;
 
 						var assignedWeapon = assignment.GetEquipmentFromSlot(slot);
-						if (!assignedWeapon.IsEmpty && assignedWeapon.Item != null)
-							equippedSlots++;
+						var assignedWeaponItem = assignedWeapon.Item;
+
+						if (!assignedWeapon.IsEmpty && assignedWeaponItem != null)
+						{
+							var matchesExpectedWeapon =
+								expectedItem.IsBow() && assignedWeaponItem.IsBow() ||
+								expectedItem.IsCrossBow() && assignedWeaponItem.IsCrossBow() ||
+								expectedItem.IsArrow() && assignedWeaponItem.IsArrow() ||
+								expectedItem.IsBolt() && assignedWeaponItem.IsBolt() ||
+								expectedItem.IsThrowing() && assignedWeaponItem.IsThrowing() ||
+								expectedItem.ItemType == assignedWeaponItem.ItemType;
+
+							if (matchesExpectedWeapon)
+								equippedSlots++;
+						}
 					}
 				}
 				var assignedWeaponElement = assignment.GetEquipmentFromSlot(slot);
