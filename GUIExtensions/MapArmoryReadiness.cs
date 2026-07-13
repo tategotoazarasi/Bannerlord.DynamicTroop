@@ -78,6 +78,7 @@ internal sealed class MapArmoryReadinessMixin : BaseViewModelMixin<MapBarVM> {
 		hintText.SetTextVariable("PERCENT", readiness.Percentage);
 		hintText.SetTextVariable("FILLED", readiness.EquippedSlots);
 		hintText.SetTextVariable("EXPECTED", readiness.ExpectedSlots);
+		ArmoryReadinessHint = new HintViewModel(hintText);
 	}
 
 	private bool MainPartyTroopCompositionChanged(MobileParty mainParty) {
