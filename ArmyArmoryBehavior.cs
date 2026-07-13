@@ -17,36 +17,40 @@ using TaleWorlds.SaveSystem;
 namespace DynamicTroopEquipmentReupload;
 
 public class ArmyArmoryBehavior : CampaignBehaviorBase {
+	private readonly Dictionary<string, int> _unresolvedArmoryItemCounts = new();
 	private Data _data = new();
 
 	public override void SyncData(IDataStore dataStore) {
-		//InformationManager.DisplayMessage(new InformationMessage("Sync Data called", Colors.Green));
 		if (dataStore.IsSaving) {
-			_data.Armory.Clear();
-			Save();
+			SaveArmory();
 			var tempData = _data;
-			if (dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData) && tempData != null) {
+			if (dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData) && tempData != null)
 				_data = tempData;
-				_data.Armory.Clear();
-			}
-			else { Global.Error("null data on save"); }
+			else
+				Global.Error("null data on save");
 		}
 		else if (dataStore.IsLoading) {
-			_data.Armory.Clear();
-			ArmyArmory.Armory.Clear();
-			var tempData = _data;
+			ArmyArmory.ResetForCampaign();
+			_unresolvedArmoryItemCounts.Clear();
+
+			var tempData = new Data();
 			if (dataStore.SyncDataAsJson("DynamicTroopArmyArmory", ref tempData) && tempData != null) {
-				Load(tempData);
 				_data = tempData;
-				_data.Armory.Clear();
+				_data.Armory ??= new Dictionary<string, int>();
+				foreach (var entry in _data.Armory) {
+					if (!string.IsNullOrEmpty(entry.Key) && entry.Value > 0)
+						_unresolvedArmoryItemCounts[entry.Key] = entry.Value;
+				}
 			}
-			else { Global.Error("null data on load"); }
+			else
+				Global.Error("null data on load");
 		}
 	}
 
 	public override void RegisterEvents() {
 		CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
 		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
+		CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, OnGameLoaded);
 		CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
 		CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, OnHeroPrisonerTaken);
 	}
@@ -54,10 +58,18 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 
 	private void OnNewGameCreated(CampaignGameStarter starter) {
 		Global.Debug("OnNewGameCreated() called");
-		ArmyArmory.Armory.Clear();
+		_unresolvedArmoryItemCounts.Clear();
+		ArmyArmory.ResetForCampaign();
+	}
+
+	private void OnGameLoaded(CampaignGameStarter starter) {
+		RestoreReadyArmoryItems();
+		ArmyArmory.SanitizeInPlace();
 	}
 
 	private void OnDailyTick() {
+		RestoreReadyArmoryItems();
+		ArmyArmory.SanitizeInPlace();
 		var settings = ModSettings.Instance;
 		if (settings == null)
 			return;
@@ -91,6 +103,8 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	}
 
 	private static void ApplyCapturedArmoryLoss() {
+		ArmyArmory.SanitizeInPlace();
+
 		const int LOSS_NUMERATOR = 4;
 		const int LOSS_DENOMINATOR = 5;
 
@@ -142,30 +156,37 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		}
 	}
 
-	private void Save() {
-		var i = ArmyArmory.Armory.GetEnumerator();
-		while (i.MoveNext())
-			if (i.Current is { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: > 0 }) {
-				if (!_data.Armory.ContainsKey(i.Current.EquipmentElement.Item.StringId))
-					_data.Armory.Add(i.Current.EquipmentElement.Item.StringId, i.Current.Amount);
-				else
-					_data.Armory[i.Current.EquipmentElement.Item.StringId] += i.Current.Amount;
-			}
+	private void SaveArmory() {
+		ArmyArmory.SanitizeInPlace();
+		_data.Armory ??= new Dictionary<string, int>();
+		_data.Armory.Clear();
 
-		i.Dispose();
+		foreach (var unresolvedItem in _unresolvedArmoryItemCounts)
+			_data.Armory[unresolvedItem.Key] = unresolvedItem.Value;
+
+		foreach (var rosterElement in ArmyArmory.Armory) {
+			if (rosterElement.Amount <= 0 ||
+				!ArmyArmory.TryResolveArmoryItem(rosterElement.EquipmentElement.Item, out var item))
+				continue;
+
+			_data.Armory[item.StringId] = _data.Armory.TryGetValue(item.StringId, out var currentCount)
+				? currentCount + rosterElement.Amount
+				: rosterElement.Amount;
+		}
 	}
 
-	private void Load(Data tempData) {
-		foreach (var item in tempData.Armory) {
-			var equipment = MBObjectManager.Instance.GetObject<ItemObject>(item.Key) ??
-							ItemObject.GetCraftedItemObjectFromHashedCode(item.Key);
-			if (equipment != null && item.Value > 0)
-				_ = ArmyArmory.Armory.AddToCounts(equipment, item.Value);
-			else
-				Global.Warn($"cannot get object {item.Key}");
-		}
+	private void RestoreReadyArmoryItems() {
+		if (_unresolvedArmoryItemCounts.Count == 0)
+			return;
 
-		Global.Debug($"loaded {tempData.Armory.Count} entries for player");
+		foreach (var pendingItem in new Dictionary<string, int>(_unresolvedArmoryItemCounts)) {
+			var item = ArmyArmory.ResolveArmoryItem(pendingItem.Key);
+			if (item == null)
+				continue;
+
+			ArmyArmory.Armory.AddToCounts(item, pendingItem.Value);
+			_unresolvedArmoryItemCounts.Remove(pendingItem.Key);
+		}
 	}
 
 	private static void ScrapArmyArmoryByCategory(int targetCountPerCategory) {
@@ -227,7 +248,11 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 	}
 
 
-	private void OnSessionLaunched(CampaignGameStarter starter) { AddTownMenuOptions(starter); }
+	private void OnSessionLaunched(CampaignGameStarter starter) {
+		RestoreReadyArmoryItems();
+		ArmyArmory.SanitizeInPlace();
+		AddTownMenuOptions(starter);
+	}
 
 	private void AddTownMenuOptions(CampaignGameStarter starter) {
 		AddArmyArmorySubmenu(starter);
@@ -252,7 +277,8 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  LocalizedTexts.ArmorViewOption.ToString(),
 								  args => true,
 								  args => {
-									  // roster so the player can leave items
+									  RestoreReadyArmoryItems();
+									  ArmyArmory.SanitizeInPlace();
 									  InventoryScreenHelper.OpenScreenAsStash(ArmyArmory.Armory);
 								  });
 

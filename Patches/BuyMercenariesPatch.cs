@@ -1,42 +1,52 @@
-using System.Diagnostics;
 using HarmonyLib;
-using log4net.Core;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.CampaignSystem.Roster;
-using TaleWorlds.Library;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
 
 namespace DynamicTroopEquipmentReupload.Patches;
 
-[HarmonyPatch(typeof(TroopRoster), "AddToCounts")]
-public static class BuyMercenariesPatch {
-	public static void Prefix(TroopRoster     __instance,
-							  CharacterObject character,
-							  int             count,
-							  bool            insertAtFront  = false,
-							  int             woundedCount   = 0,
-							  int             xpChange       = 0,
-							  bool            removeDepleted = true,
-							  int             index          = -1) {
-		if (__instance != Campaign.Current.MainParty.MemberRoster || count <= 0) return;
+[HarmonyPatch(typeof(RecruitmentCampaignBehavior), "buy_mercenaries_on_consequence")]
+public static class TownMenuMercenaryEquipmentPatch {
+	private static void Prefix(RecruitmentCampaignBehavior __instance, out PlayerMercenaryRosterSnapshot __state) {
+		var currentSettlement = Campaign.Current.MainParty.CurrentSettlement;
+		var character = currentSettlement?.IsTown == true
+			? __instance.GetMercenaryData(currentSettlement.Town).TroopType
+			: null;
+		__state = new PlayerMercenaryRosterSnapshot(character);
+	}
 
-		// 获取当前方法的 StackTrace
-		StackTrace stackTrace = new();
-		var        frames     = stackTrace.GetFrames();
+	private static void Postfix(PlayerMercenaryRosterSnapshot __state) {
+		var recruitedCount = __state.GetRecruitedCount();
+		if (recruitedCount > 0)
+			RecruitmentPatch.AddStartingEquipmentToPlayerArmory(__state.Character!, recruitedCount);
+	}
 
-		// 检查是否存在调用堆栈中的 buy_mercenaries_on_consequence 方法
-		foreach (var frame in frames) {
-			var method = frame.GetMethod();
-			if (method?.Name is "buy_mercenaries_on_consequence" or "BuyMercenaries" &&
-				method.DeclaringType?.Name == "RecruitmentCampaignBehavior") {
-				Global.Log($"recruiting {count}x{character.Name}", Colors.Green, Level.Debug);
-				var equipments = RecruitmentPatch.GetRecruitEquipments(character);
-				Global.Debug($"{equipments.Count * count} starting equipments added");
-				foreach (var equipment in equipments)
-					if (equipment is { IsEmpty: false, Item: not null })
-						ArmyArmory.AddItemToArmory(equipment.Item, count);
-
-				return;
-			}
+	internal readonly struct PlayerMercenaryRosterSnapshot {
+		public PlayerMercenaryRosterSnapshot(CharacterObject? character) {
+			Character = character;
+			PreviousCount = character == null ? 0 : Campaign.Current.MainParty.MemberRoster.GetTroopCount(character);
 		}
+
+		public CharacterObject? Character { get; }
+		private int PreviousCount { get; }
+
+		public int GetRecruitedCount() {
+			return Character == null
+				? 0
+				: Campaign.Current.MainParty.MemberRoster.GetTroopCount(Character) - PreviousCount;
+		}
+	}
+}
+
+[HarmonyPatch(typeof(RecruitmentCampaignBehavior), "BuyMercenaries")]
+public static class TavernMercenaryEquipmentPatch {
+	private static void Prefix(out TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot __state) {
+		__state = new TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot(
+			CharacterObject.OneToOneConversationCharacter);
+	}
+
+	private static void Postfix(TownMenuMercenaryEquipmentPatch.PlayerMercenaryRosterSnapshot __state) {
+		var recruitedCount = __state.GetRecruitedCount();
+		if (recruitedCount > 0)
+			RecruitmentPatch.AddStartingEquipmentToPlayerArmory(__state.Character!, recruitedCount);
 	}
 }

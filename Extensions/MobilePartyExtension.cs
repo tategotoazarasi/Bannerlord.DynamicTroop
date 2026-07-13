@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DynamicTroopEquipmentReupload.Patches;
@@ -18,6 +19,8 @@ public static class MobilePartyExtension {
 	}
 
 	public static bool IsValid(this MobileParty? party) {
+		if (party == null || party.IsPatrolParty)
+			return false;
 		return party is { Id: { } } &&
 			   (EveryoneCampaignBehavior.PartyArmories.ContainsKey(party.Id) ||
 				party is {
@@ -45,16 +48,12 @@ public static class MobilePartyExtension {
 		List<EquipmentElement> list = new();
 		if (party == null) return list;
 
-		var batchSize = 50 - (int)(ModSettings.Instance?.Difficulty ?? 0f) * 10;
-		if (batchSize == 0)
-		{
-			batchSize = 5;
-		}
+		var batchSize = Math.Max(5, 50 - (int)(ModSettings.Instance?.Difficulty ?? 0f) * 10);
 		var cnt       = party.MemberRoster?.TotalManCount ?? 0;
 		var rosterWithoutHeroes = party.MemberRoster?.GetTroopRoster()
 									   ?.Where(member => !member.Character?.IsHero ?? false)
 									   ?.ToArrayQ();
-		if (rosterWithoutHeroes == null) return list;
+		if (rosterWithoutHeroes == null || rosterWithoutHeroes.Length == 0) return list;
 
 		for (var i = 0; i <= cnt / batchSize; i++) {
 			var equipmentElement = rosterWithoutHeroes.GetRandomElement()

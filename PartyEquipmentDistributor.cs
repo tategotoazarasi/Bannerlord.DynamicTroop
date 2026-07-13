@@ -32,65 +32,67 @@ public class PartyEquipmentDistributor {
 
 	private readonly Mission _mission;
 
+	private readonly bool _missionAllowsMountEquipment;
+
 	private readonly MobileParty _party;
 
 	public readonly List<Assignment> Assignments = new();
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, ItemRoster itemRoster) {
-		_mission           = mission;
-		_party             = party;
-		_itemRoster        = itemRoster;
+		_mission                      = mission;
+		_missionAllowsMountEquipment = !mission.IsNavalBattle && !mission.IsNavalRaidBattle;
+		_party                        = party;
+		_itemRoster                   = itemRoster;
 		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
 	}
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, IDictionary<EquipmentElement, int> equipmentToAssign) {
-		_mission           = mission;
-		_party             = party;
-		_itemRoster        = null;
-		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(equipmentToAssign, new EquipmentElementComparer());
+		_mission                      = mission;
+		_missionAllowsMountEquipment = !mission.IsNavalBattle && !mission.IsNavalRaidBattle;
+		_party                        = party;
+		_itemRoster                   = null;
+		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
+
+		foreach (var entry in equipmentToAssign)
+			AddEquipmentToAssign(entry.Key, entry.Value);
 	}
 
 	public PartyEquipmentDistributor(Mission mission, MobileParty party, Dictionary<ItemObject, int> objectToAssign) {
-		_mission           = mission;
-		_party             = party;
-		_itemRoster        = null;
+		_mission                      = mission;
+		_missionAllowsMountEquipment = !mission.IsNavalBattle && !mission.IsNavalRaidBattle;
+		_party                        = party;
+		_itemRoster                   = null;
 		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
 
-		foreach (var kv in objectToAssign) {
-			if (kv.Key != null) {
-				EquipmentElement element = new(kv.Key);
-
-				if (_equipmentToAssign.TryGetValue(element, out var existingCount)) { _equipmentToAssign[element] = existingCount + kv.Value; }
-				else { _                                                                                          = _equipmentToAssign.TryAdd(element, kv.Value); }
-			}
+		foreach (var entry in objectToAssign) {
+			if (ArmyArmory.TryResolveArmoryItem(entry.Key, out var item))
+				AddEquipmentToAssign(new EquipmentElement(item), entry.Value);
 		}
 	}
 
 	public void RunAsync() {
 		foreach (var troop in _party.MemberRoster.GetTroopRoster()) {
 			for (var i = 0; i < troop.Number - troop.WoundedNumber; i++) {
-				if (troop.Character is CharacterObject characterObject && !characterObject.IsHero) { Assignments.Add(new Assignment(characterObject)); }
+				if (troop.Character is CharacterObject characterObject && !characterObject.IsHero) { Assignments.Add(new Assignment(characterObject, _missionAllowsMountEquipment)); }
 			}
 		}
 
 		Assignments.Sort((x, y) => y.CompareTo(x));
 		if (_itemRoster != null) {
-			foreach (var kv in _itemRoster) {
-				if (kv is not { IsEmpty: false, EquipmentElement.IsEmpty: false }) { continue; }
-
-				// 尝试获取已存在的数量
-				if (!_equipmentToAssign.TryGetValue(kv.EquipmentElement, out var existingAmount)) {
-					// 如果键不存在，添加新的键值对
-					_ = _equipmentToAssign.TryAdd(kv.EquipmentElement, kv.Amount);
-				}
-				else {
-					// 如果键已存在，更新数量
-					_equipmentToAssign[kv.EquipmentElement] = existingAmount + kv.Amount;
-				}
-			}
+			foreach (var rosterElement in _itemRoster)
+				AddEquipmentToAssign(rosterElement.EquipmentElement, rosterElement.Amount);
 		}
 
 		DoAssignAsync();
+	}
+
+	private void AddEquipmentToAssign(EquipmentElement equipmentElement, int count) {
+		if (count <= 0 ||
+			!ArmyArmory.TryNormalizeArmoryElement(equipmentElement, out var normalizedElement) ||
+			!ItemBlackList.Test(normalizedElement.Item))
+			return;
+
+		_equipmentToAssign.AddOrUpdate(normalizedElement, count, (_, currentCount) => currentCount + count);
 	}
 
 	private void ConsumeEquipmentToAssign(EquipmentElement equipmentElement) {
@@ -209,7 +211,8 @@ public class PartyEquipmentDistributor {
 		var settings                          = ModSettings.Instance;
 		var preferDefaultEquipmentThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
 
-		GenerateHorseAndHarnessList();
+		if (_missionAllowsMountEquipment)
+			GenerateHorseAndHarnessList();
 
 		AssignEquipmentType(ItemTypeEnum.HeadArmor);
 		AssignEquipmentType(ItemTypeEnum.BodyArmor);
@@ -217,7 +220,8 @@ public class PartyEquipmentDistributor {
 		AssignEquipmentType(ItemTypeEnum.HandArmor);
 		AssignEquipmentType(ItemTypeEnum.Cape);
 
-		AssignHorseAndHarness();
+		if (_missionAllowsMountEquipment)
+			AssignHorseAndHarness();
 
 		// strict
 		AssignWeaponByWeaponClass(true);
@@ -884,41 +888,37 @@ public class PartyEquipmentDistributor {
 		}
 
 		foreach (var slot in Global.EquipmentSlots) {
-			if ((_mission.HasMissionBehavior<HideoutMissionController>() == true ||
+			if ((!_missionAllowsMountEquipment ||
+				 _mission.HasMissionBehavior<HideoutMissionController>() == true ||
 				 _mission.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
 				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 				continue;
 			var element = equipment.GetEquipmentFromSlot(slot);
-			if (element is not { IsEmpty: false, Item: not null }) { continue; }
+			if (!ArmyArmory.TryResolveArmoryItem(element.Item, out var item)) { continue; }
 
-			if (partyArmory.TryGetValue(element.Item, out var itemCount) && itemCount > 0) {
-				// 武器库中有足够的物品，分配一个并减少数量
-				partyArmory[element.Item] = itemCount - 1;
-				Global.Log($"Spawned item {element.Item.StringId}", Colors.Green, Level.Debug);
+			if (partyArmory.TryGetValue(item, out var itemCount) && itemCount > 0) {
+				if (itemCount == 1)
+					partyArmory.Remove(item);
+				else
+					partyArmory[item] = itemCount - 1;
+
+				Global.Log($"Spawned item {item.StringId}", Colors.Green, Level.Debug);
 			}
 			else {
 				// 武器库中没有足够的物品或者该物品不存在
-				Global.Log($"Insufficient or no items to spawn {element.Item.StringId}", Colors.Red, Level.Warn);
+				Global.Log($"Insufficient or no items to spawn {item.StringId}", Colors.Red, Level.Warn);
 			}
 		}
 	}
 
 	public void ReturnItem(ItemObject? item, int count) {
-		if (item == null || count <= 0) {
+		if (!ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || count <= 0) {
 			Global.Log("Invalid item or count for return.", Colors.Red, Level.Warn);
 			return;
 		}
 
-		// 确保 PartyArmories 包含特定的 _party.Id
-		if (!EveryoneCampaignBehavior.PartyArmories.TryGetValue(_party.Id, out var partyArmory)) {
-			partyArmory                                       = new Dictionary<ItemObject, int>();
-			EveryoneCampaignBehavior.PartyArmories[_party.Id] = partyArmory;
-		}
-
-		// 如果武器库中已经有这个物品，增加数量；否则，添加新的条目
-		partyArmory[item] = partyArmory.TryGetValue(item, out var existingCount) ? existingCount + count : count;
-
-		Global.Log($"Returned {count} of item {item.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
+		EveryoneCampaignBehavior.AddItemToPartyArmory(_party.Id, resolvedItem, count);
+		Global.Log($"Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
 	}
 
 	private int GetMaxAllowedTier(ItemObject? referenceItem) {

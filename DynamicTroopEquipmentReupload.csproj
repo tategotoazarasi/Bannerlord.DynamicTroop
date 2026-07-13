@@ -1,7 +1,7 @@
 <Project Sdk="Bannerlord.BUTRModule.Sdk/1.1.0.104">
 
     <PropertyGroup>
-        <Version>0.0.1</Version>
+        <Version>1.4.7</Version>
         <TargetFramework>net472</TargetFramework>
         <Platforms>x64</Platforms>
         <LangVersion>10.0</LangVersion>
@@ -18,7 +18,7 @@
         <ModuleUrl></ModuleUrl>
         <!--GameFolder>C:\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord</GameFolder>-->
         <!-- Module manually override GameVersion -->
-        <!-- <OverrideGameVersion>v1.0.0</OverrideGameVersion> -->
+        <OverrideGameVersion>v1.4.7</OverrideGameVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="$(TargetFramework) == 'net472'">
@@ -29,8 +29,8 @@
     <!-- Development Variables -->
     <PropertyGroup>
         <UIExtenderExVersion>2.13.2</UIExtenderExVersion>
-        <ButterLibVersion>2.10.3</ButterLibVersion>
-        <MCMVersion>5.11.3</MCMVersion>
+        <ButterLibVersion>2.11.0</ButterLibVersion>
+        <MCMVersion>5.12.1</MCMVersion>
         <HarmonyExtensionsVersion>3.2.0.77</HarmonyExtensionsVersion>
         <!--
     <BUTRSharedVersion>3.0.0.135</BUTRSharedVersion>
@@ -79,15 +79,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.ButterLib" Version="2.10.3"/>
+        <PackageReference Update="Bannerlord.ButterLib" Version="2.11.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.MCM" Version="5.11.3"/>
+        <PackageReference Update="Bannerlord.MCM" Version="5.12.1"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.3.13.105254"/>
+        <PackageReference Update="Bannerlord.ReferenceAssemblies" Version="1.4.7.117484"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -52,20 +52,22 @@ public class DynamicTroopMissionLogic : MissionLogic {
 	public void TryInitializeDistributors() {
 		if (_areDistributorsInitialized || _isMissionEnded) { return; }
 
-		if (MapEvent.PlayerMapEvent == null || MapEvent.PlayerMapEvent.IsRaid) { return; }
+		var mapEvent = MapEvent.PlayerMapEvent;
+		var mainParty = Campaign.Current?.MainParty;
+		if (mapEvent == null || mainParty == null) { return; }
 
-		var mainParty            = Campaign.Current.MainParty;
+		ArmyArmory.SanitizeInPlace();
 		var mainPartyDistributor = new PartyEquipmentDistributor(Mission, mainParty, ArmyArmory.Armory);
 		mainPartyDistributor.RunAsync();
 		Distributors[mainParty.Id] = mainPartyDistributor;
+		PartyBattleSides[mainParty.Id] = mainParty.Party.Side;
 
-		PartyBattleSides[mainParty.Id] = PartyBase.MainParty.Side;
-
-		foreach (var partyBase in MapEvent.PlayerMapEvent.InvolvedParties) {
+		foreach (var partyBase in mapEvent.InvolvedParties) {
 			var party = partyBase.MobileParty;
-			if (party == null || !party.IsValid() || party == Campaign.Current.MainParty || party.LeaderHero == null) { continue; }
+			if (party == null || !party.IsValid() || party == mainParty || party.LeaderHero == null) { continue; }
 
-			if (!EveryoneCampaignBehavior.PartyArmories.TryGetValue(party.Id, out var partyArmory)) { continue; }
+			var partyArmory = EveryoneCampaignBehavior.SanitizePartyArmory(party.Id);
+			if (partyArmory == null) { continue; }
 
 			var distributor = new PartyEquipmentDistributor(Mission, party, partyArmory);
 			distributor.RunAsync();
@@ -228,7 +230,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];
 			ProcessAgentEquipmentRespectingTemporarySlots(affectedAgent, item => { affectedBattleRecord.AddItemToRecover(item); });
 			Global.Log(
-				$"[DTES] Killed/Unconscious processed for {affectedAgent.Character?.Name} | party={affectedPartyId.Value} | recordRecoverNow={affectedBattleRecord.ItemsToRecoverCount}",
+				$"[DTES] Routed/deleted equipment recorded for {affectedAgent.Character?.Name} | party={affectedPartyId.Value} | recordRecoverNow={affectedBattleRecord.ItemsToRecoverCount}",
 				Colors.Green,
 				Level.Debug);
 		}
@@ -239,70 +241,83 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 	public override void OnRetreatMission() {
 		Global.Log("OnRetreatMission() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
+		FinalizeMission(Mission.MissionResult);
 		base.OnRetreatMission();
 	}
 
 	public override void OnSurrenderMission() {
 		Global.Log("OnSurrenderMission() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
+		FinalizeMission(Mission.MissionResult);
 		base.OnSurrenderMission();
 	}
 
 	public override void OnMissionResultReady(MissionResult missionResult) {
 		Global.Log("OnMissionResultReady() called", Colors.Green, Level.Debug);
-		OnMissionEnded(missionResult);
+		FinalizeMission(missionResult);
 		base.OnMissionResultReady(missionResult);
 	}
 
 	public override InquiryData OnEndMissionRequest(out bool canLeave) {
 		Global.Log("OnEndMissionRequest() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
 		return base.OnEndMissionRequest(out canLeave);
 	}
 
 	public override void ShowBattleResults() {
 		Global.Log("ShowBattleResults() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
+		if (Mission.MissionResult?.BattleResolved == true)
+			FinalizeMission(Mission.MissionResult);
 		base.ShowBattleResults();
 	}
 
 	public override void OnBattleEnded() {
 		Global.Log("OnBattleEnded() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
+		var missionResult = Mission.MissionResult;
+		if (missionResult != null)
+			FinalizeMission(missionResult);
 		base.OnBattleEnded();
 	}
 
-	private void OnMissionEnded(MissionResult? missionResult) {
-		Global.Log("OnMissionEnded() called", Colors.Green, Level.Debug);
+	private void FinalizeMission(MissionResult? missionResult) {
+		Global.Log("FinalizeMission() called", Colors.Green, Level.Debug);
 		if (_isMissionEnded) return;
+
+		if (!_areDistributorsInitialized) {
+			_isMissionEnded = true;
+			return;
+		}
+
+		var mainParty = Campaign.Current?.MainParty;
+		var playerTeam = Mission.PlayerTeam;
+		if (mainParty == null || playerTeam == null) return;
 
 		_isMissionEnded = true;
 
 		var playerVictory    = missionResult?.PlayerVictory  ?? false;
 		var playerDefeat     = missionResult?.PlayerDefeated ?? false;
 		var unresolvedBattle = missionResult == null || !missionResult.BattleResolved;
+		var playerPartyId    = mainParty.Id;
+		var playerSide       = playerTeam.Side;
 
-		// 确定玩家方
-		var playerPartyId = Campaign.Current.MainParty.Id;
+		foreach (var partyBattleSide in PartyBattleSides) {
+			var isPlayerParty = partyBattleSide.Key == playerPartyId;
+			var isVictorious = !unresolvedBattle &&
+				(playerVictory && partyBattleSide.Value == playerSide ||
+				 playerDefeat && partyBattleSide.Value != playerSide);
+			var isDefeated = !unresolvedBattle &&
+				(playerDefeat && partyBattleSide.Value == playerSide ||
+				 playerVictory && partyBattleSide.Value != playerSide);
 
-		foreach (var kvPartyBattleSides in PartyBattleSides) {
-			var isPlayerParty = kvPartyBattleSides.Key == playerPartyId;
-			var isVictorious  = !unresolvedBattle && (playerVictory && kvPartyBattleSides.Value == Mission.PlayerTeam.Side || playerDefeat  && kvPartyBattleSides.Value != Mission.PlayerTeam.Side);
-			var isDefeated    = !unresolvedBattle && (playerDefeat  && kvPartyBattleSides.Value == Mission.PlayerTeam.Side || playerVictory && kvPartyBattleSides.Value != Mission.PlayerTeam.Side);
-
-			HandlePartyItems(kvPartyBattleSides.Key, isPlayerParty, isVictorious, isDefeated);
+			HandlePartyItems(partyBattleSide.Key, isPlayerParty, isVictorious, isDefeated);
 		}
 
-		// 回收场上士兵的装备
-		foreach (var kvPartyBattleSides in PartyBattleSides) {
+		foreach (var partyBattleSide in PartyBattleSides) {
 			IEnumerable<Agent> partyAgents = Mission.Agents.WhereQ(agent =>
-																	   agent.IsValid()                   &&
-																	   agent.IsActive()                  &&
-																	   !agent.IsHero                     &&
-																	   !_processedAgents.Contains(agent) &&
-																	   Global.GetAgentParty(agent.Origin)?.Id == kvPartyBattleSides.Key);
-			ReturnEquipmentFromAgents(kvPartyBattleSides.Key, partyAgents);
+				agent.IsValid() &&
+				agent.IsActive() &&
+				!agent.IsHero &&
+				!_processedAgents.Contains(agent) &&
+				Global.GetAgentParty(agent.Origin)?.Id == partyBattleSide.Key);
+			ReturnEquipmentFromAgents(partyBattleSide.Key, partyAgents, playerPartyId);
 		}
 	}
 
@@ -364,8 +379,8 @@ public class DynamicTroopMissionLogic : MissionLogic {
 	/// </summary>
 	/// <param name="partyId"> 部队的唯一标识符。 </param>
 	/// <param name="agents">  参与战斗的士兵集合。 </param>
-	private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents) {
-		var isPlayerParty  = partyId == Campaign.Current.MainParty.Id;
+	private void ReturnEquipmentFromAgents(MBGUID partyId, IEnumerable<Agent> agents, MBGUID playerPartyId) {
+		var isPlayerParty  = partyId == playerPartyId;
 		var totalItemCount = 0;
 
 		foreach (var agent in agents)
@@ -416,6 +431,9 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 	private static void ProcessAssignmentEquipmentFallback(Assignment assignment, Action<ItemObject> processEquipmentItem) {
 		foreach (var slot in Global.EquipmentSlots) {
+			if (!assignment.CanUseMountEquipment && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+				continue;
+
 			var element = assignment.Equipment[slot];
 			if (element.IsEmpty || element.Item is null)
 				continue;
@@ -437,7 +455,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 	protected override void OnEndMission() {
 		Global.Log("OnEndMission() called", Colors.Green, Level.Debug);
-		OnMissionEnded(null);
+		FinalizeMission(Mission.MissionResult);
 		base.OnEndMission();
 	}
 }

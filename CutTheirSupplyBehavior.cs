@@ -12,7 +12,6 @@ using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
-using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
@@ -95,10 +94,21 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		CampaignEvents.DailyTickTownEvent.AddNonSerializedListener(this, OnDailyTickTown);
 		CampaignEvents.TickEvent.AddNonSerializedListener(this, OnTick);
 		CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, OnMobilePartyDestroyed);
+		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
+	}
+
+	private void OnNewGameCreated(CampaignGameStarter starter) {
+		ReinforcementCaravanIds.Clear();
+		_activeCaravanBySourceSettlementId.Clear();
+		_ownerClanByCaravanId.Clear();
+		_returningCaravanIds.Clear();
+		_sourceSettlementByCaravanId.Clear();
+		_targetByCaravanId.Clear();
 	}
 
 	public override void SyncData(IDataStore dataStore) {
 		if (dataStore.IsSaving) {
+			EnsureSaveCollections();
 			_data.CaravanTargets.Clear();
 			_data.CaravanSources.Clear();
 			_data.CaravanOwnerClans.Clear();
@@ -121,6 +131,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 			if (dataStore.SyncDataAsJson("DynamicTroopCutTheirSupply", ref tempData) && tempData != null) {
 				_data = tempData;
+				EnsureSaveCollections();
 
 				_targetByCaravanId.Clear();
 				foreach (var entry in _data.CaravanTargets) { _targetByCaravanId[new MBGUID(entry.Key)] = new MBGUID(entry.Value); }
@@ -137,19 +148,20 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 				_activeCaravanBySourceSettlementId.Clear();
 				ReinforcementCaravanIds.Clear();
 				foreach (var caravanId in _targetByCaravanId.Keys) { ReinforcementCaravanIds.Add(caravanId); }
+				foreach (var caravanId in _sourceSettlementByCaravanId.Keys) { ReinforcementCaravanIds.Add(caravanId); }
+				foreach (var caravanId in _ownerClanByCaravanId.Keys) { ReinforcementCaravanIds.Add(caravanId); }
+				foreach (var caravanId in _returningCaravanIds) { ReinforcementCaravanIds.Add(caravanId); }
 
 				foreach (var entry in _sourceSettlementByCaravanId) { _activeCaravanBySourceSettlementId[entry.Value] = entry.Key; }
 			}
 		}
 	}
 
-	private static bool ReinforcementCaravanBuyProductsDisabledOnCondition() {
-		return IsReinforcementCaravanParty(MobileParty.ConversationParty);
-	}
-
-	private static bool ReinforcementCaravanBuyProductsDisabledOnClickableCondition(out TextObject explanation) {
-		explanation = LocalizedTexts.ReinforcementCaravanTradeDisabled;
-		return false;
+	private void EnsureSaveCollections() {
+		_data.CaravanTargets ??= new Dictionary<uint, uint>();
+		_data.CaravanSources ??= new Dictionary<uint, uint>();
+		_data.CaravanOwnerClans ??= new Dictionary<uint, uint>();
+		_data.ReturningCaravans ??= new List<uint>();
 	}
 
 
@@ -174,21 +186,13 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 			return;
 
 		var prosperity = town.Prosperity;
-
-		if (prosperity < MIN_PROSPERITY)
+		if (prosperity < MIN_PROSPERITY || MBRandom.RandomFloat > GetDailySpawnChance(prosperity))
 			return;
 
-		var chance = GetDailySpawnChance(prosperity);
-
-		if (MBRandom.RandomFloat > chance)
+		if (!TryFindInitialReinforcementRoute(ownerClan, sourceSettlement, out var targetParty, out var templateObject))
 			return;
 
-		var targetParty = FindTargetLordParty(ownerClan);
-
-		if (targetParty == null)
-			return;
-
-		SpawnReinforcementCaravan(town, ownerClan, targetParty);
+		SpawnReinforcementCaravan(town, ownerClan, targetParty, templateObject);
 	}
 
 
@@ -209,40 +213,36 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 			if (TryRunAwayFromNearbyThreat(caravanParty)) { continue; }
 
+			var isNavalConvoy = !caravanParty.HasLandNavigationCapability;
+			var navigationType = isNavalConvoy ? MobileParty.NavigationType.Naval : MobileParty.NavigationType.Default;
 			var targetParty = FindMobilePartyById(pair.Value);
 
-
-			// guarantee target
-			if (targetParty == null || !targetParty.IsActive) {
+			if (targetParty == null || !targetParty.IsActive || !CanConvoyReachParty(isNavalConvoy, targetParty)) {
 				if (_ownerClanByCaravanId.TryGetValue(caravanParty.Id, out var ownerClanId)) {
 					var ownerClan = FindClanById(ownerClanId);
-					if (ownerClan != null) {
-						var newTarget = FindTargetLordParty(ownerClan, pair.Value);
-						if (newTarget != null) {
-							_targetByCaravanId[caravanParty.Id] = newTarget.Id;
-							targetParty                         = newTarget;
-						}
-						else { _returningCaravanIds.Add(caravanParty.Id); }
+					var newTarget = ownerClan == null ? null : FindTargetLordParty(ownerClan, isNavalConvoy, pair.Value);
+					if (newTarget != null) {
+						_targetByCaravanId[caravanParty.Id] = newTarget.Id;
+						targetParty = newTarget;
 					}
 					else { _returningCaravanIds.Add(caravanParty.Id); }
 				}
 				else { _returningCaravanIds.Add(caravanParty.Id); }
 			}
 
-			// return and despawn
 			if (_returningCaravanIds.Contains(caravanParty.Id)) {
 				if (_sourceSettlementByCaravanId.TryGetValue(caravanParty.Id, out var sourceSettlementId)) {
 					var sourceSettlement = FindSettlementById(sourceSettlementId);
-					if (sourceSettlement != null) {
-						// check twice
-						if (caravanParty.CurrentSettlement != null && caravanParty.CurrentSettlement != sourceSettlement) { LeaveSettlementAction.ApplyForParty(caravanParty); }
+					if (sourceSettlement != null && (!isNavalConvoy || sourceSettlement.HasPort)) {
+						if (caravanParty.CurrentSettlement != null && caravanParty.CurrentSettlement != sourceSettlement)
+							LeaveSettlementAction.ApplyForParty(caravanParty);
 
 						caravanParty.Ai.SetDoNotMakeNewDecisions(true);
-
-						caravanParty.SetMoveGoToSettlement(sourceSettlement, MobileParty.NavigationType.All, false);
+						caravanParty.SetMoveGoToSettlement(sourceSettlement, navigationType, isNavalConvoy);
 						caravanParty.RecalculateShortTermBehavior();
 
-						if (caravanParty.CurrentSettlement == sourceSettlement) { CleanupCaravan(caravanParty); }
+						if (caravanParty.CurrentSettlement == sourceSettlement)
+							CleanupCaravan(caravanParty);
 					}
 					else { CleanupCaravan(caravanParty); }
 				}
@@ -251,26 +251,27 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 				continue;
 			}
 
-			// when targetparty is ensured
 			if (targetParty == null) {
 				_returningCaravanIds.Add(caravanParty.Id);
 				continue;
 			}
 
 			var stashReceiverParty = targetParty;
-
-			var movementTargetParty = targetParty;
-			if (movementTargetParty.Army != null && movementTargetParty.Army.LeaderParty != null) { movementTargetParty = movementTargetParty.Army.LeaderParty; }
-
 			// if they're inside a settlement
+			var movementTargetParty = GetMovementTargetParty(targetParty);
 			var targetSettlement = movementTargetParty.CurrentSettlement;
+
 			if (targetSettlement != null) {
-				if (caravanParty.CurrentSettlement != null && caravanParty.CurrentSettlement != targetSettlement) { LeaveSettlementAction.ApplyForParty(caravanParty); }
+				if (isNavalConvoy && !targetSettlement.HasPort) {
+					_returningCaravanIds.Add(caravanParty.Id);
+					continue;
+				}
+
+				if (caravanParty.CurrentSettlement != null && caravanParty.CurrentSettlement != targetSettlement)
+					LeaveSettlementAction.ApplyForParty(caravanParty);
 
 				caravanParty.Ai.SetDoNotMakeNewDecisions(true);
-
-
-				caravanParty.SetMoveGoToSettlement(targetSettlement, MobileParty.NavigationType.All, false);
+				caravanParty.SetMoveGoToSettlement(targetSettlement, navigationType, isNavalConvoy);
 				caravanParty.RecalculateShortTermBehavior();
 
 				if (caravanParty.CurrentSettlement == targetSettlement) {
@@ -283,29 +284,28 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 			// for sieges/battles, keep the distance
 			if (movementTargetParty.MapEvent != null || movementTargetParty.SiegeEvent != null) {
-				if (caravanParty.CurrentSettlement != null) { LeaveSettlementAction.ApplyForParty(caravanParty); }
+				if (caravanParty.CurrentSettlement != null)
+					LeaveSettlementAction.ApplyForParty(caravanParty);
 
 				caravanParty.Ai.SetDoNotMakeNewDecisions(true);
 
 				var delta = caravanParty.GetPosition2D - movementTargetParty.GetPosition2D;
-				if (delta.LengthSquared <= WAIT_DISTANCE_SQUARED) { caravanParty.SetMoveModeHold(); }
-				else {
-					var waitPoint = GetWaitPointNear(caravanParty, movementTargetParty);
-					caravanParty.SetMoveGoToPoint(waitPoint, MobileParty.NavigationType.Default);
-				}
+				if (delta.LengthSquared <= WAIT_DISTANCE_SQUARED)
+					caravanParty.SetMoveModeHold();
+				else
+					caravanParty.SetMoveGoToPoint(GetWaitPointNear(caravanParty, movementTargetParty), navigationType);
 
 				caravanParty.RecalculateShortTermBehavior();
 				continue;
 			}
 
-
-			// regularly
-			if (caravanParty.CurrentSettlement != null) { LeaveSettlementAction.ApplyForParty(caravanParty); }
+			if (caravanParty.CurrentSettlement != null)
+				LeaveSettlementAction.ApplyForParty(caravanParty);
 
 			caravanParty.Ai.SetDoNotMakeNewDecisions(true);
 
 			var destination = new CampaignVec2(movementTargetParty.Position.ToVec2(), movementTargetParty.Position.IsOnLand);
-			caravanParty.SetMoveGoToPoint(destination, MobileParty.NavigationType.Default);
+			caravanParty.SetMoveGoToPoint(destination, navigationType);
 			caravanParty.RecalculateShortTermBehavior();
 
 			if (HasArrived(caravanParty, movementTargetParty)) {
@@ -336,25 +336,61 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		return Math.Min(chance, MAX_DAILY_CHANCE);
 	}
 
-	private static MobileParty? FindTargetLordParty(Clan clan) {
-		MobileParty? bestParty    = null;
-		var          bestDistance = int.MaxValue;
+	private static bool TryFindInitialReinforcementRoute(Clan clan,
+		Settlement sourceSettlement,
+		out MobileParty targetParty,
+		out PartyTemplateObject templateObject) {
+		targetParty = null!;
+		templateObject = null!;
+
+		var landTemplates = sourceSettlement.Culture.CaravanPartyTemplates
+			.Where(template => !template.ShipHulls.Any())
+			.ToArray();
+		var navalTemplates = sourceSettlement.HasPort
+			? sourceSettlement.Culture.CaravanPartyTemplates.Where(template => template.ShipHulls.Any()).ToArray()
+			: Array.Empty<PartyTemplateObject>();
+
+		var bestPartySizeDifference = int.MaxValue;
+		PartyTemplateObject[]? matchingTemplates = null;
 
 		foreach (var party in Campaign.Current.MobileParties) {
-			if (party == null || !party.IsActive)
+			if (!IsReinforcementTarget(party, clan))
 				continue;
 
-			var leaderHero = party.LeaderHero;
-			if (leaderHero == null || leaderHero.Clan != clan)
+			var movementTarget = GetMovementTargetParty(party);
+			if (movementTarget.IsTransitionInProgress)
 				continue;
 
-			// lords
-			if (party.IsCaravan || party.IsVillager || party.IsMilitia || party.IsBandit)
+			var targetIsAtSea = movementTarget.CurrentSettlement == null && movementTarget.IsCurrentlyAtSea;
+			var availableTemplates = targetIsAtSea ? navalTemplates : landTemplates;
+			if (availableTemplates.Length == 0)
 				continue;
 
-			var partySize = party.MemberRoster.TotalManCount;
-			var distance  = Math.Abs(partySize - TARGET_PARTY_SIZE);
+			var partySizeDifference = Math.Abs(party.MemberRoster.TotalManCount - TARGET_PARTY_SIZE);
+			if (partySizeDifference >= bestPartySizeDifference)
+				continue;
 
+			bestPartySizeDifference = partySizeDifference;
+			targetParty = party;
+			matchingTemplates = availableTemplates;
+		}
+
+		if (matchingTemplates == null)
+			return false;
+
+		templateObject = matchingTemplates[MBRandom.RandomInt(matchingTemplates.Length)];
+		return true;
+	}
+
+	private static MobileParty? FindTargetLordParty(Clan clan, bool navalConvoy, MBGUID excludedPartyId = default) {
+		MobileParty? bestParty = null;
+		var bestDistance = int.MaxValue;
+
+		foreach (var party in Campaign.Current.MobileParties) {
+			if (party.Id == excludedPartyId || !IsReinforcementTarget(party, clan) || !CanConvoyReachParty(navalConvoy, party))
+				continue;
+
+			var distance = Math.Abs(party.MemberRoster.TotalManCount - TARGET_PARTY_SIZE);
 			if (distance < bestDistance) {
 				bestDistance = distance;
 				bestParty    = party;
@@ -362,6 +398,31 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		}
 
 		return bestParty;
+	}
+
+	private static bool IsReinforcementTarget(MobileParty party, Clan clan) {
+		return party.IsActive &&
+			party.LeaderHero?.Clan == clan &&
+			!party.IsCaravan &&
+			!party.IsVillager &&
+			!party.IsMilitia &&
+			!party.IsBandit &&
+			!party.IsPatrolParty;
+	}
+
+	private static MobileParty GetMovementTargetParty(MobileParty targetParty) {
+		return targetParty.Army?.LeaderParty ?? targetParty;
+	}
+
+	private static bool CanConvoyReachParty(bool navalConvoy, MobileParty targetParty) {
+		var movementTarget = GetMovementTargetParty(targetParty);
+		if (movementTarget.IsTransitionInProgress)
+			return false;
+
+		if (movementTarget.CurrentSettlement != null)
+			return !navalConvoy || movementTarget.CurrentSettlement.HasPort;
+
+		return navalConvoy == movementTarget.IsCurrentlyAtSea;
 	}
 
 
@@ -397,36 +458,12 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		return null;
 	}
 
-	private static MobileParty? FindTargetLordParty(Clan clan, MBGUID excludedPartyId) {
-		MobileParty? bestParty    = null;
-		var          bestDistance = int.MaxValue;
-
-		foreach (var party in Campaign.Current.MobileParties) {
-			if (party == null || !party.IsActive || party.Id == excludedPartyId)
-				continue;
-
-			var leaderHero = party.LeaderHero;
-			if (leaderHero == null || leaderHero.Clan != clan)
-				continue;
-
-			if (party.IsCaravan || party.IsVillager || party.IsMilitia || party.IsBandit)
-				continue;
-
-			var partySize = party.MemberRoster.TotalManCount;
-			var distance  = Math.Abs(partySize - TARGET_PARTY_SIZE);
-
-			if (distance < bestDistance) {
-				bestDistance = distance;
-				bestParty    = party;
-			}
-		}
-
-		return bestParty;
-	}
-
 	private static bool HasArrived(MobileParty caravan, MobileParty target) {
 		if (caravan.CurrentSettlement != null && caravan.CurrentSettlement == target.CurrentSettlement)
 			return true;
+
+		if (caravan.Position.IsOnLand != target.Position.IsOnLand)
+			return false;
 
 		var delta = caravan.GetPosition2D - target.GetPosition2D;
 		return delta.LengthSquared <= ARRIVAL_DISTANCE_SQUARED;
@@ -440,28 +477,26 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		var away = caravanPos - targetPos;
 
 		if (away.LengthSquared < 0.0001f) { away = new Vec2(1f, 0f); }
-		else { away                              = away.Normalized(); }
+		else { away = away.Normalized(); }
 
-		var waitPos = targetPos + away * WAIT_DISTANCE;
-		return new CampaignVec2(waitPos, movementTargetParty.Position.IsOnLand);
+		return new CampaignVec2(targetPos + away * WAIT_DISTANCE, caravanParty.Position.IsOnLand);
 	}
 
-	// dm me for more info about this decision
 	private static bool TryRunAwayFromNearbyThreat(MobileParty caravanParty) {
-		MobileParty? nearestThreat                = null;
-		var          nearestThreatDistanceSquared = float.MaxValue;
+		MobileParty? nearestThreat = null;
+		var nearestThreatDistanceSquared = float.MaxValue;
 
 		foreach (var otherParty in Campaign.Current.MobileParties) {
-			if (otherParty == null || !otherParty.IsActive)
+			if (otherParty == null || !otherParty.IsActive || otherParty == caravanParty ||
+				otherParty.Position.IsOnLand != caravanParty.Position.IsOnLand)
 				continue;
 
-			if (otherParty == caravanParty)
+			var caravanFaction = caravanParty.MapFaction;
+			var otherFaction = otherParty.MapFaction;
+			if (caravanFaction == null || otherFaction == null || !caravanFaction.IsAtWarWith(otherFaction))
 				continue;
 
-			if (!caravanParty.MapFaction.IsAtWarWith(otherParty.MapFaction))
-				continue;
-
-			var delta           = caravanParty.GetPosition2D - otherParty.GetPosition2D;
+			var delta = caravanParty.GetPosition2D - otherParty.GetPosition2D;
 			var distanceSquared = delta.LengthSquared;
 
 			if (distanceSquared > THREAT_SCAN_RADIUS_SQUARED)
@@ -469,17 +504,11 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 			if (distanceSquared < nearestThreatDistanceSquared) {
 				nearestThreatDistanceSquared = distanceSquared;
-				nearestThreat                = otherParty;
+				nearestThreat = otherParty;
 			}
 		}
 
-		if (nearestThreat == null)
-			return false;
-
-		var caravanManCount = caravanParty.MemberRoster.TotalManCount;
-		var enemyManCount   = nearestThreat.MemberRoster.TotalManCount;
-
-		if (enemyManCount <= caravanManCount * FLEE_IF_ENEMY_STRENGTH_MULTIPLIER)
+		if (nearestThreat == null || nearestThreat.MemberRoster.TotalManCount <= caravanParty.MemberRoster.TotalManCount * FLEE_IF_ENEMY_STRENGTH_MULTIPLIER)
 			return false;
 
 
@@ -489,8 +518,11 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		else
 			away = away.Normalized();
 
+		var navigationType = caravanParty.HasLandNavigationCapability
+			? MobileParty.NavigationType.Default
+			: MobileParty.NavigationType.Naval;
 		var fleePos = caravanParty.GetPosition2D + away * FLEE_POINT_DISTANCE;
-		caravanParty.SetMoveGoToPoint(new CampaignVec2(fleePos, caravanParty.Position.IsOnLand), MobileParty.NavigationType.Default);
+		caravanParty.SetMoveGoToPoint(new CampaignVec2(fleePos, caravanParty.Position.IsOnLand), navigationType);
 		caravanParty.RecalculateShortTermBehavior();
 
 		return true;
@@ -510,7 +542,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 						   .ToDictionary(g => g.Key, g => g.ToList());
 
 		for (var i = 0; i < count; i++) {
-			var randomTier = MBRandom.RandomInt(1, 7); // 1..6
+			var randomTier = MBRandom.RandomInt(1, 7);
 			if (!troopsByTier.TryGetValue(randomTier, out var tierPool) || tierPool.Count == 0)
 				tierPool = cultureTroops;
 
@@ -531,7 +563,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 	}
 
 
-	private void SpawnReinforcementCaravan(Town sourceTown, Clan ownerClan, MobileParty targetParty) {
+	private void SpawnReinforcementCaravan(Town sourceTown, Clan ownerClan, MobileParty targetParty, PartyTemplateObject templateObject) {
 		var caravanOwner = ownerClan.Leader;
 
 		if (caravanOwner == null)
@@ -547,10 +579,8 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		if (culture == null)
 			return;
 
-		var templateId     = "caravan_template_" + culture.StringId;
-		var templateObject = MBObjectManager.Instance.GetObject<PartyTemplateObject>(templateId);
-
-		if (templateObject == null)
+		var isNavalConvoy = templateObject.ShipHulls.Any();
+		if (!CanConvoyReachParty(isNavalConvoy, targetParty))
 			return;
 
 		var caravanParty = CaravanPartyComponent.CreateCaravanParty(caravanOwner, spawnSettlement, templateObject);
@@ -562,17 +592,17 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		caravanParty.Ai.SetDoNotMakeNewDecisions(true);
 
 		// fix jitter
-		LeaveSettlementAction.ApplyForParty(caravanParty);
-		if (caravanParty == null)
-			return;
+		if (caravanParty.CurrentSettlement != null)
+			LeaveSettlementAction.ApplyForParty(caravanParty);
 
-		_sourceSettlementByCaravanId[caravanParty.Id]          = spawnSettlement.Id;
-		_ownerClanByCaravanId[caravanParty.Id]                 = ownerClan.Id;
+		_sourceSettlementByCaravanId[caravanParty.Id] = spawnSettlement.Id;
+		_ownerClanByCaravanId[caravanParty.Id] = ownerClan.Id;
 		_activeCaravanBySourceSettlementId[spawnSettlement.Id] = caravanParty.Id;
 
-
-		var destination = new CampaignVec2(targetParty.Position.ToVec2(), targetParty.Position.IsOnLand);
-		caravanParty.SetMoveGoToPoint(destination, MobileParty.NavigationType.Default);
+		var movementTargetParty = GetMovementTargetParty(targetParty);
+		var destination = new CampaignVec2(movementTargetParty.Position.ToVec2(), movementTargetParty.Position.IsOnLand);
+		var navigationType = isNavalConvoy ? MobileParty.NavigationType.Naval : MobileParty.NavigationType.Default;
+		caravanParty.SetMoveGoToPoint(destination, navigationType);
 		caravanParty.RecalculateShortTermBehavior();
 
 		// +20 culture troop tree troop:
@@ -580,10 +610,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 		AddReinforcementSupplies(caravanParty);
 
 		// +27 (?) gear:
-		var gearItems = GetRandomGearItems(culture);
-
-
-		foreach (var item in gearItems) {
+		foreach (var item in GetRandomGearItems(culture)) {
 			if (item != null)
 				caravanParty.ItemRoster.AddToCounts(item, 1);
 		}
@@ -605,13 +632,13 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 	}
 
 	private static void AddRandomGearItems(List<ItemObject> results, BasicCultureObject culture, int tier, int cap, float chance) {
-		var tierCandidates = Cache.GetItemsByTierAndCulture(tier, culture)
-								  .Where(i => i != null && ItemBlackList.Test(i) && (int)i.Tier == tier)
+		var tierCandidates = (Cache.GetItemsByTierAndCulture(tier, culture) ?? Array.Empty<ItemObject>())
+								  .Where(i => ItemBlackList.Test(i) && (int)i.Tier == tier)
 								  .ToList();
 
 		if (tierCandidates.Count == 0) {
-			tierCandidates = Cache.GetItemsByTierAndCulture(tier, culture)
-								  .Where(i => i != null && ItemBlackList.Test(i))
+			tierCandidates = (Cache.GetItemsByTierAndCulture(tier, culture) ?? Array.Empty<ItemObject>())
+								  .Where(ItemBlackList.Test)
 								  .ToList();
 		}
 
@@ -619,7 +646,7 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 		for (var attemptIndex = 0; attemptIndex < cap && results.Count < GEAR_COUNT; attemptIndex++) {
 			if (MBRandom.RandomFloat > chance) {
-				break; // stop upon fail
+				break;
 			}
 
 			results.Add(tierCandidates.GetRandomElement());
@@ -642,12 +669,12 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 			if (element is not { IsEmpty: false, EquipmentElement: { IsEmpty: false, Item: not null }, Amount: > 0 })
 				continue;
 
-			var item = element.EquipmentElement.Item;
+			if (!ArmyArmory.TryResolveArmoryItem(element.EquipmentElement.Item, out var item))
+				continue;
 
-			if (!targetArmory.TryGetValue(item, out var currentAmount))
-				targetArmory.Add(item, element.Amount);
-			else
-				targetArmory[item] = currentAmount + element.Amount;
+			targetArmory[item] = targetArmory.TryGetValue(item, out var currentAmount)
+				? currentAmount + element.Amount
+				: element.Amount;
 		}
 
 		enumerator.Dispose();
@@ -671,8 +698,18 @@ public sealed class CutTheirSupplyBehavior : CampaignBehaviorBase {
 
 	private static void RemoveMobileParty(MobileParty mobileParty) {
 		if (RemovePartyMethod != null) {
-			RemovePartyMethod.Invoke(mobileParty, null);
-			return;
+			try {
+				RemovePartyMethod.Invoke(mobileParty, null);
+				return;
+			}
+			catch (Exception exception) {
+				var actualException = exception is TargetInvocationException { InnerException: not null }
+					? exception.InnerException
+					: exception;
+				Global.Error(actualException.Message);
+				if (!mobileParty.IsActive)
+					return;
+			}
 		}
 
 		DestroyPartyAction.Apply(null, mobileParty);

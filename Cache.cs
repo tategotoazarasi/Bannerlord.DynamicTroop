@@ -18,6 +18,12 @@ public static class Cache {
 	private static readonly Dictionary<(int, BasicCultureObject?), ItemObject[]> CachedItems = new();
 	private static readonly object CacheLock = new();
 
+	public static void Clear() {
+		lock (CacheLock) {
+			CachedItemsByType.Clear();
+			CachedItems.Clear();
+		}
+	}
 	public static ItemObject[]? GetItemsByTierAndCulture(int tier, BasicCultureObject? culture) {
 		var key = (tier, culture);
 
@@ -27,7 +33,7 @@ public static class Cache {
 		}
 
 		var items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-								   .WhereQ(item => item           != null   &&
+								   .WhereQ(item => ArmyArmory.TryResolveArmoryItem(item, out _) &&
 												   (int)item.Tier <= tier   &&
 												   ItemBlackList.Test(item) &&
 												   (item.ItemType == ItemObject.ItemTypeEnum.Horse        ||
@@ -63,7 +69,7 @@ public static class Cache {
 			return null;
 
 		var items = pool
-					.WhereQ(item => item           != null   &&
+					.WhereQ(item => ArmyArmory.TryResolveArmoryItem(item, out _) &&
 									(int)item.Tier == tier   &&
 									ItemBlackList.Test(item) &&
 									!item.IsCraftedByPlayer  &&

@@ -14,6 +14,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.EquipmentElement, int>;
@@ -23,16 +24,118 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.Equip
 namespace DynamicTroopEquipmentReupload;
 
 public static class ArmyArmory {
-	public static ItemRoster Armory = new();
+	public static readonly ItemRoster Armory = new();
 
 	private static ItemObject[]? _cachedThrownWeapons;
 	private static ItemObject[]? _cachedArrows;
 
 	private static ItemObject[]? _cachedBolts;
 
+	internal static ItemObject? ResolveArmoryItem(string? itemId) {
+		if (string.IsNullOrEmpty(itemId))
+			return null;
+
+		var item = MBObjectManager.Instance.GetObject<ItemObject>(itemId) ??
+				   ItemObject.GetCraftedItemObjectFromHashedCode(itemId);
+
+		return IsUsableArmoryItem(item) ? item : null;
+	}
+
+	internal static bool TryResolveArmoryItem(ItemObject? item, out ItemObject resolvedItem) {
+		resolvedItem = null!;
+		if (item == null || string.IsNullOrEmpty(item.StringId))
+			return false;
+
+		var canonicalItem = ResolveArmoryItem(item.StringId);
+		if (canonicalItem == null)
+			return false;
+
+		resolvedItem = canonicalItem;
+		return true;
+	}
+
+	internal static bool TryNormalizeArmoryElement(EquipmentElement equipmentElement, out EquipmentElement normalizedElement) {
+		normalizedElement = default;
+		if (!TryResolveArmoryItem(equipmentElement.Item, out var resolvedItem))
+			return false;
+
+		var itemModifier = ResolveArmoryModifier(equipmentElement.ItemModifier);
+		var cosmeticItem = TryResolveArmoryItem(equipmentElement.CosmeticItem, out var resolvedCosmeticItem)
+			? resolvedCosmeticItem
+			: null;
+
+		normalizedElement = new EquipmentElement(resolvedItem,
+			itemModifier,
+			cosmeticItem,
+			equipmentElement.IsQuestItem);
+		return true;
+	}
+
+	private static ItemModifier? ResolveArmoryModifier(ItemModifier? itemModifier) {
+		if (itemModifier == null)
+			return null;
+
+		if (!itemModifier.IsReady ||
+			string.IsNullOrEmpty(itemModifier.StringId) ||
+			TextObject.IsNullOrEmpty(itemModifier.Name))
+			return null;
+
+		return MBObjectManager.Instance.GetObject<ItemModifier>(itemModifier.StringId);
+	}
+
+	private static bool IsUsableArmoryItem(ItemObject? item) {
+		return item != null &&
+			   item.IsReady &&
+			   item.ItemType != ItemObject.ItemTypeEnum.Invalid &&
+			   !string.IsNullOrEmpty(item.StringId) &&
+			   !TextObject.IsNullOrEmpty(item.Name);
+	}
+
 	public static void AddItemToArmory(ItemObject item, int count = 1) {
-		if (!ItemBlackList.Test(item)) return;
-		_ = Armory.AddToCounts(item, count);
+		if (count <= 0 || !TryResolveArmoryItem(item, out var resolvedItem) || !ItemBlackList.Test(resolvedItem))
+			return;
+
+		_ = Armory.AddToCounts(resolvedItem, count);
+	}
+
+	public static void ResetForCampaign() {
+		Armory.Clear();
+		_cachedThrownWeapons = null;
+		_cachedArrows = null;
+		_cachedBolts = null;
+	}
+
+	public static int SanitizeInPlace() {
+		var sanitizedEntries = new Dictionary<(ItemObject Item, ItemModifier? Modifier, ItemObject? CosmeticItem, bool IsQuestItem), int>();
+		var discardedEntryCount = 0;
+
+		foreach (var rosterElement in Armory) {
+			if (rosterElement.Amount <= 0 ||
+				rosterElement.IsEmpty ||
+				!TryNormalizeArmoryElement(rosterElement.EquipmentElement, out var normalizedElement)) {
+				discardedEntryCount++;
+				continue;
+			}
+
+			var key = (normalizedElement.Item,
+				normalizedElement.ItemModifier,
+				normalizedElement.CosmeticItem,
+				normalizedElement.IsQuestItem);
+			sanitizedEntries[key] = sanitizedEntries.TryGetValue(key, out var currentCount)
+				? currentCount + rosterElement.Amount
+				: rosterElement.Amount;
+		}
+
+		Armory.Clear();
+		foreach (var entry in sanitizedEntries) {
+			var equipmentElement = new EquipmentElement(entry.Key.Item,
+				entry.Key.Modifier,
+				entry.Key.CosmeticItem,
+				entry.Key.IsQuestItem);
+			Armory.AddToCounts(equipmentElement, entry.Value);
+		}
+
+		return discardedEntryCount;
 	}
 
 	public static void ReturnEquipmentToArmoryFromAgents(IEnumerable<Agent> agents) {
@@ -44,7 +147,7 @@ public static class ArmyArmory {
 
 				Global.ProcessAgentEquipment(agent,
 											 item => {
-												 _ = Armory.AddToCounts(item, 1);
+												 AddItemToArmory(item);
 												 Global.Log($"equipment {item.StringId} returned",
 															Colors.Green,
 															Level.Debug);
@@ -57,25 +160,32 @@ public static class ArmyArmory {
 
 	public static void AssignEquipment(Equipment equipment) {
 		foreach (var slot in Global.EquipmentSlots) {
-			if ((Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true ||
+			if ((Mission.Current?.IsNavalBattle == true ||
+				 Mission.Current?.IsNavalRaidBattle == true ||
+				 Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true ||
 				 Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
 				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 				continue;
-			var element = equipment.GetEquipmentFromSlot(slot);
 
 			// 使用模式匹配来检查条件，并反转if语句来减少嵌套
-			if (element.IsEmpty || element.Item is null) continue;
+			var element = equipment.GetEquipmentFromSlot(slot);
+			if (!TryResolveArmoryItem(element.Item, out var itemToConsume))
+				continue;
 
-			var itemToAssign =
-				Armory.FirstOrDefaultQ(a => !a.IsEmpty                                                &&
-											a.EquipmentElement.Item.StringId == element.Item.StringId &&
-											a.Amount                         > 0);
+			var armoryElement = Armory.FirstOrDefaultQ(rosterElement =>
+				rosterElement.Amount > 0 &&
+				TryResolveArmoryItem(rosterElement.EquipmentElement.Item, out var armoryItem) &&
+				armoryItem.StringId == itemToConsume.StringId);
 
-			if (!itemToAssign.IsEmpty)
-				_ = Armory.AddToCounts(itemToAssign.EquipmentElement, -1);
+			if (!armoryElement.IsEmpty)
+				_ = Armory.AddToCounts(armoryElement.EquipmentElement, -1);
 			else
-				Global.Log($"Assigning Empty item {element.Item.StringId}", Colors.Red, Level.Warn);
+				Global.Log($"Assigning Empty item {itemToConsume.StringId}", Colors.Red, Level.Warn);
 		}
+	}
+
+	private static ItemObject? GetRandomItem(ItemObject[]? items) {
+		return items is { Length: > 0 } ? items.GetRandomElement() : null;
 	}
 
 	public static void SellExcessEquipmentForThrowingWeapons() {
@@ -90,17 +200,17 @@ public static class ArmyArmory {
 
 		_cachedThrownWeapons ??= MBObjectManager.Instance
 			.GetObjectTypeList<ItemObject>()
-			?.WhereQ(item => item.IsThrowingWeaponCanBeAcquired())
+			?.WhereQ(item => TryResolveArmoryItem(item, out _) && item.Value > 0 && item.IsThrowingWeaponCanBeAcquired())
 			.ToArrayQ() ?? Array.Empty<ItemObject>();
 
 		_cachedArrows ??= MBObjectManager.Instance
 			.GetObjectTypeList<ItemObject>()
-			?.WhereQ(item => item.IsArrow() && item.Value > 0)
+			?.WhereQ(item => TryResolveArmoryItem(item, out _) && item.IsArrow() && item.Value > 0)
 			.ToArrayQ() ?? Array.Empty<ItemObject>();
 
 		_cachedBolts ??= MBObjectManager.Instance
 			.GetObjectTypeList<ItemObject>()
-			?.WhereQ(item => item.IsBolt() && item.Value > 0)
+			?.WhereQ(item => TryResolveArmoryItem(item, out _) && item.IsBolt() && item.Value > 0)
 			.ToArrayQ() ?? Array.Empty<ItemObject>();
 
 		var playerParty = MobileParty.MainParty;
@@ -227,8 +337,8 @@ public static class ArmyArmory {
 		var remainingThrowingBudget = throwingBudget;
 		while (remainingThrowingBudget > 0)
 		{
-			var item = GetWeightedRandomItem(preferredThrowingWeights) ?? _cachedThrownWeapons.GetRandomElement();
-			if (item == null) break;
+			var item = GetWeightedRandomItem(preferredThrowingWeights) ?? GetRandomItem(_cachedThrownWeapons);
+			if (item == null || item.Value <= 0) break;
 
 			AddItemToArmory(item);
 			remainingThrowingBudget -= item.Value;
@@ -237,8 +347,8 @@ public static class ArmyArmory {
 		var remainingArrowBudget = arrowBudget;
 		while (remainingArrowBudget > 0)
 		{
-			var item = GetWeightedRandomItem(preferredArrowWeights) ?? _cachedArrows.GetRandomElement();
-			if (item == null) break;
+			var item = GetWeightedRandomItem(preferredArrowWeights) ?? GetRandomItem(_cachedArrows);
+			if (item == null || item.Value <= 0) break;
 
 			AddItemToArmory(item);
 			remainingArrowBudget -= item.Value;
@@ -247,8 +357,8 @@ public static class ArmyArmory {
 		var remainingBoltBudget = boltBudget;
 		while (remainingBoltBudget > 0)
 		{
-			var item = GetWeightedRandomItem(preferredBoltWeights) ?? _cachedBolts.GetRandomElement();
-			if (item == null) break;
+			var item = GetWeightedRandomItem(preferredBoltWeights) ?? GetRandomItem(_cachedBolts);
+			if (item == null || item.Value <= 0) break;
 
 			AddItemToArmory(item);
 			remainingBoltBudget -= item.Value;
@@ -261,7 +371,7 @@ public static class ArmyArmory {
 	}
 
 	private static int SellExcessEquipment() {
-		RebuildArmory();
+		SanitizeInPlace();
 		var excessValue = 0;
 		var playerParty = MobileParty.MainParty;
 		if (playerParty?.MemberRoster?.GetTroopRoster() == null) return 0;
@@ -304,44 +414,21 @@ public static class ArmyArmory {
 	}
 
 	public static void DebugClearEmptyItem() {
-		var toRemove = Armory
-					   .WhereQ(kv => kv is not {
-												   IsEmpty         : false,
-												   EquipmentElement: { IsEmpty: false, Item: not null },
-												   Amount          : > 0
-											   }                                                          ||
-									 kv.EquipmentElement.Item.ItemType == ItemObject.ItemTypeEnum.Invalid ||
-									 kv.EquipmentElement.Item.StringId == null                            ||
-									 kv.EquipmentElement.Item.StringId.IsEmpty())
-					   .ToArrayQ();
-		if (toRemove == null) return;
-
-		foreach (var item in toRemove) Armory.Remove(item);
-
-		Global.Debug($"Removed {toRemove.Length} empty entries from player's armory");
+		var removedEntries = SanitizeInPlace();
+		Global.Debug($"Removed {removedEntries} invalid entries from player's armory");
 	}
 
 	public static void RebuildArmory() {
-		var toAdd = Armory
-					.WhereQ(kv => kv is {
-											IsEmpty         : false,
-											EquipmentElement: { IsEmpty: false, Item: not null },
-											Amount          : > 0
-										})
-					.ToArrayQ();
-		Armory = new ItemRoster();
-		if (toAdd == null) return;
-
-		Armory.Add(toAdd);
-		Global.Debug($"Armory has been rebuilt with {toAdd.Length} entries");
+		var removedEntries = SanitizeInPlace();
+		Global.Debug($"Armory rebuilt in place, removed {removedEntries} invalid entries");
 	}
 
 	public static void DebugRemovePlayerCraftedItems() {
 		var toRemove = Armory
-					   .WhereQ(kv => kv is not {
-												   IsEmpty         : false,
-												   EquipmentElement: { IsEmpty: false, Item.IsCraftedByPlayer: true }
-											   })
+					   .WhereQ(kv => kv is {
+											   IsEmpty         : false,
+											   EquipmentElement: { IsEmpty: false, Item.IsCraftedByPlayer: true }
+										   })
 					   .ToArrayQ();
 		if (toRemove == null) return;
 
@@ -360,20 +447,26 @@ public static class ArmyArmory {
 
 			// 使用 Newtonsoft.Json 的 JsonSerializer 进行反序列化
 			var dict = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
+			if (dict == null) {
+				Global.Warn("armory.json is empty or invalid");
+				return;
+			}
+
 			Armory.Clear();
 			foreach (var kpv in dict) {
-				var item = MBObjectManager.Instance.GetObject<ItemObject>(kpv.Key);
-				if (item != null) { _ = Armory.AddToCounts(item, kpv.Value); }
+				var item = ResolveArmoryItem(kpv.Key);
+				if (item != null && kpv.Value > 0) { _ = Armory.AddToCounts(item, kpv.Value); }
 				else { Global.Warn($"cannot get object {kpv.Key}"); }
 			}
 
-			Global.Debug($"Successfully export armory from {filePath}");
+			Global.Debug($"Successfully imported armory from {filePath}");
 		}
 		catch (Exception e) { Global.Error(e.Message); }
 	}
 
 	public static void Export() {
 		try {
+			SanitizeInPlace();
 			Dictionary<string, int> dict = new();
 			foreach (var rosterElement in Armory) {
 				var stringId = rosterElement.EquipmentElement.Item?.StringId;

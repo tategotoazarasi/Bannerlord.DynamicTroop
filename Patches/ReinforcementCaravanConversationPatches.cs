@@ -8,7 +8,7 @@ namespace DynamicTroopEquipmentReupload;
 
 [HarmonyPatch]
 internal static class ReinforcementCaravanConversationPatches {
-	private const bool DISABLE_TRADE_BLOCK_FOR_TEST = false; // for testomg
+	private const bool DISABLE_TRADE_BLOCK_FOR_TEST = false;
 
 	// no trading for reinforcement 
 	[HarmonyPatch(typeof(CaravansCampaignBehavior), "caravan_buy_products_on_condition")]
@@ -28,7 +28,7 @@ internal static class ReinforcementCaravanConversationPatches {
 	[HarmonyPostfix]
 	private static void AddDialogsPostfix(CampaignGameStarter starter) {
 		starter.AddPlayerLine(
-			"caravan_buy_products",
+			"reinforcement_caravan_buy_products_disabled",
 			"caravan_talk",
 			"caravan_player_trade",
 			"{=t0UGXPV4}I'm interested in trading. What kind of products do you have?",

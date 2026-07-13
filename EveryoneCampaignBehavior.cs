@@ -25,9 +25,10 @@ using ItemPriorityQueue = TaleWorlds.Library.PriorityQueue<TaleWorlds.Core.ItemO
 namespace DynamicTroopEquipmentReupload;
 
 public class EveryoneCampaignBehavior : CampaignBehaviorBase {
-	public static Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+	public static readonly Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
 
-	private static Data _data = new();
+	private readonly Dictionary<uint, Dictionary<string, int>> _unresolvedPartyArmories = new();
+	private Data _data = new();
 
 	public static readonly Dictionary<ItemObject.ItemTypeEnum, Func<int, int>> EquipmentAndThresholds =
 		new() {
@@ -51,9 +52,13 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	public static readonly Dictionary<ItemObject.ItemTypeEnum, List<ItemObject>> ItemListByType = new();
 
 	private static void InitializeItemListByType() {
+		ItemListByType.Clear();
+		Cache.Clear();
+		ItemBlackList.ResetCache();
+
 		foreach (var itemType in Global.ItemTypes) {
 			var items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-									   ?.WhereQ(item => item != null && item.ItemType == itemType)
+									   ?.WhereQ(item => ArmyArmory.TryResolveArmoryItem(item, out _) && item.ItemType == itemType)
 									   ?.OrderByQ(item => item.Tier)
 									   ?.ThenBy(item => item.Value)
 									   .ToListQ();
@@ -71,52 +76,72 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, WeeklyTick);
 		CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, OnGameLoaded);
 		CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, OnNewGameCreated);
-		InitializeItemListByType();
 
 		//Global.InitializeCraftingTemplatesByItemType();
 	}
 
 	private void OnNewGameCreated(CampaignGameStarter starter) {
 		Global.Debug("OnNewGameCreated() called");
+		_unresolvedPartyArmories.Clear();
 		PartyArmories.Clear();
 
+		InitializeItemListByType();
 		CharacterObjectExtension.Init();
 	}
 
 
 	private void OnGameLoaded(CampaignGameStarter starter) {
 		Global.Debug("OnGameLoaded() called");
-		IEnumerable<MobileParty>? validParties = Campaign.Current?.MobileParties?.WhereQ(party => party.IsValid());
-		if (validParties == null) return;
+		InitializeItemListByType();
+		RestoreReadyPartyArmories();
 
-		foreach (var validParty in validParties)
-			if (!PartyArmories.ContainsKey(validParty.Id))
-				OnMobilePartyCreated(validParty);
+		IEnumerable<MobileParty>? validParties = Campaign.Current?.MobileParties?.WhereQ(party => party.IsValid());
+		if (validParties != null) {
+			foreach (var validParty in validParties) {
+				if (!PartyArmories.ContainsKey(validParty.Id))
+					OnMobilePartyCreated(validParty);
+				else
+					SanitizePartyArmory(validParty.Id);
+			}
+		}
 
 		CharacterObjectExtension.Init();
 	}
 
 	public override void SyncData(IDataStore dataStore) {
 		if (dataStore.IsSaving) {
-			_data.PartyArmories = ConvertToUIntGuidDict(PartyArmories);
+			_data.PartyArmories = CreateSerializedPartyArmories();
 			var tempData = _data;
 			if (dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData) && tempData != null) {
 				_data = tempData;
 				Global.Debug($"saved {PartyArmories.Count} entries");
-				_data.PartyArmories.Clear();
 			}
-			else { Global.Error("Save Error"); }
+			else
+				Global.Error("Save Error");
 		}
 		else if (dataStore.IsLoading) {
-			_data.PartyArmories.Clear();
-			var tempData = _data;
+			PartyArmories.Clear();
+			_unresolvedPartyArmories.Clear();
+
+			var tempData = new Data();
 			if (dataStore.SyncDataAsJson("DynamicTroopPartyArmories", ref tempData) && tempData != null) {
-				_data         = tempData;
-				PartyArmories = ConvertToGuidDict(_data.PartyArmories);
-				_data.PartyArmories.Clear();
-				Global.Debug($"loaded {PartyArmories.Count} entries");
+				_data = tempData;
+				_data.PartyArmories ??= new Dictionary<uint, Dictionary<string, int>>();
+				foreach (var partyEntry in _data.PartyArmories) {
+					if (partyEntry.Value == null)
+						continue;
+					var itemCounts = new Dictionary<string, int>();
+					foreach (var itemEntry in partyEntry.Value) {
+						if (!string.IsNullOrEmpty(itemEntry.Key) && itemEntry.Value > 0)
+							itemCounts[itemEntry.Key] = itemEntry.Value;
+					}
+
+					if (itemCounts.Count > 0)
+						_unresolvedPartyArmories[partyEntry.Key] = itemCounts;
+				}
 			}
-			else { Global.Error("Load Error"); }
+			else
+				Global.Error("Load Error");
 		}
 	}
 
@@ -201,14 +226,15 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void MoveRosterToArmory(MobileParty mobileParty) {
 		var elements = mobileParty.ItemRoster.WhereQ(element =>
 														 (element.EquipmentElement.Item?.HasArmorComponent  ?? false) ||
-														 (element.EquipmentElement.Item?.HasWeaponComponent ?? false));
+														 (element.EquipmentElement.Item?.HasWeaponComponent ?? false))
+								 .ToArrayQ();
 		foreach (var element in elements)
-			if (element.EquipmentElement.Item != null) {
-				AddItemToPartyArmory(mobileParty.Id, element.EquipmentElement.Item, element.Amount);
-				Global.Debug($"equipment {element.EquipmentElement.Item.Name}x{element.Amount} moved to armory from {mobileParty.Name}");
+			if (element.Amount > 0 && ArmyArmory.TryResolveArmoryItem(element.EquipmentElement.Item, out var item)) {
+				AddItemToPartyArmory(mobileParty.Id, item, element.Amount);
+				Global.Debug($"equipment {item.Name}x{element.Amount} moved to armory from {mobileParty.Name}");
 				mobileParty.ItemRoster.Remove(element);
 				var hero                    = mobileParty.LeaderHero ?? mobileParty.Owner;
-				if (hero != null) hero.Gold += element.EquipmentElement.Item.Value * element.Amount;
+				if (hero != null) hero.Gold += item.Value * element.Amount;
 			}
 	}
 
@@ -240,16 +266,13 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void OnMobilePartyCreated(MobileParty mobileParty) {
 		if (!mobileParty.IsValid()) return;
 
-		if (!PartyArmories.TryGetValue(mobileParty.Id, out var itemDict)) {
-			itemDict                      = new Dictionary<ItemObject, int>();
-			PartyArmories[mobileParty.Id] = itemDict;
-		}
+		if (!PartyArmories.ContainsKey(mobileParty.Id))
+			PartyArmories[mobileParty.Id] = new Dictionary<ItemObject, int>();
 
 		var list = mobileParty.GetItems();
 		foreach (var element in list) {
-			if (!itemDict.TryGetValue(element.Item, out var count)) count = 0;
-
-			itemDict[element.Item] = count + 1;
+			if (element.Item != null)
+				AddItemToPartyArmory(mobileParty.Id, element.Item, 1);
 		}
 
 		Global.Log($"Mobile party {mobileParty.Name} created, {list.Count} start equipment added",
@@ -338,15 +361,21 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 	private static Dictionary<ItemObject, int> GetAllLootItems(IEnumerable<MapEventParty> parties) {
 		Dictionary<ItemObject, int> itemsWithCount = new();
-		foreach (var party in parties)
-			if (PartyArmories.TryGetValue(party.Party.MobileParty.Id, out var inventory))
-				foreach (var item in inventory) {
-					if (!ItemBlackList.Test(item.Key)) continue;
-					if (itemsWithCount.ContainsKey(item.Key))
-						itemsWithCount[item.Key] += item.Value;
-					else
-						itemsWithCount.Add(item.Key, item.Value);
-				}
+		foreach (var party in parties) {
+			var partyId = party.Party.MobileParty.Id;
+			var inventory = SanitizePartyArmory(partyId);
+			if (inventory == null)
+				continue;
+
+			foreach (var item in inventory) {
+				if (item.Value <= 0 || !ItemBlackList.Test(item.Key))
+					continue;
+
+				itemsWithCount[item.Key] = itemsWithCount.TryGetValue(item.Key, out var currentCount)
+					? currentCount + item.Value
+					: item.Value;
+			}
+		}
 
 		return itemsWithCount;
 	}
@@ -390,18 +419,10 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		var party = recruiterHero.PartyBelongedTo;
 		if (!party.IsValid()) return;
 
-		// 确保PartyArmories包含party.Id键
-		if (!PartyArmories.TryGetValue(party.Id, out var partyInventory)) {
-			partyInventory          = new Dictionary<ItemObject, int>();
-			PartyArmories[party.Id] = partyInventory;
-		}
-
 		var list = RecruitmentPatch.GetRecruitEquipments(troop);
 		foreach (var element in list) {
-			// 确保partyInventory包含element.Item键
-			if (!partyInventory.TryGetValue(element.Item, out var count)) count = 0;
-
-			partyInventory[element.Item] = count + amount;
+			if (element.Item != null)
+				AddItemToPartyArmory(party.Id, element.Item, amount);
 		}
 
 		Global.Log($"troop {troop.Name}x{amount} recruited by recruiterHero={recruiterHero.Name} in party {party.Name}, {list.Count * amount} start equipment added",
@@ -415,93 +436,132 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	/// <param name="partyId"> 部队的唯一标识符。 </param>
 	/// <param name="item">    要添加的物品。 </param>
 	/// <param name="count">   添加的物品数量。 </param>
-	private static void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
+	public static Dictionary<ItemObject, int>? SanitizePartyArmory(MBGUID partyId) {
+		if (!PartyArmories.TryGetValue(partyId, out var armory))
+			return null;
+
+		var sanitizedItems = new Dictionary<ItemObject, int>();
+		foreach (var entry in armory) {
+			if (entry.Value <= 0 || !ArmyArmory.TryResolveArmoryItem(entry.Key, out var item))
+				continue;
+
+			sanitizedItems[item] = sanitizedItems.TryGetValue(item, out var currentCount)
+				? currentCount + entry.Value
+				: entry.Value;
+		}
+
+		armory.Clear();
+		foreach (var entry in sanitizedItems)
+			armory[entry.Key] = entry.Value;
+
+		return armory;
+	}
+
+	public static void AddItemToPartyArmory(MBGUID partyId, ItemObject item, int count) {
+		if (count <= 0 || !ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || !ItemBlackList.Test(resolvedItem))
+			return;
+
 		if (!PartyArmories.TryGetValue(partyId, out var inventory)) {
-			inventory              = new Dictionary<ItemObject, int>();
+			inventory = new Dictionary<ItemObject, int>();
 			PartyArmories[partyId] = inventory;
 		}
 
-		if (!inventory.TryGetValue(item, out var currentCount)) currentCount = 0;
-
-		inventory[item] = currentCount + count;
+		inventory[resolvedItem] = inventory.TryGetValue(resolvedItem, out var currentCount)
+			? currentCount + count
+			: count;
 	}
 
 	private static bool IsMapEventPartyValid(MapEventParty? party) {
 		return party is { Party.MobileParty: var mobileParty } && mobileParty.IsValid();
 	}
 
-	/// <summary>
-	///     将包含MBGUID键和物品字典的字典转换为使用uint键和字符串ID的字典。
-	/// </summary>
-	/// <param name="guidDict"> 以MBGUID为键，以物品和数量的字典为值的字典。 </param>
-	/// <returns> 转换后的字典，其中键为uint类型，值为以物品字符串ID和数量构成的字典。 </returns>
-	private static Dictionary<uint, Dictionary<string, int>> ConvertToUIntGuidDict(
-		Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict) {
-		Dictionary<uint, Dictionary<string, int>> uintDict = new();
-		foreach (var pair in guidDict) {
-			var party = Campaign.Current.MobileParties.FirstOrDefault(party => party.Id == pair.Key);
-			if (party is not {
-								 LeaderHero: {
-												 CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
-												 IsHumanPlayerCharacter: false,
-												 IsPartyLeader         : true,
-												 IsAlive               : true,
-												 IsActive              : true
-											 },
-								 Owner: {
-											CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
-											IsHumanPlayerCharacter: false,
-											IsActive              : true,
-											IsAlive               : true
-										},
-								 MemberRoster: { TotalHeroes: > 0, TotalManCount: > 0 },
-								 IsDisbanding: false
-							 }) continue;
-			if (!uintDict.TryGetValue(pair.Key.InternalValue, out var innerDict)) {
-				innerDict = new Dictionary<string, int>();
-				uintDict.Add(pair.Key.InternalValue, innerDict);
-			}
+	private Dictionary<uint, Dictionary<string, int>> CreateSerializedPartyArmories() {
+		var serializedArmories = new Dictionary<uint, Dictionary<string, int>>();
 
-			foreach (var innerPair in pair.Value)
-				if (innerPair is { Key: not null, Value: > 0 }) {
-					if (innerDict.ContainsKey(innerPair.Key.StringId))
-						innerDict[innerPair.Key.StringId] += innerPair.Value;
-					else
-						innerDict.Add(innerPair.Key.StringId, innerPair.Value);
-				}
+		foreach (var pendingParty in _unresolvedPartyArmories) {
+			var party = FindActiveParty(new MBGUID(pendingParty.Key));
+			if (!ShouldPersistParty(party))
+				continue;
+
+			serializedArmories[pendingParty.Key] = new Dictionary<string, int>(pendingParty.Value);
 		}
 
-		return uintDict;
+		foreach (var partyEntry in PartyArmories) {
+			var party = FindActiveParty(partyEntry.Key);
+			if (!ShouldPersistParty(party))
+				continue;
+
+			var serializedItems = serializedArmories.TryGetValue(partyEntry.Key.InternalValue, out var existingItems)
+				? existingItems
+				: new Dictionary<string, int>();
+
+			foreach (var itemEntry in partyEntry.Value) {
+				if (itemEntry.Value <= 0 || !ArmyArmory.TryResolveArmoryItem(itemEntry.Key, out var item))
+					continue;
+
+				serializedItems[item.StringId] = serializedItems.TryGetValue(item.StringId, out var currentCount)
+					? currentCount + itemEntry.Value
+					: itemEntry.Value;
+			}
+
+			if (serializedItems.Count > 0)
+				serializedArmories[partyEntry.Key.InternalValue] = serializedItems;
+		}
+
+		return serializedArmories;
 	}
 
-	/// <summary>
-	///     将使用uint键和字符串ID的字典转换为包含MBGUID键和物品字典的字典。
-	/// </summary>
-	/// <param name="uintDict"> 以uint为键，以物品字符串ID和数量的字典为值的字典。 </param>
-	/// <returns> 转换后的字典，其中键为MBGUID类型，值为以物品对象和数量构成的字典。 </returns>
-	private static Dictionary<MBGUID, Dictionary<ItemObject, int>> ConvertToGuidDict(
-		Dictionary<uint, Dictionary<string, int>> uintDict) {
-		Dictionary<MBGUID, Dictionary<ItemObject, int>> guidDict = new();
-		foreach (var pair in uintDict) {
-			if (!guidDict.TryGetValue(new MBGUID(pair.Key), out var innerDict)) {
-				innerDict = new Dictionary<ItemObject, int>();
-				guidDict.Add(new MBGUID(pair.Key), innerDict);
+	private void RestoreReadyPartyArmories() {
+		foreach (var pendingParty in new Dictionary<uint, Dictionary<string, int>>(_unresolvedPartyArmories)) {
+			var partyId = new MBGUID(pendingParty.Key);
+			if (FindActiveParty(partyId) == null)
+				continue;
+
+			if (!PartyArmories.TryGetValue(partyId, out var armory)) {
+				armory = new Dictionary<ItemObject, int>();
+				PartyArmories[partyId] = armory;
 			}
 
-			foreach (var innerPair in pair.Value) {
-				var itemObject = MBObjectManager.Instance.GetObject<ItemObject>(innerPair.Key) ??
-								 ItemObject.GetCraftedItemObjectFromHashedCode(innerPair.Key);
-				if (itemObject != null && innerPair.Value > 0) {
-					if (innerDict.ContainsKey(itemObject))
-						innerDict[itemObject] += innerPair.Value;
-					else
-						innerDict.Add(itemObject, innerPair.Value);
-				}
-				else { Global.Warn($"cannot get object {innerPair.Key}"); }
+			foreach (var pendingItem in new Dictionary<string, int>(pendingParty.Value)) {
+				var item = ArmyArmory.ResolveArmoryItem(pendingItem.Key);
+				if (item == null)
+					continue;
+
+				armory[item] = armory.TryGetValue(item, out var currentCount)
+					? currentCount + pendingItem.Value
+					: pendingItem.Value;
+				pendingParty.Value.Remove(pendingItem.Key);
 			}
+
+			if (pendingParty.Value.Count == 0)
+				_unresolvedPartyArmories.Remove(pendingParty.Key);
+			else
+				_unresolvedPartyArmories[pendingParty.Key] = pendingParty.Value;
 		}
+	}
 
-		return guidDict;
+	private static bool ShouldPersistParty(MobileParty? mobileParty) {
+		return mobileParty is {
+			LeaderHero: {
+				CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
+				IsHumanPlayerCharacter: false,
+				IsPartyLeader         : true,
+				IsAlive               : true,
+				IsActive              : true
+			},
+			Owner: {
+				CharacterObject       : { IsHero: true, IsPlayerCharacter: false },
+				IsHumanPlayerCharacter: false,
+				IsActive              : true,
+				IsAlive               : true
+			},
+			MemberRoster: { TotalHeroes: > 0, TotalManCount: > 0 },
+			IsDisbanding: false
+		};
+	}
+
+	private static MobileParty? FindActiveParty(MBGUID partyId) {
+		return Campaign.Current?.MobileParties?.FirstOrDefault(party => party.Id == partyId && party.IsActive);
 	}
 
 	[Serializable]

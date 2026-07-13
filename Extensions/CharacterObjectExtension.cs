@@ -42,6 +42,8 @@ public static class CharacterObjectExtension {
 		if (equipments == null) return 0;
 
 		var cnt = character.BattleEquipments.Count();
+		if (cnt == 0) return 0;
+
 		foreach (var equipment in equipments) {
 			foreach (var slot in Global.EquipmentSlots) {
 				var element = equipment.GetEquipmentFromSlot(slot);
@@ -79,6 +81,10 @@ public static class CharacterObjectExtension {
 	}
 
 	public static void Init() {
+		TypeDict.Clear();
+		CachedCharacterEquipmentValue.Clear();
+		CachedCharacterSkillValue.Clear();
+		while (TroopQueue.TryDequeue(out _)) { }
 		var cultureList = MBObjectManager.Instance.GetObjectTypeList<CultureObject>();
 		_cachedSkillValue = MBObjectManager.Instance.GetObjectTypeList<SkillObject>();
 		foreach (var culture in cultureList) {

@@ -25,19 +25,21 @@ public class Assignment : IComparable {
 
 
 	private readonly Dictionary<EquipmentIndex, string> _temporaryItemIdBySlot = new();
+	private readonly bool _canUseMountEquipment;
 
 	public readonly Equipment Equipment;
 
 	private bool _isAssigned;
 
-	public Assignment(CharacterObject character) {
+	public Assignment(CharacterObject character, bool canUseMountEquipment = true) {
 		_lock.EnterWriteLock();
 		try { Index = Interlocked.Increment(ref _counter); }
 		finally { _lock.ExitWriteLock(); }
 
-		Character          = character;
-		Equipment          = CreateEmptyEquipment();
-		ReferenceEquipment = character.RandomBattleEquipment.Clone();
+		Character             = character;
+		_canUseMountEquipment = canUseMountEquipment;
+		Equipment             = CreateEmptyEquipment();
+		ReferenceEquipment    = character.RandomBattleEquipment.Clone();
 	}
 
 	public int Index { get; }
@@ -69,6 +71,8 @@ public class Assignment : IComparable {
 	public float UnderEquippedMoralePenalty { get; set; }
 
 	public bool HasTemporarySlots => _temporaryItemIdBySlot.Count > 0;
+
+	public bool CanUseMountEquipment => _canUseMountEquipment;
 
 
 	public bool IsShielded =>
@@ -114,6 +118,9 @@ public class Assignment : IComparable {
 	{
 		get
 		{
+			if (!_canUseMountEquipment)
+				return false;
+
 			var horse = ReferenceEquipment.GetEquipmentFromSlot(EquipmentIndex.Horse);
 			return horse is { IsEmpty: false, Item: not null };
 		}
@@ -170,13 +177,19 @@ public class Assignment : IComparable {
 	}
 
 	public Equipment CreateEquipmentForArmoryConsumption() {
-		if (_temporaryItemIdBySlot.Count == 0)
+		if (_temporaryItemIdBySlot.Count == 0 && _canUseMountEquipment)
 			return Equipment;
 
 		var equipmentClone = Equipment.Clone();
 
 		foreach (var temporarySlot in _temporaryItemIdBySlot.Keys)
 			equipmentClone.AddEquipmentToSlotWithoutAgent(temporarySlot, new EquipmentElement());
+
+		// agent mount slot is deleted for naval battles that will also include their corresponding copy from armory
+		if (!_canUseMountEquipment) {
+			equipmentClone.AddEquipmentToSlotWithoutAgent(EquipmentIndex.Horse, new EquipmentElement());
+			equipmentClone.AddEquipmentToSlotWithoutAgent(EquipmentIndex.HorseHarness, new EquipmentElement());
+		}
 
 		return equipmentClone;
 	}
@@ -204,6 +217,7 @@ public class Assignment : IComparable {
 	public void FillEmptySlots() {
 		var isHideoutBattle = Mission.Current?.HasMissionBehavior<HideoutMissionController>() ?? false;
 		var isSiegeBattle = Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() ?? false;
+		var mountsUnavailable = !_canUseMountEquipment || isHideoutBattle || isSiegeBattle;
 
 		foreach (var slot in Global.ArmourSlots) {
 			var referenceEquipment = ReferenceEquipment.GetEquipmentFromSlot(slot);
@@ -234,9 +248,9 @@ public class Assignment : IComparable {
 		}
 
 		foreach (var slot in Global.EquipmentSlots) {
-			// hideout and siege harness fix
-			if (isHideoutBattle && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
-			if ((isHideoutBattle || isSiegeBattle) && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness)) continue;
+			// unlike naval battles siege and hideout remove mount from the agent
+			if (mountsUnavailable && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+				continue;
 
 			if (GetEquipmentFromSlot(slot) is not { IsEmpty: false, Item: not null })
 				SetEquipment(slot, ReferenceEquipment.GetEquipmentFromSlot(slot));

@@ -41,7 +41,14 @@ public class SubModule : MBSubModuleBase {
 		}
 	}
 
-	protected override void OnSubModuleUnloaded() { base.OnSubModuleUnloaded(); }
+	protected override void OnSubModuleUnloaded() {
+		MessageDisplayService.StopService();
+		base.OnSubModuleUnloaded();
+	}
+	protected override void OnApplicationTick(float dt) {
+		base.OnApplicationTick(dt);
+		MessageDisplayService.Tick(dt);
+	}
 
 	protected override void OnBeforeInitialModuleScreenSetAsRoot() {
 		base.OnBeforeInitialModuleScreenSetAsRoot();

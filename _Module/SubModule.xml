@@ -2,36 +2,36 @@
 <Module>
     <Id value="Dynamic Troop Equipment Reupload"/>
     <Name value="DynamicTroopReupload"/>
-    <Version value="v1.3.13"/>
+    <Version value="v1.4.7"/>
     <DefaultModule value="false"/>
     <ModuleCategory value="Singleplayer"/>
     <ModuleType value="Community"/>
     <DependedModules>
-        <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.4.2"/>
-        <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.10.3"/>
+        <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.4.2.225"/>
+        <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.11.0"/>
         <DependedModule Id="Bannerlord.UIExtenderEx" DependentVersion="v2.13.2"/>
-        <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.11.3"/>
-        <DependedModule Id="Native" DependentVersion="v1.3.13"/>
-        <DependedModule Id="SandBoxCore" DependentVersion="v1.3.13"/>
-        <DependedModule Id="Sandbox" DependentVersion="v1.3.13"/>
-        <DependedModule Id="StoryMode" DependentVersion="v1.3.13"/>
-        <DependedModule Id="CustomBattle" DependentVersion="v1.3.13"/>
+        <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.12.1"/>
+        <DependedModule Id="Native" DependentVersion="v1.4.7"/>
+        <DependedModule Id="SandBoxCore" DependentVersion="v1.4.7"/>
+        <DependedModule Id="Sandbox" DependentVersion="v1.4.7"/>
+        <DependedModule Id="StoryMode" DependentVersion="v1.4.7"/>
+        <DependedModule Id="CustomBattle" DependentVersion="v1.4.7"/>
     </DependedModules>
     <DependedModuleMetadatas>
-        <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis" version="v2.2.4"/>
-        <DependedModuleMetadata id="Bannerlord.ButterLib" order="LoadBeforeThis" version="v2.10.3"/>
+        <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis" version="v2.4.2.225"/>
+        <DependedModuleMetadata id="Bannerlord.ButterLib" order="LoadBeforeThis" version="v2.11.0"/>
         <DependedModuleMetadata id="Bannerlord.UIExtenderEx" order="LoadBeforeThis" version="v2.13.2"/>
-        <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v5.11.3"/>
-        <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.3.13.*"/>
-        <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="v1.3.13.*"/>
-        <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.3.13.*"/>
-        <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="v1.3.13.*"/>
-        <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="v1.3.13.*"/>
+        <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v5.12.1"/>
+        <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.4.7.*"/>
+        <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="v1.4.7.*"/>
+        <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.4.7.*"/>
+        <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="v1.4.7.*"/>
+        <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="v1.4.7.*"/>
     </DependedModuleMetadatas>
     <SubModules>
         <SubModule>
             <Name value="Dynamic Troop Equipment Reupload"/>
-            <DLLName value="DynamicTroopEquipmentReupload.v1.3.13.dll"/>
+            <DLLName value="DynamicTroopEquipmentReupload.v1.4.7.dll"/>
             <SubModuleClassType value="DynamicTroopEquipmentReupload.SubModule"/>
             <Tags/>
         </SubModule>

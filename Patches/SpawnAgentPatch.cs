@@ -16,7 +16,7 @@ namespace DynamicTroopEquipmentReupload.Patches;
 [HarmonyPatch(typeof(Mission), nameof(Mission.SpawnAgent))]
 public static class SpawnAgentPatch {
 	private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData, ref SpawnAgentState? __state) {
-		if (__instance.GetMissionBehavior<MissionAgentSpawnLogic>() == null) { return; }
+		if (__instance.GetMissionBehavior<IMissionAgentSpawnLogic>() == null) { return; }
 
 		if (agentBuildData.AgentOrigin == null) { return; }
 
@@ -24,7 +24,7 @@ public static class SpawnAgentPatch {
 		if (!IsPartyValidForProcessing(agentBuildData.AgentOrigin)) {
 			if (ModSettings.Instance?.RandomizeNonHeroLedAiPartiesArmor ?? false) {
 				if (agentBuildData.AgentOrigin.Troop is CharacterObject troopCharacterObject && !troopCharacterObject.IsHero) {
-					var assignment = new Assignment(troopCharacterObject);
+					var assignment = new Assignment(troopCharacterObject, !__instance.IsNavalBattle && !__instance.IsNavalRaidBattle);
 					assignment.FillEmptySlots();
 					agentBuildData = agentBuildData.Equipment(assignment.Equipment);
 				}
@@ -39,7 +39,10 @@ public static class SpawnAgentPatch {
 		var party = Global.GetAgentParty(agentBuildData.AgentOrigin);
 		if (party == null) { return; }
 
-		var isMainParty = party == Campaign.Current.MainParty;
+		var mainParty = Campaign.Current?.MainParty;
+		if (mainParty == null) { return; }
+
+		var isMainParty = party == mainParty;
 		if (!isMainParty && !party.IsValid()) { return; }
 
 		dynamicTroopMissionLogic.TryInitializeDistributors();
@@ -56,13 +59,10 @@ public static class SpawnAgentPatch {
 		assignmentOrNull.IsAssigned = true;
 
 
-		var isInPlayerParty = agentBuildData.AgentOrigin.IsUnderPlayersCommand;
-
-		if (!isInPlayerParty) { assignmentOrNull.FillEmptySlots(); }
-
+		if (!isMainParty) { assignmentOrNull.FillEmptySlots(); }
 
 		agentBuildData = agentBuildData.Equipment(assignmentOrNull.Equipment);
-		__state        = new SpawnAgentState(assignmentOrNull, isInPlayerParty, isMainParty, distributor);
+		__state        = new SpawnAgentState(assignmentOrNull, isMainParty, distributor);
 	}
 
 	private static void Postfix(Agent __result, SpawnAgentState? __state) {
@@ -74,12 +74,12 @@ public static class SpawnAgentPatch {
 		else { __state.Distributor.Spawn(equipmentToConsume); }
 
 		// Underequipped morale penalty (player party only)
-		if (__state.IsInPlayerParty && (ModSettings.Instance?.Underequipped ?? true)) {
+		if (__state.IsMainParty && (ModSettings.Instance?.Underequipped ?? true)) {
 			var penalty = __state.Assignment.UnderEquippedMoralePenalty;
 			if (penalty > 0f) { ApplyMoralePenalty(__result, penalty); }
 		}
 
-		var dynamicTroopMissionLogic = Mission.Current.GetMissionBehavior<DynamicTroopMissionLogic>();
+		var dynamicTroopMissionLogic = __result.Mission?.GetMissionBehavior<DynamicTroopMissionLogic>();
 		dynamicTroopMissionLogic?.RegisterSpawnedAgentAssignment(__result, __state.Assignment);
 	}
 
@@ -104,22 +104,20 @@ public static class SpawnAgentPatch {
 		if (party is not { IsValid: true, MobileParty: not null }) { return false; }
 
 		var mobileParty = party.MobileParty;
-		if (mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsMilitia || mobileParty.IsBandit) { return false; }
+		if (mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsMilitia || mobileParty.IsBandit || mobileParty.IsPatrolParty) { return false; }
 
 		return true;
 	}
 
 	private sealed class SpawnAgentState {
-		public SpawnAgentState(Assignment assignment, bool isInPlayerParty, bool isMainParty, PartyEquipmentDistributor distributor) {
-			Assignment      = assignment;
-			IsInPlayerParty = isInPlayerParty;
-			IsMainParty     = isMainParty;
-			Distributor     = distributor;
+		public SpawnAgentState(Assignment assignment, bool isMainParty, PartyEquipmentDistributor distributor) {
+			Assignment  = assignment;
+			IsMainParty = isMainParty;
+			Distributor = distributor;
 		}
 
 		public Assignment Assignment { get; }
 
-		public bool IsInPlayerParty { get; }
 
 		public bool IsMainParty { get; }
 

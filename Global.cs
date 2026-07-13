@@ -189,11 +189,21 @@ public static class Global {
 		if (weapon1.Weapons == null || weapon2.Weapons == null || weapon1.Weapons.IsEmpty() || weapon2.Weapons.IsEmpty() || weapon1.Weapons.Count != weapon2.Weapons.Count)
 			return false;
 
-		weapon1.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
-		weapon2.Weapons.Sort((x, y) => x.WeaponClass - y.WeaponClass);
+		var firstWeaponUsages = weapon1.Weapons
+			.OrderBy(weapon => weapon.WeaponClass)
+			.ThenBy(weapon => weapon.SwingDamageType)
+			.ThenBy(weapon => weapon.ThrustDamageType)
+			.ToArray();
+		var secondWeaponUsages = weapon2.Weapons
+			.OrderBy(weapon => weapon.WeaponClass)
+			.ThenBy(weapon => weapon.SwingDamageType)
+			.ThenBy(weapon => weapon.ThrustDamageType)
+			.ToArray();
 		return !Enumerable
-				.Range(0, weapon1.Weapons.Count)
-				.AnyQ(i => weapon1.Weapons[i].WeaponClass != weapon2.Weapons[i].WeaponClass || weapon1.Weapons[i].SwingDamageType != weapon2.Weapons[i].SwingDamageType || weapon1.Weapons[i].ThrustDamageType != weapon2.Weapons[i].ThrustDamageType);
+			.Range(0, firstWeaponUsages.Length)
+			.AnyQ(i => firstWeaponUsages[i].WeaponClass != secondWeaponUsages[i].WeaponClass ||
+					   firstWeaponUsages[i].SwingDamageType != secondWeaponUsages[i].SwingDamageType ||
+					   firstWeaponUsages[i].ThrustDamageType != secondWeaponUsages[i].ThrustDamageType);
 	}
 
 	public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {

@@ -10,28 +10,46 @@ using TaleWorlds.Library;
 
 namespace DynamicTroopEquipmentReupload.Patches;
 
-[HarmonyPatch(typeof(RecruitmentVM), "ExecuteDone")]
+[HarmonyPatch(typeof(RecruitmentVM), "OnDone")]
 public class RecruitmentPatch {
-	public static void Prefix(RecruitmentVM __instance) {
-		foreach (var troop in __instance.TroopsInCart)
-			// 在这里实现将士兵基础装备添加到军火库的逻辑
-			if (!troop.IsTroopEmpty && troop.Character != null) {
-				Global.Log($"recruiting {troop.Character.StringId}", Colors.Green, Level.Debug);
-				var equipments = GetRecruitEquipments(troop.Character);
-				Global.Debug($"{equipments.Count} starting equipments added");
-				foreach (var equipment in equipments)
-					if (equipment is { IsEmpty: false, Item: not null })
-						ArmyArmory.AddItemToArmory(equipment.Item);
-			}
+	private static void Prefix(RecruitmentVM __instance, out Dictionary<CharacterObject, int> __state) {
+		__state = __instance.TroopsInCart
+			.Where(troop => !troop.IsTroopEmpty && troop.Character != null)
+			.Select(troop => troop.Character!)
+			.Distinct()
+			.ToDictionary(
+				character => character,
+				character => Campaign.Current.MainParty.MemberRoster.GetTroopCount(character));
+	}
+
+	private static void Postfix(Dictionary<CharacterObject, int> __state) {
+		foreach (var rosterEntry in __state) {
+			var recruitedCount = Campaign.Current.MainParty.MemberRoster.GetTroopCount(rosterEntry.Key) - rosterEntry.Value;
+			if (recruitedCount > 0)
+				AddStartingEquipmentToPlayerArmory(rosterEntry.Key, recruitedCount);
+		}
+	}
+
+	internal static void AddStartingEquipmentToPlayerArmory(CharacterObject character, int troopCount) {
+		if (troopCount <= 0)
+			return;
+
+		Global.Log($"recruiting {troopCount}x{character.Name}", Colors.Green, Level.Debug);
+		var equipments = GetRecruitEquipments(character);
+		Global.Debug($"{equipments.Count * troopCount} starting equipments added");
+		foreach (var equipment in equipments) {
+			if (equipment is { IsEmpty: false, Item: not null })
+				ArmyArmory.AddItemToArmory(equipment.Item, troopCount);
+		}
 	}
 
 	public static List<EquipmentElement> GetRecruitEquipments(CharacterObject? character) {
 		if (character?.BattleEquipments?.IsEmpty() ?? true) return new List<EquipmentElement>();
 
-		var                       armorAndHorse     = character.RandomBattleEquipment;
-		List<EquipmentElement>    equipmentElements = new();
-		List<EquipmentElement>    weaponList        = new();
-		HashSet<EquipmentElement> weaponSet         = new(new EquipmentElementComparer());
+		var armorAndHorse = character.RandomBattleEquipment;
+		List<EquipmentElement> equipmentElements = new();
+		List<EquipmentElement> weaponList = new();
+		HashSet<EquipmentElement> weaponSet = new(new EquipmentElementComparer());
 		foreach (var slot in Global.ArmourSlots) {
 			var equipmentElement = armorAndHorse.GetEquipmentFromSlot(slot);
 			if (equipmentElement is { IsEmpty: false, Item: not null }) {
@@ -51,7 +69,7 @@ public class RecruitmentPatch {
 					items.Add(equipmentElement.Item);
 					items = items.Distinct().ToList();
 					equipmentElements.Add(new EquipmentElement(WeightedRandomSelector.SelectItem(items,
-																								 equipmentElement.Item.Effectiveness)));
+																	 equipmentElement.Item.Effectiveness)));
 				}
 				else { equipmentElements.Add(equipmentElement); }
 			}
@@ -62,21 +80,24 @@ public class RecruitmentPatch {
 			if (equipmentElement is { IsEmpty: false, Item: not null }) equipmentElements.Add(equipmentElement);
 		}
 
-		foreach (var equipment in character.BattleEquipments)
-			if (!equipment.IsEmpty())
-				foreach (var slot in Assignment.WeaponSlots) {
-					var item = equipment.GetEquipmentFromSlot(slot);
-					if (item is not { IsEmpty: false, Item: not null } || !item.Item.HasWeaponComponent) continue;
+		foreach (var equipment in character.BattleEquipments) {
+			if (equipment.IsEmpty())
+				continue;
 
-					if (item.Item.IsConsumable())
-						equipmentElements.Add(item); // 直接添加消耗品类型武器
-					else
-						weaponList.Add(item); // 非消耗品类型武器添加到列表
-				}
+			foreach (var slot in Assignment.WeaponSlots) {
+				var item = equipment.GetEquipmentFromSlot(slot);
+				if (item is not { IsEmpty: false, Item: not null } || !item.Item.HasWeaponComponent) continue;
+
+				if (item.Item.IsConsumable())
+					equipmentElements.Add(item);
+				else
+					weaponList.Add(item);
+			}
+		}
 
 		weaponList.Shuffle();
-		var newWeapons                       = weaponList.Except(weaponSet);
-		foreach (var weapon in newWeapons) _ = weaponSet.Add(weapon);
+		foreach (var weapon in weaponList.Except(weaponSet))
+			_ = weaponSet.Add(weapon);
 
 		equipmentElements.AddRange(weaponSet);
 		return equipmentElements;
@@ -86,12 +107,15 @@ public class RecruitmentPatch {
 		List<EquipmentElement> list = new();
 		if (character?.BattleEquipments?.IsEmpty() ?? true) return list;
 
-		foreach (var equipment in character.BattleEquipments)
-			if (!equipment.IsEmpty())
-				foreach (var slot in Global.EquipmentSlots) {
-					var item = equipment.GetEquipmentFromSlot(slot);
-					if (item is { IsEmpty: false, Item: not null }) list.Add(item);
-				}
+		foreach (var equipment in character.BattleEquipments) {
+			if (equipment.IsEmpty())
+				continue;
+
+			foreach (var slot in Global.EquipmentSlots) {
+				var item = equipment.GetEquipmentFromSlot(slot);
+				if (item is { IsEmpty: false, Item: not null }) list.Add(item);
+			}
+		}
 
 		return list;
 	}

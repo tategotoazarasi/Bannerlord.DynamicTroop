@@ -118,16 +118,19 @@ public static class ItemBlackList {
 	/// </summary>
 	/// <param name="item">The item to test.</param>
 	/// <returns>True if the item passes the blacklisting conditions, false otherwise.</returns>
-	public static bool Test(ItemObject item) {
+	public static void ResetCache() {
+		Cache.Clear();
+	}
+	public static bool Test(ItemObject? item) {
 		try {
-			if (Cache.TryGetValue(item, out var cachedResult))
+			if (item == null || !ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem))
+				return false;
+
+			if (Cache.TryGetValue(resolvedItem, out var cachedResult))
 				return cachedResult;
 
-			if (item == null || item.StringId.IsEmpty() || item.Name == null || item.Name.ToString().IsEmpty())
-				return true;
-
-			var stringId = item.StringId;
-			var name     = item.Name.ToString();
+			var stringId = resolvedItem.StringId;
+			var name     = resolvedItem.Name.ToString();
 
 			var isAllowed =
 				!StringIds.Contains(stringId)                               &&
@@ -135,7 +138,7 @@ public static class ItemBlackList {
 				!StringIdPatterns.Any(pattern => pattern.IsMatch(stringId)) &&
 				!NamePatterns.Any(pattern => pattern.IsMatch(name));
 
-			Cache[item] = isAllowed;
+			Cache[resolvedItem] = isAllowed;
 			return isAllowed;
 		}
 		catch (Exception e) {
