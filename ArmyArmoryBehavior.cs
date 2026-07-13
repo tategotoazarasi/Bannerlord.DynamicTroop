@@ -175,6 +175,11 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 		}
 	}
 
+	internal static void OpenArmoryScreen() {
+		Campaign.Current?.GetCampaignBehavior<ArmyArmoryBehavior>()?.RestoreReadyArmoryItems();
+		ArmyArmory.SanitizeInPlace();
+		InventoryScreenHelper.OpenScreenAsStash(ArmyArmory.Armory);
+	}
 	private void RestoreReadyArmoryItems() {
 		if (_unresolvedArmoryItemCounts.Count == 0)
 			return;
@@ -276,11 +281,7 @@ public class ArmyArmoryBehavior : CampaignBehaviorBase {
 								  "view_armory",
 								  LocalizedTexts.ArmorViewOption.ToString(),
 								  args => true,
-								  args => {
-									  RestoreReadyArmoryItems();
-									  ArmyArmory.SanitizeInPlace();
-									  InventoryScreenHelper.OpenScreenAsStash(ArmyArmory.Armory);
-								  });
+								  args => { OpenArmoryScreen(); });
 
 
 		starter.AddGameMenuOption("army_armory_submenu",

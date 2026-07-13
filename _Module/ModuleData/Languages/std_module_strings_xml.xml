@@ -47,6 +47,7 @@
 
         <string id="armory_view_option" text="View Army Armory"/>
         <string id="armory_manage_option" text="Manage Armory"/>
+        <string id="armory_readiness_hint" text="Army Armory readiness: {PERCENT}% ({EQUIPPED}/{TOTAL} fully equipped)"/>
         <string id="sell_for_throwing" text="Trade Excess Equipment for Throwing Weapons"/>
         <string id="sell_for_throwing_text"
                 text="Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons"/>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+    <SpriteCategory Name="ui_dynamic_troop">
+        <AlwaysLoad/>
+    </SpriteCategory>
+</Config>

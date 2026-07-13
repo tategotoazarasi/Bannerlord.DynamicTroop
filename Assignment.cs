@@ -31,15 +31,22 @@ public class Assignment : IComparable {
 
 	private bool _isAssigned;
 
-	public Assignment(CharacterObject character, bool canUseMountEquipment = true) {
-		_lock.EnterWriteLock();
-		try { Index = Interlocked.Increment(ref _counter); }
-		finally { _lock.ExitWriteLock(); }
+	public Assignment(CharacterObject character, bool canUseMountEquipment = true)
+		: this(character, character.RandomBattleEquipment, canUseMountEquipment, true) { }
+	internal Assignment(CharacterObject character, Equipment referenceEquipment, bool canUseMountEquipment = true)
+		: this(character, referenceEquipment, canUseMountEquipment, false) { }
+
+	private Assignment(CharacterObject character, Equipment referenceEquipment, bool canUseMountEquipment, bool assignRuntimeIndex) {
+		if (assignRuntimeIndex) {
+			_lock.EnterWriteLock();
+			try { Index = Interlocked.Increment(ref _counter); }
+			finally { _lock.ExitWriteLock(); }
+		}
 
 		Character             = character;
 		_canUseMountEquipment = canUseMountEquipment;
 		Equipment             = CreateEmptyEquipment();
-		ReferenceEquipment    = character.RandomBattleEquipment.Clone();
+		ReferenceEquipment    = referenceEquipment.Clone();
 	}
 
 	public int Index { get; }

@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using log4net;
 using log4net.Appender;
@@ -16,11 +17,17 @@ namespace DynamicTroopEquipmentReupload;
 public class SubModule : MBSubModuleBase {
 	public static ModSettings? Settings;
 
+	private UIExtender? _uiExtender;
+
 	protected override void OnSubModuleLoad() {
 		base.OnSubModuleLoad();
 
+		var assembly = Assembly.GetExecutingAssembly();
+		_uiExtender = UIExtender.Create("DynamicTroopEquipmentReupload");
+		_uiExtender.Register(assembly);
+		_uiExtender.Enable();
 		var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
-		harmony.PatchAll(Assembly.GetExecutingAssembly());
+		harmony.PatchAll(assembly);
 
 		// 获取 Mod 目录的路径
 		var modDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -42,6 +49,8 @@ public class SubModule : MBSubModuleBase {
 	}
 
 	protected override void OnSubModuleUnloaded() {
+		_uiExtender?.Deregister();
+		_uiExtender = null;
 		MessageDisplayService.StopService();
 		base.OnSubModuleUnloaded();
 	}

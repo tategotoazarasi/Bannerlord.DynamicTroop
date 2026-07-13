@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<SpriteData>
+  <SpriteCategories>
+    <SpriteCategory>
+      <Name>ui_dynamic_troop</Name>
+	  <AlwaysLoad />
+      <SpriteSheetCount>1</SpriteSheetCount>
+      <SpriteSheetSize ID="1" Width="1024" Height="1024" />
+    </SpriteCategory>
+  </SpriteCategories>
+  <SpriteParts>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>dt_readiness_bg</Name>
+      <Width>460</Width>
+      <Height>766</Height>
+      <SheetX>4</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_dynamic_troop</CategoryName>
+    </SpritePart>
+    <SpritePart>
+      <SheetID>1</SheetID>
+      <Name>dt_readiness_fill</Name>
+      <Width>460</Width>
+      <Height>766</Height>
+      <SheetX>472</SheetX>
+      <SheetY>4</SheetY>
+      <CategoryName>ui_dynamic_troop</CategoryName>
+    </SpritePart>
+  </SpriteParts>
+  <Sprites>
+    <GenericSprite>
+      <Name>dt_readiness_bg</Name>
+      <SpritePartName>dt_readiness_bg</SpritePartName>
+    </GenericSprite>
+    <GenericSprite>
+      <Name>dt_readiness_fill</Name>
+      <SpritePartName>dt_readiness_fill</SpritePartName>
+    </GenericSprite>
+  </Sprites>
+</SpriteData>
