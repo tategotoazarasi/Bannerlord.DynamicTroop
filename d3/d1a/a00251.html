@@ -287,7 +287,7 @@ Static Private Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="../../d1/d09/a00077_source.html#l00133">133</a> of file <a class="el" href="../../d1/d09/a00077_source.html">ItemObjectExtension.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  133</span>                                                                   {</div>
 <div class="line"><span class="lineno">  134</span>        <span class="keywordflow">return</span> weapon is { HasWeaponComponent: <span class="keyword">true</span> } &amp;&amp;</div>
-<div class="line"><span class="lineno">  135</span>               weapon.CheckWeaponFlag(flag =&gt; !flag.Contains(<span class="stringliteral">&quot;cant_use_with_shields&quot;</span>));</div>
+<div class="line"><span class="lineno">  135</span>               weapon.CheckWeaponFlag(flag =&gt; flag.Contains(<span class="stringliteral">&quot;cant_use_with_shields&quot;</span>));</div>
 <div class="line"><span class="lineno">  136</span>    }</div>
 </div><!-- fragment -->
 </div>

@@ -259,7 +259,7 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="../../d3/d1a/a00251.html#a414996d8e0fe98822f88c98a003fc125">  133</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/d1a/a00251.html#a414996d8e0fe98822f88c98a003fc125">CantUseWithShields</a>(<span class="keyword">this</span> ItemObject? weapon) {</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">return</span> weapon is { HasWeaponComponent: <span class="keyword">true</span> } &amp;&amp;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>               weapon.CheckWeaponFlag(flag =&gt; !flag.Contains(<span class="stringliteral">&quot;cant_use_with_shields&quot;</span>));</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>               weapon.CheckWeaponFlag(flag =&gt; flag.Contains(<span class="stringliteral">&quot;cant_use_with_shields&quot;</span>));</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
 </div>
 <div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
