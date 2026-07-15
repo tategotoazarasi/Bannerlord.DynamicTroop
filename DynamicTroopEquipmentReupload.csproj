@@ -68,10 +68,6 @@
         <Reference Include="Bannerlord.Harmony">
             <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\Bannerlord.Harmony.dll</HintPath>
         </Reference>
-        <Reference Include="log4net">
-            <HintPath>..\..\Downloads\Compressed\log4net.dll</HintPath>
-            <Private>True</Private>
-        </Reference>
         <Reference Include="MathNet.Numerics">
             <HintPath>..\MathNet.Numerics.dll</HintPath>
             <Private>True</Private>
