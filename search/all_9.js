@@ -59,7 +59,7 @@ var searchData=
   ['itemlistbytype_56',['ItemListByType',['../d3/d42/a00235.html#a1a01e9b809999805a925dfa8be45a3ec',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]],
   ['itemobjectextension_57',['ItemObjectExtension',['../d3/d1a/a00251.html',1,'DynamicTroopEquipmentReupload::Extensions']]],
   ['itemobjectextension_2ecs_58',['ItemObjectExtension.cs',['../d4/d3a/a00101.html',1,'']]],
-  ['itempriorityqueue_59',['ItemPriorityQueue',['../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31',1,'ItemPriorityQueue:&#160;ArmyArmory.cs'],['../d4/dee/a00008.html#a6fcba460973a29352c9c88548a373dd3',1,'ItemPriorityQueue:&#160;EveryoneCampaignBehavior.cs']]],
+  ['itempriorityqueue_59',['ItemPriorityQueue',['../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31',1,'ItemPriorityQueue:&#160;ArmyArmory.cs'],['../da/d45/a00011.html#a6fcba460973a29352c9c88548a373dd3',1,'ItemPriorityQueue:&#160;EveryoneCampaignBehavior.cs']]],
   ['itemrosterforplayerlootsharepatch_60',['ItemRosterForPlayerLootSharePatch',['../d0/dc5/a00343.html',1,'DynamicTroopEquipmentReupload::Patches']]],
   ['itemrosterforplayerlootsharepatch_2ecs_61',['ItemRosterForPlayerLootSharePatch.cs',['../d4/d8c/a00035.html',1,'']]],
   ['itemsrecoveredfromfallenmessage_62',['ItemsRecoveredFromFallenMessage',['../df/d95/a00299.html#aaf9a567199acafc7d546e771db8f3482',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],

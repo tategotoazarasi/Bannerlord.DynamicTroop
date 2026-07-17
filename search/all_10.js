@@ -3,7 +3,7 @@ var searchData=
   ['random_0',['Random',['../db/dd9/a00179.html#a7f65d1398ac0aa1a308d0a33e16d847c',1,'DynamicTroopEquipmentReupload::ArmorSelector']]],
   ['randomizenonheroledaipartiesarmor_1',['RandomizeNonHeroLedAiPartiesArmor',['../d0/da2/a00307.html#a5da5067a01ae20c16e52098ba40005e0',1,'DynamicTroopEquipmentReupload::ModSettings']]],
   ['randomizestartingequipment_2',['RandomizeStartingEquipment',['../d0/da2/a00307.html#a3f9d7250c67df1cdf384d59107d6d86d',1,'DynamicTroopEquipmentReupload::ModSettings']]],
-  ['readme_2emd_3',['README.md',['../da/d45/a00011.html',1,'']]],
+  ['readme_2emd_3',['README.md',['../d7/d46/a00002.html',1,'']]],
   ['rebuildarmory_4',['RebuildArmory',['../dc/d52/a00183.html#a88598da054498964c5272901d5aca8fd',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
   ['recovery_5',['Looting &amp; Recovery',['../dd/dea/a00408.html#autotoc_md8',1,'']]],
   ['recruitmentpatch_6',['RecruitmentPatch',['../d1/dc6/a00347.html',1,'DynamicTroopEquipmentReupload::Patches']]],
