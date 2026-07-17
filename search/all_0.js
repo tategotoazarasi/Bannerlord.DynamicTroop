@@ -44,6 +44,7 @@ var searchData=
   ['_5ftimesincelastmessage_41',['_timeSinceLastMessage',['../dc/d0f/a00303.html#a1202559a2a6d7ebab24c4b6145103508',1,'MessageDisplayService']]],
   ['_5ftrackedmainparty_42',['_trackedMainParty',['../d3/d5e/a00275.html#a87c8384282a344eea7d5e2fccc3377a4',1,'DynamicTroopEquipmentReupload::GUIExtensions::MapArmoryReadinessMixin']]],
   ['_5fuiextender_43',['_uiExtender',['../df/dc2/a00367.html#a3889651f89b9302bc280aee139cccf01',1,'DynamicTroopEquipmentReupload::SubModule']]],
-  ['_5funresolvedarmoryitemcounts_44',['_unresolvedArmoryItemCounts',['../d6/daa/a00187.html#a61640256eaba35bde44b15e3bc54b1bd',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
-  ['_5funresolvedpartyarmories_45',['_unresolvedPartyArmories',['../d3/d42/a00235.html#a591f1d7f4214dd67fe68e4cd6bd76c38',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
+  ['_5funclaimednavalcasualtyloot_44',['_unclaimedNavalCasualtyLoot',['../df/d17/a00231.html#abe16c1004d003258fc32802c67953c7a',1,'DynamicTroopEquipmentReupload::DynamicTroopMissionLogic']]],
+  ['_5funresolvedarmoryitemcounts_45',['_unresolvedArmoryItemCounts',['../d6/daa/a00187.html#a61640256eaba35bde44b15e3bc54b1bd',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
+  ['_5funresolvedpartyarmories_46',['_unresolvedPartyArmories',['../d3/d42/a00235.html#a591f1d7f4214dd67fe68e4cd6bd76c38',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
 ];

@@ -5,7 +5,7 @@ var searchData=
   ['links_2',['Links',['../dd/dea/a00408.html#autotoc_md26',1,'']]],
   ['loadblacklist_3',['LoadBlackList',['../da/dd4/a00291.html#a800aa4ee03ae3b8889fd8980d86d8146',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
   ['localizedtexts_4',['LocalizedTexts',['../df/d95/a00299.html',1,'DynamicTroopEquipmentReupload']]],
-  ['localizedtexts_2ecs_5',['LocalizedTexts.cs',['../d4/d81/a00110.html',1,'']]],
+  ['localizedtexts_2ecs_5',['LocalizedTexts.cs',['../d2/de7/a00014.html',1,'']]],
   ['log_6',['Log',['../dd/d86/a00271.html#a0cebe513d12d22f4a0d7fa984a9b43ac',1,'DynamicTroopEquipmentReupload::Global']]],
   ['logistics_20cut_20their_20supply_7',['AI &amp; Logistics (&quot;Cut Their Supply&quot;)',['../dd/dea/a00408.html#autotoc_md9',1,'']]],
   ['logleveldropdownchanged_8',['LogLevelDropdownChanged',['../d0/da2/a00307.html#a27f370c5001078f7877eb6b8dbab93d3',1,'DynamicTroopEquipmentReupload::ModSettings']]],

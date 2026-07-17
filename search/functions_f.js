@@ -1,12 +1,22 @@
 var searchData=
 [
-  ['test_0',['Test',['../da/dd4/a00291.html#a76cf72d7e5032dec2846b85a42604225',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
-  ['tick_1',['Tick',['../dc/d0f/a00303.html#adfd31be4d1ed4d1eb2202e87f273a935',1,'MessageDisplayService']]],
-  ['transfercargototargetstash_2',['TransferCargoToTargetStash',['../dc/d28/a00223.html#a707a21f02cf3e4af125a3cddce3ce65b',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['tryconsumeexactitem_3',['TryConsumeExactItem',['../d4/d6f/a00315.html#a8ca58188419b87e0710770c521e8b669',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
-  ['tryfindinitialreinforcementroute_4',['TryFindInitialReinforcementRoute',['../dc/d28/a00223.html#a1f2a31e629e3cb5c050519580fe051d0',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['tryinitializedistributors_5',['TryInitializeDistributors',['../df/d17/a00231.html#a42376c028201adfdaf7827f328321ee7',1,'DynamicTroopEquipmentReupload::DynamicTroopMissionLogic']]],
-  ['trynormalizearmoryelement_6',['TryNormalizeArmoryElement',['../dc/d52/a00183.html#ad2521f4e183c3a0472d64114f46b6ea9',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
-  ['tryresolvearmoryitem_7',['TryResolveArmoryItem',['../dc/d52/a00183.html#a1f065ec2d9e94426f314eea0dae643c3',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
-  ['tryrunawayfromnearbythreat_8',['TryRunAwayFromNearbyThreat',['../dc/d28/a00223.html#a9a28c8eefdce18af910303b859701fed',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]]
+  ['sanitizeinplace_0',['SanitizeInPlace',['../dc/d52/a00183.html#a5d2caa7462723d6136e83717def288f2',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
+  ['sanitizepartyarmory_1',['SanitizePartyArmory',['../d3/d42/a00235.html#a33eb3765ce07306f62fd23bb5df189bb',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]],
+  ['savearmory_2',['SaveArmory',['../d6/daa/a00187.html#af28bf45242fde9723d302f5e7b6c6c71',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
+  ['scraparmyarmorybycategory_3',['ScrapArmyArmoryByCategory',['../d6/daa/a00187.html#ab696a23fb477a7733024b5dfe7485e1a',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
+  ['selectarmorbasedonweight_4',['SelectArmorBasedOnWeight',['../db/dd9/a00179.html#a589246034348775164fa52118b2ebcc9',1,'DynamicTroopEquipmentReupload::ArmorSelector']]],
+  ['selectitem_5',['SelectItem',['../d6/d80/a00371.html#a14af54cad3640477395c17c0af3554ff',1,'DynamicTroopEquipmentReupload::WeightedRandomSelector']]],
+  ['sellexcessequipment_6',['SellExcessEquipment',['../dc/d52/a00183.html#a26fdf5906b98c54daffb4e4011438525',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
+  ['sellexcessequipmentforthrowingweapons_7',['SellExcessEquipmentForThrowingWeapons',['../dc/d52/a00183.html#a4de6e63554104fd8ff3862729abbaf74',1,'DynamicTroopEquipmentReupload::ArmyArmory']]],
+  ['setequipment_8',['SetEquipment',['../d3/d2a/a00195.html#aba803dc2ba4d2124092738bff8166769',1,'DynamicTroopEquipmentReupload::Assignment']]],
+  ['shouldpersistparty_9',['ShouldPersistParty',['../d3/d42/a00235.html#a80f06b637131f4cb7a260f418ad59191',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]],
+  ['showbattleresults_10',['ShowBattleResults',['../df/d17/a00231.html#ac40d40e41df4dcf4d5bdfc669a659c7b',1,'DynamicTroopEquipmentReupload::DynamicTroopMissionLogic']]],
+  ['skillvalue_11',['SkillValue',['../d0/d1f/a00247.html#a9c64b1a5531116802be9ee31c36213aa',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
+  ['sortdict_12',['SortDict',['../d4/d6f/a00315.html#a564086b48a8486f43e092b87c01cfbce',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['sortequipmentdictionaries_13',['SortEquipmentDictionaries',['../d4/d6f/a00315.html#aa3de809c8425bedb8ebf1ce80f195be2',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['spawn_14',['Spawn',['../d4/d6f/a00315.html#a26ed7c063d9b81921b97df02375ec69e',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['spawnagentstate_15',['SpawnAgentState',['../d9/d9b/a00363.html#a7cd406080543d57a61170b6500d18e8d',1,'DynamicTroopEquipmentReupload::Patches::SpawnAgentPatch::SpawnAgentState']]],
+  ['spawnreinforcementcaravan_16',['SpawnReinforcementCaravan',['../dc/d28/a00223.html#a2863d7ff3842d35974f38297184fa846',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['stopservice_17',['StopService',['../dc/d0f/a00303.html#ad913406d5389b323576b62a06e519435',1,'MessageDisplayService']]],
+  ['syncdata_18',['SyncData',['../d6/daa/a00187.html#a99a20013e48876b38d0c80fd4eff3bab',1,'DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SyncData()'],['../dc/d28/a00223.html#a72f08f8e5eae72090a42e5cb84a20132',1,'DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.SyncData()'],['../d3/d42/a00235.html#ac2a1539ac4ecbd5bf42af1d620a7d9eb',1,'DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.SyncData()']]]
 ];

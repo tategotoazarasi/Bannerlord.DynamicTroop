@@ -50,9 +50,9 @@ var searchData=
   ['getsoldexcessequipmentforthrowingweapons_47',['GetSoldExcessEquipmentForThrowingWeapons',['../df/d95/a00299.html#a2ef4a75d2e7180215df11c8d5ae05b55',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
   ['gettrooptype_48',['GetTroopType',['../d0/d1f/a00247.html#a959f30cdb9c8ffacfc20634c5c9e7963',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
   ['getupgraderequiresitemfromcategorypatch_49',['GetUpgradeRequiresItemFromCategoryPatch',['../df/d91/a00335.html',1,'DynamicTroopEquipmentReupload::Patches']]],
-  ['getupgraderequiresitemfromcategorypatch_2ecs_50',['GetUpgradeRequiresItemFromCategoryPatch.cs',['../d4/d8c/a00035.html',1,'']]],
+  ['getupgraderequiresitemfromcategorypatch_2ecs_50',['GetUpgradeRequiresItemFromCategoryPatch.cs',['../dc/dee/a00053.html',1,'']]],
   ['getwaitpointnear_51',['GetWaitPointNear',['../dc/d28/a00223.html#a145ae2b1c876e574ebf7937cce6fe05c',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['getweaponclass_52',['GetWeaponClass',['../dd/d86/a00271.html#ad7d83bc598bce3b27052143ad359a25d',1,'DynamicTroopEquipmentReupload::Global']]],
   ['global_53',['Global',['../dd/d86/a00271.html',1,'DynamicTroopEquipmentReupload']]],
-  ['global_2ecs_54',['Global.cs',['../dc/d87/a00032.html',1,'']]]
+  ['global_2ecs_54',['Global.cs',['../da/d2a/a00086.html',1,'']]]
 ];

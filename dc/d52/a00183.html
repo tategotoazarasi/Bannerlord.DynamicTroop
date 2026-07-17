@@ -160,7 +160,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00026">26</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00026">26</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad772443e4cc7f156db0d533c840d901a" name="ad772443e4cc7f156db0d533c840d901a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad772443e4cc7f156db0d533c840d901a">&#9670;&#160;</a></span>AddItemToArmory()</h2>
@@ -189,7 +189,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00094">94</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00094">94</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   94</span>                                                                       {</div>
 <div class="line"><span class="lineno">   95</span>        <span class="keywordflow">if</span> (count &lt;= 0 || !TryResolveArmoryItem(item, out var resolvedItem) || !ItemBlackList.Test(resolvedItem))</div>
 <div class="line"><span class="lineno">   96</span>            <span class="keywordflow">return</span>;</div>
@@ -197,9 +197,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   98</span>        _ = Armory.AddToCounts(resolvedItem, count);</div>
 <div class="line"><span class="lineno">   99</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00044">TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/df9/a00044_source.html#l00033">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.AddStartingEquipmentToPlayerArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00382">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00141">ReturnEquipmentToArmoryFromAgents()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00357">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnItemsToDestination()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d2d/a00047_source.html#l00033">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.AddStartingEquipmentToPlayerArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00494">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00141">ReturnEquipmentToArmoryFromAgents()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00469">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.ReturnItemsToDestination()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -226,7 +226,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00161">161</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00161">161</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  161</span>                                                            {</div>
 <div class="line"><span class="lineno">  162</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
 <div class="line"><span class="lineno">  163</span>            <span class="keywordflow">if</span> ((Mission.Current?.IsNavalBattle == <span class="keyword">true</span> ||</div>
@@ -253,7 +253,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  184</span>        }</div>
 <div class="line"><span class="lineno">  185</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00044">TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">TryResolveArmoryItem()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d5/de0/a00050_source.html#l00068">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Postfix()</a>.</p>
 
@@ -282,13 +282,13 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00416">416</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00416">416</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  416</span>                                             {</div>
 <div class="line"><span class="lineno">  417</span>        var removedEntries = SanitizeInPlace();</div>
 <div class="line"><span class="lineno">  418</span>        Global.Debug($<span class="stringliteral">&quot;Removed {removedEntries} invalid entries from player&#39;s armory&quot;</span>);</div>
 <div class="line"><span class="lineno">  419</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>.</p>
 
 </div>
 </div>
@@ -315,7 +315,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00426">426</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00426">426</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  426</span>                                                       {</div>
 <div class="line"><span class="lineno">  427</span>        var toRemove = Armory</div>
 <div class="line"><span class="lineno">  428</span>                       .WhereQ(kv =&gt; kv is {</div>
@@ -330,7 +330,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  437</span>        Global.Debug($<span class="stringliteral">&quot;Removed {toRemove.Length} player crafted entries from player&#39;s armory&quot;</span>);</div>
 <div class="line"><span class="lineno">  438</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
 
 </div>
 </div>
@@ -357,7 +357,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00467">467</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00467">467</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  467</span>                                {</div>
 <div class="line"><span class="lineno">  468</span>        <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno">  469</span>            SanitizeInPlace();</div>
@@ -380,7 +380,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  486</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
 <div class="line"><span class="lineno">  487</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>.</p>
 
 </div>
 </div>
@@ -407,12 +407,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00187">187</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00187">187</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  187</span>                                                                  {</div>
 <div class="line"><span class="lineno">  188</span>        <span class="keywordflow">return</span> items is { Length: &gt; 0 } ? items.GetRandomElement() : <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  189</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -439,7 +439,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00440">440</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00440">440</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  440</span>                                {</div>
 <div class="line"><span class="lineno">  441</span>        <span class="keywordflow">try</span> {</div>
 <div class="line"><span class="lineno">  442</span>            <span class="comment">// 获取 armory.json 文件的完整路径</span></div>
@@ -467,7 +467,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  464</span>        <span class="keywordflow">catch</span> (Exception e) { Global.Error(e.Message); }</div>
 <div class="line"><span class="lineno">  465</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00034">ResolveArmoryItem()</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00159">DynamicTroopEquipmentReupload.Global.Warn()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00034">ResolveArmoryItem()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00159">DynamicTroopEquipmentReupload.Global.Warn()</a>.</p>
 
 </div>
 </div>
@@ -494,7 +494,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00086">86</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00086">86</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   86</span>                                                             {</div>
 <div class="line"><span class="lineno">   87</span>        <span class="keywordflow">return</span> item != <span class="keyword">null</span> &amp;&amp;</div>
 <div class="line"><span class="lineno">   88</span>               item.IsReady &amp;&amp;</div>
@@ -503,7 +503,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   91</span>               !TextObject.IsNullOrEmpty(item.Name);</div>
 <div class="line"><span class="lineno">   92</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00034">ResolveArmoryItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00034">ResolveArmoryItem()</a>.</p>
 
 </div>
 </div>
@@ -530,13 +530,13 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00421">421</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00421">421</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  421</span>                                       {</div>
 <div class="line"><span class="lineno">  422</span>        var removedEntries = SanitizeInPlace();</div>
 <div class="line"><span class="lineno">  423</span>        Global.Debug($<span class="stringliteral">&quot;Armory rebuilt in place, removed {removedEntries} invalid entries&quot;</span>);</div>
 <div class="line"><span class="lineno">  424</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>.</p>
 
 </div>
 </div>
@@ -563,7 +563,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00101">101</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00101">101</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  101</span>                                          {</div>
 <div class="line"><span class="lineno">  102</span>        Armory.Clear();</div>
 <div class="line"><span class="lineno">  103</span>        _cachedThrownWeapons = <span class="keyword">null</span>;</div>
@@ -571,9 +571,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  105</span>        _cachedBolts = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">  106</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00030">_cachedArrows</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00032">_cachedBolts</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00029">_cachedThrownWeapons</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00030">_cachedArrows</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00032">_cachedBolts</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00029">_cachedThrownWeapons</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00059">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnNewGameCreated()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00023">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SyncData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00059">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnNewGameCreated()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00023">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SyncData()</a>.</p>
 
 </div>
 </div>
@@ -600,7 +600,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00034">34</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00034">34</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   34</span>                                                                  {</div>
 <div class="line"><span class="lineno">   35</span>        <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.IsNullOrEmpty(itemId))</div>
 <div class="line"><span class="lineno">   36</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
@@ -611,9 +611,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   41</span>        <span class="keywordflow">return</span> IsUsableArmoryItem(item) ? item : <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   42</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00086">IsUsableArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00086">IsUsableArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00440">Import()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00183">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.RestoreReadyArmoryItems()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00514">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.RestoreReadyPartyArmories()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00044">TryResolveArmoryItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00440">Import()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00183">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.RestoreReadyArmoryItems()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00514">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.RestoreReadyPartyArmories()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">TryResolveArmoryItem()</a>.</p>
 
 </div>
 </div>
@@ -640,7 +640,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00074">74</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00074">74</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   74</span>                                                                                   {</div>
 <div class="line"><span class="lineno">   75</span>        <span class="keywordflow">if</span> (itemModifier == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">   76</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
@@ -653,7 +653,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   83</span>        <span class="keywordflow">return</span> MBObjectManager.Instance.GetObject&lt;ItemModifier&gt;(itemModifier.StringId);</div>
 <div class="line"><span class="lineno">   84</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
 
 </div>
 </div>
@@ -680,7 +680,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00141">141</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00141">141</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  141</span>                                                                                    {</div>
 <div class="line"><span class="lineno">  142</span>        Global.Log(<span class="stringliteral">&quot;ReturnEquipmentToArmoryFromAgents&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  143</span>        var count = 0;</div>
@@ -701,7 +701,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  158</span>        Global.Log($<span class="stringliteral">&quot;{count} equipment reclaimed&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  159</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00209">DynamicTroopEquipmentReupload.Global.ProcessAgentEquipment()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00209">DynamicTroopEquipmentReupload.Global.ProcessAgentEquipment()</a>.</p>
 
 </div>
 </div>
@@ -728,7 +728,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00108">108</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00108">108</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  108</span>                                        {</div>
 <div class="line"><span class="lineno">  109</span>        var sanitizedEntries = <span class="keyword">new</span> Dictionary&lt;(ItemObject Item, ItemModifier? Modifier, ItemObject? CosmeticItem, bool IsQuestItem), int&gt;();</div>
 <div class="line"><span class="lineno">  110</span>        var discardedEntryCount = 0;</div>
@@ -762,9 +762,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  138</span>        <span class="keywordflow">return</span> discardedEntryCount;</div>
 <div class="line"><span class="lineno">  139</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dab/a00089_source.html#l00105">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ApplyCapturedArmoryLoss()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00416">DebugClearEmptyItem()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00467">Export()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00070">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnDailyTick()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00065">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnGameLoaded()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00256">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnSessionLaunched()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00421">RebuildArmory()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00373">SellExcessEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00052">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00105">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ApplyCapturedArmoryLoss()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00416">DebugClearEmptyItem()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00467">Export()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00070">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnDailyTick()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00065">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnGameLoaded()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00256">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OnSessionLaunched()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00421">RebuildArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00373">SellExcessEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -791,7 +791,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00373">373</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00373">373</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  373</span>                                             {</div>
 <div class="line"><span class="lineno">  374</span>        SanitizeInPlace();</div>
 <div class="line"><span class="lineno">  375</span>        var excessValue = 0;</div>
@@ -811,7 +811,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  389</span>            var surplusCountCpy = surplusCount;</div>
 <div class="line"><span class="lineno">  390</span> </div>
 <div class="line"><span class="lineno">  391</span>            <span class="comment">// 创建优先级队列</span></div>
-<div class="line"><span class="lineno">  392</span>            <a class="code hl_typedef" href="../../d9/d2e/a00056.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> ArmorElementComparer());</div>
+<div class="line"><span class="lineno">  392</span>            <a class="code hl_typedef" href="../../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> ArmorElementComparer());</div>
 <div class="line"><span class="lineno">  393</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> Armory.WhereQ(kv =&gt; kv.EquipmentElement.Item?.ItemType == equipmentAndThreshold.Key))</div>
 <div class="line"><span class="lineno">  394</span>                armorQueue.Enqueue(kv.EquipmentElement, kv.EquipmentElement.ItemValue);</div>
 <div class="line"><span class="lineno">  395</span> </div>
@@ -834,11 +834,11 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  412</span>        Global.Debug($<span class="stringliteral">&quot;Sold {excessValue} denars worth of equipment from player&#39;s armory&quot;</span>);</div>
 <div class="line"><span class="lineno">  413</span>        <span class="keywordflow">return</span> excessValue;</div>
 <div class="line"><span class="lineno">  414</span>    }</div>
-<div class="ttc" id="aa00056_html_a7c5d1fd7721987ec300c0ab950972b31"><div class="ttname"><a href="../../d9/d2e/a00056.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a></div><div class="ttdeci">TaleWorlds.Library.PriorityQueue&lt; TaleWorlds.Core.EquipmentElement, int &gt; ItemPriorityQueue</div><div class="ttdef"><b>Definition</b> <a href="../../d9/d2e/a00056_source.html#l00020">ArmyArmory.cs:20</a></div></div>
+<div class="ttc" id="aa00023_html_a7c5d1fd7721987ec300c0ab950972b31"><div class="ttname"><a href="../../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a></div><div class="ttdeci">TaleWorlds.Library.PriorityQueue&lt; TaleWorlds.Core.EquipmentElement, int &gt; ItemPriorityQueue</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d52/a00023_source.html#l00020">ArmyArmory.cs:20</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00027">Armory</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00033">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.EquipmentAndThresholds</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00027">Armory</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00033">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.EquipmentAndThresholds</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -865,7 +865,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00191">191</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00191">191</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  191</span>                                                               {</div>
 <div class="line"><span class="lineno">  192</span>        var soldValue = SellExcessEquipment();</div>
 <div class="line"><span class="lineno">  193</span>        <span class="keywordflow">if</span> (soldValue &lt;= 0)</div>
@@ -1048,7 +1048,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  370</span>            Colors.Green));</div>
 <div class="line"><span class="lineno">  371</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00030">_cachedArrows</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00032">_cachedBolts</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00029">_cachedThrownWeapons</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00009">MessageDisplayService.EnqueueMessage()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00187">GetRandomItem()</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00048">DynamicTroopEquipmentReupload.LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00373">SellExcessEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00044">TryResolveArmoryItem()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00030">_cachedArrows</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00032">_cachedBolts</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00029">_cachedThrownWeapons</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../db/db6/a00074_source.html#l00009">MessageDisplayService.EnqueueMessage()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00187">GetRandomItem()</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00048">DynamicTroopEquipmentReupload.LocalizedTexts.GetSoldExcessEquipmentForThrowingWeapons()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00373">SellExcessEquipment()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00044">TryResolveArmoryItem()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
 
 </div>
 </div>
@@ -1079,7 +1079,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00057">57</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00057">57</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   57</span>                                                                                                                              {</div>
 <div class="line"><span class="lineno">   58</span>        normalizedElement = <span class="keywordflow">default</span>;</div>
 <div class="line"><span class="lineno">   59</span>        <span class="keywordflow">if</span> (!TryResolveArmoryItem(equipmentElement.Item, out var resolvedItem))</div>
@@ -1097,9 +1097,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   71</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   72</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00074">ResolveArmoryModifier()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00044">TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00074">ResolveArmoryModifier()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00290">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.AddEquipmentToAssign()</a>, <a class="el" href="../../d8/d41/a00038_source.html#l00080">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.CreateSanitizedRoster()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00290">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.AddEquipmentToAssign()</a>, <a class="el" href="../../d4/d8c/a00035_source.html#l00080">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.CreateSanitizedRoster()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>.</p>
 
 </div>
 </div>
@@ -1130,7 +1130,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00044">44</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00044">44</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   44</span>                                                                                             {</div>
 <div class="line"><span class="lineno">   45</span>        resolvedItem = <span class="keyword">null</span>!;</div>
 <div class="line"><span class="lineno">   46</span>        <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || <span class="keywordtype">string</span>.IsNullOrEmpty(item.StringId))</div>
@@ -1144,9 +1144,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   54</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line"><span class="lineno">   55</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00034">ResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00034">ResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.PartyEquipmentDistributor()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00460">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.AddItemToPartyArmory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00161">AssignEquipment()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00478">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.CreateSerializedPartyArmories()</a>, <a class="el" href="../../d3/d00/a00113_source.html#l00027">DynamicTroopEquipmentReupload.Cache.GetItemsByTierAndCulture()</a>, <a class="el" href="../../d3/d00/a00113_source.html#l00056">DynamicTroopEquipmentReupload.Cache.GetItemsByTypeTierAndCulture()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00054">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.InitializeItemListByType()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00226">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.MoveRosterToArmory()</a>, <a class="el" href="../../d8/d41/a00038_source.html#l00018">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.Prefix()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01129">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ReturnItem()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00439">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.SanitizePartyArmory()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01098">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Spawn()</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, <a class="el" href="../../d5/d16/a00029_source.html#l00657">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.TransferCargoToTargetStash()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.PartyEquipmentDistributor()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00460">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.AddItemToPartyArmory()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00161">AssignEquipment()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00478">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.CreateSerializedPartyArmories()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00027">DynamicTroopEquipmentReupload.Cache.GetItemsByTierAndCulture()</a>, <a class="el" href="../../dd/dad/a00005_source.html#l00056">DynamicTroopEquipmentReupload.Cache.GetItemsByTypeTierAndCulture()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00054">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.InitializeItemListByType()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00226">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.MoveRosterToArmory()</a>, <a class="el" href="../../d4/d8c/a00035_source.html#l00018">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.Prefix()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01129">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ReturnItem()</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00439">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.SanitizePartyArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01098">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Spawn()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, <a class="el" href="../../de/de1/a00065_source.html#l00657">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.TransferCargoToTargetStash()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00057">TryNormalizeArmoryElement()</a>.</p>
 
 </div>
 </div>
@@ -1171,9 +1171,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00030">30</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00030">30</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -1197,9 +1197,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00032">32</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00032">32</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -1223,9 +1223,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00029">29</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00029">29</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00101">ResetForCampaign()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00191">SellExcessEquipmentForThrowingWeapons()</a>.</p>
 
 </div>
 </div>
@@ -1249,14 +1249,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d2e/a00056_source.html#l00027">27</a> of file <a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d52/a00023_source.html#l00027">27</a> of file <a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d2e/a00056_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00105">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ApplyCapturedArmoryLoss()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00161">AssignEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00426">DebugRemovePlayerCraftedItems()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00467">Export()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00440">Import()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00036">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.OnRefresh()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>, <a class="el" href="../../dd/d32/a00041_source.html#l00019">DynamicTroopEquipmentReupload.Patches.InventoryLogic_TransferItem_CommandersGreedPatch.Prefix()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00101">ResetForCampaign()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00183">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.RestoreReadyArmoryItems()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00108">SanitizeInPlace()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00197">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ScrapArmyArmoryByCategory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00373">SellExcessEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00052">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d52/a00023_source.html#l00094">AddItemToArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00105">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ApplyCapturedArmoryLoss()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00161">AssignEquipment()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00426">DebugRemovePlayerCraftedItems()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00467">Export()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00440">Import()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00036">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.OnRefresh()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>, <a class="el" href="../../d8/d41/a00038_source.html#l00019">DynamicTroopEquipmentReupload.Patches.InventoryLogic_TransferItem_CommandersGreedPatch.Prefix()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00101">ResetForCampaign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00183">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.RestoreReadyArmoryItems()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00108">SanitizeInPlace()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00159">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.SaveArmory()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00197">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.ScrapArmyArmoryByCategory()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00373">SellExcessEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d9/d2e/a00056_source.html">ArmyArmory.cs</a></li>
+<li><a class="el" href="../../d3/d52/a00023_source.html">ArmyArmory.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -8,5 +8,5 @@ var searchData=
   ['begintrooppoolstashsession_5',['BeginTroopPoolStashSession',['../dd/d86/a00271.html#a50da2eff40cb20bcfe76db4ccca4b522',1,'DynamicTroopEquipmentReupload::Global']]],
   ['blacklist_6',['BlackList',['../d9/d5e/a00295.html',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
   ['blacklist_7',['Item Blacklist',['../dd/dea/a00408.html#autotoc_md14',1,'']]],
-  ['buymercenariespatch_2ecs_8',['BuyMercenariesPatch.cs',['../dc/dee/a00053.html',1,'']]]
+  ['buymercenariespatch_2ecs_8',['BuyMercenariesPatch.cs',['../dd/d32/a00041.html',1,'']]]
 ];

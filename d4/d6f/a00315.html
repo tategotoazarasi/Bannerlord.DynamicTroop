@@ -242,7 +242,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00020">20</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00020">20</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac4d83ee55b7e8f079f3c9668b3646e21" name="ac4d83ee55b7e8f079f3c9668b3646e21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac4d83ee55b7e8f079f3c9668b3646e21">&#9670;&#160;</a></span>PartyEquipmentDistributor() <span class="overload">[1/4]</span></h2>
@@ -268,7 +268,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00043">43</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00043">43</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   43</span>                                                                                                {</div>
 <div class="line"><span class="lineno">   44</span>        _mission                      = mission;</div>
 <div class="line"><span class="lineno">   45</span>        _missionAllowsMountEquipment = !mission.IsNavalBattle &amp;&amp; !mission.IsNavalRaidBattle;</div>
@@ -278,9 +278,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   49</span>        _equipmentToAssign = <span class="keyword">new</span> ConcurrentDictionary&lt;EquipmentElement, int&gt;(<span class="keyword">new</span> EquipmentElementComparer());</div>
 <div class="line"><span class="lineno">   50</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00031">_itemRoster</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../db/db2/a00020_source.html#l00031">_itemRoster</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00103">MeasureMainPartyArmoryReadiness()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00103">MeasureMainPartyArmoryReadiness()</a>.</p>
 
 </div>
 </div>
@@ -308,7 +308,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00052">52</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00052">52</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   52</span>                                                                                                                               {</div>
 <div class="line"><span class="lineno">   53</span>        _mission                      = mission;</div>
 <div class="line"><span class="lineno">   54</span>        _missionAllowsMountEquipment = !mission.IsNavalBattle &amp;&amp; !mission.IsNavalRaidBattle;</div>
@@ -321,7 +321,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   61</span>            AddEquipmentToAssign(entry.Key, entry.Value);</div>
 <div class="line"><span class="lineno">   62</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00031">_itemRoster</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00290">AddEquipmentToAssign()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../db/db2/a00020_source.html#l00031">_itemRoster</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00290">AddEquipmentToAssign()</a>.</p>
 
 </div>
 </div>
@@ -349,7 +349,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00064">64</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00064">64</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   64</span>                                                                                                                     {</div>
 <div class="line"><span class="lineno">   65</span>        _mission                      = mission;</div>
 <div class="line"><span class="lineno">   66</span>        _missionAllowsMountEquipment = !mission.IsNavalBattle &amp;&amp; !mission.IsNavalRaidBattle;</div>
@@ -364,7 +364,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   75</span>        }</div>
 <div class="line"><span class="lineno">   76</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00031">_itemRoster</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00290">AddEquipmentToAssign()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../db/db2/a00020_source.html#l00031">_itemRoster</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, <a class="el" href="../../db/db2/a00020_source.html#l00290">AddEquipmentToAssign()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
 </div>
 </div>
@@ -400,7 +400,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00078">78</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00078">78</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">   78</span>                                                                                                               {</div>
 <div class="line"><span class="lineno">   79</span>        _mission                      = <span class="keyword">null</span>;</div>
 <div class="line"><span class="lineno">   80</span>        _missionAllowsMountEquipment = canUseMountEquipment;</div>
@@ -410,7 +410,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   84</span>        _equipmentToAssign = <span class="keyword">new</span> ConcurrentDictionary&lt;EquipmentElement, int&gt;(<span class="keyword">new</span> EquipmentElementComparer());</div>
 <div class="line"><span class="lineno">   85</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00031">_itemRoster</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00037">_isReadinessPreview</a>, <a class="el" href="../../db/db2/a00020_source.html#l00031">_itemRoster</a>, <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>.</p>
 
 </div>
 </div>
@@ -442,7 +442,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00290">290</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00290">290</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  290</span>                                                                                    {</div>
 <div class="line"><span class="lineno">  291</span>        <span class="keywordflow">if</span> (count &lt;= 0 ||</div>
 <div class="line"><span class="lineno">  292</span>            !ArmyArmory.TryNormalizeArmoryElement(equipmentElement, out var normalizedElement) ||</div>
@@ -452,9 +452,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  296</span>        _equipmentToAssign.AddOrUpdate(normalizedElement, count, (_, currentCount) =&gt; currentCount + count);</div>
 <div class="line"><span class="lineno">  297</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00057">DynamicTroopEquipmentReupload.ArmyArmory.TryNormalizeArmoryElement()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00057">DynamicTroopEquipmentReupload.ArmyArmory.TryNormalizeArmoryElement()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>.</p>
 
 </div>
 </div>
@@ -490,7 +490,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00341">341</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00341">341</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  341</span>                                                                                                                                   {</div>
 <div class="line"><span class="lineno">  342</span>        var familyType = element.Item.HorseComponent?.Monster?.FamilyType ?? element.Item.ArmorComponent?.FamilyType ?? -1;</div>
 <div class="line"><span class="lineno">  343</span>        <span class="keywordflow">if</span> (!dict.TryGetValue(familyType, out var list)) {</div>
@@ -501,7 +501,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  348</span>        list.Add((element, cnt));</div>
 <div class="line"><span class="lineno">  349</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00316">PopulateDictionaries()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00316">PopulateDictionaries()</a>.</p>
 
 </div>
 </div>
@@ -528,7 +528,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01164">1164</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01164">1164</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1164</span>                                         {</div>
 <div class="line"><span class="lineno"> 1165</span>        <span class="keywordflow">if</span> (_mission?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span>)</div>
 <div class="line"><span class="lineno"> 1166</span>            <span class="keywordflow">return</span>;</div>
@@ -590,9 +590,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1222</span>        }</div>
 <div class="line"><span class="lineno"> 1223</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00046">DynamicTroopEquipmentReupload.Global.ArmourSlots</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d0/dc2/a00104_source.html#l00020">DynamicTroopEquipmentReupload.Helper.EquipmentIndexToItemEnumType()</a>, <a class="el" href="../../d9/d77/a00095_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00046">DynamicTroopEquipmentReupload.Global.ArmourSlots</a>, <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../d0/d89/a00071_source.html#l00020">DynamicTroopEquipmentReupload.Helper.EquipmentIndexToItemEnumType()</a>, <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -619,7 +619,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00664">664</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00664">664</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  664</span>                                                        {</div>
 <div class="line"><span class="lineno">  665</span>        var armours = _equipmentToAssign</div>
 <div class="line"><span class="lineno">  666</span>            .Where(kv =&gt; kv.Key is { IsEmpty: false, Item: not null } &amp;&amp;</div>
@@ -790,9 +790,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  831</span>        }</div>
 <div class="line"><span class="lineno">  832</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00105">DynamicTroopEquipmentReupload.Global.GetEquipmentIndexByItemType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01146">IsCultureCompatible()</a>, and <a class="el" href="../../df/d03/a00062_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00105">DynamicTroopEquipmentReupload.Global.GetEquipmentIndexByItemType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01146">IsCultureCompatible()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -819,7 +819,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00568">568</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00568">568</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  568</span>                                     {</div>
 <div class="line"><span class="lineno">  569</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignExtraArrows for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  570</span> </div>
@@ -835,9 +835,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  580</span>        }</div>
 <div class="line"><span class="lineno">  581</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00100">DynamicTroopEquipmentReupload.Assignment.IsArcher</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00100">DynamicTroopEquipmentReupload.Assignment.IsArcher</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -864,7 +864,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00583">583</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00583">583</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  583</span>                                    {</div>
 <div class="line"><span class="lineno">  584</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignExtraBolts for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  585</span> </div>
@@ -880,9 +880,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  595</span>        }</div>
 <div class="line"><span class="lineno">  596</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00103">DynamicTroopEquipmentReupload.Assignment.IsCrossBowMan</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00103">DynamicTroopEquipmentReupload.Assignment.IsCrossBowMan</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -922,7 +922,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00495">495</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00495">495</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  495</span>                                                                                                          {</div>
 <div class="line"><span class="lineno">  496</span>        var candidates = <span class="keyword">new</span> List&lt;KeyValuePair&lt;EquipmentElement, int&gt;&gt;();</div>
 <div class="line"><span class="lineno">  497</span> </div>
@@ -966,9 +966,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  535</span>        }</div>
 <div class="line"><span class="lineno">  536</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="#a9a2b3b2c74e30b43509f14ed6396e595">AssignmentFilter()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="#acc91f13788fb614cb6596ac68399c340">EquipmentFilter()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="#a9a2b3b2c74e30b43509f14ed6396e595">AssignmentFilter()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="#acc91f13788fb614cb6596ac68399c340">EquipmentFilter()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00553">AssignExtraThrownWeapon()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00553">AssignExtraThrownWeapon()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>.</p>
 
 </div>
 </div>
@@ -995,7 +995,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00538">538</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00538">538</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  538</span>                                     {</div>
 <div class="line"><span class="lineno">  539</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignExtraShield for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  540</span> </div>
@@ -1011,9 +1011,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  550</span>        }</div>
 <div class="line"><span class="lineno">  551</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1040,7 +1040,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00553">553</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00553">553</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  553</span>                                           {</div>
 <div class="line"><span class="lineno">  554</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignExtraThrownWeapon for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  555</span> </div>
@@ -1056,9 +1056,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  565</span>        }</div>
 <div class="line"><span class="lineno">  566</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00106">DynamicTroopEquipmentReupload.Assignment.HaveThrown</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00106">DynamicTroopEquipmentReupload.Assignment.HaveThrown</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1085,7 +1085,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00598">598</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00598">598</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  598</span>                                                        {</div>
 <div class="line"><span class="lineno">  599</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignExtraTwoHandedWeaponOrPolearms for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  600</span> </div>
@@ -1101,9 +1101,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  610</span>        }</div>
 <div class="line"><span class="lineno">  611</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="#a9a2b3b2c74e30b43509f14ed6396e595">AssignmentFilter()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00109">DynamicTroopEquipmentReupload.Assignment.HaveTwoHandedWeaponOrPolearms</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="#a9a2b3b2c74e30b43509f14ed6396e595">AssignmentFilter()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00109">DynamicTroopEquipmentReupload.Assignment.HaveTwoHandedWeaponOrPolearms</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1130,7 +1130,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00458">458</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00458">458</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  458</span>                                         {</div>
 <div class="line"><span class="lineno">  459</span>        WriteDistributionLog($<span class="stringliteral">&quot;Assigning Horse and Harness for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  460</span>        var currentIndex = 0;</div>
@@ -1149,9 +1149,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  473</span>        }</div>
 <div class="line"><span class="lineno">  474</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00029">_horseAndHarnesses</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00029">_horseAndHarnesses</a>, <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1178,7 +1178,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>.</p>
 
 </div>
 </div>
@@ -1209,7 +1209,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00397">397</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00397">397</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  397</span>                                                                                                                                                         {</div>
 <div class="line"><span class="lineno">  398</span>        var saddleIndex = 0;</div>
 <div class="line"><span class="lineno">  399</span>        <span class="keywordflow">foreach</span> (var hoh <span class="keywordflow">in</span> horseAndHarnesses.WhereQ(h =&gt; h.Harness == <span class="keyword">null</span>)) {</div>
@@ -1224,7 +1224,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  408</span>        }</div>
 <div class="line"><span class="lineno">  409</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00367">GenerateHorseAndHarnessPairs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00367">GenerateHorseAndHarnessPairs()</a>.</p>
 
 </div>
 </div>
@@ -1251,7 +1251,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00950">950</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00950">950</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  950</span>                                                         {</div>
 <div class="line"><span class="lineno">  951</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignWeaponByItemEnumType strict={strict} for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  952</span> </div>
@@ -1263,9 +1263,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  958</span>        }</div>
 <div class="line"><span class="lineno">  959</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1306,7 +1306,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00961">961</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00961">961</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  961</span>                                                                                                                         {</div>
 <div class="line"><span class="lineno">  962</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  963</span> </div>
@@ -1405,9 +1405,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1056</span>        AssignWeaponIfAvailable(slot, assignment, bestWeapon);</div>
 <div class="line"><span class="lineno"> 1057</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01146">IsCultureCompatible()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01060">IsWeaponSuitable()</a>, <a class="el" href="../../df/d03/a00062_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01151">TryConsumeExactItem()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../db/db2/a00020_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01146">IsCultureCompatible()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01060">IsWeaponSuitable()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01151">TryConsumeExactItem()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00950">AssignWeaponByItemEnumType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00950">AssignWeaponByItemEnumType()</a>.</p>
 
 </div>
 </div>
@@ -1434,7 +1434,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00835">835</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00835">835</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  835</span>                                                        {</div>
 <div class="line"><span class="lineno">  836</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignWeaponByWeaponClass strict={strict} for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  837</span>        <span class="keywordflow">foreach</span> (var assignment <span class="keywordflow">in</span> Assignments) {</div>
@@ -1445,9 +1445,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  842</span>        }</div>
 <div class="line"><span class="lineno">  843</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1499,7 +1499,7 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00852">852</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00852">852</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  852</span>                                                                                                                        {</div>
 <div class="line"><span class="lineno">  853</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  854</span> </div>
@@ -1597,9 +1597,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  946</span>        AssignWeaponIfAvailable(slot, assignment, bestWeapon);</div>
 <div class="line"><span class="lineno">  947</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01146">IsCultureCompatible()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01060">IsWeaponSuitable()</a>, <a class="el" href="../../df/d03/a00062_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01151">TryConsumeExactItem()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../db/db2/a00020_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01139">GetMaxAllowedTier()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01146">IsCultureCompatible()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01060">IsWeaponSuitable()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01151">TryConsumeExactItem()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00835">AssignWeaponByWeaponClass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00835">AssignWeaponByWeaponClass()</a>.</p>
 
 </div>
 </div>
@@ -1635,7 +1635,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01087">1087</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01087">1087</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1087</span>                                                                                                                        {</div>
 <div class="line"><span class="lineno"> 1088</span>        <span class="keywordflow">if</span> (!availableWeapon.HasValue || availableWeapon.Value.IsEmpty || availableWeapon.Value.Item == <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno"> 1089</span>            <span class="keywordflow">return</span>;</div>
@@ -1646,9 +1646,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1094</span>        ConsumeEquipmentToAssign(availableWeapon.Value);</div>
 <div class="line"><span class="lineno"> 1095</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -1675,7 +1675,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00476">476</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00476">476</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  476</span>                                                                {</div>
 <div class="line"><span class="lineno">  477</span>        WriteDistributionLog($<span class="stringliteral">&quot;AssignWeaponToUnarmed for {_party.Name}&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  478</span>        var unarmedAssignments = Assignments.WhereQ(assignment =&gt; assignment.IsUnarmed).ToListQ();</div>
@@ -1690,9 +1690,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  487</span>        }</div>
 <div class="line"><span class="lineno">  488</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1719,7 +1719,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01257">1257</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01257">1257</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1257</span>                                                                                             {</div>
 <div class="line"><span class="lineno"> 1258</span>        var score = 0;</div>
 <div class="line"><span class="lineno"> 1259</span> </div>
@@ -1733,9 +1733,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1267</span>        <span class="keywordflow">return</span> score;</div>
 <div class="line"><span class="lineno"> 1268</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d87/a00032_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
@@ -1762,7 +1762,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00299">299</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00299">299</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  299</span>                                                                             {</div>
 <div class="line"><span class="lineno">  300</span>        _equipmentToAssign.AddOrUpdate(</div>
 <div class="line"><span class="lineno">  301</span>            equipmentElement,</div>
@@ -1770,9 +1770,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  303</span>            (_, currentCount) =&gt; currentCount &gt; 0 ? currentCount - 1 : 0);</div>
 <div class="line"><span class="lineno">  304</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00476">AssignWeaponToUnarmed()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01151">TryConsumeExactItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00476">AssignWeaponToUnarmed()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01151">TryConsumeExactItem()</a>.</p>
 
 </div>
 </div>
@@ -1813,7 +1813,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00411">411</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00411">411</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  414</span>                                                                     {</div>
 <div class="line"><span class="lineno">  415</span>        var settings = ModSettings.Instance;</div>
 <div class="line"><span class="lineno">  416</span> </div>
@@ -1857,9 +1857,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  454</span>            MarkUnderEquippedAssignmentsIfEnabled();</div>
 <div class="line"><span class="lineno">  455</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00553">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00306">GenerateHorseAndHarnessList()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../db/db2/a00020_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00553">AssignExtraThrownWeapon()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00306">GenerateHorseAndHarnessList()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>.</p>
 
 </div>
 </div>
@@ -1886,7 +1886,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>.</p>
 
 </div>
 </div>
@@ -1913,7 +1913,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00306">306</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00306">306</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  306</span>                                               {</div>
 <div class="line"><span class="lineno">  307</span>        Dictionary&lt;int, List&lt;(EquipmentElement Key, <span class="keywordtype">int</span> Cnt)&gt;&gt; horsesDict  = <span class="keyword">new</span>();</div>
 <div class="line"><span class="lineno">  308</span>        Dictionary&lt;int, List&lt;(EquipmentElement Key, <span class="keywordtype">int</span> Cnt)&gt;&gt; harnessDict = <span class="keyword">new</span>();</div>
@@ -1924,9 +1924,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  313</span>        GenerateHorseAndHarnessPairs(horsesDict, harnessDict, saddles);</div>
 <div class="line"><span class="lineno">  314</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00367">GenerateHorseAndHarnessPairs()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00316">PopulateDictionaries()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00351">SortEquipmentDictionaries()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../db/db2/a00020_source.html#l00367">GenerateHorseAndHarnessPairs()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00316">PopulateDictionaries()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00351">SortEquipmentDictionaries()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -1962,7 +1962,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00367">367</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00367">367</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  367</span>                                                                                                                                                                                                                                      {</div>
 <div class="line"><span class="lineno">  368</span>        <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> horsesDict) {</div>
 <div class="line"><span class="lineno">  369</span>            var familyType = kvp.Key;</div>
@@ -1993,9 +1993,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  394</span>        _horseAndHarnesses.Sort((x, y) =&gt; y.CompareTo(x));</div>
 <div class="line"><span class="lineno">  395</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00029">_horseAndHarnesses</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00397">AssignSaddlesToHorseAndHarnesses()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00029">_horseAndHarnesses</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00397">AssignSaddlesToHorseAndHarnesses()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
 
 </div>
 </div>
@@ -2022,7 +2022,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01139">1139</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01139">1139</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1139</span>                                                             {</div>
 <div class="line"><span class="lineno"> 1140</span>        <span class="keywordflow">if</span> (referenceItem == <span class="keyword">null</span>) {</div>
 <div class="line"><span class="lineno"> 1141</span>            <span class="keywordflow">return</span> 6; <span class="comment">// max</span></div>
@@ -2031,9 +2031,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1144</span>        <span class="keywordflow">return</span> Math.Min(6, (<span class="keywordtype">int</span>)referenceItem.Tier + MAX_TIER_ABOVE_DEFAULT);</div>
 <div class="line"><span class="lineno"> 1145</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00021">MAX_TIER_ABOVE_DEFAULT</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00021">MAX_TIER_ABOVE_DEFAULT</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -2064,7 +2064,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00613">613</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00613">613</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  613</span>                                                                                                            {</div>
 <div class="line"><span class="lineno">  614</span>        var candidates = <span class="keyword">new</span> List&lt;EquipmentElement&gt;();</div>
 <div class="line"><span class="lineno">  615</span> </div>
@@ -2117,9 +2117,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  662</span>        <span class="keywordflow">return</span> selected;</div>
 <div class="line"><span class="lineno">  663</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00476">AssignWeaponToUnarmed()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00476">AssignWeaponToUnarmed()</a>.</p>
 
 </div>
 </div>
@@ -2150,12 +2150,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01146">1146</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01146">1146</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1146</span>                                                                                          {</div>
 <div class="line"><span class="lineno"> 1147</span>        <span class="keywordflow">return</span> culture == <span class="keyword">null</span> || item.Culture == <span class="keyword">null</span> || item.Culture == culture;</div>
 <div class="line"><span class="lineno"> 1148</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -2196,7 +2196,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01060">1060</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01060">1060</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1060</span>                                                                                                                              {</div>
 <div class="line"><span class="lineno"> 1061</span>        <span class="keywordflow">if</span> (equipment.IsEmpty                                            ||</div>
 <div class="line"><span class="lineno"> 1062</span>            equipment.Item == <span class="keyword">null</span>                                       ||</div>
@@ -2224,9 +2224,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1084</span>        <span class="keywordflow">return</span> !assignment.IsMounted || isSuitableForMount;</div>
 <div class="line"><span class="lineno"> 1085</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00185">DynamicTroopEquipmentReupload.Global.FullySameWeaponClass()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00117">DynamicTroopEquipmentReupload.Global.GetWeaponClass()</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00165">DynamicTroopEquipmentReupload.Global.HaveSameWeaponClass()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00125">DynamicTroopEquipmentReupload.Assignment.IsMounted</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00185">DynamicTroopEquipmentReupload.Global.FullySameWeaponClass()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00117">DynamicTroopEquipmentReupload.Global.GetWeaponClass()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00165">DynamicTroopEquipmentReupload.Global.HaveSameWeaponClass()</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00125">DynamicTroopEquipmentReupload.Assignment.IsMounted</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -2253,7 +2253,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01225">1225</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01225">1225</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1225</span>                                                         {</div>
 <div class="line"><span class="lineno"> 1226</span>        var settings = ModSettings.Instance;</div>
 <div class="line"><span class="lineno"> 1227</span>        <span class="keywordflow">if</span> (!(settings?.Underequipped ?? <span class="keyword">true</span>)) {</div>
@@ -2286,9 +2286,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1254</span>        }</div>
 <div class="line"><span class="lineno"> 1255</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01257">CalculateEquipmentTierScoreWithoutMountEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00026">UNDER_EQUIPPED_MORALE_PENALTY_CAP</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00024">UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, <a class="el" href="../../db/db2/a00020_source.html#l01257">CalculateEquipmentTierScoreWithoutMountEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00026">UNDER_EQUIPPED_MORALE_PENALTY_CAP</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00024">UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -2315,7 +2315,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00103">103</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00103">103</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  103</span>                                                                                               {</div>
 <div class="line"><span class="lineno">  104</span>        var mainParty = MobileParty.MainParty;</div>
 <div class="line"><span class="lineno">  105</span>        <span class="keywordflow">if</span> (mainParty == <span class="keyword">null</span>)</div>
@@ -2482,9 +2482,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  266</span>        <span class="keywordflow">return</span> <span class="keyword">new</span> ArmoryReadiness(equippedSlots, expectedSlots);</div>
 <div class="line"><span class="lineno">  267</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00057">DynamicTroopEquipmentReupload.ArmyArmory.TryNormalizeArmoryElement()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00057">DynamicTroopEquipmentReupload.ArmyArmory.TryNormalizeArmoryElement()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.OnRefresh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00036">DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -2525,7 +2525,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00316">316</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00316">316</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  319</span>                                                                                                              {</div>
 <div class="line"><span class="lineno">  320</span>        <span class="keywordflow">foreach</span> (var kvp <span class="keywordflow">in</span> equipment) {</div>
 <div class="line"><span class="lineno">  321</span>            <span class="keywordflow">switch</span> (kvp.Key.Item) {</div>
@@ -2548,9 +2548,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  338</span>        }</div>
 <div class="line"><span class="lineno">  339</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00341">AddToDict()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00341">AddToDict()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
 
 </div>
 </div>
@@ -2573,7 +2573,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01129">1129</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01129">1129</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1129</span>                                                        {</div>
 <div class="line"><span class="lineno"> 1130</span>        <span class="keywordflow">if</span> (!ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || count &lt;= 0) {</div>
 <div class="line"><span class="lineno"> 1131</span>            WriteDistributionLog(<span class="stringliteral">&quot;Invalid item or count for return.&quot;</span>, Colors.Red, Level.Warn);</div>
@@ -2584,7 +2584,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1136</span>        WriteDistributionLog($<span class="stringliteral">&quot;Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno"> 1137</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00460">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.AddItemToPartyArmory()</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00460">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.AddItemToPartyArmory()</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
 </div>
 </div>
@@ -2603,7 +2603,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00269">269</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00269">269</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  269</span>                           {</div>
 <div class="line"><span class="lineno">  270</span>        <span class="keywordflow">foreach</span> (var troop <span class="keywordflow">in</span> _party.MemberRoster.GetTroopRoster()) {</div>
 <div class="line"><span class="lineno">  271</span>            <span class="keywordflow">for</span> (var i = 0; i &lt; troop.Number - troop.WoundedNumber; i++) {</div>
@@ -2620,7 +2620,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  282</span>        DoAssignAsync();</div>
 <div class="line"><span class="lineno">  283</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00031">_itemRoster</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00290">AddEquipmentToAssign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00041">Assignments</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00031">_itemRoster</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, <a class="el" href="../../db/db2/a00020_source.html#l00290">AddEquipmentToAssign()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00041">Assignments</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>.</p>
 
 </div>
 </div>
@@ -2651,12 +2651,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00363">363</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00363">363</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  363</span>                                                                                                                                                    {</div>
 <div class="line"><span class="lineno">  364</span>        <span class="keywordflow">foreach</span> (var key <span class="keywordflow">in</span> dict.Keys) { dict[key].Sort(comparer); }</div>
 <div class="line"><span class="lineno">  365</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00351">SortEquipmentDictionaries()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00351">SortEquipmentDictionaries()</a>.</p>
 
 </div>
 </div>
@@ -2692,7 +2692,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00351">351</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00351">351</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  351</span>                                                                                                                                                                                                                                        {</div>
 <div class="line"><span class="lineno">  352</span>        SortDict(horsesDict,  CompareEquipment);</div>
 <div class="line"><span class="lineno">  353</span>        SortDict(harnessDict, CompareEquipment);</div>
@@ -2705,9 +2705,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  360</span>        }</div>
 <div class="line"><span class="lineno">  361</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00363">SortDict()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00363">SortDict()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00306">GenerateHorseAndHarnessList()</a>.</p>
 
 </div>
 </div>
@@ -2726,7 +2726,7 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01098">1098</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01098">1098</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1098</span>                                           {</div>
 <div class="line"><span class="lineno"> 1099</span>        <span class="comment">// 确保 PartyArmories 包含特定的 _party.Id</span></div>
 <div class="line"><span class="lineno"> 1100</span>        <span class="keywordflow">if</span> (!EveryoneCampaignBehavior.PartyArmories.TryGetValue(_party.Id, out var partyArmory)) {</div>
@@ -2758,7 +2758,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1126</span>        }</div>
 <div class="line"><span class="lineno"> 1127</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00033">_mission</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00039">_party</a>, <a class="el" href="../../dc/d87/a00032_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00028">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.PartyArmories</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00033">_mission</a>, <a class="el" href="../../db/db2/a00020_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../db/db2/a00020_source.html#l00039">_party</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, <a class="el" href="../../d4/dee/a00008_source.html#l00028">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.PartyArmories</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d5/de0/a00050_source.html#l00068">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Postfix()</a>.</p>
 
@@ -2791,7 +2791,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l01151">1151</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l01151">1151</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno"> 1151</span>                                                                                         {</div>
 <div class="line"><span class="lineno"> 1152</span>        var stripped = <span class="keyword">new</span> EquipmentElement(item);</div>
 <div class="line"><span class="lineno"> 1153</span> </div>
@@ -2805,9 +2805,9 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1161</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><span class="lineno"> 1162</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00027">_equipmentToAssign</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00027">_equipmentToAssign</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -2843,15 +2843,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00285">285</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00285">285</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 <div class="fragment"><div class="line"><span class="lineno">  285</span>                                                                                {</div>
 <div class="line"><span class="lineno">  286</span>        <span class="keywordflow">if</span> (!_isReadinessPreview)</div>
 <div class="line"><span class="lineno">  287</span>            Global.Log(message, color, level, 2);</div>
 <div class="line"><span class="lineno">  288</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/d46/a00002_source.html#l00037">_isReadinessPreview</a>, and <a class="el" href="../../dc/d87/a00032_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../db/db2/a00020_source.html#l00037">_isReadinessPreview</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00553">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01129">ReturnItem()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01098">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00568">AssignExtraArrows()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00583">AssignExtraBolts()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00538">AssignExtraShield()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00553">AssignExtraThrownWeapon()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00598">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01087">AssignWeaponIfAvailable()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01129">ReturnItem()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01098">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -2876,9 +2876,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00027">27</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00027">27</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00290">AddEquipmentToAssign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00306">GenerateHorseAndHarnessList()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01060">IsWeaponSuitable()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01151">TryConsumeExactItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00290">AddEquipmentToAssign()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00299">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00306">GenerateHorseAndHarnessList()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00613">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01060">IsWeaponSuitable()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01151">TryConsumeExactItem()</a>.</p>
 
 </div>
 </div>
@@ -2902,9 +2902,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00029">29</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00029">29</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00458">AssignHorseAndHarness()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00367">GenerateHorseAndHarnessPairs()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00458">AssignHorseAndHarness()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00367">GenerateHorseAndHarnessPairs()</a>.</p>
 
 </div>
 </div>
@@ -2928,9 +2928,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00037">37</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00037">37</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00285">WriteDistributionLog()</a>.</p>
 
 </div>
 </div>
@@ -2954,9 +2954,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00031">31</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00031">31</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>.</p>
 
 </div>
 </div>
@@ -2980,9 +2980,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00033">33</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00033">33</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01164">ApplyEmergencyLoadout()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01098">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01164">ApplyEmergencyLoadout()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01098">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -3006,9 +3006,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00035">35</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00035">35</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00411">DoAssignAsync()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01098">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00411">DoAssignAsync()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01098">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -3032,9 +3032,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00039">39</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00039">39</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01129">ReturnItem()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l01098">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01129">ReturnItem()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01098">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -3050,9 +3050,9 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00041">41</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00041">41</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00269">RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l01164">ApplyEmergencyLoadout()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00495">AssignExtraEquipment()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00458">AssignHorseAndHarness()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00950">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00835">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00476">AssignWeaponToUnarmed()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00269">RunAsync()</a>.</p>
 
 </div>
 </div>
@@ -3076,9 +3076,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00022">22</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00022">22</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../d7/d46/a00002_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d7/d46/a00002_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l00664">AssignEquipmentType()</a>, <a class="el" href="../../db/db2/a00020_source.html#l00961">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l00852">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
 </div>
 </div>
@@ -3102,9 +3102,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00021">21</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00021">21</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l01139">GetMaxAllowedTier()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l01139">GetMaxAllowedTier()</a>.</p>
 
 </div>
 </div>
@@ -3128,9 +3128,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00026">26</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00026">26</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
@@ -3154,14 +3154,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d46/a00002_source.html#l00024">24</a> of file <a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/db2/a00020_source.html#l00024">24</a> of file <a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/d46/a00002_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/db2/a00020_source.html#l01225">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d7/d46/a00002_source.html">PartyEquipmentDistributor.cs</a></li>
+<li><a class="el" href="../../db/db2/a00020_source.html">PartyEquipmentDistributor.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
