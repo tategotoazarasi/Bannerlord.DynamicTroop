@@ -707,7 +707,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  215</span>                    <span class="keywordflow">if</span> (affectorBattleRecord != <span class="keyword">null</span>)</div>
 <div class="line"><span class="lineno">  216</span>                    {</div>
 <div class="line"><span class="lineno">  217</span>                        affectorBattleRecord.AddLootedItem(item);</div>
-<div class="line"><span class="lineno">  218</span>                        Global.Log($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  218</span>                        Global.Log($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  219</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  220</span>                    }</div>
 <div class="line"><span class="lineno">  221</span> </div>
@@ -718,7 +718,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  226</span>                        affectedPartyId.Value,</div>
 <div class="line"><span class="lineno">  227</span>                        _ =&gt; <span class="keyword">new</span> ConcurrentDictionary&lt;ItemObject, int&gt;());</div>
 <div class="line"><span class="lineno">  228</span>                    casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) =&gt; currentCount + 1);</div>
-<div class="line"><span class="lineno">  229</span>                    Global.Log($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  229</span>                    Global.Log($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><span class="lineno">  230</span>                });</div>
 <div class="line"><span class="lineno">  231</span>        }</div>
 <div class="line"><span class="lineno">  232</span> </div>

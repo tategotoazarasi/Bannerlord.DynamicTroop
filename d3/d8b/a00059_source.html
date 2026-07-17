@@ -313,7 +313,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                    <span class="keywordflow">if</span> (affectorBattleRecord != <span class="keyword">null</span>)</div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                    {</div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                        affectorBattleRecord.<a class="code hl_function" href="../../d1/d5d/a00311.html#a34b738b1b6c5d1331ddc77923c8e2df3">AddLootedItem</a>(item);</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                        <a class="code hl_class" href="../../dd/d86/a00271.html">Global</a>.<a class="code hl_function" href="../../dd/d86/a00271.html#a0cebe513d12d22f4a0d7fa984a9b43ac">Log</a>($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                        <a class="code hl_class" href="../../dd/d86/a00271.html">Global</a>.<a class="code hl_function" href="../../dd/d86/a00271.html#a0cebe513d12d22f4a0d7fa984a9b43ac">Log</a>($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                    }</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
@@ -324,7 +324,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                        affectedPartyId.Value,</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                        _ =&gt; <span class="keyword">new</span> ConcurrentDictionary&lt;ItemObject, int&gt;());</div>
 <div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) =&gt; currentCount + 1);</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    <a class="code hl_class" href="../../dd/d86/a00271.html">Global</a>.<a class="code hl_function" href="../../dd/d86/a00271.html#a0cebe513d12d22f4a0d7fa984a9b43ac">Log</a>($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    <a class="code hl_class" href="../../dd/d86/a00271.html">Global</a>.<a class="code hl_function" href="../../dd/d86/a00271.html#a0cebe513d12d22f4a0d7fa984a9b43ac">Log</a>($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                });</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        }</div>
 <div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
