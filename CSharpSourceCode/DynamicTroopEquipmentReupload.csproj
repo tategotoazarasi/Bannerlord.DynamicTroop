@@ -4,6 +4,11 @@
         <Version>1.4.7</Version>
         <TargetFramework>net472</TargetFramework>
         <Platforms>x64</Platforms>
+		<OutputPath>..\bin\Win64_Shipping_Client\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+	    <GenerateDependencyFile>false</GenerateDependencyFile>
+		<AllowedReferenceRelatedFileExtensions>.nevercopy</AllowedReferenceRelatedFileExtensions>
         <LangVersion>10.0</LangVersion>
         <Nullable>enable</Nullable>
 
@@ -39,7 +44,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="log4net" Version="3.3.2" />
+        <PackageReference Include="log4net" Version="3.3.2" GeneratePathProperty="true" ExcludeAssets="compile;runtime" />
         <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" PrivateAssets="all" IncludeAssets="compile" />
         <PackageReference Include="BUTR.Harmony.Analyzer" Version="1.0.1.50" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
@@ -71,6 +76,10 @@
         <Reference Include="MathNet.Numerics">
             <HintPath>..\MathNet.Numerics.dll</HintPath>
             <Private>True</Private>
+        </Reference>
+		<Reference Include="log4net">
+            <HintPath>$(Pkglog4net)\lib\net462\log4net.dll</HintPath>
+            <Private>true</Private>
         </Reference>
     </ItemGroup>
 

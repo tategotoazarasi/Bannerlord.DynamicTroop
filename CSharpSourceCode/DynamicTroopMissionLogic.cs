@@ -215,7 +215,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 					if (affectorBattleRecord != null)
 					{
 						affectorBattleRecord.AddLootedItem(item);
-						Global.Log($"{item.StringId} queued for naval casualty loot", Colors.Green, Level.Debug);
+						Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
 						return;
 					}
 
@@ -226,7 +226,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 						affectedPartyId.Value,
 						_ => new ConcurrentDictionary<ItemObject, int>());
 					casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) => currentCount + 1);
-					Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
+					Global.Log($"{item.StringId} queued for naval casualty loot", Colors.Green, Level.Debug);
 				});
 		}
 
