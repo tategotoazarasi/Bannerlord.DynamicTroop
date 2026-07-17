@@ -17,6 +17,8 @@ namespace DynamicTroopEquipmentReupload;
 public class DynamicTroopMissionLogic : MissionLogic {
 	private readonly Dictionary<Agent, Assignment> _assignmentByAgent = new();
 	private readonly ConcurrentDictionary<MBGUID, PartyBattleRecord> _partyBattleRecords = new();
+	// drowning (or any other self inflicted blow) is not identifying a valid looting party during agent removal. loot owner party to be resolved when the battle result is known.
+	private readonly ConcurrentDictionary<MBGUID, ConcurrentDictionary<ItemObject, int>> _unclaimedNavalCasualtyLoot = new();
 
 	private readonly HashSet<Agent> _processedAgents = new();
 
@@ -39,6 +41,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 		_processedAgents.Clear();
 		_partyBattleRecords.Clear();
+		_unclaimedNavalCasualtyLoot.Clear();
 		Distributors.Clear();
 		PartyBattleSides.Clear();
 		_assignmentByAgent.Clear();
@@ -131,14 +134,17 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 			var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];
 
-			PartyBattleRecord? affectorBattleRecord = null;
-			var                affectorPartyId      = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : null;
-			if (affectorPartyId.HasValue) {
-				if (!_partyBattleRecords.ContainsKey(affectorPartyId.Value))
-					_partyBattleRecords.TryAdd(affectorPartyId.Value, new PartyBattleRecord());
+			var hasAffectedSide = PartyBattleSides.TryGetValue(affectedPartyId.Value, out var affectedSide);
+			var affectorPartyId = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : null;
 
-				affectorBattleRecord = _partyBattleRecords[affectorPartyId.Value];
-			}
+			PartyBattleRecord? affectorBattleRecord = null;
+			if (hasAffectedSide &&
+				affectorPartyId.HasValue &&
+				PartyBattleSides.TryGetValue(affectorPartyId.Value, out var affectorSide) &&
+				affectorSide != affectedSide)
+				affectorBattleRecord = _partyBattleRecords.GetOrAdd(
+					affectorPartyId.Value,
+					_ => new PartyBattleRecord());
 
 			var hitBodyPart = blow.VictimBodyPart;
 			var armors      = affectedAgent.GetAgentArmors();
@@ -147,12 +153,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			// This is an addition to the existing hitArmor destruction logic.
 			ItemObject? extraBrokenArmor = null;
 
-			var isEnemyCasualty = false;
-
-			if (PartyBattleSides.TryGetValue(affectedPartyId.Value, out var affectedSide))
-			{
-				isEnemyCasualty = affectedSide != Mission.PlayerTeam.Side;
-			}
+			var isEnemyCasualty = hasAffectedSide && affectedSide != Mission.PlayerTeam.Side;
 
 			if (isEnemyCasualty)
 			{
@@ -208,10 +209,24 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 					affectedBattleRecord.AddItemToRecover(item);
 
-					if (affectorBattleRecord != null && _random.NextFloat() <= dropRate) {
+					if (_random.NextFloat() > dropRate)
+						return;
+
+					if (affectorBattleRecord != null)
+					{
 						affectorBattleRecord.AddLootedItem(item);
-						Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
+						Global.Log($"{item.StringId} queued for naval casualty loot", Colors.Green, Level.Debug);
+						return;
 					}
+
+					if (!Mission.IsNavalBattle && !Mission.IsNavalRaidBattle)
+						return;
+
+					var casualtyLoot = _unclaimedNavalCasualtyLoot.GetOrAdd(
+						affectedPartyId.Value,
+						_ => new ConcurrentDictionary<ItemObject, int>());
+					casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) => currentCount + 1);
+					Global.Log($"{item.StringId} looted", Colors.Green, Level.Debug);
 				});
 		}
 
@@ -292,13 +307,23 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 		_isMissionEnded = true;
 
-		var playerVictory    = missionResult?.PlayerVictory  ?? false;
-		var playerDefeat     = missionResult?.PlayerDefeated ?? false;
+		var playerVictory = missionResult?.PlayerVictory ?? false;
+		var playerDefeat = missionResult?.PlayerDefeated ?? false;
 		var unresolvedBattle = missionResult == null || !missionResult.BattleResolved;
-		var playerPartyId    = mainParty.Id;
-		var playerSide       = playerTeam.Side;
+		var playerPartyId = mainParty.Id;
+		var playerSide = playerTeam.Side;
+		var winningSide = missionResult?.BattleState switch {
+			BattleState.AttackerVictory => BattleSideEnum.Attacker,
+			BattleState.DefenderVictory => BattleSideEnum.Defender,
+			_ => BattleSideEnum.None
+		};
 
-		foreach (var partyBattleSide in PartyBattleSides) {
+		if (winningSide != BattleSideEnum.None &&
+			(Mission.IsNavalBattle || Mission.IsNavalRaidBattle))
+			DistributeNavalCasualtyLoot(winningSide);
+
+		foreach (var partyBattleSide in PartyBattleSides)
+		{
 			var isPlayerParty = partyBattleSide.Key == playerPartyId;
 			var isVictorious = !unresolvedBattle &&
 				(playerVictory && partyBattleSide.Value == playerSide ||
@@ -319,6 +344,93 @@ public class DynamicTroopMissionLogic : MissionLogic {
 				Global.GetAgentParty(agent.Origin)?.Id == partyBattleSide.Key);
 			ReturnEquipmentFromAgents(partyBattleSide.Key, partyAgents, playerPartyId);
 		}
+	}
+	private void DistributeNavalCasualtyLoot(BattleSideEnum winningSide) {
+		if (_unclaimedNavalCasualtyLoot.IsEmpty)
+			return;
+
+		var mapEvent = MapEvent.PlayerMapEvent;
+		if (mapEvent == null)
+			return;
+
+		var defeatedSide = winningSide == BattleSideEnum.Attacker
+			? BattleSideEnum.Defender
+			: BattleSideEnum.Attacker;
+		var winnerParties = mapEvent.PartiesOnSide(winningSide);
+		var defeatedParties = mapEvent.PartiesOnSide(defeatedSide);
+
+		foreach (var defeatedPartyLoot in _unclaimedNavalCasualtyLoot)
+		{
+			MapEventParty? defeatedParty = null;
+			foreach (var candidate in defeatedParties)
+			{
+				if (candidate.Party.MobileParty?.Id != defeatedPartyLoot.Key)
+					continue;
+
+				defeatedParty = candidate;
+				break;
+			}
+
+			if (defeatedParty == null)
+				continue;
+
+			var lootChances = Campaign.Current.Models.BattleRewardModel
+				.GetLootCasualtyChances(winnerParties, defeatedParty.Party);
+
+			foreach (var item in defeatedPartyLoot.Value)
+			{
+				for (var itemIndex = 0; itemIndex < item.Value; itemIndex++)
+				{
+					var recipientParty = NavalCasualtyLootOwner(lootChances, winningSide);
+					if (recipientParty == null)
+						continue;
+
+					var battleRecord = _partyBattleRecords.GetOrAdd(
+						recipientParty.Id,
+						_ => new PartyBattleRecord());
+					battleRecord.AddLootedItem(item.Key);
+				}
+			}
+		}
+	}
+
+	private MobileParty? NavalCasualtyLootOwner(
+		MBReadOnlyList<KeyValuePair<MapEventParty, float>> lootChances,
+		BattleSideEnum winningSide) {
+		var totalChance = 0f;
+		foreach (var lootChance in lootChances)
+		{
+			var mobileParty = lootChance.Key.Party.MobileParty;
+			if (mobileParty != null &&
+				lootChance.Value > 0f &&
+				PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) &&
+				partySide == winningSide)
+				totalChance += lootChance.Value;
+		}
+
+		if (totalChance <= 0f)
+			return null;
+
+		var roll = _random.NextDouble() * totalChance;
+		var accumulatedChance = 0f;
+		MobileParty? lastEligibleParty = null;
+
+		foreach (var lootChance in lootChances)
+		{
+			var mobileParty = lootChance.Key.Party.MobileParty;
+			if (mobileParty == null ||
+				lootChance.Value <= 0f ||
+				!PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) ||
+				partySide != winningSide)
+				continue;
+
+			lastEligibleParty = mobileParty;
+			accumulatedChance += lootChance.Value;
+			if (roll < accumulatedChance)
+				return mobileParty;
+		}
+
+		return lastEligibleParty;
 	}
 
 	/// <summary>
