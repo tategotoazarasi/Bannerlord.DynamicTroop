@@ -105,17 +105,37 @@ public static class ArmyArmory {
 		_cachedBolts = null;
 	}
 
-	public static int SanitizeInPlace() {
-		var sanitizedEntries = new Dictionary<(ItemObject Item, ItemModifier? Modifier, ItemObject? CosmeticItem, bool IsQuestItem), int>();
+	public static int SanitizeInPlace(bool forceRebuild = false) {
 		var discardedEntryCount = 0;
+		var requiresRebuild = forceRebuild;
+		var normalizedEntries = new HashSet<(ItemObject Item, ItemModifier? Modifier)>();
 
 		foreach (var rosterElement in Armory) {
 			if (rosterElement.Amount <= 0 ||
 				rosterElement.IsEmpty ||
 				!TryNormalizeArmoryElement(rosterElement.EquipmentElement, out var normalizedElement)) {
 				discardedEntryCount++;
+				requiresRebuild = true;
 				continue;
 			}
+
+			var equipmentElement = rosterElement.EquipmentElement;
+			if (!ReferenceEquals(equipmentElement.Item, normalizedElement.Item) ||
+				!ReferenceEquals(equipmentElement.ItemModifier, normalizedElement.ItemModifier) ||
+				!ReferenceEquals(equipmentElement.CosmeticItem, normalizedElement.CosmeticItem) ||
+				equipmentElement.IsQuestItem != normalizedElement.IsQuestItem ||
+				!normalizedEntries.Add((normalizedElement.Item, normalizedElement.ItemModifier)))
+				requiresRebuild = true;
+		}
+		if (!requiresRebuild)
+			return 0;
+
+		var sanitizedEntries = new Dictionary<(ItemObject Item, ItemModifier? Modifier, ItemObject? CosmeticItem, bool IsQuestItem), int>();
+		foreach (var rosterElement in Armory) {
+			if (rosterElement.Amount <= 0 ||
+				rosterElement.IsEmpty ||
+				!TryNormalizeArmoryElement(rosterElement.EquipmentElement, out var normalizedElement))
+				continue;
 
 			var key = (normalizedElement.Item,
 				normalizedElement.ItemModifier,
@@ -419,7 +439,7 @@ public static class ArmyArmory {
 	}
 
 	public static void RebuildArmory() {
-		var removedEntries = SanitizeInPlace();
+		var removedEntries = SanitizeInPlace(forceRebuild: true);
 		Global.Debug($"Armory rebuilt in place, removed {removedEntries} invalid entries");
 	}
 

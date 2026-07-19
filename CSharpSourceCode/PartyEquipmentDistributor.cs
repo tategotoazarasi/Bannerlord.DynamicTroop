@@ -287,6 +287,12 @@ public class PartyEquipmentDistributor {
 			Global.Log(message, color, level, 2);
 	}
 
+	private bool ShouldWriteDistributionLog(Level level) {
+		var settings = SubModule.Settings;
+		return !_isReadinessPreview &&
+			settings is { DebugMode: true } &&
+			(settings.MinimumLogLevel == Level.All || level >= settings.MinimumLogLevel);
+	}
 	private void AddEquipmentToAssign(EquipmentElement equipmentElement, int count) {
 		if (count <= 0 ||
 			!ArmyArmory.TryNormalizeArmoryElement(equipmentElement, out var normalizedElement) ||
@@ -456,7 +462,8 @@ public class PartyEquipmentDistributor {
 
 
 	private void AssignHorseAndHarness() {
-		WriteDistributionLog($"Assigning Horse and Harness for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"Assigning Horse and Harness for {_party.Name}", Colors.Green, Level.Debug);
 		var currentIndex = 0;
 		foreach (var assignment in Assignments) {
 			if (!assignment.IsMounted) { continue; }
@@ -465,25 +472,30 @@ public class PartyEquipmentDistributor {
 
 			var horseAndHarness = _horseAndHarnesses[currentIndex++];
 			assignment.SetEquipment(EquipmentIndex.Horse, horseAndHarness.Horse);
-			WriteDistributionLog($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+			if (ShouldWriteDistributionLog(Level.Debug))
+				WriteDistributionLog($"assign horse {horseAndHarness.Horse.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 			if (!horseAndHarness.Harness.HasValue) { continue; }
 
 			assignment.SetEquipment(EquipmentIndex.HorseHarness, horseAndHarness.Harness.Value);
-			WriteDistributionLog($"assign horse harness {horseAndHarness.Harness.Value.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+			if (ShouldWriteDistributionLog(Level.Debug))
+				WriteDistributionLog($"assign horse harness {horseAndHarness.Harness.Value.Item.Name} to {assignment.Character.Name}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 		}
 	}
 
 	private void AssignWeaponToUnarmed(bool useRandomSelection) {
-		WriteDistributionLog($"AssignWeaponToUnarmed for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignWeaponToUnarmed for {_party.Name}", Colors.Green, Level.Debug);
 		var unarmedAssignments = Assignments.WhereQ(assignment => assignment.IsUnarmed).ToListQ();
 		foreach (var assignment in unarmedAssignments) {
-			WriteDistributionLog($"Found unarmed unit Index {assignment.Index} for {_party.Name}", Colors.Yellow, Level.Warn);
+			if (ShouldWriteDistributionLog(Level.Warn))
+				WriteDistributionLog($"Found unarmed unit Index {assignment.Index} for {_party.Name}", Colors.Yellow, Level.Warn);
 			var weapon = GetMeleeWeaponForUnarmedTroop(assignment, useRandomSelection);
 			if (weapon.HasValue) {
 				assignment.SetEquipment(EquipmentIndex.Weapon0, weapon.Value);
 				ConsumeEquipmentToAssign(weapon.Value);
 			}
-			else { WriteDistributionLog($"Cannot find random melee weapon for {assignment.Index} for {_party.Name}", Colors.Yellow, Level.Warn); }
+			else if (ShouldWriteDistributionLog(Level.Warn))
+				WriteDistributionLog($"Cannot find random melee weapon for {assignment.Index} for {_party.Name}", Colors.Yellow, Level.Warn);
 		}
 	}
 
@@ -528,7 +540,8 @@ public class PartyEquipmentDistributor {
 			var current = candidates[currentIndex];
 
 			assignment.SetEquipment(slot.Value, current.Key);
-			WriteDistributionLog($"extra equipment {current.Key} assigned to {assignment.Character.StringId}#{assignment.Index} on slot {slot.Value} for {_party.Name}", Colors.Green, Level.Debug);
+			if (ShouldWriteDistributionLog(Level.Debug))
+				WriteDistributionLog($"extra equipment {current.Key} assigned to {assignment.Character.StringId}#{assignment.Index} on slot {slot.Value} for {_party.Name}", Colors.Green, Level.Debug);
 
 			candidates[currentIndex] = new KeyValuePair<EquipmentElement, int>(current.Key, current.Value - 1);
 			ConsumeEquipmentToAssign(current.Key);
@@ -536,7 +549,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignExtraShield() {
-		WriteDistributionLog($"AssignExtraShield for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignExtraShield for {_party.Name}", Colors.Green, Level.Debug);
 
 		AssignExtraEquipment(ShieldFilter, ShieldAssignmentFilter);
 		return;
@@ -551,7 +565,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignExtraThrownWeapon() {
-		WriteDistributionLog($"AssignExtraThrownWeapon for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignExtraThrownWeapon for {_party.Name}", Colors.Green, Level.Debug);
 
 		AssignExtraEquipment(ThrownFilter, ThrownAssignmentFilter);
 		return;
@@ -566,7 +581,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignExtraArrows() {
-		WriteDistributionLog($"AssignExtraArrows for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignExtraArrows for {_party.Name}", Colors.Green, Level.Debug);
 
 		AssignExtraEquipment(ArrowFilter, ArrowAssignmentFilter);
 		return;
@@ -581,7 +597,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignExtraBolts() {
-		WriteDistributionLog($"AssignExtraBolts for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignExtraBolts for {_party.Name}", Colors.Green, Level.Debug);
 
 		AssignExtraEquipment(BoltFilter, BoltAssignmentFilter);
 		return;
@@ -596,7 +613,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignExtraTwoHandedWeaponOrPolearms() {
-		WriteDistributionLog($"AssignExtraTwoHandedWeaponOrPolearms for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignExtraTwoHandedWeaponOrPolearms for {_party.Name}", Colors.Green, Level.Debug);
 
 		AssignExtraEquipment(Filter, AssignmentFilter);
 		return;
@@ -658,7 +676,8 @@ public class PartyEquipmentDistributor {
 			selected = candidates[0];
 		}
 
-		WriteDistributionLog($"(random) weapon {selected.Item.StringId} selected for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"(random) weapon {selected.Item.StringId} selected for {_party.Name}", Colors.Green, Level.Debug);
 		return selected;
 	}
 	private void AssignEquipmentType(ItemTypeEnum type) {
@@ -833,7 +852,8 @@ public class PartyEquipmentDistributor {
 
 
 	private void AssignWeaponByWeaponClass(bool strict) {
-		WriteDistributionLog($"AssignWeaponByWeaponClass strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignWeaponByWeaponClass strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 		foreach (var assignment in Assignments) {
 			AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
 			AssignWeaponByWeaponClassBySlot(EquipmentIndex.Weapon1, assignment, assignment.IsMounted, strict);
@@ -850,7 +870,8 @@ public class PartyEquipmentDistributor {
 	/// <param name="mounted">    指示角色是否骑乘状态，影响武器选择。 </param>
 	/// <param name="strict">     是否启用严格模式。 </param>
 	private void AssignWeaponByWeaponClassBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
-		WriteDistributionLog($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignWeaponByWeaponClassBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
 		var settings = ModSettings.Instance;
 		var preferVanillaThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
@@ -869,7 +890,8 @@ public class PartyEquipmentDistributor {
 			TryConsumeExactItem(referenceWeapon.Item, out var exactElement))
 		{
 			assignment.SetEquipment(slot, exactElement);
-			WriteDistributionLog($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+			if (ShouldWriteDistributionLog(Level.Debug))
+				WriteDistributionLog($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 			return;
 		}
 
@@ -948,7 +970,8 @@ public class PartyEquipmentDistributor {
 
 
 	private void AssignWeaponByItemEnumType(bool strict) {
-		WriteDistributionLog($"AssignWeaponByItemEnumType strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignWeaponByItemEnumType strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
 		foreach (var assignment in Assignments) {
 			AssignWeaponByItemEnumTypeBySlot(EquipmentIndex.Weapon0, assignment, assignment.IsMounted, strict);
@@ -959,7 +982,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void AssignWeaponByItemEnumTypeBySlot(EquipmentIndex slot, Assignment assignment, bool mounted, bool strict) {
-		WriteDistributionLog($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"AssignWeaponByItemEnumTypeBySlot slot={slot} character={assignment.Character.StringId}#{assignment.Index} mounted={mounted} strict={strict} for {_party.Name}", Colors.Green, Level.Debug);
 
 		var settings = ModSettings.Instance;
 		var preferVanillaThenClosest = settings?.PreferDefaultEquipmentThenClosest ?? true;
@@ -978,7 +1002,8 @@ public class PartyEquipmentDistributor {
 			TryConsumeExactItem(referenceWeapon.Item, out var exactElement))
 		{
 			assignment.SetEquipment(slot, exactElement);
-			WriteDistributionLog($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+			if (ShouldWriteDistributionLog(Level.Debug))
+				WriteDistributionLog($"weapon (vanilla exact) {exactElement.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 			return;
 		}
 
@@ -1088,7 +1113,8 @@ public class PartyEquipmentDistributor {
 		if (!availableWeapon.HasValue || availableWeapon.Value.IsEmpty || availableWeapon.Value.Item == null)
 			return;
 
-		WriteDistributionLog($"weapon {availableWeapon.Value.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"weapon {availableWeapon.Value.Item.StringId} assigned to {assignment.Character.StringId}#{assignment.Index} for {_party.Name}", Colors.Green, Level.Debug);
 
 		assignment.SetEquipment(slot, availableWeapon.Value);
 		ConsumeEquipmentToAssign(availableWeapon.Value);
@@ -1117,23 +1143,27 @@ public class PartyEquipmentDistributor {
 				else
 					partyArmory[item] = itemCount - 1;
 
-				WriteDistributionLog($"Spawned item {item.StringId}", Colors.Green, Level.Debug);
+				if (ShouldWriteDistributionLog(Level.Debug))
+					WriteDistributionLog($"Spawned item {item.StringId}", Colors.Green, Level.Debug);
 			}
 			else {
 				// 武器库中没有足够的物品或者该物品不存在
-				WriteDistributionLog($"Insufficient or no items to spawn {item.StringId}", Colors.Red, Level.Warn);
+				if (ShouldWriteDistributionLog(Level.Warn))
+					WriteDistributionLog($"Insufficient or no items to spawn {item.StringId}", Colors.Red, Level.Warn);
 			}
 		}
 	}
 
 	public void ReturnItem(ItemObject? item, int count) {
 		if (!ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || count <= 0) {
-			WriteDistributionLog("Invalid item or count for return.", Colors.Red, Level.Warn);
+			if (ShouldWriteDistributionLog(Level.Warn))
+				WriteDistributionLog("Invalid item or count for return.", Colors.Red, Level.Warn);
 			return;
 		}
 
 		EveryoneCampaignBehavior.AddItemToPartyArmory(_party.Id, resolvedItem, count);
-		WriteDistributionLog($"Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
+		if (ShouldWriteDistributionLog(Level.Debug))
+			WriteDistributionLog($"Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.", Colors.Green, Level.Debug);
 	}
 
 	private int GetMaxAllowedTier(ItemObject? referenceItem) {

@@ -56,14 +56,24 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		Cache.Clear();
 		ItemBlackList.ResetCache();
 
-		foreach (var itemType in Global.ItemTypes) {
-			var items = MBObjectManager.Instance.GetObjectTypeList<ItemObject>()
-									   ?.WhereQ(item => ArmyArmory.TryResolveArmoryItem(item, out _) && item.ItemType == itemType)
-									   ?.OrderByQ(item => item.Tier)
-									   ?.ThenBy(item => item.Value)
-									   .ToListQ();
+		foreach (var itemType in Global.ItemTypes)
+			ItemListByType[itemType] = new List<ItemObject>();
 
-			ItemListByType[itemType] = items ?? new List<ItemObject>();
+		var allItems = MBObjectManager.Instance.GetObjectTypeList<ItemObject>();
+		if (allItems != null) {
+			foreach (var item in allItems) {
+				if (ItemListByType.TryGetValue(item.ItemType, out var items) &&
+					ArmyArmory.TryResolveArmoryItem(item, out _))
+					items.Add(item);
+			}
+		}
+
+		foreach (var itemType in Global.ItemTypes)
+		{
+			ItemListByType[itemType] = ItemListByType[itemType]
+				.OrderBy(item => item.Tier)
+				.ThenBy(item => item.Value)
+				.ToList();
 		}
 	}
 
@@ -224,6 +234,9 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private void MoveRosterToArmory(MobileParty mobileParty) {
+		var settings = SubModule.Settings;
+		var writeDebugLog = settings is { DebugMode: true } &&
+			(settings.MinimumLogLevel == Level.All || Level.Debug >= settings.MinimumLogLevel);
 		var elements = mobileParty.ItemRoster.WhereQ(element =>
 														 (element.EquipmentElement.Item?.HasArmorComponent  ?? false) ||
 														 (element.EquipmentElement.Item?.HasWeaponComponent ?? false))
@@ -231,7 +244,8 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		foreach (var element in elements)
 			if (element.Amount > 0 && ArmyArmory.TryResolveArmoryItem(element.EquipmentElement.Item, out var item)) {
 				AddItemToPartyArmory(mobileParty.Id, item, element.Amount);
-				Global.Debug($"equipment {item.Name}x{element.Amount} moved to armory from {mobileParty.Name}");
+				if (writeDebugLog)
+					Global.Debug($"equipment {item.Name}x{element.Amount} moved to armory from {mobileParty.Name}");
 				mobileParty.ItemRoster.Remove(element);
 				var hero                    = mobileParty.LeaderHero ?? mobileParty.Owner;
 				if (hero != null) hero.Gold += item.Value * element.Amount;
@@ -244,22 +258,29 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			mobileParty.MemberRoster.GetTroopRoster().IsEmpty())
 			return;
 
+		var settings = SubModule.Settings;
+		var writeDebugLog = settings is { DebugMode: true } &&
+			(settings.MinimumLogLevel == Level.All || Level.Debug >= settings.MinimumLogLevel);
+
 		var randomEquipmentElementsFromTroop = mobileParty.GetRandomEquipmentsFromTroop();
 		foreach (var equipmentElement in randomEquipmentElementsFromTroop) {
 			AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, 1);
-			Global.Debug($"random equipment (troop) {equipmentElement.Item.Name} added to {mobileParty.Name}");
+			if (writeDebugLog)
+				Global.Debug($"random equipment (troop) {equipmentElement.Item.Name} added to {mobileParty.Name}");
 		}
 
 		var randomItemsFromFiefs = mobileParty.GetDailyEquipmentFromFiefs();
 		foreach (var item in randomItemsFromFiefs) {
 			AddItemToPartyArmory(mobileParty.Id, item, 1);
-			Global.Debug($"random equipment (fief) {item.Name} added to {mobileParty.Name}");
+			if (writeDebugLog)
+				Global.Debug($"random equipment (fief) {item.Name} added to {mobileParty.Name}");
 		}
 
 		var randomItemsFromClan = mobileParty.GetRandomEquipmentsFromClan();
 		foreach (var item in randomItemsFromClan) {
 			AddItemToPartyArmory(mobileParty.Id, item, 1);
-			Global.Debug($"random equipment (clan) {item.Name} added to {mobileParty.Name}");
+			if (writeDebugLog)
+				Global.Debug($"random equipment (clan) {item.Name} added to {mobileParty.Name}");
 		}
 	}
 
@@ -269,13 +290,22 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		if (!PartyArmories.ContainsKey(mobileParty.Id))
 			PartyArmories[mobileParty.Id] = new Dictionary<ItemObject, int>();
 
-		var list = mobileParty.GetItems();
-		foreach (var element in list) {
-			if (element.Item != null)
-				AddItemToPartyArmory(mobileParty.Id, element.Item, 1);
+		var startingEquipmentCount = 0;
+		foreach (var rosterElement in mobileParty.MemberRoster.GetTroopRoster()) {
+			if (rosterElement.Character is not { IsHero: false } character || rosterElement.Number <= 0)
+				continue;
+
+			var startingEquipment = RecruitmentPatch.GetRecruitEquipments(character);
+			foreach (var equipmentElement in startingEquipment) {
+				if (equipmentElement.Item == null)
+					continue;
+
+				AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, rosterElement.Number);
+				startingEquipmentCount += rosterElement.Number;
+			}
 		}
 
-		Global.Log($"Mobile party {mobileParty.Name} created, {list.Count} start equipment added",
+		Global.Log($"Mobile party {mobileParty.Name} created, {startingEquipmentCount} start equipment added",
 				   Colors.Green,
 				   Level.Debug);
 	}
@@ -297,8 +327,7 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 		var validWinnerParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
 														? mapEvent.AttackerSide.Parties
-														: mapEvent.DefenderSide.Parties)
-			.ToArrayQ();
+														: mapEvent.DefenderSide.Parties);
 		var validLoserParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
 													   ? mapEvent.DefenderSide.Parties
 													   : mapEvent.AttackerSide.Parties);
@@ -315,6 +344,11 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	}
 
 	private static void LogParties(IEnumerable<MapEventParty> parties, string label) {
+		var settings = SubModule.Settings;
+		if (settings is not { DebugMode: true } ||
+			(settings.MinimumLogLevel != Level.All && Level.Debug < settings.MinimumLogLevel))
+			return;
+
 		foreach (var party in parties)
 			Global.Log($"{label} party: {party.Party.Name}#{party.Party.MobileParty.Id}", Colors.Green, Level.Debug);
 	}
@@ -332,26 +366,55 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void DistributeLootRandomly(MapEventParty[]            winnerParties,
 										float                      totalWinnerStrength,
 										IEnumerable<MapEventParty> loserParties) {
-		Random                  random             = new();
-		var                     lootItemsWithCount = GetAllLootItems(loserParties);
-		Dictionary<MBGUID, int> partyLootCount     = new();
+		var lootItemsWithCount = GetAllLootItems(loserParties);
+
+		if (winnerParties.Length == 1) {
+			var winnerParty = winnerParties[0].Party.MobileParty;
+			var totalLootCount = 0;
+
+			foreach (var lootItem in lootItemsWithCount) {
+				AddItemToPartyArmory(winnerParty.Id, lootItem.Key, lootItem.Value);
+				totalLootCount += lootItem.Value;
+			}
+
+			if (totalLootCount > 0)
+				Global.Debug($"Party {winnerParty.Id} looted {totalLootCount} items");
+
+			return;
+		}
+
+		Random random = new();
+		Dictionary<MBGUID, int> partyLootCount = new();
+		Dictionary<MBGUID, int> currentItemDistribution = new();
 
 		foreach (var lootItem in lootItemsWithCount) {
 			var item      = lootItem.Key;
 			var itemCount = lootItem.Value;
+			var selectionFailed = false;
+			currentItemDistribution.Clear();
 
 			for (var i = 0; i < itemCount; i++) {
 				var chosenParty = ChoosePartyRandomly(winnerParties, totalWinnerStrength, random);
-				if (chosenParty == null) return;
+				if (chosenParty == null) {
+					selectionFailed = true;
+					break;
+				}
 
-				AddItemToPartyArmory(chosenParty.Id, item, 1);
-
-				// 更新统计信息
-				if (partyLootCount.ContainsKey(chosenParty.Id))
-					partyLootCount[chosenParty.Id]++;
-				else
-					partyLootCount[chosenParty.Id] = 1;
+				currentItemDistribution[chosenParty.Id] =
+					currentItemDistribution.TryGetValue(chosenParty.Id, out var currentItemCount)
+						? currentItemCount + 1
+						: 1;
+				partyLootCount[chosenParty.Id] =
+					partyLootCount.TryGetValue(chosenParty.Id, out var currentPartyCount)
+						? currentPartyCount + 1
+						: 1;
 			}
+
+			foreach (var partyItemCount in currentItemDistribution)
+				AddItemToPartyArmory(partyItemCount.Key, item, partyItemCount.Value);
+
+			if (selectionFailed)
+				return;
 		}
 
 		// 记录每个party获得的物品总数
@@ -440,6 +503,21 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		if (!PartyArmories.TryGetValue(partyId, out var armory))
 			return null;
 
+		var requiresRebuild = false;
+		var normalizedItems = new HashSet<ItemObject>();
+
+		foreach (var entry in armory) {
+			if (entry.Value <= 0 ||
+				!ArmyArmory.TryResolveArmoryItem(entry.Key, out var item) ||
+				!ReferenceEquals(item, entry.Key) ||
+				!normalizedItems.Add(item)) {
+				requiresRebuild = true;
+				break;
+			}
+		}
+
+		if (!requiresRebuild)
+			return armory;
 		var sanitizedItems = new Dictionary<ItemObject, int>();
 		foreach (var entry in armory) {
 			if (entry.Value <= 0 || !ArmyArmory.TryResolveArmoryItem(entry.Key, out var item))
