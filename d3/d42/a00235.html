@@ -236,24 +236,24 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00460">460</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  460</span>                                                                                        {</div>
-<div class="line"><span class="lineno">  461</span>        <span class="keywordflow">if</span> (count &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || !ItemBlackList.Test(resolvedItem))</div>
-<div class="line"><span class="lineno">  462</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  463</span> </div>
-<div class="line"><span class="lineno">  464</span>        <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var inventory)) {</div>
-<div class="line"><span class="lineno">  465</span>            inventory = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
-<div class="line"><span class="lineno">  466</span>            PartyArmories[partyId] = inventory;</div>
-<div class="line"><span class="lineno">  467</span>        }</div>
-<div class="line"><span class="lineno">  468</span> </div>
-<div class="line"><span class="lineno">  469</span>        inventory[resolvedItem] = inventory.TryGetValue(resolvedItem, out var currentCount)</div>
-<div class="line"><span class="lineno">  470</span>            ? currentCount + count</div>
-<div class="line"><span class="lineno">  471</span>            : count;</div>
-<div class="line"><span class="lineno">  472</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00538">538</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  538</span>                                                                                        {</div>
+<div class="line"><span class="lineno">  539</span>        <span class="keywordflow">if</span> (count &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || !ItemBlackList.Test(resolvedItem))</div>
+<div class="line"><span class="lineno">  540</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  541</span> </div>
+<div class="line"><span class="lineno">  542</span>        <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var inventory)) {</div>
+<div class="line"><span class="lineno">  543</span>            inventory = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  544</span>            PartyArmories[partyId] = inventory;</div>
+<div class="line"><span class="lineno">  545</span>        }</div>
+<div class="line"><span class="lineno">  546</span> </div>
+<div class="line"><span class="lineno">  547</span>        inventory[resolvedItem] = inventory.TryGetValue(resolvedItem, out var currentCount)</div>
+<div class="line"><span class="lineno">  548</span>            ? currentCount + count</div>
+<div class="line"><span class="lineno">  549</span>            : count;</div>
+<div class="line"><span class="lineno">  550</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00241">AllocateRandomEquipmentToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00332">DistributeLootRandomly()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00226">MoveRosterToArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00266">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00412">OnTroopRecruited()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01129">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ReturnItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00255">AllocateRandomEquipmentToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00366">DistributeLootRandomly()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00236">MoveRosterToArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00287">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00475">OnTroopRecruited()</a>, and <a class="el" href="../../db/db2/a00020_source.html#l01157">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ReturnItem()</a>.</p>
 
 </div>
 </div>
@@ -280,35 +280,42 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00241">241</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  241</span>                                                                               {</div>
-<div class="line"><span class="lineno">  242</span>        <span class="keywordflow">if</span> (mobileParty.MemberRoster                  == <span class="keyword">null</span> ||</div>
-<div class="line"><span class="lineno">  243</span>            mobileParty.MemberRoster.GetTroopRoster() == <span class="keyword">null</span> ||</div>
-<div class="line"><span class="lineno">  244</span>            mobileParty.MemberRoster.GetTroopRoster().IsEmpty())</div>
-<div class="line"><span class="lineno">  245</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  246</span> </div>
-<div class="line"><span class="lineno">  247</span>        var randomEquipmentElementsFromTroop = mobileParty.GetRandomEquipmentsFromTroop();</div>
-<div class="line"><span class="lineno">  248</span>        <span class="keywordflow">foreach</span> (var equipmentElement <span class="keywordflow">in</span> randomEquipmentElementsFromTroop) {</div>
-<div class="line"><span class="lineno">  249</span>            AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, 1);</div>
-<div class="line"><span class="lineno">  250</span>            Global.Debug($<span class="stringliteral">&quot;random equipment (troop) {equipmentElement.Item.Name} added to {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  251</span>        }</div>
-<div class="line"><span class="lineno">  252</span> </div>
-<div class="line"><span class="lineno">  253</span>        var randomItemsFromFiefs = mobileParty.GetDailyEquipmentFromFiefs();</div>
-<div class="line"><span class="lineno">  254</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> randomItemsFromFiefs) {</div>
-<div class="line"><span class="lineno">  255</span>            AddItemToPartyArmory(mobileParty.Id, item, 1);</div>
-<div class="line"><span class="lineno">  256</span>            Global.Debug($<span class="stringliteral">&quot;random equipment (fief) {item.Name} added to {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  257</span>        }</div>
-<div class="line"><span class="lineno">  258</span> </div>
-<div class="line"><span class="lineno">  259</span>        var randomItemsFromClan = mobileParty.GetRandomEquipmentsFromClan();</div>
-<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> randomItemsFromClan) {</div>
-<div class="line"><span class="lineno">  261</span>            AddItemToPartyArmory(mobileParty.Id, item, 1);</div>
-<div class="line"><span class="lineno">  262</span>            Global.Debug($<span class="stringliteral">&quot;random equipment (clan) {item.Name} added to {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  263</span>        }</div>
-<div class="line"><span class="lineno">  264</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00255">255</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  255</span>                                                                               {</div>
+<div class="line"><span class="lineno">  256</span>        <span class="keywordflow">if</span> (mobileParty.MemberRoster                  == <span class="keyword">null</span> ||</div>
+<div class="line"><span class="lineno">  257</span>            mobileParty.MemberRoster.GetTroopRoster() == <span class="keyword">null</span> ||</div>
+<div class="line"><span class="lineno">  258</span>            mobileParty.MemberRoster.GetTroopRoster().IsEmpty())</div>
+<div class="line"><span class="lineno">  259</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  260</span> </div>
+<div class="line"><span class="lineno">  261</span>        var settings = SubModule.Settings;</div>
+<div class="line"><span class="lineno">  262</span>        var writeDebugLog = settings is { DebugMode: <span class="keyword">true</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  263</span>            (settings.MinimumLogLevel == Level.All || Level.Debug &gt;= settings.MinimumLogLevel);</div>
+<div class="line"><span class="lineno">  264</span> </div>
+<div class="line"><span class="lineno">  265</span>        var randomEquipmentElementsFromTroop = mobileParty.GetRandomEquipmentsFromTroop();</div>
+<div class="line"><span class="lineno">  266</span>        <span class="keywordflow">foreach</span> (var equipmentElement <span class="keywordflow">in</span> randomEquipmentElementsFromTroop) {</div>
+<div class="line"><span class="lineno">  267</span>            AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, 1);</div>
+<div class="line"><span class="lineno">  268</span>            <span class="keywordflow">if</span> (writeDebugLog)</div>
+<div class="line"><span class="lineno">  269</span>                Global.Debug($<span class="stringliteral">&quot;random equipment (troop) {equipmentElement.Item.Name} added to {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  270</span>        }</div>
+<div class="line"><span class="lineno">  271</span> </div>
+<div class="line"><span class="lineno">  272</span>        var randomItemsFromFiefs = mobileParty.GetDailyEquipmentFromFiefs();</div>
+<div class="line"><span class="lineno">  273</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> randomItemsFromFiefs) {</div>
+<div class="line"><span class="lineno">  274</span>            AddItemToPartyArmory(mobileParty.Id, item, 1);</div>
+<div class="line"><span class="lineno">  275</span>            <span class="keywordflow">if</span> (writeDebugLog)</div>
+<div class="line"><span class="lineno">  276</span>                Global.Debug($<span class="stringliteral">&quot;random equipment (fief) {item.Name} added to {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  277</span>        }</div>
+<div class="line"><span class="lineno">  278</span> </div>
+<div class="line"><span class="lineno">  279</span>        var randomItemsFromClan = mobileParty.GetRandomEquipmentsFromClan();</div>
+<div class="line"><span class="lineno">  280</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> randomItemsFromClan) {</div>
+<div class="line"><span class="lineno">  281</span>            AddItemToPartyArmory(mobileParty.Id, item, 1);</div>
+<div class="line"><span class="lineno">  282</span>            <span class="keywordflow">if</span> (writeDebugLog)</div>
+<div class="line"><span class="lineno">  283</span>                Global.Debug($<span class="stringliteral">&quot;random equipment (clan) {item.Name} added to {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  284</span>        }</div>
+<div class="line"><span class="lineno">  285</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../da/d24/a00068_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00188">DailyTickParty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00198">DailyTickParty()</a>.</p>
 
 </div>
 </div>
@@ -335,12 +342,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00322">322</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  322</span>                                                                                    {</div>
-<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">return</span> parties.SumQ(party =&gt; party.Party.EstimatedStrength);</div>
-<div class="line"><span class="lineno">  324</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00356">356</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  356</span>                                                                                    {</div>
+<div class="line"><span class="lineno">  357</span>        <span class="keywordflow">return</span> parties.SumQ(party =&gt; party.Party.EstimatedStrength);</div>
+<div class="line"><span class="lineno">  358</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00294">OnMapEventEnded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00324">OnMapEventEnded()</a>.</p>
 
 </div>
 </div>
@@ -387,20 +394,20 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>根据力量加权随机选中的移动部队，如果没有选中则返回null。 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00390">390</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  392</span>                                                                                       {</div>
-<div class="line"><span class="lineno">  393</span>        var randomValue        = random.NextDouble() * totalStrength;</div>
-<div class="line"><span class="lineno">  394</span>        var cumulativeStrength = 0f;</div>
-<div class="line"><span class="lineno">  395</span> </div>
-<div class="line"><span class="lineno">  396</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties) {</div>
-<div class="line"><span class="lineno">  397</span>            cumulativeStrength += party.Party.EstimatedStrength;</div>
-<div class="line"><span class="lineno">  398</span>            <span class="keywordflow">if</span> (cumulativeStrength &gt;= randomValue) <span class="keywordflow">return</span> party.Party.MobileParty;</div>
-<div class="line"><span class="lineno">  399</span>        }</div>
-<div class="line"><span class="lineno">  400</span> </div>
-<div class="line"><span class="lineno">  401</span>        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  402</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00453">453</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  455</span>                                                                                       {</div>
+<div class="line"><span class="lineno">  456</span>        var randomValue        = random.NextDouble() * totalStrength;</div>
+<div class="line"><span class="lineno">  457</span>        var cumulativeStrength = 0f;</div>
+<div class="line"><span class="lineno">  458</span> </div>
+<div class="line"><span class="lineno">  459</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties) {</div>
+<div class="line"><span class="lineno">  460</span>            cumulativeStrength += party.Party.EstimatedStrength;</div>
+<div class="line"><span class="lineno">  461</span>            <span class="keywordflow">if</span> (cumulativeStrength &gt;= randomValue) <span class="keywordflow">return</span> party.Party.MobileParty;</div>
+<div class="line"><span class="lineno">  462</span>        }</div>
+<div class="line"><span class="lineno">  463</span> </div>
+<div class="line"><span class="lineno">  464</span>        <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  465</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00332">DistributeLootRandomly()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00366">DistributeLootRandomly()</a>.</p>
 
 </div>
 </div>
@@ -427,46 +434,46 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00478">478</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  478</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  479</span>        var serializedArmories = <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;();</div>
-<div class="line"><span class="lineno">  480</span> </div>
-<div class="line"><span class="lineno">  481</span>        <span class="keywordflow">foreach</span> (var pendingParty <span class="keywordflow">in</span> _unresolvedPartyArmories) {</div>
-<div class="line"><span class="lineno">  482</span>            var party = FindActiveParty(<span class="keyword">new</span> MBGUID(pendingParty.Key));</div>
-<div class="line"><span class="lineno">  483</span>            <span class="keywordflow">if</span> (!ShouldPersistParty(party))</div>
-<div class="line"><span class="lineno">  484</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  485</span> </div>
-<div class="line"><span class="lineno">  486</span>            serializedArmories[pendingParty.Key] = <span class="keyword">new</span> Dictionary&lt;string, int&gt;(pendingParty.Value);</div>
-<div class="line"><span class="lineno">  487</span>        }</div>
-<div class="line"><span class="lineno">  488</span> </div>
-<div class="line"><span class="lineno">  489</span>        <span class="keywordflow">foreach</span> (var partyEntry <span class="keywordflow">in</span> PartyArmories) {</div>
-<div class="line"><span class="lineno">  490</span>            var party = FindActiveParty(partyEntry.Key);</div>
-<div class="line"><span class="lineno">  491</span>            <span class="keywordflow">if</span> (!ShouldPersistParty(party))</div>
-<div class="line"><span class="lineno">  492</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  493</span> </div>
-<div class="line"><span class="lineno">  494</span>            var serializedItems = serializedArmories.TryGetValue(partyEntry.Key.InternalValue, out var existingItems)</div>
-<div class="line"><span class="lineno">  495</span>                ? existingItems</div>
-<div class="line"><span class="lineno">  496</span>                : <span class="keyword">new</span> Dictionary&lt;string, int&gt;();</div>
-<div class="line"><span class="lineno">  497</span> </div>
-<div class="line"><span class="lineno">  498</span>            <span class="keywordflow">foreach</span> (var itemEntry <span class="keywordflow">in</span> partyEntry.Value) {</div>
-<div class="line"><span class="lineno">  499</span>                <span class="keywordflow">if</span> (itemEntry.Value &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(itemEntry.Key, out var item))</div>
-<div class="line"><span class="lineno">  500</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  501</span> </div>
-<div class="line"><span class="lineno">  502</span>                serializedItems[item.StringId] = serializedItems.TryGetValue(item.StringId, out var currentCount)</div>
-<div class="line"><span class="lineno">  503</span>                    ? currentCount + itemEntry.Value</div>
-<div class="line"><span class="lineno">  504</span>                    : itemEntry.Value;</div>
-<div class="line"><span class="lineno">  505</span>            }</div>
-<div class="line"><span class="lineno">  506</span> </div>
-<div class="line"><span class="lineno">  507</span>            <span class="keywordflow">if</span> (serializedItems.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  508</span>                serializedArmories[partyEntry.Key.InternalValue] = serializedItems;</div>
-<div class="line"><span class="lineno">  509</span>        }</div>
-<div class="line"><span class="lineno">  510</span> </div>
-<div class="line"><span class="lineno">  511</span>        <span class="keywordflow">return</span> serializedArmories;</div>
-<div class="line"><span class="lineno">  512</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00556">556</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  556</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  557</span>        var serializedArmories = <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;();</div>
+<div class="line"><span class="lineno">  558</span> </div>
+<div class="line"><span class="lineno">  559</span>        <span class="keywordflow">foreach</span> (var pendingParty <span class="keywordflow">in</span> _unresolvedPartyArmories) {</div>
+<div class="line"><span class="lineno">  560</span>            var party = FindActiveParty(<span class="keyword">new</span> MBGUID(pendingParty.Key));</div>
+<div class="line"><span class="lineno">  561</span>            <span class="keywordflow">if</span> (!ShouldPersistParty(party))</div>
+<div class="line"><span class="lineno">  562</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  563</span> </div>
+<div class="line"><span class="lineno">  564</span>            serializedArmories[pendingParty.Key] = <span class="keyword">new</span> Dictionary&lt;string, int&gt;(pendingParty.Value);</div>
+<div class="line"><span class="lineno">  565</span>        }</div>
+<div class="line"><span class="lineno">  566</span> </div>
+<div class="line"><span class="lineno">  567</span>        <span class="keywordflow">foreach</span> (var partyEntry <span class="keywordflow">in</span> PartyArmories) {</div>
+<div class="line"><span class="lineno">  568</span>            var party = FindActiveParty(partyEntry.Key);</div>
+<div class="line"><span class="lineno">  569</span>            <span class="keywordflow">if</span> (!ShouldPersistParty(party))</div>
+<div class="line"><span class="lineno">  570</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  571</span> </div>
+<div class="line"><span class="lineno">  572</span>            var serializedItems = serializedArmories.TryGetValue(partyEntry.Key.InternalValue, out var existingItems)</div>
+<div class="line"><span class="lineno">  573</span>                ? existingItems</div>
+<div class="line"><span class="lineno">  574</span>                : <span class="keyword">new</span> Dictionary&lt;string, int&gt;();</div>
+<div class="line"><span class="lineno">  575</span> </div>
+<div class="line"><span class="lineno">  576</span>            <span class="keywordflow">foreach</span> (var itemEntry <span class="keywordflow">in</span> partyEntry.Value) {</div>
+<div class="line"><span class="lineno">  577</span>                <span class="keywordflow">if</span> (itemEntry.Value &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(itemEntry.Key, out var item))</div>
+<div class="line"><span class="lineno">  578</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  579</span> </div>
+<div class="line"><span class="lineno">  580</span>                serializedItems[item.StringId] = serializedItems.TryGetValue(item.StringId, out var currentCount)</div>
+<div class="line"><span class="lineno">  581</span>                    ? currentCount + itemEntry.Value</div>
+<div class="line"><span class="lineno">  582</span>                    : itemEntry.Value;</div>
+<div class="line"><span class="lineno">  583</span>            }</div>
+<div class="line"><span class="lineno">  584</span> </div>
+<div class="line"><span class="lineno">  585</span>            <span class="keywordflow">if</span> (serializedItems.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  586</span>                serializedArmories[partyEntry.Key.InternalValue] = serializedItems;</div>
+<div class="line"><span class="lineno">  587</span>        }</div>
+<div class="line"><span class="lineno">  588</span> </div>
+<div class="line"><span class="lineno">  589</span>        <span class="keywordflow">return</span> serializedArmories;</div>
+<div class="line"><span class="lineno">  590</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00563">FindActiveParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00543">ShouldPersistParty()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00641">FindActiveParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00621">ShouldPersistParty()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00111">SyncData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00121">SyncData()</a>.</p>
 
 </div>
 </div>
@@ -493,26 +500,26 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00188">188</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  188</span>                                                         {</div>
-<div class="line"><span class="lineno">  189</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  190</span> </div>
-<div class="line"><span class="lineno">  191</span>        <span class="keywordflow">if</span> (!GarbageCollectParties(mobileParty))</div>
-<div class="line"><span class="lineno">  192</span>            AllocateRandomEquipmentToPartyArmory(mobileParty);</div>
-<div class="line"><span class="lineno">  193</span>        <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  194</span>            Global.Debug($<span class="stringliteral">&quot;garbage collect party {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  195</span> </div>
-<div class="line"><span class="lineno">  196</span>        <span class="keywordflow">if</span> (CampaignTime.Now.GetDayOfWeek != mobileParty.Id.InternalValue % 7) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  197</span> </div>
-<div class="line"><span class="lineno">  198</span>        GarbageCollectEquipments(mobileParty);</div>
-<div class="line"><span class="lineno">  199</span> </div>
-<div class="line"><span class="lineno">  200</span>        <span class="comment">//ReplenishBasicTroopEquipments(mobileParty);</span></div>
-<div class="line"><span class="lineno">  201</span>        MoveRosterToArmory(mobileParty);</div>
-<div class="line"><span class="lineno">  202</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00198">198</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  198</span>                                                         {</div>
+<div class="line"><span class="lineno">  199</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  200</span> </div>
+<div class="line"><span class="lineno">  201</span>        <span class="keywordflow">if</span> (!GarbageCollectParties(mobileParty))</div>
+<div class="line"><span class="lineno">  202</span>            AllocateRandomEquipmentToPartyArmory(mobileParty);</div>
+<div class="line"><span class="lineno">  203</span>        <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  204</span>            Global.Debug($<span class="stringliteral">&quot;garbage collect party {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  205</span> </div>
+<div class="line"><span class="lineno">  206</span>        <span class="keywordflow">if</span> (CampaignTime.Now.GetDayOfWeek != mobileParty.Id.InternalValue % 7) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  207</span> </div>
+<div class="line"><span class="lineno">  208</span>        GarbageCollectEquipments(mobileParty);</div>
+<div class="line"><span class="lineno">  209</span> </div>
+<div class="line"><span class="lineno">  210</span>        <span class="comment">//ReplenishBasicTroopEquipments(mobileParty);</span></div>
+<div class="line"><span class="lineno">  211</span>        MoveRosterToArmory(mobileParty);</div>
+<div class="line"><span class="lineno">  212</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00241">AllocateRandomEquipmentToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00153">GarbageCollectEquipments()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00204">GarbageCollectParties()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00226">MoveRosterToArmory()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00255">AllocateRandomEquipmentToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00163">GarbageCollectEquipments()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00214">GarbageCollectParties()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00236">MoveRosterToArmory()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -558,38 +565,67 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00332">332</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  334</span>                                                                                 {</div>
-<div class="line"><span class="lineno">  335</span>        Random                  random             = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">  336</span>        var                     lootItemsWithCount = GetAllLootItems(loserParties);</div>
-<div class="line"><span class="lineno">  337</span>        Dictionary&lt;MBGUID, int&gt; partyLootCount     = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">  338</span> </div>
-<div class="line"><span class="lineno">  339</span>        <span class="keywordflow">foreach</span> (var lootItem <span class="keywordflow">in</span> lootItemsWithCount) {</div>
-<div class="line"><span class="lineno">  340</span>            var item      = lootItem.Key;</div>
-<div class="line"><span class="lineno">  341</span>            var itemCount = lootItem.Value;</div>
-<div class="line"><span class="lineno">  342</span> </div>
-<div class="line"><span class="lineno">  343</span>            <span class="keywordflow">for</span> (var i = 0; i &lt; itemCount; i++) {</div>
-<div class="line"><span class="lineno">  344</span>                var chosenParty = ChoosePartyRandomly(winnerParties, totalWinnerStrength, random);</div>
-<div class="line"><span class="lineno">  345</span>                <span class="keywordflow">if</span> (chosenParty == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  346</span> </div>
-<div class="line"><span class="lineno">  347</span>                AddItemToPartyArmory(chosenParty.Id, item, 1);</div>
-<div class="line"><span class="lineno">  348</span> </div>
-<div class="line"><span class="lineno">  349</span>                <span class="comment">// 更新统计信息</span></div>
-<div class="line"><span class="lineno">  350</span>                <span class="keywordflow">if</span> (partyLootCount.ContainsKey(chosenParty.Id))</div>
-<div class="line"><span class="lineno">  351</span>                    partyLootCount[chosenParty.Id]++;</div>
-<div class="line"><span class="lineno">  352</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  353</span>                    partyLootCount[chosenParty.Id] = 1;</div>
-<div class="line"><span class="lineno">  354</span>            }</div>
-<div class="line"><span class="lineno">  355</span>        }</div>
-<div class="line"><span class="lineno">  356</span> </div>
-<div class="line"><span class="lineno">  357</span>        <span class="comment">// 记录每个party获得的物品总数</span></div>
-<div class="line"><span class="lineno">  358</span>        <span class="keywordflow">foreach</span> (var partyCount <span class="keywordflow">in</span> partyLootCount)</div>
-<div class="line"><span class="lineno">  359</span>            Global.Debug($<span class="stringliteral">&quot;Party {partyCount.Key} looted {partyCount.Value} items&quot;</span>);</div>
-<div class="line"><span class="lineno">  360</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00366">366</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  368</span>                                                                                 {</div>
+<div class="line"><span class="lineno">  369</span>        var lootItemsWithCount = GetAllLootItems(loserParties);</div>
+<div class="line"><span class="lineno">  370</span> </div>
+<div class="line"><span class="lineno">  371</span>        <span class="keywordflow">if</span> (winnerParties.Length == 1) {</div>
+<div class="line"><span class="lineno">  372</span>            var winnerParty = winnerParties[0].Party.MobileParty;</div>
+<div class="line"><span class="lineno">  373</span>            var totalLootCount = 0;</div>
+<div class="line"><span class="lineno">  374</span> </div>
+<div class="line"><span class="lineno">  375</span>            <span class="keywordflow">foreach</span> (var lootItem <span class="keywordflow">in</span> lootItemsWithCount) {</div>
+<div class="line"><span class="lineno">  376</span>                AddItemToPartyArmory(winnerParty.Id, lootItem.Key, lootItem.Value);</div>
+<div class="line"><span class="lineno">  377</span>                totalLootCount += lootItem.Value;</div>
+<div class="line"><span class="lineno">  378</span>            }</div>
+<div class="line"><span class="lineno">  379</span> </div>
+<div class="line"><span class="lineno">  380</span>            <span class="keywordflow">if</span> (totalLootCount &gt; 0)</div>
+<div class="line"><span class="lineno">  381</span>                Global.Debug($<span class="stringliteral">&quot;Party {winnerParty.Id} looted {totalLootCount} items&quot;</span>);</div>
+<div class="line"><span class="lineno">  382</span> </div>
+<div class="line"><span class="lineno">  383</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  384</span>        }</div>
+<div class="line"><span class="lineno">  385</span> </div>
+<div class="line"><span class="lineno">  386</span>        Random random = <span class="keyword">new</span>();</div>
+<div class="line"><span class="lineno">  387</span>        Dictionary&lt;MBGUID, int&gt; partyLootCount = <span class="keyword">new</span>();</div>
+<div class="line"><span class="lineno">  388</span>        Dictionary&lt;MBGUID, int&gt; currentItemDistribution = <span class="keyword">new</span>();</div>
+<div class="line"><span class="lineno">  389</span> </div>
+<div class="line"><span class="lineno">  390</span>        <span class="keywordflow">foreach</span> (var lootItem <span class="keywordflow">in</span> lootItemsWithCount) {</div>
+<div class="line"><span class="lineno">  391</span>            var item      = lootItem.Key;</div>
+<div class="line"><span class="lineno">  392</span>            var itemCount = lootItem.Value;</div>
+<div class="line"><span class="lineno">  393</span>            var selectionFailed = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  394</span>            currentItemDistribution.Clear();</div>
+<div class="line"><span class="lineno">  395</span> </div>
+<div class="line"><span class="lineno">  396</span>            <span class="keywordflow">for</span> (var i = 0; i &lt; itemCount; i++) {</div>
+<div class="line"><span class="lineno">  397</span>                var chosenParty = ChoosePartyRandomly(winnerParties, totalWinnerStrength, random);</div>
+<div class="line"><span class="lineno">  398</span>                <span class="keywordflow">if</span> (chosenParty == <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  399</span>                    selectionFailed = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  400</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  401</span>                }</div>
+<div class="line"><span class="lineno">  402</span> </div>
+<div class="line"><span class="lineno">  403</span>                currentItemDistribution[chosenParty.Id] =</div>
+<div class="line"><span class="lineno">  404</span>                    currentItemDistribution.TryGetValue(chosenParty.Id, out var currentItemCount)</div>
+<div class="line"><span class="lineno">  405</span>                        ? currentItemCount + 1</div>
+<div class="line"><span class="lineno">  406</span>                        : 1;</div>
+<div class="line"><span class="lineno">  407</span>                partyLootCount[chosenParty.Id] =</div>
+<div class="line"><span class="lineno">  408</span>                    partyLootCount.TryGetValue(chosenParty.Id, out var currentPartyCount)</div>
+<div class="line"><span class="lineno">  409</span>                        ? currentPartyCount + 1</div>
+<div class="line"><span class="lineno">  410</span>                        : 1;</div>
+<div class="line"><span class="lineno">  411</span>            }</div>
+<div class="line"><span class="lineno">  412</span> </div>
+<div class="line"><span class="lineno">  413</span>            <span class="keywordflow">foreach</span> (var partyItemCount <span class="keywordflow">in</span> currentItemDistribution)</div>
+<div class="line"><span class="lineno">  414</span>                AddItemToPartyArmory(partyItemCount.Key, item, partyItemCount.Value);</div>
+<div class="line"><span class="lineno">  415</span> </div>
+<div class="line"><span class="lineno">  416</span>            <span class="keywordflow">if</span> (selectionFailed)</div>
+<div class="line"><span class="lineno">  417</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  418</span>        }</div>
+<div class="line"><span class="lineno">  419</span> </div>
+<div class="line"><span class="lineno">  420</span>        <span class="comment">// 记录每个party获得的物品总数</span></div>
+<div class="line"><span class="lineno">  421</span>        <span class="keywordflow">foreach</span> (var partyCount <span class="keywordflow">in</span> partyLootCount)</div>
+<div class="line"><span class="lineno">  422</span>            Global.Debug($<span class="stringliteral">&quot;Party {partyCount.Key} looted {partyCount.Value} items&quot;</span>);</div>
+<div class="line"><span class="lineno">  423</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00390">ChoosePartyRandomly()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00362">GetAllLootItems()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00453">ChoosePartyRandomly()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00425">GetAllLootItems()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00294">OnMapEventEnded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00324">OnMapEventEnded()</a>.</p>
 
 </div>
 </div>
@@ -616,14 +652,14 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00313">313</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  313</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  314</span>        <span class="keywordflow">return</span> parties.WhereQ(IsMapEventPartyValid).ToArrayQ();</div>
-<div class="line"><span class="lineno">  315</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00342">342</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  342</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  343</span>        <span class="keywordflow">return</span> parties.WhereQ(IsMapEventPartyValid).ToArrayQ();</div>
+<div class="line"><span class="lineno">  344</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00474">IsMapEventPartyValid()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00552">IsMapEventPartyValid()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00294">OnMapEventEnded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00324">OnMapEventEnded()</a>.</p>
 
 </div>
 </div>
@@ -650,12 +686,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00563">563</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  563</span>                                                                {</div>
-<div class="line"><span class="lineno">  564</span>        <span class="keywordflow">return</span> Campaign.Current?.MobileParties?.FirstOrDefault(party =&gt; party.Id == partyId &amp;&amp; party.IsActive);</div>
-<div class="line"><span class="lineno">  565</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00641">641</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  641</span>                                                                {</div>
+<div class="line"><span class="lineno">  642</span>        <span class="keywordflow">return</span> Campaign.Current?.MobileParties?.FirstOrDefault(party =&gt; party.Id == partyId &amp;&amp; party.IsActive);</div>
+<div class="line"><span class="lineno">  643</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00478">CreateSerializedPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00514">RestoreReadyPartyArmories()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00556">CreateSerializedPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00592">RestoreReadyPartyArmories()</a>.</p>
 
 </div>
 </div>
@@ -682,46 +718,46 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00153">153</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  153</span>                                                                   {</div>
-<div class="line"><span class="lineno">  154</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>        var memberCnt = mobileParty.MemberRoster.GetTroopRoster()</div>
-<div class="line"><span class="lineno">  157</span>                                   .WhereQ(element =&gt; element.Character is { IsHero: false })</div>
-<div class="line"><span class="lineno">  158</span>                                   .SumQ(element =&gt; element.Number);</div>
-<div class="line"><span class="lineno">  159</span>        <span class="keywordflow">foreach</span> (var equipmentAndThreshold <span class="keywordflow">in</span> EquipmentAndThresholds) {</div>
-<div class="line"><span class="lineno">  160</span>            var partyArmory = PartyArmories.GetValueSafe(mobileParty.Id);</div>
-<div class="line"><span class="lineno">  161</span>            <span class="keywordflow">if</span> (partyArmory == <span class="keyword">null</span> || partyArmory.IsEmpty()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  162</span> </div>
-<div class="line"><span class="lineno">  163</span>            var armorTotalCount = partyArmory.WhereQ(kv =&gt; kv.Key.ItemType == equipmentAndThreshold.Key)</div>
-<div class="line"><span class="lineno">  164</span>                                             .SumQ(kv =&gt; kv.Value);</div>
-<div class="line"><span class="lineno">  165</span>            var surplusCount = armorTotalCount - memberCnt;</div>
-<div class="line"><span class="lineno">  166</span>            <span class="keywordflow">if</span> (surplusCount &lt;= 0) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  167</span> </div>
-<div class="line"><span class="lineno">  168</span>            var surplusCountCpy = surplusCount;</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>            <span class="comment">// 创建优先级队列</span></div>
-<div class="line"><span class="lineno">  171</span>            <a class="code hl_typedef" href="../../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> EquipmentEffectivenessComparer());</div>
-<div class="line"><span class="lineno">  172</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> partyArmory.WhereQ(kv =&gt; kv.Key.ItemType == equipmentAndThreshold.Key))</div>
-<div class="line"><span class="lineno">  173</span>                armorQueue.Enqueue(kv.Key, ((<span class="keywordtype">int</span>)kv.Key.Tier, kv.Key.Value));</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>            <span class="comment">// 移除多余的装备</span></div>
-<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">while</span> (surplusCount &gt; 0 &amp;&amp; armorQueue.Count &gt; 0) {</div>
-<div class="line"><span class="lineno">  177</span>                var lowestArmor   = armorQueue.Dequeue();</div>
-<div class="line"><span class="lineno">  178</span>                var countToRemove = Math.Min(partyArmory[lowestArmor.Key], surplusCount);</div>
-<div class="line"><span class="lineno">  179</span>                partyArmory[lowestArmor.Key] -= countToRemove;</div>
-<div class="line"><span class="lineno">  180</span>                surplusCount                 -= countToRemove;</div>
-<div class="line"><span class="lineno">  181</span>                <span class="keywordflow">if</span> (partyArmory[lowestArmor.Key] == 0) _ = partyArmory.Remove(lowestArmor.Key);</div>
-<div class="line"><span class="lineno">  182</span>            }</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>            Global.Debug($<span class="stringliteral">&quot;Garbage collected {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} armors from party {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  185</span>        }</div>
-<div class="line"><span class="lineno">  186</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00163">163</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  163</span>                                                                   {</div>
+<div class="line"><span class="lineno">  164</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid() || mobileParty.MemberRoster?.GetTroopRoster() == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  165</span> </div>
+<div class="line"><span class="lineno">  166</span>        var memberCnt = mobileParty.MemberRoster.GetTroopRoster()</div>
+<div class="line"><span class="lineno">  167</span>                                   .WhereQ(element =&gt; element.Character is { IsHero: false })</div>
+<div class="line"><span class="lineno">  168</span>                                   .SumQ(element =&gt; element.Number);</div>
+<div class="line"><span class="lineno">  169</span>        <span class="keywordflow">foreach</span> (var equipmentAndThreshold <span class="keywordflow">in</span> EquipmentAndThresholds) {</div>
+<div class="line"><span class="lineno">  170</span>            var partyArmory = PartyArmories.GetValueSafe(mobileParty.Id);</div>
+<div class="line"><span class="lineno">  171</span>            <span class="keywordflow">if</span> (partyArmory == <span class="keyword">null</span> || partyArmory.IsEmpty()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  172</span> </div>
+<div class="line"><span class="lineno">  173</span>            var armorTotalCount = partyArmory.WhereQ(kv =&gt; kv.Key.ItemType == equipmentAndThreshold.Key)</div>
+<div class="line"><span class="lineno">  174</span>                                             .SumQ(kv =&gt; kv.Value);</div>
+<div class="line"><span class="lineno">  175</span>            var surplusCount = armorTotalCount - memberCnt;</div>
+<div class="line"><span class="lineno">  176</span>            <span class="keywordflow">if</span> (surplusCount &lt;= 0) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>            var surplusCountCpy = surplusCount;</div>
+<div class="line"><span class="lineno">  179</span> </div>
+<div class="line"><span class="lineno">  180</span>            <span class="comment">// 创建优先级队列</span></div>
+<div class="line"><span class="lineno">  181</span>            <a class="code hl_typedef" href="../../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a> armorQueue = <span class="keyword">new</span>(<span class="keyword">new</span> EquipmentEffectivenessComparer());</div>
+<div class="line"><span class="lineno">  182</span>            <span class="keywordflow">foreach</span> (var kv <span class="keywordflow">in</span> partyArmory.WhereQ(kv =&gt; kv.Key.ItemType == equipmentAndThreshold.Key))</div>
+<div class="line"><span class="lineno">  183</span>                armorQueue.Enqueue(kv.Key, ((<span class="keywordtype">int</span>)kv.Key.Tier, kv.Key.Value));</div>
+<div class="line"><span class="lineno">  184</span> </div>
+<div class="line"><span class="lineno">  185</span>            <span class="comment">// 移除多余的装备</span></div>
+<div class="line"><span class="lineno">  186</span>            <span class="keywordflow">while</span> (surplusCount &gt; 0 &amp;&amp; armorQueue.Count &gt; 0) {</div>
+<div class="line"><span class="lineno">  187</span>                var lowestArmor   = armorQueue.Dequeue();</div>
+<div class="line"><span class="lineno">  188</span>                var countToRemove = Math.Min(partyArmory[lowestArmor.Key], surplusCount);</div>
+<div class="line"><span class="lineno">  189</span>                partyArmory[lowestArmor.Key] -= countToRemove;</div>
+<div class="line"><span class="lineno">  190</span>                surplusCount                 -= countToRemove;</div>
+<div class="line"><span class="lineno">  191</span>                <span class="keywordflow">if</span> (partyArmory[lowestArmor.Key] == 0) _ = partyArmory.Remove(lowestArmor.Key);</div>
+<div class="line"><span class="lineno">  192</span>            }</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>            Global.Debug($<span class="stringliteral">&quot;Garbage collected {surplusCountCpy - surplusCount}x{equipmentAndThreshold.Key} armors from party {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  195</span>        }</div>
+<div class="line"><span class="lineno">  196</span>    }</div>
 <div class="ttc" id="aa00023_html_a7c5d1fd7721987ec300c0ab950972b31"><div class="ttname"><a href="../../d3/d52/a00023.html#a7c5d1fd7721987ec300c0ab950972b31">ItemPriorityQueue</a></div><div class="ttdeci">TaleWorlds.Library.PriorityQueue&lt; TaleWorlds.Core.EquipmentElement, int &gt; ItemPriorityQueue</div><div class="ttdef"><b>Definition</b> <a href="../../d3/d52/a00023_source.html#l00020">ArmyArmory.cs:20</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00033">EquipmentAndThresholds</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00188">DailyTickParty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00198">DailyTickParty()</a>.</p>
 
 </div>
 </div>
@@ -748,32 +784,32 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00204">204</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  204</span>                                                                {</div>
-<div class="line"><span class="lineno">  205</span>        <span class="keywordflow">if</span> (mobileParty is not {</div>
-<div class="line"><span class="lineno">  206</span>                                   LeaderHero: {</div>
-<div class="line"><span class="lineno">  207</span>                                                   CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
-<div class="line"><span class="lineno">  208</span>                                                   IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  209</span>                                                   IsPartyLeader         : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  210</span>                                                   IsAlive               : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  211</span>                                                   IsActive              : <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">  212</span>                                               },</div>
-<div class="line"><span class="lineno">  213</span>                                   Owner: {</div>
-<div class="line"><span class="lineno">  214</span>                                              CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
-<div class="line"><span class="lineno">  215</span>                                              IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  216</span>                                              IsActive              : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  217</span>                                              IsAlive               : <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">  218</span>                                          },</div>
-<div class="line"><span class="lineno">  219</span>                                   MemberRoster: { TotalHeroes: &gt; 0, TotalManCount: &gt; 0 },</div>
-<div class="line"><span class="lineno">  220</span>                                   IsDisbanding: <span class="keyword">false</span></div>
-<div class="line"><span class="lineno">  221</span>                               })</div>
-<div class="line"><span class="lineno">  222</span>            <span class="keywordflow">return</span> PartyArmories.Remove(mobileParty.Id);</div>
-<div class="line"><span class="lineno">  223</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  224</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00214">214</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  214</span>                                                                {</div>
+<div class="line"><span class="lineno">  215</span>        <span class="keywordflow">if</span> (mobileParty is not {</div>
+<div class="line"><span class="lineno">  216</span>                                   LeaderHero: {</div>
+<div class="line"><span class="lineno">  217</span>                                                   CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
+<div class="line"><span class="lineno">  218</span>                                                   IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  219</span>                                                   IsPartyLeader         : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  220</span>                                                   IsAlive               : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  221</span>                                                   IsActive              : <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">  222</span>                                               },</div>
+<div class="line"><span class="lineno">  223</span>                                   Owner: {</div>
+<div class="line"><span class="lineno">  224</span>                                              CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
+<div class="line"><span class="lineno">  225</span>                                              IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  226</span>                                              IsActive              : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  227</span>                                              IsAlive               : <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">  228</span>                                          },</div>
+<div class="line"><span class="lineno">  229</span>                                   MemberRoster: { TotalHeroes: &gt; 0, TotalManCount: &gt; 0 },</div>
+<div class="line"><span class="lineno">  230</span>                                   IsDisbanding: <span class="keyword">false</span></div>
+<div class="line"><span class="lineno">  231</span>                               })</div>
+<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">return</span> PartyArmories.Remove(mobileParty.Id);</div>
+<div class="line"><span class="lineno">  233</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  234</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00188">DailyTickParty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00198">DailyTickParty()</a>.</p>
 
 </div>
 </div>
@@ -800,31 +836,31 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00362">362</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  362</span>                                                                                                   {</div>
-<div class="line"><span class="lineno">  363</span>        Dictionary&lt;ItemObject, int&gt; itemsWithCount = <span class="keyword">new</span>();</div>
-<div class="line"><span class="lineno">  364</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties) {</div>
-<div class="line"><span class="lineno">  365</span>            var partyId = party.Party.MobileParty.Id;</div>
-<div class="line"><span class="lineno">  366</span>            var inventory = SanitizePartyArmory(partyId);</div>
-<div class="line"><span class="lineno">  367</span>            <span class="keywordflow">if</span> (inventory == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  368</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  369</span> </div>
-<div class="line"><span class="lineno">  370</span>            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> inventory) {</div>
-<div class="line"><span class="lineno">  371</span>                <span class="keywordflow">if</span> (item.Value &lt;= 0 || !ItemBlackList.Test(item.Key))</div>
-<div class="line"><span class="lineno">  372</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>                itemsWithCount[item.Key] = itemsWithCount.TryGetValue(item.Key, out var currentCount)</div>
-<div class="line"><span class="lineno">  375</span>                    ? currentCount + item.Value</div>
-<div class="line"><span class="lineno">  376</span>                    : item.Value;</div>
-<div class="line"><span class="lineno">  377</span>            }</div>
-<div class="line"><span class="lineno">  378</span>        }</div>
-<div class="line"><span class="lineno">  379</span> </div>
-<div class="line"><span class="lineno">  380</span>        <span class="keywordflow">return</span> itemsWithCount;</div>
-<div class="line"><span class="lineno">  381</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00425">425</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  425</span>                                                                                                   {</div>
+<div class="line"><span class="lineno">  426</span>        Dictionary&lt;ItemObject, int&gt; itemsWithCount = <span class="keyword">new</span>();</div>
+<div class="line"><span class="lineno">  427</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties) {</div>
+<div class="line"><span class="lineno">  428</span>            var partyId = party.Party.MobileParty.Id;</div>
+<div class="line"><span class="lineno">  429</span>            var inventory = SanitizePartyArmory(partyId);</div>
+<div class="line"><span class="lineno">  430</span>            <span class="keywordflow">if</span> (inventory == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  431</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  432</span> </div>
+<div class="line"><span class="lineno">  433</span>            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> inventory) {</div>
+<div class="line"><span class="lineno">  434</span>                <span class="keywordflow">if</span> (item.Value &lt;= 0 || !ItemBlackList.Test(item.Key))</div>
+<div class="line"><span class="lineno">  435</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  436</span> </div>
+<div class="line"><span class="lineno">  437</span>                itemsWithCount[item.Key] = itemsWithCount.TryGetValue(item.Key, out var currentCount)</div>
+<div class="line"><span class="lineno">  438</span>                    ? currentCount + item.Value</div>
+<div class="line"><span class="lineno">  439</span>                    : item.Value;</div>
+<div class="line"><span class="lineno">  440</span>            }</div>
+<div class="line"><span class="lineno">  441</span>        }</div>
+<div class="line"><span class="lineno">  442</span> </div>
+<div class="line"><span class="lineno">  443</span>        <span class="keywordflow">return</span> itemsWithCount;</div>
+<div class="line"><span class="lineno">  444</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00439">SanitizePartyArmory()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00502">SanitizePartyArmory()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00332">DistributeLootRandomly()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00366">DistributeLootRandomly()</a>.</p>
 
 </div>
 </div>
@@ -857,20 +893,30 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   56</span>        Cache.Clear();</div>
 <div class="line"><span class="lineno">   57</span>        ItemBlackList.ResetCache();</div>
 <div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">foreach</span> (var itemType <span class="keywordflow">in</span> Global.ItemTypes) {</div>
-<div class="line"><span class="lineno">   60</span>            var items = MBObjectManager.Instance.GetObjectTypeList&lt;ItemObject&gt;()</div>
-<div class="line"><span class="lineno">   61</span>                                       ?.WhereQ(item =&gt; ArmyArmory.TryResolveArmoryItem(item, out _) &amp;&amp; item.ItemType == itemType)</div>
-<div class="line"><span class="lineno">   62</span>                                       ?.OrderByQ(item =&gt; item.Tier)</div>
-<div class="line"><span class="lineno">   63</span>                                       ?.ThenBy(item =&gt; item.Value)</div>
-<div class="line"><span class="lineno">   64</span>                                       .ToListQ();</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>            ItemListByType[itemType] = items ?? <span class="keyword">new</span> List&lt;ItemObject&gt;();</div>
-<div class="line"><span class="lineno">   67</span>        }</div>
-<div class="line"><span class="lineno">   68</span>    }</div>
+<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">foreach</span> (var itemType <span class="keywordflow">in</span> Global.ItemTypes)</div>
+<div class="line"><span class="lineno">   60</span>            ItemListByType[itemType] = <span class="keyword">new</span> List&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">   61</span> </div>
+<div class="line"><span class="lineno">   62</span>        var allItems = MBObjectManager.Instance.GetObjectTypeList&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">   63</span>        <span class="keywordflow">if</span> (allItems != <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">   64</span>            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> allItems) {</div>
+<div class="line"><span class="lineno">   65</span>                <span class="keywordflow">if</span> (ItemListByType.TryGetValue(item.ItemType, out var items) &amp;&amp;</div>
+<div class="line"><span class="lineno">   66</span>                    ArmyArmory.TryResolveArmoryItem(item, out _))</div>
+<div class="line"><span class="lineno">   67</span>                    items.Add(item);</div>
+<div class="line"><span class="lineno">   68</span>            }</div>
+<div class="line"><span class="lineno">   69</span>        }</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">foreach</span> (var itemType <span class="keywordflow">in</span> Global.ItemTypes)</div>
+<div class="line"><span class="lineno">   72</span>        {</div>
+<div class="line"><span class="lineno">   73</span>            ItemListByType[itemType] = ItemListByType[itemType]</div>
+<div class="line"><span class="lineno">   74</span>                .OrderBy(item =&gt; item.Tier)</div>
+<div class="line"><span class="lineno">   75</span>                .ThenBy(item =&gt; item.Value)</div>
+<div class="line"><span class="lineno">   76</span>                .ToList();</div>
+<div class="line"><span class="lineno">   77</span>        }</div>
+<div class="line"><span class="lineno">   78</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/dee/a00008_source.html#l00021">DynamicTroopEquipmentReupload.Cache.Clear()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00052">ItemListByType</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00054">DynamicTroopEquipmentReupload.Global.ItemTypes</a>, <a class="el" href="../../db/dab/a00089_source.html#l00121">DynamicTroopEquipmentReupload.ItemBlackList.ResetCache()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00083">OnNewGameCreated()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00093">OnNewGameCreated()</a>.</p>
 
 </div>
 </div>
@@ -897,12 +943,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00474">474</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  474</span>                                                                   {</div>
-<div class="line"><span class="lineno">  475</span>        <span class="keywordflow">return</span> party is { Party.MobileParty: var mobileParty } &amp;&amp; mobileParty.IsValid();</div>
-<div class="line"><span class="lineno">  476</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00552">552</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  552</span>                                                                   {</div>
+<div class="line"><span class="lineno">  553</span>        <span class="keywordflow">return</span> party is { Party.MobileParty: var mobileParty } &amp;&amp; mobileParty.IsValid();</div>
+<div class="line"><span class="lineno">  554</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00313">FilterValidParties()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00342">FilterValidParties()</a>.</p>
 
 </div>
 </div>
@@ -933,15 +979,20 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00317">317</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  317</span>                                                                                     {</div>
-<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties)</div>
-<div class="line"><span class="lineno">  319</span>            Global.Log($<span class="stringliteral">&quot;{label} party: {party.Party.Name}#{party.Party.MobileParty.Id}&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  320</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00346">346</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  346</span>                                                                                     {</div>
+<div class="line"><span class="lineno">  347</span>        var settings = SubModule.Settings;</div>
+<div class="line"><span class="lineno">  348</span>        <span class="keywordflow">if</span> (settings is not { DebugMode: <span class="keyword">true</span> } ||</div>
+<div class="line"><span class="lineno">  349</span>            (settings.MinimumLogLevel != Level.All &amp;&amp; Level.Debug &lt; settings.MinimumLogLevel))</div>
+<div class="line"><span class="lineno">  350</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  351</span> </div>
+<div class="line"><span class="lineno">  352</span>        <span class="keywordflow">foreach</span> (var party <span class="keywordflow">in</span> parties)</div>
+<div class="line"><span class="lineno">  353</span>            Global.Log($<span class="stringliteral">&quot;{label} party: {party.Party.Name}#{party.Party.MobileParty.Id}&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  354</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d24/a00068_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00294">OnMapEventEnded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00324">OnMapEventEnded()</a>.</p>
 
 </div>
 </div>
@@ -968,25 +1019,29 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00226">226</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  226</span>                                                             {</div>
-<div class="line"><span class="lineno">  227</span>        var elements = mobileParty.ItemRoster.WhereQ(element =&gt;</div>
-<div class="line"><span class="lineno">  228</span>                                                         (element.EquipmentElement.Item?.HasArmorComponent  ?? <span class="keyword">false</span>) ||</div>
-<div class="line"><span class="lineno">  229</span>                                                         (element.EquipmentElement.Item?.HasWeaponComponent ?? <span class="keyword">false</span>))</div>
-<div class="line"><span class="lineno">  230</span>                                 .ToArrayQ();</div>
-<div class="line"><span class="lineno">  231</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> elements)</div>
-<div class="line"><span class="lineno">  232</span>            <span class="keywordflow">if</span> (element.Amount &gt; 0 &amp;&amp; ArmyArmory.TryResolveArmoryItem(element.EquipmentElement.Item, out var item)) {</div>
-<div class="line"><span class="lineno">  233</span>                AddItemToPartyArmory(mobileParty.Id, item, element.Amount);</div>
-<div class="line"><span class="lineno">  234</span>                Global.Debug($<span class="stringliteral">&quot;equipment {item.Name}x{element.Amount} moved to armory from {mobileParty.Name}&quot;</span>);</div>
-<div class="line"><span class="lineno">  235</span>                mobileParty.ItemRoster.Remove(element);</div>
-<div class="line"><span class="lineno">  236</span>                var hero                    = mobileParty.LeaderHero ?? mobileParty.Owner;</div>
-<div class="line"><span class="lineno">  237</span>                <span class="keywordflow">if</span> (hero != <span class="keyword">null</span>) hero.Gold += item.Value * element.Amount;</div>
-<div class="line"><span class="lineno">  238</span>            }</div>
-<div class="line"><span class="lineno">  239</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00236">236</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  236</span>                                                             {</div>
+<div class="line"><span class="lineno">  237</span>        var settings = SubModule.Settings;</div>
+<div class="line"><span class="lineno">  238</span>        var writeDebugLog = settings is { DebugMode: <span class="keyword">true</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  239</span>            (settings.MinimumLogLevel == Level.All || Level.Debug &gt;= settings.MinimumLogLevel);</div>
+<div class="line"><span class="lineno">  240</span>        var elements = mobileParty.ItemRoster.WhereQ(element =&gt;</div>
+<div class="line"><span class="lineno">  241</span>                                                         (element.EquipmentElement.Item?.HasArmorComponent  ?? <span class="keyword">false</span>) ||</div>
+<div class="line"><span class="lineno">  242</span>                                                         (element.EquipmentElement.Item?.HasWeaponComponent ?? <span class="keyword">false</span>))</div>
+<div class="line"><span class="lineno">  243</span>                                 .ToArrayQ();</div>
+<div class="line"><span class="lineno">  244</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> elements)</div>
+<div class="line"><span class="lineno">  245</span>            <span class="keywordflow">if</span> (element.Amount &gt; 0 &amp;&amp; ArmyArmory.TryResolveArmoryItem(element.EquipmentElement.Item, out var item)) {</div>
+<div class="line"><span class="lineno">  246</span>                AddItemToPartyArmory(mobileParty.Id, item, element.Amount);</div>
+<div class="line"><span class="lineno">  247</span>                <span class="keywordflow">if</span> (writeDebugLog)</div>
+<div class="line"><span class="lineno">  248</span>                    Global.Debug($<span class="stringliteral">&quot;equipment {item.Name}x{element.Amount} moved to armory from {mobileParty.Name}&quot;</span>);</div>
+<div class="line"><span class="lineno">  249</span>                mobileParty.ItemRoster.Remove(element);</div>
+<div class="line"><span class="lineno">  250</span>                var hero                    = mobileParty.LeaderHero ?? mobileParty.Owner;</div>
+<div class="line"><span class="lineno">  251</span>                <span class="keywordflow">if</span> (hero != <span class="keyword">null</span>) hero.Gold += item.Value * element.Amount;</div>
+<div class="line"><span class="lineno">  252</span>            }</div>
+<div class="line"><span class="lineno">  253</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d24/a00068_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00188">DailyTickParty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00198">DailyTickParty()</a>.</p>
 
 </div>
 </div>
@@ -1013,28 +1068,28 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00093">93</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   93</span>                                                           {</div>
-<div class="line"><span class="lineno">   94</span>        Global.Debug(<span class="stringliteral">&quot;OnGameLoaded() called&quot;</span>);</div>
-<div class="line"><span class="lineno">   95</span>        InitializeItemListByType();</div>
-<div class="line"><span class="lineno">   96</span>        RestoreReadyPartyArmories();</div>
-<div class="line"><span class="lineno">   97</span> </div>
-<div class="line"><span class="lineno">   98</span>        IEnumerable&lt;MobileParty&gt;? validParties = Campaign.Current?.MobileParties?.WhereQ(party =&gt; party.IsValid());</div>
-<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">if</span> (validParties != <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  100</span>            <span class="keywordflow">foreach</span> (var validParty <span class="keywordflow">in</span> validParties) {</div>
-<div class="line"><span class="lineno">  101</span>                <span class="keywordflow">if</span> (!PartyArmories.ContainsKey(validParty.Id))</div>
-<div class="line"><span class="lineno">  102</span>                    OnMobilePartyCreated(validParty);</div>
-<div class="line"><span class="lineno">  103</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  104</span>                    SanitizePartyArmory(validParty.Id);</div>
-<div class="line"><span class="lineno">  105</span>            }</div>
-<div class="line"><span class="lineno">  106</span>        }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00103">103</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>                                                           {</div>
+<div class="line"><span class="lineno">  104</span>        Global.Debug(<span class="stringliteral">&quot;OnGameLoaded() called&quot;</span>);</div>
+<div class="line"><span class="lineno">  105</span>        InitializeItemListByType();</div>
+<div class="line"><span class="lineno">  106</span>        RestoreReadyPartyArmories();</div>
 <div class="line"><span class="lineno">  107</span> </div>
-<div class="line"><span class="lineno">  108</span>        CharacterObjectExtension.Init();</div>
-<div class="line"><span class="lineno">  109</span>    }</div>
+<div class="line"><span class="lineno">  108</span>        IEnumerable&lt;MobileParty&gt;? validParties = Campaign.Current?.MobileParties?.WhereQ(party =&gt; party.IsValid());</div>
+<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">if</span> (validParties != <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  110</span>            <span class="keywordflow">foreach</span> (var validParty <span class="keywordflow">in</span> validParties) {</div>
+<div class="line"><span class="lineno">  111</span>                <span class="keywordflow">if</span> (!PartyArmories.ContainsKey(validParty.Id))</div>
+<div class="line"><span class="lineno">  112</span>                    OnMobilePartyCreated(validParty);</div>
+<div class="line"><span class="lineno">  113</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  114</span>                    SanitizePartyArmory(validParty.Id);</div>
+<div class="line"><span class="lineno">  115</span>            }</div>
+<div class="line"><span class="lineno">  116</span>        }</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span>        CharacterObjectExtension.Init();</div>
+<div class="line"><span class="lineno">  119</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../df/d98/a00107_source.html#l00083">DynamicTroopEquipmentReupload.Extensions.CharacterObjectExtension.Init()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00054">InitializeItemListByType()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00266">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00514">RestoreReadyPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00439">SanitizePartyArmory()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../df/d98/a00107_source.html#l00083">DynamicTroopEquipmentReupload.Extensions.CharacterObjectExtension.Init()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00054">InitializeItemListByType()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00287">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00592">RestoreReadyPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00502">SanitizePartyArmory()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1061,29 +1116,28 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00294">294</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  294</span>                                                    {</div>
-<div class="line"><span class="lineno">  295</span>        Global.Log($<span class="stringliteral">&quot;Map Event ended with state {mapEvent.BattleState}&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  296</span>        <span class="keywordflow">if</span> (mapEvent.BattleState is not BattleState.AttackerVictory and not BattleState.DefenderVictory) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  297</span> </div>
-<div class="line"><span class="lineno">  298</span>        var validWinnerParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory</div>
-<div class="line"><span class="lineno">  299</span>                                                        ? mapEvent.AttackerSide.Parties</div>
-<div class="line"><span class="lineno">  300</span>                                                        : mapEvent.DefenderSide.Parties)</div>
-<div class="line"><span class="lineno">  301</span>            .ToArrayQ();</div>
-<div class="line"><span class="lineno">  302</span>        var validLoserParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory</div>
-<div class="line"><span class="lineno">  303</span>                                                       ? mapEvent.DefenderSide.Parties</div>
-<div class="line"><span class="lineno">  304</span>                                                       : mapEvent.AttackerSide.Parties);</div>
-<div class="line"><span class="lineno">  305</span> </div>
-<div class="line"><span class="lineno">  306</span>        LogParties(validWinnerParties, <span class="stringliteral">&quot;Winning&quot;</span>);</div>
-<div class="line"><span class="lineno">  307</span>        LogParties(validLoserParties,  <span class="stringliteral">&quot;Defeated&quot;</span>);</div>
-<div class="line"><span class="lineno">  308</span> </div>
-<div class="line"><span class="lineno">  309</span>        var totalWinnerStrength = CalculateTotalStrength(validWinnerParties);</div>
-<div class="line"><span class="lineno">  310</span>        DistributeLootRandomly(validWinnerParties, totalWinnerStrength, validLoserParties);</div>
-<div class="line"><span class="lineno">  311</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00324">324</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  324</span>                                                    {</div>
+<div class="line"><span class="lineno">  325</span>        Global.Log($<span class="stringliteral">&quot;Map Event ended with state {mapEvent.BattleState}&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  326</span>        <span class="keywordflow">if</span> (mapEvent.BattleState is not BattleState.AttackerVictory and not BattleState.DefenderVictory) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  327</span> </div>
+<div class="line"><span class="lineno">  328</span>        var validWinnerParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory</div>
+<div class="line"><span class="lineno">  329</span>                                                        ? mapEvent.AttackerSide.Parties</div>
+<div class="line"><span class="lineno">  330</span>                                                        : mapEvent.DefenderSide.Parties);</div>
+<div class="line"><span class="lineno">  331</span>        var validLoserParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory</div>
+<div class="line"><span class="lineno">  332</span>                                                       ? mapEvent.DefenderSide.Parties</div>
+<div class="line"><span class="lineno">  333</span>                                                       : mapEvent.AttackerSide.Parties);</div>
+<div class="line"><span class="lineno">  334</span> </div>
+<div class="line"><span class="lineno">  335</span>        LogParties(validWinnerParties, <span class="stringliteral">&quot;Winning&quot;</span>);</div>
+<div class="line"><span class="lineno">  336</span>        LogParties(validLoserParties,  <span class="stringliteral">&quot;Defeated&quot;</span>);</div>
+<div class="line"><span class="lineno">  337</span> </div>
+<div class="line"><span class="lineno">  338</span>        var totalWinnerStrength = CalculateTotalStrength(validWinnerParties);</div>
+<div class="line"><span class="lineno">  339</span>        DistributeLootRandomly(validWinnerParties, totalWinnerStrength, validLoserParties);</div>
+<div class="line"><span class="lineno">  340</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00322">CalculateTotalStrength()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00332">DistributeLootRandomly()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00313">FilterValidParties()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00317">LogParties()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00356">CalculateTotalStrength()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00366">DistributeLootRandomly()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00342">FilterValidParties()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00346">LogParties()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1110,27 +1164,36 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00266">266</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  266</span>                                                               {</div>
-<div class="line"><span class="lineno">  267</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  268</span> </div>
-<div class="line"><span class="lineno">  269</span>        <span class="keywordflow">if</span> (!PartyArmories.ContainsKey(mobileParty.Id))</div>
-<div class="line"><span class="lineno">  270</span>            PartyArmories[mobileParty.Id] = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
-<div class="line"><span class="lineno">  271</span> </div>
-<div class="line"><span class="lineno">  272</span>        var list = mobileParty.GetItems();</div>
-<div class="line"><span class="lineno">  273</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> list) {</div>
-<div class="line"><span class="lineno">  274</span>            <span class="keywordflow">if</span> (element.Item != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  275</span>                AddItemToPartyArmory(mobileParty.Id, element.Item, 1);</div>
-<div class="line"><span class="lineno">  276</span>        }</div>
-<div class="line"><span class="lineno">  277</span> </div>
-<div class="line"><span class="lineno">  278</span>        Global.Log($<span class="stringliteral">&quot;Mobile party {mobileParty.Name} created, {list.Count} start equipment added&quot;</span>,</div>
-<div class="line"><span class="lineno">  279</span>                   Colors.Green,</div>
-<div class="line"><span class="lineno">  280</span>                   Level.Debug);</div>
-<div class="line"><span class="lineno">  281</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00287">287</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  287</span>                                                               {</div>
+<div class="line"><span class="lineno">  288</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  289</span> </div>
+<div class="line"><span class="lineno">  290</span>        <span class="keywordflow">if</span> (!PartyArmories.ContainsKey(mobileParty.Id))</div>
+<div class="line"><span class="lineno">  291</span>            PartyArmories[mobileParty.Id] = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  292</span> </div>
+<div class="line"><span class="lineno">  293</span>        var startingEquipmentCount = 0;</div>
+<div class="line"><span class="lineno">  294</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mobileParty.MemberRoster.GetTroopRoster()) {</div>
+<div class="line"><span class="lineno">  295</span>            <span class="keywordflow">if</span> (rosterElement.Character is not { IsHero: false } character || rosterElement.Number &lt;= 0)</div>
+<div class="line"><span class="lineno">  296</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  297</span> </div>
+<div class="line"><span class="lineno">  298</span>            var startingEquipment = RecruitmentPatch.GetRecruitEquipments(character);</div>
+<div class="line"><span class="lineno">  299</span>            <span class="keywordflow">foreach</span> (var equipmentElement <span class="keywordflow">in</span> startingEquipment) {</div>
+<div class="line"><span class="lineno">  300</span>                <span class="keywordflow">if</span> (equipmentElement.Item == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  301</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  302</span> </div>
+<div class="line"><span class="lineno">  303</span>                AddItemToPartyArmory(mobileParty.Id, equipmentElement.Item, rosterElement.Number);</div>
+<div class="line"><span class="lineno">  304</span>                startingEquipmentCount += rosterElement.Number;</div>
+<div class="line"><span class="lineno">  305</span>            }</div>
+<div class="line"><span class="lineno">  306</span>        }</div>
+<div class="line"><span class="lineno">  307</span> </div>
+<div class="line"><span class="lineno">  308</span>        Global.Log($<span class="stringliteral">&quot;Mobile party {mobileParty.Name} created, {startingEquipmentCount} start equipment added&quot;</span>,</div>
+<div class="line"><span class="lineno">  309</span>                   Colors.Green,</div>
+<div class="line"><span class="lineno">  310</span>                   Level.Debug);</div>
+<div class="line"><span class="lineno">  311</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../d6/d2d/a00047_source.html#l00046">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.GetRecruitEquipments()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1161,21 +1224,21 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00283">283</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  283</span>                                                                                      {</div>
-<div class="line"><span class="lineno">  284</span>        <span class="keywordflow">if</span> (mobileParty?.Id != <span class="keyword">null</span>) _ = PartyArmories.Remove(mobileParty.Id);</div>
-<div class="line"><span class="lineno">  285</span> </div>
-<div class="line"><span class="lineno">  286</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  287</span> </div>
-<div class="line"><span class="lineno">  288</span>        <span class="keywordflow">if</span> (mobileParty is { Name: not <span class="keyword">null</span> } &amp;&amp; partyBase is { Name: not <span class="keyword">null</span> })</div>
-<div class="line"><span class="lineno">  289</span>            Global.Log($<span class="stringliteral">&quot;Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}&quot;</span>,</div>
-<div class="line"><span class="lineno">  290</span>                       Colors.Green,</div>
-<div class="line"><span class="lineno">  291</span>                       Level.Debug);</div>
-<div class="line"><span class="lineno">  292</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00313">313</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  313</span>                                                                                      {</div>
+<div class="line"><span class="lineno">  314</span>        <span class="keywordflow">if</span> (mobileParty?.Id != <span class="keyword">null</span>) _ = PartyArmories.Remove(mobileParty.Id);</div>
+<div class="line"><span class="lineno">  315</span> </div>
+<div class="line"><span class="lineno">  316</span>        <span class="keywordflow">if</span> (!mobileParty.IsValid()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  317</span> </div>
+<div class="line"><span class="lineno">  318</span>        <span class="keywordflow">if</span> (mobileParty is { Name: not <span class="keyword">null</span> } &amp;&amp; partyBase is { Name: not <span class="keyword">null</span> })</div>
+<div class="line"><span class="lineno">  319</span>            Global.Log($<span class="stringliteral">&quot;Mobile party {mobileParty.Name} destroyed, partyBase = {partyBase.Name}&quot;</span>,</div>
+<div class="line"><span class="lineno">  320</span>                       Colors.Green,</div>
+<div class="line"><span class="lineno">  321</span>                       Level.Debug);</div>
+<div class="line"><span class="lineno">  322</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1202,19 +1265,19 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00083">83</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   83</span>                                                               {</div>
-<div class="line"><span class="lineno">   84</span>        Global.Debug(<span class="stringliteral">&quot;OnNewGameCreated() called&quot;</span>);</div>
-<div class="line"><span class="lineno">   85</span>        _unresolvedPartyArmories.Clear();</div>
-<div class="line"><span class="lineno">   86</span>        PartyArmories.Clear();</div>
-<div class="line"><span class="lineno">   87</span> </div>
-<div class="line"><span class="lineno">   88</span>        InitializeItemListByType();</div>
-<div class="line"><span class="lineno">   89</span>        CharacterObjectExtension.Init();</div>
-<div class="line"><span class="lineno">   90</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00093">93</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   93</span>                                                               {</div>
+<div class="line"><span class="lineno">   94</span>        Global.Debug(<span class="stringliteral">&quot;OnNewGameCreated() called&quot;</span>);</div>
+<div class="line"><span class="lineno">   95</span>        _unresolvedPartyArmories.Clear();</div>
+<div class="line"><span class="lineno">   96</span>        PartyArmories.Clear();</div>
+<div class="line"><span class="lineno">   97</span> </div>
+<div class="line"><span class="lineno">   98</span>        InitializeItemListByType();</div>
+<div class="line"><span class="lineno">   99</span>        CharacterObjectExtension.Init();</div>
+<div class="line"><span class="lineno">  100</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../df/d98/a00107_source.html#l00083">DynamicTroopEquipmentReupload.Extensions.CharacterObjectExtension.Init()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00054">InitializeItemListByType()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1272,27 +1335,27 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00412">412</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  416</span>                                                                 {</div>
-<div class="line"><span class="lineno">  417</span>        <span class="keywordflow">if</span> (recruiterHero == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  418</span> </div>
-<div class="line"><span class="lineno">  419</span>        var party = recruiterHero.PartyBelongedTo;</div>
-<div class="line"><span class="lineno">  420</span>        <span class="keywordflow">if</span> (!party.IsValid()) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  421</span> </div>
-<div class="line"><span class="lineno">  422</span>        var list = RecruitmentPatch.GetRecruitEquipments(troop);</div>
-<div class="line"><span class="lineno">  423</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> list) {</div>
-<div class="line"><span class="lineno">  424</span>            <span class="keywordflow">if</span> (element.Item != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  425</span>                AddItemToPartyArmory(party.Id, element.Item, amount);</div>
-<div class="line"><span class="lineno">  426</span>        }</div>
-<div class="line"><span class="lineno">  427</span> </div>
-<div class="line"><span class="lineno">  428</span>        Global.Log($<span class="stringliteral">&quot;troop {troop.Name}x{amount} recruited by recruiterHero={recruiterHero.Name} in party {party.Name}, {list.Count * amount} start equipment added&quot;</span>,</div>
-<div class="line"><span class="lineno">  429</span>                   Colors.Green,</div>
-<div class="line"><span class="lineno">  430</span>                   Level.Debug);</div>
-<div class="line"><span class="lineno">  431</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00475">475</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  479</span>                                                                 {</div>
+<div class="line"><span class="lineno">  480</span>        <span class="keywordflow">if</span> (recruiterHero == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  481</span> </div>
+<div class="line"><span class="lineno">  482</span>        var party = recruiterHero.PartyBelongedTo;</div>
+<div class="line"><span class="lineno">  483</span>        <span class="keywordflow">if</span> (!party.IsValid()) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  484</span> </div>
+<div class="line"><span class="lineno">  485</span>        var list = RecruitmentPatch.GetRecruitEquipments(troop);</div>
+<div class="line"><span class="lineno">  486</span>        <span class="keywordflow">foreach</span> (var element <span class="keywordflow">in</span> list) {</div>
+<div class="line"><span class="lineno">  487</span>            <span class="keywordflow">if</span> (element.Item != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  488</span>                AddItemToPartyArmory(party.Id, element.Item, amount);</div>
+<div class="line"><span class="lineno">  489</span>        }</div>
+<div class="line"><span class="lineno">  490</span> </div>
+<div class="line"><span class="lineno">  491</span>        Global.Log($<span class="stringliteral">&quot;troop {troop.Name}x{amount} recruited by recruiterHero={recruiterHero.Name} in party {party.Name}, {list.Count * amount} start equipment added&quot;</span>,</div>
+<div class="line"><span class="lineno">  492</span>                   Colors.Green,</div>
+<div class="line"><span class="lineno">  493</span>                   Level.Debug);</div>
+<div class="line"><span class="lineno">  494</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, <a class="el" href="../../d6/d2d/a00047_source.html#l00046">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.GetRecruitEquipments()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../d6/d2d/a00047_source.html#l00046">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch.GetRecruitEquipments()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1311,21 +1374,21 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00070">70</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   70</span>                                          {</div>
-<div class="line"><span class="lineno">   71</span>        CampaignEvents.MobilePartyCreated.AddNonSerializedListener(<span class="keyword">this</span>, OnMobilePartyCreated);</div>
-<div class="line"><span class="lineno">   72</span>        CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(<span class="keyword">this</span>, OnMobilePartyDestroyed);</div>
-<div class="line"><span class="lineno">   73</span>        CampaignEvents.MapEventEnded.AddNonSerializedListener(<span class="keyword">this</span>, OnMapEventEnded);</div>
-<div class="line"><span class="lineno">   74</span>        CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnTroopRecruited);</div>
-<div class="line"><span class="lineno">   75</span>        CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(<span class="keyword">this</span>, DailyTickParty);</div>
-<div class="line"><span class="lineno">   76</span>        CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(<span class="keyword">this</span>, WeeklyTick);</div>
-<div class="line"><span class="lineno">   77</span>        CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnGameLoaded);</div>
-<div class="line"><span class="lineno">   78</span>        CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnNewGameCreated);</div>
-<div class="line"><span class="lineno">   79</span> </div>
-<div class="line"><span class="lineno">   80</span>        <span class="comment">//Global.InitializeCraftingTemplatesByItemType();</span></div>
-<div class="line"><span class="lineno">   81</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00080">80</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   80</span>                                          {</div>
+<div class="line"><span class="lineno">   81</span>        CampaignEvents.MobilePartyCreated.AddNonSerializedListener(<span class="keyword">this</span>, OnMobilePartyCreated);</div>
+<div class="line"><span class="lineno">   82</span>        CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(<span class="keyword">this</span>, OnMobilePartyDestroyed);</div>
+<div class="line"><span class="lineno">   83</span>        CampaignEvents.MapEventEnded.AddNonSerializedListener(<span class="keyword">this</span>, OnMapEventEnded);</div>
+<div class="line"><span class="lineno">   84</span>        CampaignEvents.OnTroopRecruitedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnTroopRecruited);</div>
+<div class="line"><span class="lineno">   85</span>        CampaignEvents.DailyTickPartyEvent.AddNonSerializedListener(<span class="keyword">this</span>, DailyTickParty);</div>
+<div class="line"><span class="lineno">   86</span>        CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(<span class="keyword">this</span>, WeeklyTick);</div>
+<div class="line"><span class="lineno">   87</span>        CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnGameLoaded);</div>
+<div class="line"><span class="lineno">   88</span>        CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(<span class="keyword">this</span>, OnNewGameCreated);</div>
+<div class="line"><span class="lineno">   89</span> </div>
+<div class="line"><span class="lineno">   90</span>        <span class="comment">//Global.InitializeCraftingTemplatesByItemType();</span></div>
+<div class="line"><span class="lineno">   91</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00188">DailyTickParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00294">OnMapEventEnded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00266">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00283">OnMobilePartyDestroyed()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00083">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00412">OnTroopRecruited()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00148">WeeklyTick()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00198">DailyTickParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00324">OnMapEventEnded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00287">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00313">OnMobilePartyDestroyed()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00475">OnTroopRecruited()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00158">WeeklyTick()</a>.</p>
 
 </div>
 </div>
@@ -1352,39 +1415,39 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00514">514</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  514</span>                                             {</div>
-<div class="line"><span class="lineno">  515</span>        <span class="keywordflow">foreach</span> (var pendingParty <span class="keywordflow">in</span> <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;(_unresolvedPartyArmories)) {</div>
-<div class="line"><span class="lineno">  516</span>            var partyId = <span class="keyword">new</span> MBGUID(pendingParty.Key);</div>
-<div class="line"><span class="lineno">  517</span>            <span class="keywordflow">if</span> (FindActiveParty(partyId) == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  518</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  519</span> </div>
-<div class="line"><span class="lineno">  520</span>            <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var armory)) {</div>
-<div class="line"><span class="lineno">  521</span>                armory = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
-<div class="line"><span class="lineno">  522</span>                PartyArmories[partyId] = armory;</div>
-<div class="line"><span class="lineno">  523</span>            }</div>
-<div class="line"><span class="lineno">  524</span> </div>
-<div class="line"><span class="lineno">  525</span>            <span class="keywordflow">foreach</span> (var pendingItem <span class="keywordflow">in</span> <span class="keyword">new</span> Dictionary&lt;string, int&gt;(pendingParty.Value)) {</div>
-<div class="line"><span class="lineno">  526</span>                var item = ArmyArmory.ResolveArmoryItem(pendingItem.Key);</div>
-<div class="line"><span class="lineno">  527</span>                <span class="keywordflow">if</span> (item == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  528</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  529</span> </div>
-<div class="line"><span class="lineno">  530</span>                armory[item] = armory.TryGetValue(item, out var currentCount)</div>
-<div class="line"><span class="lineno">  531</span>                    ? currentCount + pendingItem.Value</div>
-<div class="line"><span class="lineno">  532</span>                    : pendingItem.Value;</div>
-<div class="line"><span class="lineno">  533</span>                pendingParty.Value.Remove(pendingItem.Key);</div>
-<div class="line"><span class="lineno">  534</span>            }</div>
-<div class="line"><span class="lineno">  535</span> </div>
-<div class="line"><span class="lineno">  536</span>            <span class="keywordflow">if</span> (pendingParty.Value.Count == 0)</div>
-<div class="line"><span class="lineno">  537</span>                _unresolvedPartyArmories.Remove(pendingParty.Key);</div>
-<div class="line"><span class="lineno">  538</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  539</span>                _unresolvedPartyArmories[pendingParty.Key] = pendingParty.Value;</div>
-<div class="line"><span class="lineno">  540</span>        }</div>
-<div class="line"><span class="lineno">  541</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00592">592</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  592</span>                                             {</div>
+<div class="line"><span class="lineno">  593</span>        <span class="keywordflow">foreach</span> (var pendingParty <span class="keywordflow">in</span> <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;(_unresolvedPartyArmories)) {</div>
+<div class="line"><span class="lineno">  594</span>            var partyId = <span class="keyword">new</span> MBGUID(pendingParty.Key);</div>
+<div class="line"><span class="lineno">  595</span>            <span class="keywordflow">if</span> (FindActiveParty(partyId) == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  596</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  597</span> </div>
+<div class="line"><span class="lineno">  598</span>            <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var armory)) {</div>
+<div class="line"><span class="lineno">  599</span>                armory = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  600</span>                PartyArmories[partyId] = armory;</div>
+<div class="line"><span class="lineno">  601</span>            }</div>
+<div class="line"><span class="lineno">  602</span> </div>
+<div class="line"><span class="lineno">  603</span>            <span class="keywordflow">foreach</span> (var pendingItem <span class="keywordflow">in</span> <span class="keyword">new</span> Dictionary&lt;string, int&gt;(pendingParty.Value)) {</div>
+<div class="line"><span class="lineno">  604</span>                var item = ArmyArmory.ResolveArmoryItem(pendingItem.Key);</div>
+<div class="line"><span class="lineno">  605</span>                <span class="keywordflow">if</span> (item == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  606</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  607</span> </div>
+<div class="line"><span class="lineno">  608</span>                armory[item] = armory.TryGetValue(item, out var currentCount)</div>
+<div class="line"><span class="lineno">  609</span>                    ? currentCount + pendingItem.Value</div>
+<div class="line"><span class="lineno">  610</span>                    : pendingItem.Value;</div>
+<div class="line"><span class="lineno">  611</span>                pendingParty.Value.Remove(pendingItem.Key);</div>
+<div class="line"><span class="lineno">  612</span>            }</div>
+<div class="line"><span class="lineno">  613</span> </div>
+<div class="line"><span class="lineno">  614</span>            <span class="keywordflow">if</span> (pendingParty.Value.Count == 0)</div>
+<div class="line"><span class="lineno">  615</span>                _unresolvedPartyArmories.Remove(pendingParty.Key);</div>
+<div class="line"><span class="lineno">  616</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  617</span>                _unresolvedPartyArmories[pendingParty.Key] = pendingParty.Value;</div>
+<div class="line"><span class="lineno">  618</span>        }</div>
+<div class="line"><span class="lineno">  619</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00563">FindActiveParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00034">DynamicTroopEquipmentReupload.ArmyArmory.ResolveArmoryItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00641">FindActiveParty()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00034">DynamicTroopEquipmentReupload.ArmyArmory.ResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>.</p>
 
 </div>
 </div>
@@ -1421,31 +1484,46 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00439">439</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  439</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  440</span>        <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var armory))</div>
-<div class="line"><span class="lineno">  441</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  442</span> </div>
-<div class="line"><span class="lineno">  443</span>        var sanitizedItems = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
-<div class="line"><span class="lineno">  444</span>        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> armory) {</div>
-<div class="line"><span class="lineno">  445</span>            <span class="keywordflow">if</span> (entry.Value &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(entry.Key, out var item))</div>
-<div class="line"><span class="lineno">  446</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  447</span> </div>
-<div class="line"><span class="lineno">  448</span>            sanitizedItems[item] = sanitizedItems.TryGetValue(item, out var currentCount)</div>
-<div class="line"><span class="lineno">  449</span>                ? currentCount + entry.Value</div>
-<div class="line"><span class="lineno">  450</span>                : entry.Value;</div>
-<div class="line"><span class="lineno">  451</span>        }</div>
-<div class="line"><span class="lineno">  452</span> </div>
-<div class="line"><span class="lineno">  453</span>        armory.Clear();</div>
-<div class="line"><span class="lineno">  454</span>        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> sanitizedItems)</div>
-<div class="line"><span class="lineno">  455</span>            armory[entry.Key] = entry.Value;</div>
-<div class="line"><span class="lineno">  456</span> </div>
-<div class="line"><span class="lineno">  457</span>        <span class="keywordflow">return</span> armory;</div>
-<div class="line"><span class="lineno">  458</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00502">502</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  502</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  503</span>        <span class="keywordflow">if</span> (!PartyArmories.TryGetValue(partyId, out var armory))</div>
+<div class="line"><span class="lineno">  504</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  505</span> </div>
+<div class="line"><span class="lineno">  506</span>        var requiresRebuild = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  507</span>        var normalizedItems = <span class="keyword">new</span> HashSet&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">  508</span> </div>
+<div class="line"><span class="lineno">  509</span>        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> armory) {</div>
+<div class="line"><span class="lineno">  510</span>            <span class="keywordflow">if</span> (entry.Value &lt;= 0 ||</div>
+<div class="line"><span class="lineno">  511</span>                !ArmyArmory.TryResolveArmoryItem(entry.Key, out var item) ||</div>
+<div class="line"><span class="lineno">  512</span>                !ReferenceEquals(item, entry.Key) ||</div>
+<div class="line"><span class="lineno">  513</span>                !normalizedItems.Add(item)) {</div>
+<div class="line"><span class="lineno">  514</span>                requiresRebuild = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  515</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  516</span>            }</div>
+<div class="line"><span class="lineno">  517</span>        }</div>
+<div class="line"><span class="lineno">  518</span> </div>
+<div class="line"><span class="lineno">  519</span>        <span class="keywordflow">if</span> (!requiresRebuild)</div>
+<div class="line"><span class="lineno">  520</span>            <span class="keywordflow">return</span> armory;</div>
+<div class="line"><span class="lineno">  521</span>        var sanitizedItems = <span class="keyword">new</span> Dictionary&lt;ItemObject, int&gt;();</div>
+<div class="line"><span class="lineno">  522</span>        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> armory) {</div>
+<div class="line"><span class="lineno">  523</span>            <span class="keywordflow">if</span> (entry.Value &lt;= 0 || !ArmyArmory.TryResolveArmoryItem(entry.Key, out var item))</div>
+<div class="line"><span class="lineno">  524</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  525</span> </div>
+<div class="line"><span class="lineno">  526</span>            sanitizedItems[item] = sanitizedItems.TryGetValue(item, out var currentCount)</div>
+<div class="line"><span class="lineno">  527</span>                ? currentCount + entry.Value</div>
+<div class="line"><span class="lineno">  528</span>                : entry.Value;</div>
+<div class="line"><span class="lineno">  529</span>        }</div>
+<div class="line"><span class="lineno">  530</span> </div>
+<div class="line"><span class="lineno">  531</span>        armory.Clear();</div>
+<div class="line"><span class="lineno">  532</span>        <span class="keywordflow">foreach</span> (var entry <span class="keywordflow">in</span> sanitizedItems)</div>
+<div class="line"><span class="lineno">  533</span>            armory[entry.Key] = entry.Value;</div>
+<div class="line"><span class="lineno">  534</span> </div>
+<div class="line"><span class="lineno">  535</span>        <span class="keywordflow">return</span> armory;</div>
+<div class="line"><span class="lineno">  536</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00362">GetAllLootItems()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>, <a class="el" href="../../d4/d8c/a00035_source.html#l00018">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.Prefix()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00425">GetAllLootItems()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>, <a class="el" href="../../d4/d8c/a00035_source.html#l00018">DynamicTroopEquipmentReupload.Patches.ItemRosterForPlayerLootSharePatch.Prefix()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">DynamicTroopEquipmentReupload.DynamicTroopMissionLogic.TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -1472,28 +1550,28 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00543">543</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  543</span>                                                                     {</div>
-<div class="line"><span class="lineno">  544</span>        <span class="keywordflow">return</span> mobileParty is {</div>
-<div class="line"><span class="lineno">  545</span>            LeaderHero: {</div>
-<div class="line"><span class="lineno">  546</span>                CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
-<div class="line"><span class="lineno">  547</span>                IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  548</span>                IsPartyLeader         : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  549</span>                IsAlive               : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  550</span>                IsActive              : <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">  551</span>            },</div>
-<div class="line"><span class="lineno">  552</span>            Owner: {</div>
-<div class="line"><span class="lineno">  553</span>                CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
-<div class="line"><span class="lineno">  554</span>                IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
-<div class="line"><span class="lineno">  555</span>                IsActive              : <span class="keyword">true</span>,</div>
-<div class="line"><span class="lineno">  556</span>                IsAlive               : <span class="keyword">true</span></div>
-<div class="line"><span class="lineno">  557</span>            },</div>
-<div class="line"><span class="lineno">  558</span>            MemberRoster: { TotalHeroes: &gt; 0, TotalManCount: &gt; 0 },</div>
-<div class="line"><span class="lineno">  559</span>            IsDisbanding: <span class="keyword">false</span></div>
-<div class="line"><span class="lineno">  560</span>        };</div>
-<div class="line"><span class="lineno">  561</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00621">621</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  621</span>                                                                     {</div>
+<div class="line"><span class="lineno">  622</span>        <span class="keywordflow">return</span> mobileParty is {</div>
+<div class="line"><span class="lineno">  623</span>            LeaderHero: {</div>
+<div class="line"><span class="lineno">  624</span>                CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
+<div class="line"><span class="lineno">  625</span>                IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  626</span>                IsPartyLeader         : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  627</span>                IsAlive               : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  628</span>                IsActive              : <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">  629</span>            },</div>
+<div class="line"><span class="lineno">  630</span>            Owner: {</div>
+<div class="line"><span class="lineno">  631</span>                CharacterObject       : { IsHero: <span class="keyword">true</span>, IsPlayerCharacter: <span class="keyword">false</span> },</div>
+<div class="line"><span class="lineno">  632</span>                IsHumanPlayerCharacter: <span class="keyword">false</span>,</div>
+<div class="line"><span class="lineno">  633</span>                IsActive              : <span class="keyword">true</span>,</div>
+<div class="line"><span class="lineno">  634</span>                IsAlive               : <span class="keyword">true</span></div>
+<div class="line"><span class="lineno">  635</span>            },</div>
+<div class="line"><span class="lineno">  636</span>            MemberRoster: { TotalHeroes: &gt; 0, TotalManCount: &gt; 0 },</div>
+<div class="line"><span class="lineno">  637</span>            IsDisbanding: <span class="keyword">false</span></div>
+<div class="line"><span class="lineno">  638</span>        };</div>
+<div class="line"><span class="lineno">  639</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00478">CreateSerializedPartyArmories()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00556">CreateSerializedPartyArmories()</a>.</p>
 
 </div>
 </div>
@@ -1512,45 +1590,45 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00111">111</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  111</span>                                                        {</div>
-<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">if</span> (dataStore.IsSaving) {</div>
-<div class="line"><span class="lineno">  113</span>            _data.PartyArmories = CreateSerializedPartyArmories();</div>
-<div class="line"><span class="lineno">  114</span>            var tempData = _data;</div>
-<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopPartyArmories&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  116</span>                _data = tempData;</div>
-<div class="line"><span class="lineno">  117</span>                Global.Debug($<span class="stringliteral">&quot;saved {PartyArmories.Count} entries&quot;</span>);</div>
-<div class="line"><span class="lineno">  118</span>            }</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  120</span>                Global.Error(<span class="stringliteral">&quot;Save Error&quot;</span>);</div>
-<div class="line"><span class="lineno">  121</span>        }</div>
-<div class="line"><span class="lineno">  122</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dataStore.IsLoading) {</div>
-<div class="line"><span class="lineno">  123</span>            PartyArmories.Clear();</div>
-<div class="line"><span class="lineno">  124</span>            _unresolvedPartyArmories.Clear();</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>            var tempData = <span class="keyword">new</span> Data();</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopPartyArmories&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno">  128</span>                _data = tempData;</div>
-<div class="line"><span class="lineno">  129</span>                _data.PartyArmories ??= <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;();</div>
-<div class="line"><span class="lineno">  130</span>                <span class="keywordflow">foreach</span> (var partyEntry <span class="keywordflow">in</span> _data.PartyArmories) {</div>
-<div class="line"><span class="lineno">  131</span>                    <span class="keywordflow">if</span> (partyEntry.Value == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  132</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  133</span>                    var itemCounts = <span class="keyword">new</span> Dictionary&lt;string, int&gt;();</div>
-<div class="line"><span class="lineno">  134</span>                    <span class="keywordflow">foreach</span> (var itemEntry <span class="keywordflow">in</span> partyEntry.Value) {</div>
-<div class="line"><span class="lineno">  135</span>                        <span class="keywordflow">if</span> (!<span class="keywordtype">string</span>.IsNullOrEmpty(itemEntry.Key) &amp;&amp; itemEntry.Value &gt; 0)</div>
-<div class="line"><span class="lineno">  136</span>                            itemCounts[itemEntry.Key] = itemEntry.Value;</div>
-<div class="line"><span class="lineno">  137</span>                    }</div>
-<div class="line"><span class="lineno">  138</span> </div>
-<div class="line"><span class="lineno">  139</span>                    <span class="keywordflow">if</span> (itemCounts.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  140</span>                        _unresolvedPartyArmories[partyEntry.Key] = itemCounts;</div>
-<div class="line"><span class="lineno">  141</span>                }</div>
-<div class="line"><span class="lineno">  142</span>            }</div>
-<div class="line"><span class="lineno">  143</span>            <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno">  144</span>                Global.Error(<span class="stringliteral">&quot;Load Error&quot;</span>);</div>
-<div class="line"><span class="lineno">  145</span>        }</div>
-<div class="line"><span class="lineno">  146</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00121">121</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  121</span>                                                        {</div>
+<div class="line"><span class="lineno">  122</span>        <span class="keywordflow">if</span> (dataStore.IsSaving) {</div>
+<div class="line"><span class="lineno">  123</span>            _data.PartyArmories = CreateSerializedPartyArmories();</div>
+<div class="line"><span class="lineno">  124</span>            var tempData = _data;</div>
+<div class="line"><span class="lineno">  125</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopPartyArmories&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  126</span>                _data = tempData;</div>
+<div class="line"><span class="lineno">  127</span>                Global.Debug($<span class="stringliteral">&quot;saved {PartyArmories.Count} entries&quot;</span>);</div>
+<div class="line"><span class="lineno">  128</span>            }</div>
+<div class="line"><span class="lineno">  129</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  130</span>                Global.Error(<span class="stringliteral">&quot;Save Error&quot;</span>);</div>
+<div class="line"><span class="lineno">  131</span>        }</div>
+<div class="line"><span class="lineno">  132</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dataStore.IsLoading) {</div>
+<div class="line"><span class="lineno">  133</span>            PartyArmories.Clear();</div>
+<div class="line"><span class="lineno">  134</span>            _unresolvedPartyArmories.Clear();</div>
+<div class="line"><span class="lineno">  135</span> </div>
+<div class="line"><span class="lineno">  136</span>            var tempData = <span class="keyword">new</span> Data();</div>
+<div class="line"><span class="lineno">  137</span>            <span class="keywordflow">if</span> (dataStore.SyncDataAsJson(<span class="stringliteral">&quot;DynamicTroopPartyArmories&quot;</span>, ref tempData) &amp;&amp; tempData != <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno">  138</span>                _data = tempData;</div>
+<div class="line"><span class="lineno">  139</span>                _data.PartyArmories ??= <span class="keyword">new</span> Dictionary&lt;uint, Dictionary&lt;string, int&gt;&gt;();</div>
+<div class="line"><span class="lineno">  140</span>                <span class="keywordflow">foreach</span> (var partyEntry <span class="keywordflow">in</span> _data.PartyArmories) {</div>
+<div class="line"><span class="lineno">  141</span>                    <span class="keywordflow">if</span> (partyEntry.Value == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  142</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  143</span>                    var itemCounts = <span class="keyword">new</span> Dictionary&lt;string, int&gt;();</div>
+<div class="line"><span class="lineno">  144</span>                    <span class="keywordflow">foreach</span> (var itemEntry <span class="keywordflow">in</span> partyEntry.Value) {</div>
+<div class="line"><span class="lineno">  145</span>                        <span class="keywordflow">if</span> (!<span class="keywordtype">string</span>.IsNullOrEmpty(itemEntry.Key) &amp;&amp; itemEntry.Value &gt; 0)</div>
+<div class="line"><span class="lineno">  146</span>                            itemCounts[itemEntry.Key] = itemEntry.Value;</div>
+<div class="line"><span class="lineno">  147</span>                    }</div>
+<div class="line"><span class="lineno">  148</span> </div>
+<div class="line"><span class="lineno">  149</span>                    <span class="keywordflow">if</span> (itemCounts.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  150</span>                        _unresolvedPartyArmories[partyEntry.Key] = itemCounts;</div>
+<div class="line"><span class="lineno">  151</span>                }</div>
+<div class="line"><span class="lineno">  152</span>            }</div>
+<div class="line"><span class="lineno">  153</span>            <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno">  154</span>                Global.Error(<span class="stringliteral">&quot;Load Error&quot;</span>);</div>
+<div class="line"><span class="lineno">  155</span>        }</div>
+<div class="line"><span class="lineno">  156</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00031">_data</a>, <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00478">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d45/a00011_source.html#l00031">_data</a>, <a class="el" href="../../da/d45/a00011_source.html#l00030">_unresolvedPartyArmories</a>, <a class="el" href="../../da/d45/a00011_source.html#l00556">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00155">DynamicTroopEquipmentReupload.Global.Debug()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00161">DynamicTroopEquipmentReupload.Global.Error()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00028">PartyArmories</a>.</p>
 
 </div>
 </div>
@@ -1577,13 +1655,13 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00148">148</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  148</span>                              {</div>
-<div class="line"><span class="lineno">  149</span>        <span class="comment">//GarbageCollectParties();</span></div>
-<div class="line"><span class="lineno">  150</span>        <span class="comment">//GarbageCollectEquipments();</span></div>
-<div class="line"><span class="lineno">  151</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00158">158</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  158</span>                              {</div>
+<div class="line"><span class="lineno">  159</span>        <span class="comment">//GarbageCollectParties();</span></div>
+<div class="line"><span class="lineno">  160</span>        <span class="comment">//GarbageCollectEquipments();</span></div>
+<div class="line"><span class="lineno">  161</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00070">RegisterEvents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00080">RegisterEvents()</a>.</p>
 
 </div>
 </div>
@@ -1610,7 +1688,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00031">31</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00111">SyncData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00121">SyncData()</a>.</p>
 
 </div>
 </div>
@@ -1636,7 +1714,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00030">30</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00478">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00083">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00514">RestoreReadyPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00111">SyncData()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00556">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00592">RestoreReadyPartyArmories()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00121">SyncData()</a>.</p>
 
 </div>
 </div>
@@ -1697,7 +1775,7 @@ Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   49</span>                  { ItemObject.ItemTypeEnum.Polearm, memberCnt =&gt; Math.Max(8 * memberCnt, 4 * memberCnt + 400) }</div>
 <div class="line"><span class="lineno">   50</span>              };</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00153">GarbageCollectEquipments()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00373">DynamicTroopEquipmentReupload.ArmyArmory.SellExcessEquipment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00163">GarbageCollectEquipments()</a>, and <a class="el" href="../../d3/d52/a00023_source.html#l00393">DynamicTroopEquipmentReupload.ArmyArmory.SellExcessEquipment()</a>.</p>
 
 </div>
 </div>
@@ -1749,7 +1827,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d45/a00011_source.html#l00028">28</a> of file <a class="el" href="../../da/d45/a00011_source.html">EveryoneCampaignBehavior.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00460">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00478">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00153">GarbageCollectEquipments()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00204">GarbageCollectParties()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00021">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension.IsValid()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnGameLoaded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00266">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00283">OnMobilePartyDestroyed()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00083">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00514">RestoreReadyPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00439">SanitizePartyArmory()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01098">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Spawn()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00111">SyncData()</a>, and <a class="el" href="../../de/de1/a00065_source.html#l00657">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.TransferCargoToTargetStash()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d45/a00011_source.html#l00538">AddItemToPartyArmory()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00556">CreateSerializedPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00163">GarbageCollectEquipments()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00214">GarbageCollectParties()</a>, <a class="el" href="../../d1/d44/a00098_source.html#l00021">DynamicTroopEquipmentReupload.Extensions.MobilePartyExtension.IsValid()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00103">OnGameLoaded()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00287">OnMobilePartyCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00313">OnMobilePartyDestroyed()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00093">OnNewGameCreated()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00592">RestoreReadyPartyArmories()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00502">SanitizePartyArmory()</a>, <a class="el" href="../../db/db2/a00020_source.html#l01124">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Spawn()</a>, <a class="el" href="../../da/d45/a00011_source.html#l00121">SyncData()</a>, and <a class="el" href="../../de/de1/a00065_source.html#l00750">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.TransferCargoToTargetStash()</a>.</p>
 
 </div>
 </div>

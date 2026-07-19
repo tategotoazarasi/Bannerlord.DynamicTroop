@@ -23,5 +23,6 @@ var searchData=
   ['modname_20',['ModName',['../df/d95/a00299.html#aac45d15eb241a0083cbfd3c1ddf99651',1,'DynamicTroopEquipmentReupload::LocalizedTexts']]],
   ['modsettings_21',['ModSettings',['../d0/da2/a00307.html',1,'DynamicTroopEquipmentReupload']]],
   ['modsettings_2ecs_22',['ModSettings.cs',['../d1/dc1/a00092.html',1,'']]],
-  ['moverostertoarmory_23',['MoveRosterToArmory',['../d3/d42/a00235.html#ae891d4d30a9c90d1be960aaec93bc93a',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
+  ['movereturningcaravan_23',['MoveReturningCaravan',['../dc/d28/a00223.html#a2ab655c39eec15a4f21591dde932d18b',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['moverostertoarmory_24',['MoveRosterToArmory',['../d3/d42/a00235.html#ae891d4d30a9c90d1be960aaec93bc93a',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
 ];

@@ -7,5 +7,6 @@ var searchData=
   ['markunderequippedassignmentsifenabled_4',['MarkUnderEquippedAssignmentsIfEnabled',['../d4/d6f/a00315.html#a230c34a9d0579a83daddbdc822ea18c3',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
   ['matchharness_5',['MatchHarness',['../d3/d1a/a00251.html#a0561fe150375cc6bbfc66531393032fc',1,'DynamicTroopEquipmentReupload::Extensions::ItemObjectExtension']]],
   ['measuremainpartyarmoryreadiness_6',['MeasureMainPartyArmoryReadiness',['../d4/d6f/a00315.html#a6b9fc787bb0c683b0e9fc453f3bf9c1d',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
-  ['moverostertoarmory_7',['MoveRosterToArmory',['../d3/d42/a00235.html#ae891d4d30a9c90d1be960aaec93bc93a',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
+  ['movereturningcaravan_7',['MoveReturningCaravan',['../dc/d28/a00223.html#a2ab655c39eec15a4f21591dde932d18b',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['moverostertoarmory_8',['MoveRosterToArmory',['../d3/d42/a00235.html#ae891d4d30a9c90d1be960aaec93bc93a',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]]
 ];
