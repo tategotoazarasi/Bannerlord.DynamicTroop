@@ -16,6 +16,7 @@ namespace DynamicTroopEquipmentReupload;
 
 public class DynamicTroopMissionLogic : MissionLogic {
 	private readonly Dictionary<Agent, Assignment> _assignmentByAgent = new();
+	private readonly Dictionary<MBGUID, BattleSideEnum> _sideByInvolvedParty = new();
 	private readonly ConcurrentDictionary<MBGUID, PartyBattleRecord> _partyBattleRecords = new();
 	// drowning (or any other self inflicted blow) is not identifying a valid looting party during agent removal. loot owner party to be resolved when the battle result is known.
 	private readonly ConcurrentDictionary<MBGUID, ConcurrentDictionary<ItemObject, int>> _unclaimedNavalCasualtyLoot = new();
@@ -40,6 +41,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		Global.Log("OnBehaviorInitialize", Colors.Green, Level.Debug);
 
 		_processedAgents.Clear();
+		_sideByInvolvedParty.Clear();
 		_partyBattleRecords.Clear();
 		_unclaimedNavalCasualtyLoot.Clear();
 		Distributors.Clear();
@@ -63,11 +65,16 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		var mainPartyDistributor = new PartyEquipmentDistributor(Mission, mainParty, ArmyArmory.Armory);
 		mainPartyDistributor.RunAsync();
 		Distributors[mainParty.Id] = mainPartyDistributor;
+		_sideByInvolvedParty[mainParty.Id] = mainParty.Party.Side;
 		PartyBattleSides[mainParty.Id] = mainParty.Party.Side;
 
 		foreach (var partyBase in mapEvent.InvolvedParties) {
 			var party = partyBase.MobileParty;
-			if (party == null || !party.IsValid() || party == mainParty || party.LeaderHero == null) { continue; }
+			if (party == null || party == mainParty) { continue; }
+
+			_sideByInvolvedParty[party.Id] = partyBase.Side;
+
+			if (!party.IsValid() || party.LeaderHero == null) { continue; }
 
 			var partyArmory = EveryoneCampaignBehavior.SanitizePartyArmory(party.Id);
 			if (partyArmory == null) { continue; }
@@ -134,13 +141,13 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 			var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];
 
-			var hasAffectedSide = PartyBattleSides.TryGetValue(affectedPartyId.Value, out var affectedSide);
+			var hasAffectedSide = _sideByInvolvedParty.TryGetValue(affectedPartyId.Value, out var affectedSide);
 			var affectorPartyId = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : null;
 
 			PartyBattleRecord? affectorBattleRecord = null;
 			if (hasAffectedSide &&
 				affectorPartyId.HasValue &&
-				PartyBattleSides.TryGetValue(affectorPartyId.Value, out var affectorSide) &&
+				_sideByInvolvedParty.TryGetValue(affectorPartyId.Value, out var affectorSide) &&
 				affectorSide != affectedSide)
 				affectorBattleRecord = _partyBattleRecords.GetOrAdd(
 					affectorPartyId.Value,
