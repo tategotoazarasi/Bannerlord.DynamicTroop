@@ -187,6 +187,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a03117179f5718dad8ace81b4b1a03e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a579089508c3ccc273f91ee863d316545" id="r_a579089508c3ccc273f91ee863d316545"><td class="memItemLeft" align="right" valign="top">readonly Random&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a579089508c3ccc273f91ee863d316545">_random</a> = new()</td></tr>
 <tr class="separator:a579089508c3ccc273f91ee863d316545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0808dd7d0f546ef5b3f9c374b0c3160f" id="r_a0808dd7d0f546ef5b3f9c374b0c3160f"><td class="memItemLeft" align="right" valign="top">readonly Dictionary&lt; MBGUID, BattleSideEnum &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0808dd7d0f546ef5b3f9c374b0c3160f">_sideByInvolvedParty</a> = new()</td></tr>
+<tr class="separator:a0808dd7d0f546ef5b3f9c374b0c3160f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe16c1004d003258fc32802c67953c7a" id="r_abe16c1004d003258fc32802c67953c7a"><td class="memItemLeft" align="right" valign="top">readonly ConcurrentDictionary&lt; MBGUID, ConcurrentDictionary&lt; ItemObject, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe16c1004d003258fc32802c67953c7a">_unclaimedNavalCasualtyLoot</a> = new()</td></tr>
 <tr class="separator:abe16c1004d003258fc32802c67953c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -209,11 +211,11 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00092">92</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   92</span>                                      {</div>
-<div class="line"><span class="lineno">   93</span>        base.AfterStart();</div>
-<div class="line"><span class="lineno">   94</span>        Global.Log(<span class="stringliteral">&quot;AfterStart&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   95</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00099">99</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   99</span>                                      {</div>
+<div class="line"><span class="lineno">  100</span>        base.AfterStart();</div>
+<div class="line"><span class="lineno">  101</span>        Global.Log(<span class="stringliteral">&quot;AfterStart&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  102</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
@@ -242,59 +244,59 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00348">348</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  348</span>                                                                         {</div>
-<div class="line"><span class="lineno">  349</span>        <span class="keywordflow">if</span> (_unclaimedNavalCasualtyLoot.IsEmpty)</div>
-<div class="line"><span class="lineno">  350</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  351</span> </div>
-<div class="line"><span class="lineno">  352</span>        var mapEvent = MapEvent.PlayerMapEvent;</div>
-<div class="line"><span class="lineno">  353</span>        <span class="keywordflow">if</span> (mapEvent == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  354</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  355</span> </div>
-<div class="line"><span class="lineno">  356</span>        var defeatedSide = winningSide == BattleSideEnum.Attacker</div>
-<div class="line"><span class="lineno">  357</span>            ? BattleSideEnum.Defender</div>
-<div class="line"><span class="lineno">  358</span>            : BattleSideEnum.Attacker;</div>
-<div class="line"><span class="lineno">  359</span>        var winnerParties = mapEvent.PartiesOnSide(winningSide);</div>
-<div class="line"><span class="lineno">  360</span>        var defeatedParties = mapEvent.PartiesOnSide(defeatedSide);</div>
-<div class="line"><span class="lineno">  361</span> </div>
-<div class="line"><span class="lineno">  362</span>        <span class="keywordflow">foreach</span> (var defeatedPartyLoot <span class="keywordflow">in</span> _unclaimedNavalCasualtyLoot)</div>
-<div class="line"><span class="lineno">  363</span>        {</div>
-<div class="line"><span class="lineno">  364</span>            MapEventParty? defeatedParty = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  365</span>            <span class="keywordflow">foreach</span> (var candidate <span class="keywordflow">in</span> defeatedParties)</div>
-<div class="line"><span class="lineno">  366</span>            {</div>
-<div class="line"><span class="lineno">  367</span>                <span class="keywordflow">if</span> (candidate.Party.MobileParty?.Id != defeatedPartyLoot.Key)</div>
-<div class="line"><span class="lineno">  368</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  369</span> </div>
-<div class="line"><span class="lineno">  370</span>                defeatedParty = candidate;</div>
-<div class="line"><span class="lineno">  371</span>                <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">  372</span>            }</div>
-<div class="line"><span class="lineno">  373</span> </div>
-<div class="line"><span class="lineno">  374</span>            <span class="keywordflow">if</span> (defeatedParty == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  375</span>                <span class="keywordflow">continue</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00355">355</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  355</span>                                                                         {</div>
+<div class="line"><span class="lineno">  356</span>        <span class="keywordflow">if</span> (_unclaimedNavalCasualtyLoot.IsEmpty)</div>
+<div class="line"><span class="lineno">  357</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  358</span> </div>
+<div class="line"><span class="lineno">  359</span>        var mapEvent = MapEvent.PlayerMapEvent;</div>
+<div class="line"><span class="lineno">  360</span>        <span class="keywordflow">if</span> (mapEvent == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  361</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  362</span> </div>
+<div class="line"><span class="lineno">  363</span>        var defeatedSide = winningSide == BattleSideEnum.Attacker</div>
+<div class="line"><span class="lineno">  364</span>            ? BattleSideEnum.Defender</div>
+<div class="line"><span class="lineno">  365</span>            : BattleSideEnum.Attacker;</div>
+<div class="line"><span class="lineno">  366</span>        var winnerParties = mapEvent.PartiesOnSide(winningSide);</div>
+<div class="line"><span class="lineno">  367</span>        var defeatedParties = mapEvent.PartiesOnSide(defeatedSide);</div>
+<div class="line"><span class="lineno">  368</span> </div>
+<div class="line"><span class="lineno">  369</span>        <span class="keywordflow">foreach</span> (var defeatedPartyLoot <span class="keywordflow">in</span> _unclaimedNavalCasualtyLoot)</div>
+<div class="line"><span class="lineno">  370</span>        {</div>
+<div class="line"><span class="lineno">  371</span>            MapEventParty? defeatedParty = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  372</span>            <span class="keywordflow">foreach</span> (var candidate <span class="keywordflow">in</span> defeatedParties)</div>
+<div class="line"><span class="lineno">  373</span>            {</div>
+<div class="line"><span class="lineno">  374</span>                <span class="keywordflow">if</span> (candidate.Party.MobileParty?.Id != defeatedPartyLoot.Key)</div>
+<div class="line"><span class="lineno">  375</span>                    <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  376</span> </div>
-<div class="line"><span class="lineno">  377</span>            var lootChances = Campaign.Current.Models.BattleRewardModel</div>
-<div class="line"><span class="lineno">  378</span>                .GetLootCasualtyChances(winnerParties, defeatedParty.Party);</div>
-<div class="line"><span class="lineno">  379</span> </div>
-<div class="line"><span class="lineno">  380</span>            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> defeatedPartyLoot.Value)</div>
-<div class="line"><span class="lineno">  381</span>            {</div>
-<div class="line"><span class="lineno">  382</span>                <span class="keywordflow">for</span> (var itemIndex = 0; itemIndex &lt; item.Value; itemIndex++)</div>
-<div class="line"><span class="lineno">  383</span>                {</div>
-<div class="line"><span class="lineno">  384</span>                    var recipientParty = NavalCasualtyLootOwner(lootChances, winningSide);</div>
-<div class="line"><span class="lineno">  385</span>                    <span class="keywordflow">if</span> (recipientParty == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  386</span>                        <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  387</span> </div>
-<div class="line"><span class="lineno">  388</span>                    var battleRecord = _partyBattleRecords.GetOrAdd(</div>
-<div class="line"><span class="lineno">  389</span>                        recipientParty.Id,</div>
-<div class="line"><span class="lineno">  390</span>                        _ =&gt; <span class="keyword">new</span> PartyBattleRecord());</div>
-<div class="line"><span class="lineno">  391</span>                    battleRecord.AddLootedItem(item.Key);</div>
-<div class="line"><span class="lineno">  392</span>                }</div>
-<div class="line"><span class="lineno">  393</span>            }</div>
-<div class="line"><span class="lineno">  394</span>        }</div>
-<div class="line"><span class="lineno">  395</span>    }</div>
+<div class="line"><span class="lineno">  377</span>                defeatedParty = candidate;</div>
+<div class="line"><span class="lineno">  378</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  379</span>            }</div>
+<div class="line"><span class="lineno">  380</span> </div>
+<div class="line"><span class="lineno">  381</span>            <span class="keywordflow">if</span> (defeatedParty == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  382</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  383</span> </div>
+<div class="line"><span class="lineno">  384</span>            var lootChances = Campaign.Current.Models.BattleRewardModel</div>
+<div class="line"><span class="lineno">  385</span>                .GetLootCasualtyChances(winnerParties, defeatedParty.Party);</div>
+<div class="line"><span class="lineno">  386</span> </div>
+<div class="line"><span class="lineno">  387</span>            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> defeatedPartyLoot.Value)</div>
+<div class="line"><span class="lineno">  388</span>            {</div>
+<div class="line"><span class="lineno">  389</span>                <span class="keywordflow">for</span> (var itemIndex = 0; itemIndex &lt; item.Value; itemIndex++)</div>
+<div class="line"><span class="lineno">  390</span>                {</div>
+<div class="line"><span class="lineno">  391</span>                    var recipientParty = NavalCasualtyLootOwner(lootChances, winningSide);</div>
+<div class="line"><span class="lineno">  392</span>                    <span class="keywordflow">if</span> (recipientParty == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  393</span>                        <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  394</span> </div>
+<div class="line"><span class="lineno">  395</span>                    var battleRecord = _partyBattleRecords.GetOrAdd(</div>
+<div class="line"><span class="lineno">  396</span>                        recipientParty.Id,</div>
+<div class="line"><span class="lineno">  397</span>                        _ =&gt; <span class="keyword">new</span> PartyBattleRecord());</div>
+<div class="line"><span class="lineno">  398</span>                    battleRecord.AddLootedItem(item.Key);</div>
+<div class="line"><span class="lineno">  399</span>                }</div>
+<div class="line"><span class="lineno">  400</span>            }</div>
+<div class="line"><span class="lineno">  401</span>        }</div>
+<div class="line"><span class="lineno">  402</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00021">_unclaimedNavalCasualtyLoot</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00397">NavalCasualtyLootOwner()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00020">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00022">_unclaimedNavalCasualtyLoot</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00404">NavalCasualtyLootOwner()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>.</p>
 
 </div>
 </div>
@@ -313,11 +315,11 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00086">86</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   86</span>                                      {</div>
-<div class="line"><span class="lineno">   87</span>        base.EarlyStart();</div>
-<div class="line"><span class="lineno">   88</span>        Global.Log(<span class="stringliteral">&quot;EarlyStart&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   89</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00093">93</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   93</span>                                      {</div>
+<div class="line"><span class="lineno">   94</span>        base.EarlyStart();</div>
+<div class="line"><span class="lineno">   95</span>        Global.Log(<span class="stringliteral">&quot;EarlyStart&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
@@ -346,64 +348,64 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00295">295</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  295</span>                                                               {</div>
-<div class="line"><span class="lineno">  296</span>        Global.Log(<span class="stringliteral">&quot;FinalizeMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  297</span>        <span class="keywordflow">if</span> (_isMissionEnded) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  298</span> </div>
-<div class="line"><span class="lineno">  299</span>        <span class="keywordflow">if</span> (!_areDistributorsInitialized) {</div>
-<div class="line"><span class="lineno">  300</span>            _isMissionEnded = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  301</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  302</span>        }</div>
-<div class="line"><span class="lineno">  303</span> </div>
-<div class="line"><span class="lineno">  304</span>        var mainParty = Campaign.Current?.MainParty;</div>
-<div class="line"><span class="lineno">  305</span>        var playerTeam = Mission.PlayerTeam;</div>
-<div class="line"><span class="lineno">  306</span>        <span class="keywordflow">if</span> (mainParty == <span class="keyword">null</span> || playerTeam == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  307</span> </div>
-<div class="line"><span class="lineno">  308</span>        _isMissionEnded = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  309</span> </div>
-<div class="line"><span class="lineno">  310</span>        var playerVictory = missionResult?.PlayerVictory ?? <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  311</span>        var playerDefeat = missionResult?.PlayerDefeated ?? <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  312</span>        var unresolvedBattle = missionResult == <span class="keyword">null</span> || !missionResult.BattleResolved;</div>
-<div class="line"><span class="lineno">  313</span>        var playerPartyId = mainParty.Id;</div>
-<div class="line"><span class="lineno">  314</span>        var playerSide = playerTeam.Side;</div>
-<div class="line"><span class="lineno">  315</span>        var winningSide = missionResult?.BattleState <span class="keywordflow">switch</span> {</div>
-<div class="line"><span class="lineno">  316</span>            BattleState.AttackerVictory =&gt; BattleSideEnum.Attacker,</div>
-<div class="line"><span class="lineno">  317</span>            BattleState.DefenderVictory =&gt; BattleSideEnum.Defender,</div>
-<div class="line"><span class="lineno">  318</span>            _ =&gt; BattleSideEnum.None</div>
-<div class="line"><span class="lineno">  319</span>        };</div>
-<div class="line"><span class="lineno">  320</span> </div>
-<div class="line"><span class="lineno">  321</span>        <span class="keywordflow">if</span> (winningSide != BattleSideEnum.None &amp;&amp;</div>
-<div class="line"><span class="lineno">  322</span>            (Mission.IsNavalBattle || Mission.IsNavalRaidBattle))</div>
-<div class="line"><span class="lineno">  323</span>            DistributeNavalCasualtyLoot(winningSide);</div>
-<div class="line"><span class="lineno">  324</span> </div>
-<div class="line"><span class="lineno">  325</span>        <span class="keywordflow">foreach</span> (var partyBattleSide <span class="keywordflow">in</span> PartyBattleSides)</div>
-<div class="line"><span class="lineno">  326</span>        {</div>
-<div class="line"><span class="lineno">  327</span>            var isPlayerParty = partyBattleSide.Key == playerPartyId;</div>
-<div class="line"><span class="lineno">  328</span>            var isVictorious = !unresolvedBattle &amp;&amp;</div>
-<div class="line"><span class="lineno">  329</span>                (playerVictory &amp;&amp; partyBattleSide.Value == playerSide ||</div>
-<div class="line"><span class="lineno">  330</span>                 playerDefeat &amp;&amp; partyBattleSide.Value != playerSide);</div>
-<div class="line"><span class="lineno">  331</span>            var isDefeated = !unresolvedBattle &amp;&amp;</div>
-<div class="line"><span class="lineno">  332</span>                (playerDefeat &amp;&amp; partyBattleSide.Value == playerSide ||</div>
-<div class="line"><span class="lineno">  333</span>                 playerVictory &amp;&amp; partyBattleSide.Value != playerSide);</div>
-<div class="line"><span class="lineno">  334</span> </div>
-<div class="line"><span class="lineno">  335</span>            HandlePartyItems(partyBattleSide.Key, isPlayerParty, isVictorious, isDefeated);</div>
-<div class="line"><span class="lineno">  336</span>        }</div>
-<div class="line"><span class="lineno">  337</span> </div>
-<div class="line"><span class="lineno">  338</span>        <span class="keywordflow">foreach</span> (var partyBattleSide <span class="keywordflow">in</span> PartyBattleSides) {</div>
-<div class="line"><span class="lineno">  339</span>            IEnumerable&lt;Agent&gt; partyAgents = Mission.Agents.WhereQ(agent =&gt;</div>
-<div class="line"><span class="lineno">  340</span>                agent.IsValid() &amp;&amp;</div>
-<div class="line"><span class="lineno">  341</span>                agent.IsActive() &amp;&amp;</div>
-<div class="line"><span class="lineno">  342</span>                !agent.IsHero &amp;&amp;</div>
-<div class="line"><span class="lineno">  343</span>                !_processedAgents.Contains(agent) &amp;&amp;</div>
-<div class="line"><span class="lineno">  344</span>                Global.GetAgentParty(agent.Origin)?.Id == partyBattleSide.Key);</div>
-<div class="line"><span class="lineno">  345</span>            ReturnEquipmentFromAgents(partyBattleSide.Key, partyAgents, playerPartyId);</div>
-<div class="line"><span class="lineno">  346</span>        }</div>
-<div class="line"><span class="lineno">  347</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00302">302</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  302</span>                                                               {</div>
+<div class="line"><span class="lineno">  303</span>        Global.Log(<span class="stringliteral">&quot;FinalizeMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  304</span>        <span class="keywordflow">if</span> (_isMissionEnded) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  305</span> </div>
+<div class="line"><span class="lineno">  306</span>        <span class="keywordflow">if</span> (!_areDistributorsInitialized) {</div>
+<div class="line"><span class="lineno">  307</span>            _isMissionEnded = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  308</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  309</span>        }</div>
+<div class="line"><span class="lineno">  310</span> </div>
+<div class="line"><span class="lineno">  311</span>        var mainParty = Campaign.Current?.MainParty;</div>
+<div class="line"><span class="lineno">  312</span>        var playerTeam = Mission.PlayerTeam;</div>
+<div class="line"><span class="lineno">  313</span>        <span class="keywordflow">if</span> (mainParty == <span class="keyword">null</span> || playerTeam == <span class="keyword">null</span>) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  314</span> </div>
+<div class="line"><span class="lineno">  315</span>        _isMissionEnded = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  316</span> </div>
+<div class="line"><span class="lineno">  317</span>        var playerVictory = missionResult?.PlayerVictory ?? <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  318</span>        var playerDefeat = missionResult?.PlayerDefeated ?? <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  319</span>        var unresolvedBattle = missionResult == <span class="keyword">null</span> || !missionResult.BattleResolved;</div>
+<div class="line"><span class="lineno">  320</span>        var playerPartyId = mainParty.Id;</div>
+<div class="line"><span class="lineno">  321</span>        var playerSide = playerTeam.Side;</div>
+<div class="line"><span class="lineno">  322</span>        var winningSide = missionResult?.BattleState <span class="keywordflow">switch</span> {</div>
+<div class="line"><span class="lineno">  323</span>            BattleState.AttackerVictory =&gt; BattleSideEnum.Attacker,</div>
+<div class="line"><span class="lineno">  324</span>            BattleState.DefenderVictory =&gt; BattleSideEnum.Defender,</div>
+<div class="line"><span class="lineno">  325</span>            _ =&gt; BattleSideEnum.None</div>
+<div class="line"><span class="lineno">  326</span>        };</div>
+<div class="line"><span class="lineno">  327</span> </div>
+<div class="line"><span class="lineno">  328</span>        <span class="keywordflow">if</span> (winningSide != BattleSideEnum.None &amp;&amp;</div>
+<div class="line"><span class="lineno">  329</span>            (Mission.IsNavalBattle || Mission.IsNavalRaidBattle))</div>
+<div class="line"><span class="lineno">  330</span>            DistributeNavalCasualtyLoot(winningSide);</div>
+<div class="line"><span class="lineno">  331</span> </div>
+<div class="line"><span class="lineno">  332</span>        <span class="keywordflow">foreach</span> (var partyBattleSide <span class="keywordflow">in</span> PartyBattleSides)</div>
+<div class="line"><span class="lineno">  333</span>        {</div>
+<div class="line"><span class="lineno">  334</span>            var isPlayerParty = partyBattleSide.Key == playerPartyId;</div>
+<div class="line"><span class="lineno">  335</span>            var isVictorious = !unresolvedBattle &amp;&amp;</div>
+<div class="line"><span class="lineno">  336</span>                (playerVictory &amp;&amp; partyBattleSide.Value == playerSide ||</div>
+<div class="line"><span class="lineno">  337</span>                 playerDefeat &amp;&amp; partyBattleSide.Value != playerSide);</div>
+<div class="line"><span class="lineno">  338</span>            var isDefeated = !unresolvedBattle &amp;&amp;</div>
+<div class="line"><span class="lineno">  339</span>                (playerDefeat &amp;&amp; partyBattleSide.Value == playerSide ||</div>
+<div class="line"><span class="lineno">  340</span>                 playerVictory &amp;&amp; partyBattleSide.Value != playerSide);</div>
+<div class="line"><span class="lineno">  341</span> </div>
+<div class="line"><span class="lineno">  342</span>            HandlePartyItems(partyBattleSide.Key, isPlayerParty, isVictorious, isDefeated);</div>
+<div class="line"><span class="lineno">  343</span>        }</div>
+<div class="line"><span class="lineno">  344</span> </div>
+<div class="line"><span class="lineno">  345</span>        <span class="keywordflow">foreach</span> (var partyBattleSide <span class="keywordflow">in</span> PartyBattleSides) {</div>
+<div class="line"><span class="lineno">  346</span>            IEnumerable&lt;Agent&gt; partyAgents = Mission.Agents.WhereQ(agent =&gt;</div>
+<div class="line"><span class="lineno">  347</span>                agent.IsValid() &amp;&amp;</div>
+<div class="line"><span class="lineno">  348</span>                agent.IsActive() &amp;&amp;</div>
+<div class="line"><span class="lineno">  349</span>                !agent.IsHero &amp;&amp;</div>
+<div class="line"><span class="lineno">  350</span>                !_processedAgents.Contains(agent) &amp;&amp;</div>
+<div class="line"><span class="lineno">  351</span>                Global.GetAgentParty(agent.Origin)?.Id == partyBattleSide.Key);</div>
+<div class="line"><span class="lineno">  352</span>            ReturnEquipmentFromAgents(partyBattleSide.Key, partyAgents, playerPartyId);</div>
+<div class="line"><span class="lineno">  353</span>        }</div>
+<div class="line"><span class="lineno">  354</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00030">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00032">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00023">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00348">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00275">DynamicTroopEquipmentReupload.Global.GetAgentParty()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00443">HandlePartyItems()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00029">PartyBattleSides</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00494">ReturnEquipmentFromAgents()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00031">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00033">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00024">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00355">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00275">DynamicTroopEquipmentReupload.Global.GetAgentParty()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00450">HandlePartyItems()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00030">PartyBattleSides</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00501">ReturnEquipmentFromAgents()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00287">OnBattleEnded()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00568">OnEndMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00269">OnMissionResultReady()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00257">OnRetreatMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00263">OnSurrenderMission()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00280">ShowBattleResults()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00294">OnBattleEnded()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00575">OnEndMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00276">OnMissionResultReady()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00264">OnRetreatMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00270">OnSurrenderMission()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00287">ShowBattleResults()</a>.</p>
 
 </div>
 </div>
@@ -455,30 +457,30 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00443">443</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  443</span>                                                                                                          {</div>
-<div class="line"><span class="lineno">  444</span>        <span class="comment">// 检查是否存在对应的battleRecord</span></div>
-<div class="line"><span class="lineno">  445</span>        <span class="keywordflow">if</span> (!_partyBattleRecords.TryGetValue(partyId, out var battleRecord)) {</div>
-<div class="line"><span class="lineno">  446</span>            Global.Warn($<span class="stringliteral">&quot;No battle record found for party {partyId}&quot;</span>);</div>
-<div class="line"><span class="lineno">  447</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  448</span>        }</div>
-<div class="line"><span class="lineno">  449</span> </div>
-<div class="line"><span class="lineno">  450</span>        <span class="keywordflow">if</span> (isVictorious) {</div>
-<div class="line"><span class="lineno">  451</span>            ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);</div>
-<div class="line"><span class="lineno">  452</span>            ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);</div>
-<div class="line"><span class="lineno">  453</span>            <span class="keywordflow">if</span> (isPlayerParty) {</div>
-<div class="line"><span class="lineno">  454</span>                MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord.LootedItemsCount),                   Colors.Green));</div>
-<div class="line"><span class="lineno">  455</span>                MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(LocalizedTexts.GetItemsRecoveredFromFallenMessage(battleRecord.ItemsToRecoverCount), Colors.Green));</div>
-<div class="line"><span class="lineno">  456</span>            }</div>
-<div class="line"><span class="lineno">  457</span>        }</div>
-<div class="line"><span class="lineno">  458</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }</div>
-<div class="line"><span class="lineno">  459</span> </div>
-<div class="line"><span class="lineno">  460</span>        <span class="comment">// 被击败的一方不获取任何物品</span></div>
-<div class="line"><span class="lineno">  461</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00450">450</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  450</span>                                                                                                          {</div>
+<div class="line"><span class="lineno">  451</span>        <span class="comment">// 检查是否存在对应的battleRecord</span></div>
+<div class="line"><span class="lineno">  452</span>        <span class="keywordflow">if</span> (!_partyBattleRecords.TryGetValue(partyId, out var battleRecord)) {</div>
+<div class="line"><span class="lineno">  453</span>            Global.Warn($<span class="stringliteral">&quot;No battle record found for party {partyId}&quot;</span>);</div>
+<div class="line"><span class="lineno">  454</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  455</span>        }</div>
+<div class="line"><span class="lineno">  456</span> </div>
+<div class="line"><span class="lineno">  457</span>        <span class="keywordflow">if</span> (isVictorious) {</div>
+<div class="line"><span class="lineno">  458</span>            ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);</div>
+<div class="line"><span class="lineno">  459</span>            ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);</div>
+<div class="line"><span class="lineno">  460</span>            <span class="keywordflow">if</span> (isPlayerParty) {</div>
+<div class="line"><span class="lineno">  461</span>                MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord.LootedItemsCount),                   Colors.Green));</div>
+<div class="line"><span class="lineno">  462</span>                MessageDisplayService.EnqueueMessage(<span class="keyword">new</span> InformationMessage(LocalizedTexts.GetItemsRecoveredFromFallenMessage(battleRecord.ItemsToRecoverCount), Colors.Green));</div>
+<div class="line"><span class="lineno">  463</span>            }</div>
+<div class="line"><span class="lineno">  464</span>        }</div>
+<div class="line"><span class="lineno">  465</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }</div>
+<div class="line"><span class="lineno">  466</span> </div>
+<div class="line"><span class="lineno">  467</span>        <span class="comment">// 被击败的一方不获取任何物品</span></div>
+<div class="line"><span class="lineno">  468</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_partyBattleRecords</a>, <a class="el" href="../../db/db6/a00074_source.html#l00009">MessageDisplayService.EnqueueMessage()</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00060">DynamicTroopEquipmentReupload.LocalizedTexts.GetItemsRecoveredFromFallenMessage()</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00055">DynamicTroopEquipmentReupload.LocalizedTexts.GetLootAddedMessage()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00469">ReturnItemsToDestination()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00159">DynamicTroopEquipmentReupload.Global.Warn()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00020">_partyBattleRecords</a>, <a class="el" href="../../db/db6/a00074_source.html#l00009">MessageDisplayService.EnqueueMessage()</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00060">DynamicTroopEquipmentReupload.LocalizedTexts.GetItemsRecoveredFromFallenMessage()</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00055">DynamicTroopEquipmentReupload.LocalizedTexts.GetLootAddedMessage()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00476">ReturnItemsToDestination()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00159">DynamicTroopEquipmentReupload.Global.Warn()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>.</p>
 
 </div>
 </div>
@@ -509,47 +511,47 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00397">397</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  399</span>                                    {</div>
-<div class="line"><span class="lineno">  400</span>        var totalChance = 0f;</div>
-<div class="line"><span class="lineno">  401</span>        <span class="keywordflow">foreach</span> (var lootChance <span class="keywordflow">in</span> lootChances)</div>
-<div class="line"><span class="lineno">  402</span>        {</div>
-<div class="line"><span class="lineno">  403</span>            var mobileParty = lootChance.Key.Party.MobileParty;</div>
-<div class="line"><span class="lineno">  404</span>            <span class="keywordflow">if</span> (mobileParty != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  405</span>                lootChance.Value &gt; 0f &amp;&amp;</div>
-<div class="line"><span class="lineno">  406</span>                PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) &amp;&amp;</div>
-<div class="line"><span class="lineno">  407</span>                partySide == winningSide)</div>
-<div class="line"><span class="lineno">  408</span>                totalChance += lootChance.Value;</div>
-<div class="line"><span class="lineno">  409</span>        }</div>
-<div class="line"><span class="lineno">  410</span> </div>
-<div class="line"><span class="lineno">  411</span>        <span class="keywordflow">if</span> (totalChance &lt;= 0f)</div>
-<div class="line"><span class="lineno">  412</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  413</span> </div>
-<div class="line"><span class="lineno">  414</span>        var roll = _random.NextDouble() * totalChance;</div>
-<div class="line"><span class="lineno">  415</span>        var accumulatedChance = 0f;</div>
-<div class="line"><span class="lineno">  416</span>        MobileParty? lastEligibleParty = <span class="keyword">null</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00404">404</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  406</span>                                    {</div>
+<div class="line"><span class="lineno">  407</span>        var totalChance = 0f;</div>
+<div class="line"><span class="lineno">  408</span>        <span class="keywordflow">foreach</span> (var lootChance <span class="keywordflow">in</span> lootChances)</div>
+<div class="line"><span class="lineno">  409</span>        {</div>
+<div class="line"><span class="lineno">  410</span>            var mobileParty = lootChance.Key.Party.MobileParty;</div>
+<div class="line"><span class="lineno">  411</span>            <span class="keywordflow">if</span> (mobileParty != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  412</span>                lootChance.Value &gt; 0f &amp;&amp;</div>
+<div class="line"><span class="lineno">  413</span>                PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) &amp;&amp;</div>
+<div class="line"><span class="lineno">  414</span>                partySide == winningSide)</div>
+<div class="line"><span class="lineno">  415</span>                totalChance += lootChance.Value;</div>
+<div class="line"><span class="lineno">  416</span>        }</div>
 <div class="line"><span class="lineno">  417</span> </div>
-<div class="line"><span class="lineno">  418</span>        <span class="keywordflow">foreach</span> (var lootChance <span class="keywordflow">in</span> lootChances)</div>
-<div class="line"><span class="lineno">  419</span>        {</div>
-<div class="line"><span class="lineno">  420</span>            var mobileParty = lootChance.Key.Party.MobileParty;</div>
-<div class="line"><span class="lineno">  421</span>            <span class="keywordflow">if</span> (mobileParty == <span class="keyword">null</span> ||</div>
-<div class="line"><span class="lineno">  422</span>                lootChance.Value &lt;= 0f ||</div>
-<div class="line"><span class="lineno">  423</span>                !PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) ||</div>
-<div class="line"><span class="lineno">  424</span>                partySide != winningSide)</div>
-<div class="line"><span class="lineno">  425</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  426</span> </div>
-<div class="line"><span class="lineno">  427</span>            lastEligibleParty = mobileParty;</div>
-<div class="line"><span class="lineno">  428</span>            accumulatedChance += lootChance.Value;</div>
-<div class="line"><span class="lineno">  429</span>            <span class="keywordflow">if</span> (roll &lt; accumulatedChance)</div>
-<div class="line"><span class="lineno">  430</span>                <span class="keywordflow">return</span> mobileParty;</div>
-<div class="line"><span class="lineno">  431</span>        }</div>
-<div class="line"><span class="lineno">  432</span> </div>
-<div class="line"><span class="lineno">  433</span>        <span class="keywordflow">return</span> lastEligibleParty;</div>
-<div class="line"><span class="lineno">  434</span>    }</div>
+<div class="line"><span class="lineno">  418</span>        <span class="keywordflow">if</span> (totalChance &lt;= 0f)</div>
+<div class="line"><span class="lineno">  419</span>            <span class="keywordflow">return</span> <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  420</span> </div>
+<div class="line"><span class="lineno">  421</span>        var roll = _random.NextDouble() * totalChance;</div>
+<div class="line"><span class="lineno">  422</span>        var accumulatedChance = 0f;</div>
+<div class="line"><span class="lineno">  423</span>        MobileParty? lastEligibleParty = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  424</span> </div>
+<div class="line"><span class="lineno">  425</span>        <span class="keywordflow">foreach</span> (var lootChance <span class="keywordflow">in</span> lootChances)</div>
+<div class="line"><span class="lineno">  426</span>        {</div>
+<div class="line"><span class="lineno">  427</span>            var mobileParty = lootChance.Key.Party.MobileParty;</div>
+<div class="line"><span class="lineno">  428</span>            <span class="keywordflow">if</span> (mobileParty == <span class="keyword">null</span> ||</div>
+<div class="line"><span class="lineno">  429</span>                lootChance.Value &lt;= 0f ||</div>
+<div class="line"><span class="lineno">  430</span>                !PartyBattleSides.TryGetValue(mobileParty.Id, out var partySide) ||</div>
+<div class="line"><span class="lineno">  431</span>                partySide != winningSide)</div>
+<div class="line"><span class="lineno">  432</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  433</span> </div>
+<div class="line"><span class="lineno">  434</span>            lastEligibleParty = mobileParty;</div>
+<div class="line"><span class="lineno">  435</span>            accumulatedChance += lootChance.Value;</div>
+<div class="line"><span class="lineno">  436</span>            <span class="keywordflow">if</span> (roll &lt; accumulatedChance)</div>
+<div class="line"><span class="lineno">  437</span>                <span class="keywordflow">return</span> mobileParty;</div>
+<div class="line"><span class="lineno">  438</span>        }</div>
+<div class="line"><span class="lineno">  439</span> </div>
+<div class="line"><span class="lineno">  440</span>        <span class="keywordflow">return</span> lastEligibleParty;</div>
+<div class="line"><span class="lineno">  441</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00025">_random</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00029">PartyBattleSides</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00026">_random</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00030">PartyBattleSides</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00348">DistributeNavalCasualtyLoot()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00355">DistributeNavalCasualtyLoot()</a>.</p>
 
 </div>
 </div>
@@ -593,159 +595,159 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00105">105</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  105</span>                                                                                                                           {</div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">if</span> (Mission is not { PlayerTeam.IsValid: <span class="keyword">true</span> }) {</div>
-<div class="line"><span class="lineno">  107</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  108</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  109</span>        }</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span> </div>
-<div class="line"><span class="lineno">  112</span>        <span class="keywordflow">if</span> (!affectedAgent.IsValid() || affectedAgent.Character is not { IsHero: false }) {</div>
-<div class="line"><span class="lineno">  113</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  114</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  115</span>        }</div>
-<div class="line"><span class="lineno">  116</span> </div>
-<div class="line"><span class="lineno">  117</span>        <span class="keywordflow">if</span> (_processedAgents.Contains(affectedAgent)) {</div>
-<div class="line"><span class="lineno">  118</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  119</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  120</span>        }</div>
-<div class="line"><span class="lineno">  121</span> </div>
-<div class="line"><span class="lineno">  122</span>        <span class="comment">// potential loot for the opposing side.</span></div>
-<div class="line"><span class="lineno">  123</span>        <span class="keywordflow">if</span> (agentState is AgentState.Killed or AgentState.Unconscious) {</div>
-<div class="line"><span class="lineno">  124</span>            _ = _processedAgents.Add(affectedAgent);</div>
-<div class="line"><span class="lineno">  125</span> </div>
-<div class="line"><span class="lineno">  126</span>            var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">if</span> (!affectedPartyId.HasValue) {</div>
-<div class="line"><span class="lineno">  128</span>                base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  129</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  130</span>            }</div>
-<div class="line"><span class="lineno">  131</span> </div>
-<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">if</span> (!_partyBattleRecords.ContainsKey(affectedPartyId.Value))</div>
-<div class="line"><span class="lineno">  133</span>                _partyBattleRecords.TryAdd(affectedPartyId.Value, <span class="keyword">new</span> PartyBattleRecord());</div>
-<div class="line"><span class="lineno">  134</span> </div>
-<div class="line"><span class="lineno">  135</span>            var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];</div>
-<div class="line"><span class="lineno">  136</span> </div>
-<div class="line"><span class="lineno">  137</span>            var hasAffectedSide = PartyBattleSides.TryGetValue(affectedPartyId.Value, out var affectedSide);</div>
-<div class="line"><span class="lineno">  138</span>            var affectorPartyId = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  139</span> </div>
-<div class="line"><span class="lineno">  140</span>            PartyBattleRecord? affectorBattleRecord = <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  141</span>            <span class="keywordflow">if</span> (hasAffectedSide &amp;&amp;</div>
-<div class="line"><span class="lineno">  142</span>                affectorPartyId.HasValue &amp;&amp;</div>
-<div class="line"><span class="lineno">  143</span>                PartyBattleSides.TryGetValue(affectorPartyId.Value, out var affectorSide) &amp;&amp;</div>
-<div class="line"><span class="lineno">  144</span>                affectorSide != affectedSide)</div>
-<div class="line"><span class="lineno">  145</span>                affectorBattleRecord = _partyBattleRecords.GetOrAdd(</div>
-<div class="line"><span class="lineno">  146</span>                    affectorPartyId.Value,</div>
-<div class="line"><span class="lineno">  147</span>                    _ =&gt; <span class="keyword">new</span> PartyBattleRecord());</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>            var hitBodyPart = blow.VictimBodyPart;</div>
-<div class="line"><span class="lineno">  150</span>            var armors      = affectedAgent.GetAgentArmors();</div>
-<div class="line"><span class="lineno">  151</span>            var hitArmor    = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);</div>
-<div class="line"><span class="lineno">  152</span>            <span class="comment">// Extra armor break: ONLY for enemy casualties, tierbased.</span></div>
-<div class="line"><span class="lineno">  153</span>            <span class="comment">// This is an addition to the existing hitArmor destruction logic.</span></div>
-<div class="line"><span class="lineno">  154</span>            ItemObject? extraBrokenArmor = <span class="keyword">null</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00112">112</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  112</span>                                                                                                                           {</div>
+<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">if</span> (Mission is not { PlayerTeam.IsValid: <span class="keyword">true</span> }) {</div>
+<div class="line"><span class="lineno">  114</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  115</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  116</span>        }</div>
+<div class="line"><span class="lineno">  117</span> </div>
+<div class="line"><span class="lineno">  118</span> </div>
+<div class="line"><span class="lineno">  119</span>        <span class="keywordflow">if</span> (!affectedAgent.IsValid() || affectedAgent.Character is not { IsHero: false }) {</div>
+<div class="line"><span class="lineno">  120</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  121</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  122</span>        }</div>
+<div class="line"><span class="lineno">  123</span> </div>
+<div class="line"><span class="lineno">  124</span>        <span class="keywordflow">if</span> (_processedAgents.Contains(affectedAgent)) {</div>
+<div class="line"><span class="lineno">  125</span>            base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  127</span>        }</div>
+<div class="line"><span class="lineno">  128</span> </div>
+<div class="line"><span class="lineno">  129</span>        <span class="comment">// potential loot for the opposing side.</span></div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">if</span> (agentState is AgentState.Killed or AgentState.Unconscious) {</div>
+<div class="line"><span class="lineno">  131</span>            _ = _processedAgents.Add(affectedAgent);</div>
+<div class="line"><span class="lineno">  132</span> </div>
+<div class="line"><span class="lineno">  133</span>            var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;</div>
+<div class="line"><span class="lineno">  134</span>            <span class="keywordflow">if</span> (!affectedPartyId.HasValue) {</div>
+<div class="line"><span class="lineno">  135</span>                base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  137</span>            }</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>            <span class="keywordflow">if</span> (!_partyBattleRecords.ContainsKey(affectedPartyId.Value))</div>
+<div class="line"><span class="lineno">  140</span>                _partyBattleRecords.TryAdd(affectedPartyId.Value, <span class="keyword">new</span> PartyBattleRecord());</div>
+<div class="line"><span class="lineno">  141</span> </div>
+<div class="line"><span class="lineno">  142</span>            var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];</div>
+<div class="line"><span class="lineno">  143</span> </div>
+<div class="line"><span class="lineno">  144</span>            var hasAffectedSide = _sideByInvolvedParty.TryGetValue(affectedPartyId.Value, out var affectedSide);</div>
+<div class="line"><span class="lineno">  145</span>            var affectorPartyId = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>            PartyBattleRecord? affectorBattleRecord = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  148</span>            <span class="keywordflow">if</span> (hasAffectedSide &amp;&amp;</div>
+<div class="line"><span class="lineno">  149</span>                affectorPartyId.HasValue &amp;&amp;</div>
+<div class="line"><span class="lineno">  150</span>                _sideByInvolvedParty.TryGetValue(affectorPartyId.Value, out var affectorSide) &amp;&amp;</div>
+<div class="line"><span class="lineno">  151</span>                affectorSide != affectedSide)</div>
+<div class="line"><span class="lineno">  152</span>                affectorBattleRecord = _partyBattleRecords.GetOrAdd(</div>
+<div class="line"><span class="lineno">  153</span>                    affectorPartyId.Value,</div>
+<div class="line"><span class="lineno">  154</span>                    _ =&gt; <span class="keyword">new</span> PartyBattleRecord());</div>
 <div class="line"><span class="lineno">  155</span> </div>
-<div class="line"><span class="lineno">  156</span>            var isEnemyCasualty = hasAffectedSide &amp;&amp; affectedSide != Mission.PlayerTeam.Side;</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>            <span class="keywordflow">if</span> (isEnemyCasualty)</div>
-<div class="line"><span class="lineno">  159</span>            {</div>
-<div class="line"><span class="lineno">  160</span>                var troopTier = 0;</div>
-<div class="line"><span class="lineno">  161</span>                <span class="keywordflow">if</span> (affectedAgent.Character is CharacterObject characterObject)</div>
-<div class="line"><span class="lineno">  162</span>                    troopTier = characterObject.Tier;</div>
-<div class="line"><span class="lineno">  163</span> </div>
-<div class="line"><span class="lineno">  164</span>                var extraBreakChance = troopTier <span class="keywordflow">switch</span> {</div>
-<div class="line"><span class="lineno">  165</span>                    3 =&gt; 0.25f,</div>
-<div class="line"><span class="lineno">  166</span>                    4 =&gt; 0.35f,</div>
-<div class="line"><span class="lineno">  167</span>                    5 =&gt; 0.45f,</div>
-<div class="line"><span class="lineno">  168</span>                    _ =&gt; troopTier &gt;= 6 ? 0.60f : 0f</div>
-<div class="line"><span class="lineno">  169</span>                };</div>
+<div class="line"><span class="lineno">  156</span>            var hitBodyPart = blow.VictimBodyPart;</div>
+<div class="line"><span class="lineno">  157</span>            var armors      = affectedAgent.GetAgentArmors();</div>
+<div class="line"><span class="lineno">  158</span>            var hitArmor    = ArmorSelector.GetRandomArmorByBodyPart(armors, hitBodyPart);</div>
+<div class="line"><span class="lineno">  159</span>            <span class="comment">// Extra armor break: ONLY for enemy casualties, tierbased.</span></div>
+<div class="line"><span class="lineno">  160</span>            <span class="comment">// This is an addition to the existing hitArmor destruction logic.</span></div>
+<div class="line"><span class="lineno">  161</span>            ItemObject? extraBrokenArmor = <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  162</span> </div>
+<div class="line"><span class="lineno">  163</span>            var isEnemyCasualty = hasAffectedSide &amp;&amp; affectedSide != Mission.PlayerTeam.Side;</div>
+<div class="line"><span class="lineno">  164</span> </div>
+<div class="line"><span class="lineno">  165</span>            <span class="keywordflow">if</span> (isEnemyCasualty)</div>
+<div class="line"><span class="lineno">  166</span>            {</div>
+<div class="line"><span class="lineno">  167</span>                var troopTier = 0;</div>
+<div class="line"><span class="lineno">  168</span>                <span class="keywordflow">if</span> (affectedAgent.Character is CharacterObject characterObject)</div>
+<div class="line"><span class="lineno">  169</span>                    troopTier = characterObject.Tier;</div>
 <div class="line"><span class="lineno">  170</span> </div>
-<div class="line"><span class="lineno">  171</span>                <span class="keywordflow">if</span> (extraBreakChance &gt; 0f &amp;&amp; _random.NextFloat() &lt;= extraBreakChance)</div>
-<div class="line"><span class="lineno">  172</span>                {</div>
-<div class="line"><span class="lineno">  173</span>                    <span class="comment">// Pick an additional armor piece to destroy (excluding hitArmor)</span></div>
-<div class="line"><span class="lineno">  174</span>                    var candidates = <span class="keyword">new</span> List&lt;ItemObject&gt;();</div>
-<div class="line"><span class="lineno">  175</span> </div>
-<div class="line"><span class="lineno">  176</span>                    <span class="keywordflow">foreach</span> (var armor <span class="keywordflow">in</span> armors)</div>
-<div class="line"><span class="lineno">  177</span>                    {</div>
-<div class="line"><span class="lineno">  178</span>                        <span class="keywordflow">if</span> (armor == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  179</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  180</span> </div>
-<div class="line"><span class="lineno">  181</span>                        <span class="keywordflow">if</span> (hitArmor != <span class="keyword">null</span> &amp;&amp; armor.StringId == hitArmor.StringId)</div>
-<div class="line"><span class="lineno">  182</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  183</span> </div>
-<div class="line"><span class="lineno">  184</span>                        <span class="keywordflow">if</span> (armor.ItemType == ItemObject.ItemTypeEnum.HorseHarness)</div>
-<div class="line"><span class="lineno">  185</span>                            <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>                        candidates.Add(armor);</div>
-<div class="line"><span class="lineno">  188</span>                    }</div>
-<div class="line"><span class="lineno">  189</span> </div>
-<div class="line"><span class="lineno">  190</span>                    <span class="keywordflow">if</span> (candidates.Count &gt; 0)</div>
-<div class="line"><span class="lineno">  191</span>                        extraBrokenArmor = candidates[_random.Next(candidates.Count)];</div>
-<div class="line"><span class="lineno">  192</span>                }</div>
-<div class="line"><span class="lineno">  193</span>            }</div>
-<div class="line"><span class="lineno">  194</span> </div>
-<div class="line"><span class="lineno">  195</span> </div>
-<div class="line"><span class="lineno">  196</span>            ProcessAgentEquipmentRespectingTemporarySlots(</div>
-<div class="line"><span class="lineno">  197</span>                affectedAgent,</div>
-<div class="line"><span class="lineno">  198</span>                item =&gt; {</div>
-<div class="line"><span class="lineno">  199</span>                    <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || !ItemBlackList.Test(item))</div>
-<div class="line"><span class="lineno">  200</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  171</span>                var extraBreakChance = troopTier <span class="keywordflow">switch</span> {</div>
+<div class="line"><span class="lineno">  172</span>                    3 =&gt; 0.25f,</div>
+<div class="line"><span class="lineno">  173</span>                    4 =&gt; 0.35f,</div>
+<div class="line"><span class="lineno">  174</span>                    5 =&gt; 0.45f,</div>
+<div class="line"><span class="lineno">  175</span>                    _ =&gt; troopTier &gt;= 6 ? 0.60f : 0f</div>
+<div class="line"><span class="lineno">  176</span>                };</div>
+<div class="line"><span class="lineno">  177</span> </div>
+<div class="line"><span class="lineno">  178</span>                <span class="keywordflow">if</span> (extraBreakChance &gt; 0f &amp;&amp; _random.NextFloat() &lt;= extraBreakChance)</div>
+<div class="line"><span class="lineno">  179</span>                {</div>
+<div class="line"><span class="lineno">  180</span>                    <span class="comment">// Pick an additional armor piece to destroy (excluding hitArmor)</span></div>
+<div class="line"><span class="lineno">  181</span>                    var candidates = <span class="keyword">new</span> List&lt;ItemObject&gt;();</div>
+<div class="line"><span class="lineno">  182</span> </div>
+<div class="line"><span class="lineno">  183</span>                    <span class="keywordflow">foreach</span> (var armor <span class="keywordflow">in</span> armors)</div>
+<div class="line"><span class="lineno">  184</span>                    {</div>
+<div class="line"><span class="lineno">  185</span>                        <span class="keywordflow">if</span> (armor == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  186</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>                        <span class="keywordflow">if</span> (hitArmor != <span class="keyword">null</span> &amp;&amp; armor.StringId == hitArmor.StringId)</div>
+<div class="line"><span class="lineno">  189</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  190</span> </div>
+<div class="line"><span class="lineno">  191</span>                        <span class="keywordflow">if</span> (armor.ItemType == ItemObject.ItemTypeEnum.HorseHarness)</div>
+<div class="line"><span class="lineno">  192</span>                            <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  193</span> </div>
+<div class="line"><span class="lineno">  194</span>                        candidates.Add(armor);</div>
+<div class="line"><span class="lineno">  195</span>                    }</div>
+<div class="line"><span class="lineno">  196</span> </div>
+<div class="line"><span class="lineno">  197</span>                    <span class="keywordflow">if</span> (candidates.Count &gt; 0)</div>
+<div class="line"><span class="lineno">  198</span>                        extraBrokenArmor = candidates[_random.Next(candidates.Count)];</div>
+<div class="line"><span class="lineno">  199</span>                }</div>
+<div class="line"><span class="lineno">  200</span>            }</div>
 <div class="line"><span class="lineno">  201</span> </div>
-<div class="line"><span class="lineno">  202</span>                    <span class="keywordflow">if</span> (hitArmor != <span class="keyword">null</span> &amp;&amp; item.StringId == hitArmor.StringId)</div>
-<div class="line"><span class="lineno">  203</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  204</span> </div>
-<div class="line"><span class="lineno">  205</span>                    <span class="keywordflow">if</span> (extraBrokenArmor != <span class="keyword">null</span> &amp;&amp; item.StringId == extraBrokenArmor.StringId)</div>
-<div class="line"><span class="lineno">  206</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  207</span> </div>
-<div class="line"><span class="lineno">  208</span>                    var dropRate = SubModule.Settings?.DropRate ?? 1f;</div>
-<div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>                    affectedBattleRecord.AddItemToRecover(item);</div>
+<div class="line"><span class="lineno">  202</span> </div>
+<div class="line"><span class="lineno">  203</span>            ProcessAgentEquipmentRespectingTemporarySlots(</div>
+<div class="line"><span class="lineno">  204</span>                affectedAgent,</div>
+<div class="line"><span class="lineno">  205</span>                item =&gt; {</div>
+<div class="line"><span class="lineno">  206</span>                    <span class="keywordflow">if</span> (item == <span class="keyword">null</span> || !ItemBlackList.Test(item))</div>
+<div class="line"><span class="lineno">  207</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  208</span> </div>
+<div class="line"><span class="lineno">  209</span>                    <span class="keywordflow">if</span> (hitArmor != <span class="keyword">null</span> &amp;&amp; item.StringId == hitArmor.StringId)</div>
+<div class="line"><span class="lineno">  210</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>                    <span class="keywordflow">if</span> (_random.NextFloat() &gt; dropRate)</div>
+<div class="line"><span class="lineno">  212</span>                    <span class="keywordflow">if</span> (extraBrokenArmor != <span class="keyword">null</span> &amp;&amp; item.StringId == extraBrokenArmor.StringId)</div>
 <div class="line"><span class="lineno">  213</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  214</span> </div>
-<div class="line"><span class="lineno">  215</span>                    <span class="keywordflow">if</span> (affectorBattleRecord != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  216</span>                    {</div>
-<div class="line"><span class="lineno">  217</span>                        affectorBattleRecord.AddLootedItem(item);</div>
-<div class="line"><span class="lineno">  218</span>                        Global.Log($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  219</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  220</span>                    }</div>
+<div class="line"><span class="lineno">  215</span>                    var dropRate = SubModule.Settings?.DropRate ?? 1f;</div>
+<div class="line"><span class="lineno">  216</span> </div>
+<div class="line"><span class="lineno">  217</span>                    affectedBattleRecord.AddItemToRecover(item);</div>
+<div class="line"><span class="lineno">  218</span> </div>
+<div class="line"><span class="lineno">  219</span>                    <span class="keywordflow">if</span> (_random.NextFloat() &gt; dropRate)</div>
+<div class="line"><span class="lineno">  220</span>                        <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>                    <span class="keywordflow">if</span> (!Mission.IsNavalBattle &amp;&amp; !Mission.IsNavalRaidBattle)</div>
-<div class="line"><span class="lineno">  223</span>                        <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  224</span> </div>
-<div class="line"><span class="lineno">  225</span>                    var casualtyLoot = _unclaimedNavalCasualtyLoot.GetOrAdd(</div>
-<div class="line"><span class="lineno">  226</span>                        affectedPartyId.Value,</div>
-<div class="line"><span class="lineno">  227</span>                        _ =&gt; <span class="keyword">new</span> ConcurrentDictionary&lt;ItemObject, int&gt;());</div>
-<div class="line"><span class="lineno">  228</span>                    casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) =&gt; currentCount + 1);</div>
-<div class="line"><span class="lineno">  229</span>                    Global.Log($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  230</span>                });</div>
-<div class="line"><span class="lineno">  231</span>        }</div>
-<div class="line"><span class="lineno">  232</span> </div>
-<div class="line"><span class="lineno">  233</span>        <span class="comment">//Routed (alive, removed mid-battle), make sure their equipment is still returned to their own armory</span></div>
-<div class="line"><span class="lineno">  234</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!_isMissionEnded &amp;&amp; agentState is AgentState.Routed or AgentState.Deleted) {</div>
-<div class="line"><span class="lineno">  235</span>            _ = _processedAgents.Add(affectedAgent);</div>
-<div class="line"><span class="lineno">  236</span>            var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;</div>
-<div class="line"><span class="lineno">  237</span>            <span class="keywordflow">if</span> (!affectedPartyId.HasValue) {</div>
-<div class="line"><span class="lineno">  238</span>                base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  239</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  240</span>            }</div>
-<div class="line"><span class="lineno">  241</span> </div>
-<div class="line"><span class="lineno">  242</span>            <span class="keywordflow">if</span> (!_partyBattleRecords.ContainsKey(affectedPartyId.Value))</div>
-<div class="line"><span class="lineno">  243</span>                _partyBattleRecords.TryAdd(affectedPartyId.Value, <span class="keyword">new</span> PartyBattleRecord());</div>
-<div class="line"><span class="lineno">  244</span> </div>
-<div class="line"><span class="lineno">  245</span>            var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];</div>
-<div class="line"><span class="lineno">  246</span>            ProcessAgentEquipmentRespectingTemporarySlots(affectedAgent, item =&gt; { affectedBattleRecord.AddItemToRecover(item); });</div>
-<div class="line"><span class="lineno">  247</span>            Global.Log(</div>
-<div class="line"><span class="lineno">  248</span>                $<span class="stringliteral">&quot;[DTES] Routed/deleted equipment recorded for {affectedAgent.Character?.Name} | party={affectedPartyId.Value} | recordRecoverNow={affectedBattleRecord.ItemsToRecoverCount}&quot;</span>,</div>
-<div class="line"><span class="lineno">  249</span>                Colors.Green,</div>
-<div class="line"><span class="lineno">  250</span>                Level.Debug);</div>
-<div class="line"><span class="lineno">  251</span>        }</div>
-<div class="line"><span class="lineno">  252</span> </div>
-<div class="line"><span class="lineno">  253</span>        base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
-<div class="line"><span class="lineno">  254</span>    }</div>
+<div class="line"><span class="lineno">  222</span>                    <span class="keywordflow">if</span> (affectorBattleRecord != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  223</span>                    {</div>
+<div class="line"><span class="lineno">  224</span>                        affectorBattleRecord.AddLootedItem(item);</div>
+<div class="line"><span class="lineno">  225</span>                        Global.Log($<span class="stringliteral">&quot;{item.StringId} looted&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  226</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  227</span>                    }</div>
+<div class="line"><span class="lineno">  228</span> </div>
+<div class="line"><span class="lineno">  229</span>                    <span class="keywordflow">if</span> (!Mission.IsNavalBattle &amp;&amp; !Mission.IsNavalRaidBattle)</div>
+<div class="line"><span class="lineno">  230</span>                        <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  231</span> </div>
+<div class="line"><span class="lineno">  232</span>                    var casualtyLoot = _unclaimedNavalCasualtyLoot.GetOrAdd(</div>
+<div class="line"><span class="lineno">  233</span>                        affectedPartyId.Value,</div>
+<div class="line"><span class="lineno">  234</span>                        _ =&gt; <span class="keyword">new</span> ConcurrentDictionary&lt;ItemObject, int&gt;());</div>
+<div class="line"><span class="lineno">  235</span>                    casualtyLoot.AddOrUpdate(item, 1, (_, currentCount) =&gt; currentCount + 1);</div>
+<div class="line"><span class="lineno">  236</span>                    Global.Log($<span class="stringliteral">&quot;{item.StringId} queued for naval casualty loot&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  237</span>                });</div>
+<div class="line"><span class="lineno">  238</span>        }</div>
+<div class="line"><span class="lineno">  239</span> </div>
+<div class="line"><span class="lineno">  240</span>        <span class="comment">//Routed (alive, removed mid-battle), make sure their equipment is still returned to their own armory</span></div>
+<div class="line"><span class="lineno">  241</span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!_isMissionEnded &amp;&amp; agentState is AgentState.Routed or AgentState.Deleted) {</div>
+<div class="line"><span class="lineno">  242</span>            _ = _processedAgents.Add(affectedAgent);</div>
+<div class="line"><span class="lineno">  243</span>            var affectedPartyId = Global.GetAgentParty(affectedAgent.Origin)?.Id;</div>
+<div class="line"><span class="lineno">  244</span>            <span class="keywordflow">if</span> (!affectedPartyId.HasValue) {</div>
+<div class="line"><span class="lineno">  245</span>                base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  246</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  247</span>            }</div>
+<div class="line"><span class="lineno">  248</span> </div>
+<div class="line"><span class="lineno">  249</span>            <span class="keywordflow">if</span> (!_partyBattleRecords.ContainsKey(affectedPartyId.Value))</div>
+<div class="line"><span class="lineno">  250</span>                _partyBattleRecords.TryAdd(affectedPartyId.Value, <span class="keyword">new</span> PartyBattleRecord());</div>
+<div class="line"><span class="lineno">  251</span> </div>
+<div class="line"><span class="lineno">  252</span>            var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];</div>
+<div class="line"><span class="lineno">  253</span>            ProcessAgentEquipmentRespectingTemporarySlots(affectedAgent, item =&gt; { affectedBattleRecord.AddItemToRecover(item); });</div>
+<div class="line"><span class="lineno">  254</span>            Global.Log(</div>
+<div class="line"><span class="lineno">  255</span>                $<span class="stringliteral">&quot;[DTES] Routed/deleted equipment recorded for {affectedAgent.Character?.Name} | party={affectedPartyId.Value} | recordRecoverNow={affectedBattleRecord.ItemsToRecoverCount}&quot;</span>,</div>
+<div class="line"><span class="lineno">  256</span>                Colors.Green,</div>
+<div class="line"><span class="lineno">  257</span>                Level.Debug);</div>
+<div class="line"><span class="lineno">  258</span>        }</div>
+<div class="line"><span class="lineno">  259</span> </div>
+<div class="line"><span class="lineno">  260</span>        base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);</div>
+<div class="line"><span class="lineno">  261</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00032">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00023">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00025">_random</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00021">_unclaimedNavalCasualtyLoot</a>, <a class="el" href="../../df/d03/a00062_source.html#l00023">DynamicTroopEquipmentReupload.PartyBattleRecord.AddLootedItem()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00029">DynamicTroopEquipmentReupload.ModSettings.DropRate</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00275">DynamicTroopEquipmentReupload.Global.GetAgentParty()</a>, <a class="el" href="../../d1/d09/a00077_source.html#l00012">DynamicTroopEquipmentReupload.ArmorSelector.GetRandomArmorByBodyPart()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00029">PartyBattleSides</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00521">ProcessAgentEquipmentRespectingTemporarySlots()</a>, <a class="el" href="../../da/d24/a00068_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00033">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00020">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00024">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00026">_random</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_sideByInvolvedParty</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00022">_unclaimedNavalCasualtyLoot</a>, <a class="el" href="../../df/d03/a00062_source.html#l00023">DynamicTroopEquipmentReupload.PartyBattleRecord.AddLootedItem()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00029">DynamicTroopEquipmentReupload.ModSettings.DropRate</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00275">DynamicTroopEquipmentReupload.Global.GetAgentParty()</a>, <a class="el" href="../../d1/d09/a00077_source.html#l00012">DynamicTroopEquipmentReupload.ArmorSelector.GetRandomArmorByBodyPart()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00528">ProcessAgentEquipmentRespectingTemporarySlots()</a>, <a class="el" href="../../da/d24/a00068_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
 </div>
 </div>
@@ -764,16 +766,16 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00287">287</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  287</span>                                         {</div>
-<div class="line"><span class="lineno">  288</span>        Global.Log(<span class="stringliteral">&quot;OnBattleEnded() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  289</span>        var missionResult = Mission.MissionResult;</div>
-<div class="line"><span class="lineno">  290</span>        <span class="keywordflow">if</span> (missionResult != <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  291</span>            FinalizeMission(missionResult);</div>
-<div class="line"><span class="lineno">  292</span>        base.OnBattleEnded();</div>
-<div class="line"><span class="lineno">  293</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00294">294</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  294</span>                                         {</div>
+<div class="line"><span class="lineno">  295</span>        Global.Log(<span class="stringliteral">&quot;OnBattleEnded() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  296</span>        var missionResult = Mission.MissionResult;</div>
+<div class="line"><span class="lineno">  297</span>        <span class="keywordflow">if</span> (missionResult != <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  298</span>            FinalizeMission(missionResult);</div>
+<div class="line"><span class="lineno">  299</span>        base.OnBattleEnded();</div>
+<div class="line"><span class="lineno">  300</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -792,25 +794,26 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00038">38</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   38</span>                                                {</div>
-<div class="line"><span class="lineno">   39</span>        base.OnBehaviorInitialize();</div>
-<div class="line"><span class="lineno">   40</span>        Global.Log(<span class="stringliteral">&quot;OnBehaviorInitialize&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">   41</span> </div>
-<div class="line"><span class="lineno">   42</span>        _processedAgents.Clear();</div>
-<div class="line"><span class="lineno">   43</span>        _partyBattleRecords.Clear();</div>
-<div class="line"><span class="lineno">   44</span>        _unclaimedNavalCasualtyLoot.Clear();</div>
-<div class="line"><span class="lineno">   45</span>        Distributors.Clear();</div>
-<div class="line"><span class="lineno">   46</span>        PartyBattleSides.Clear();</div>
-<div class="line"><span class="lineno">   47</span>        _assignmentByAgent.Clear();</div>
-<div class="line"><span class="lineno">   48</span> </div>
-<div class="line"><span class="lineno">   49</span>        _isMissionEnded = <span class="keyword">false</span>;</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00039">39</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   39</span>                                                {</div>
+<div class="line"><span class="lineno">   40</span>        base.OnBehaviorInitialize();</div>
+<div class="line"><span class="lineno">   41</span>        Global.Log(<span class="stringliteral">&quot;OnBehaviorInitialize&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">   42</span> </div>
+<div class="line"><span class="lineno">   43</span>        _processedAgents.Clear();</div>
+<div class="line"><span class="lineno">   44</span>        _sideByInvolvedParty.Clear();</div>
+<div class="line"><span class="lineno">   45</span>        _partyBattleRecords.Clear();</div>
+<div class="line"><span class="lineno">   46</span>        _unclaimedNavalCasualtyLoot.Clear();</div>
+<div class="line"><span class="lineno">   47</span>        Distributors.Clear();</div>
+<div class="line"><span class="lineno">   48</span>        PartyBattleSides.Clear();</div>
+<div class="line"><span class="lineno">   49</span>        _assignmentByAgent.Clear();</div>
 <div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>        _areDistributorsInitialized = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   52</span>        TryInitializeDistributors();</div>
-<div class="line"><span class="lineno">   53</span>    }</div>
+<div class="line"><span class="lineno">   51</span>        _isMissionEnded = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   52</span> </div>
+<div class="line"><span class="lineno">   53</span>        _areDistributorsInitialized = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   54</span>        TryInitializeDistributors();</div>
+<div class="line"><span class="lineno">   55</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00030">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00018">_assignmentByAgent</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00032">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00023">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00021">_unclaimedNavalCasualtyLoot</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00027">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00029">PartyBattleSides</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">TryInitializeDistributors()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00031">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00018">_assignmentByAgent</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00033">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00020">_partyBattleRecords</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00024">_processedAgents</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_sideByInvolvedParty</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00022">_unclaimedNavalCasualtyLoot</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00028">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00030">PartyBattleSides</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -829,10 +832,10 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00034">34</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>                                     {</div>
-<div class="line"><span class="lineno">   35</span>        base.OnCreated();</div>
-<div class="line"><span class="lineno">   36</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00035">35</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>                                     {</div>
+<div class="line"><span class="lineno">   36</span>        base.OnCreated();</div>
+<div class="line"><span class="lineno">   37</span>    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -859,14 +862,14 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00568">568</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  568</span>                                           {</div>
-<div class="line"><span class="lineno">  569</span>        Global.Log(<span class="stringliteral">&quot;OnEndMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  570</span>        FinalizeMission(Mission.MissionResult);</div>
-<div class="line"><span class="lineno">  571</span>        base.OnEndMission();</div>
-<div class="line"><span class="lineno">  572</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00575">575</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  575</span>                                           {</div>
+<div class="line"><span class="lineno">  576</span>        Global.Log(<span class="stringliteral">&quot;OnEndMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  577</span>        FinalizeMission(Mission.MissionResult);</div>
+<div class="line"><span class="lineno">  578</span>        base.OnEndMission();</div>
+<div class="line"><span class="lineno">  579</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -885,11 +888,11 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00275">275</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  275</span>                                                                       {</div>
-<div class="line"><span class="lineno">  276</span>        Global.Log(<span class="stringliteral">&quot;OnEndMissionRequest() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  277</span>        <span class="keywordflow">return</span> base.OnEndMissionRequest(out canLeave);</div>
-<div class="line"><span class="lineno">  278</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00282">282</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  282</span>                                                                       {</div>
+<div class="line"><span class="lineno">  283</span>        Global.Log(<span class="stringliteral">&quot;OnEndMissionRequest() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  284</span>        <span class="keywordflow">return</span> base.OnEndMissionRequest(out canLeave);</div>
+<div class="line"><span class="lineno">  285</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
@@ -910,14 +913,14 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00269">269</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  269</span>                                                                           {</div>
-<div class="line"><span class="lineno">  270</span>        Global.Log(<span class="stringliteral">&quot;OnMissionResultReady() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  271</span>        FinalizeMission(missionResult);</div>
-<div class="line"><span class="lineno">  272</span>        base.OnMissionResultReady(missionResult);</div>
-<div class="line"><span class="lineno">  273</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00276">276</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  276</span>                                                                           {</div>
+<div class="line"><span class="lineno">  277</span>        Global.Log(<span class="stringliteral">&quot;OnMissionResultReady() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  278</span>        FinalizeMission(missionResult);</div>
+<div class="line"><span class="lineno">  279</span>        base.OnMissionResultReady(missionResult);</div>
+<div class="line"><span class="lineno">  280</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -936,14 +939,14 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00257">257</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  257</span>                                            {</div>
-<div class="line"><span class="lineno">  258</span>        Global.Log(<span class="stringliteral">&quot;OnRetreatMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  259</span>        FinalizeMission(Mission.MissionResult);</div>
-<div class="line"><span class="lineno">  260</span>        base.OnRetreatMission();</div>
-<div class="line"><span class="lineno">  261</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00264">264</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  264</span>                                            {</div>
+<div class="line"><span class="lineno">  265</span>        Global.Log(<span class="stringliteral">&quot;OnRetreatMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  266</span>        FinalizeMission(Mission.MissionResult);</div>
+<div class="line"><span class="lineno">  267</span>        base.OnRetreatMission();</div>
+<div class="line"><span class="lineno">  268</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -962,14 +965,14 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00263">263</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  263</span>                                              {</div>
-<div class="line"><span class="lineno">  264</span>        Global.Log(<span class="stringliteral">&quot;OnSurrenderMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  265</span>        FinalizeMission(Mission.MissionResult);</div>
-<div class="line"><span class="lineno">  266</span>        base.OnSurrenderMission();</div>
-<div class="line"><span class="lineno">  267</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00270">270</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  270</span>                                              {</div>
+<div class="line"><span class="lineno">  271</span>        Global.Log(<span class="stringliteral">&quot;OnSurrenderMission() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  272</span>        FinalizeMission(Mission.MissionResult);</div>
+<div class="line"><span class="lineno">  273</span>        base.OnSurrenderMission();</div>
+<div class="line"><span class="lineno">  274</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -1000,33 +1003,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00521">521</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  521</span>                                                                                                                     {</div>
-<div class="line"><span class="lineno">  522</span>        <span class="keywordflow">if</span> (_assignmentByAgent.TryGetValue(agent, out var assignment)) {</div>
-<div class="line"><span class="lineno">  523</span>            var processedItemCount = 0;</div>
-<div class="line"><span class="lineno">  524</span> </div>
-<div class="line"><span class="lineno">  525</span>            Global.ProcessAgentEquipment(</div>
-<div class="line"><span class="lineno">  526</span>                agent,</div>
-<div class="line"><span class="lineno">  527</span>                item =&gt; {</div>
-<div class="line"><span class="lineno">  528</span>                    processedItemCount++;</div>
-<div class="line"><span class="lineno">  529</span>                    processEquipmentItem(item);</div>
-<div class="line"><span class="lineno">  530</span>                },</div>
-<div class="line"><span class="lineno">  531</span>                (slot, missionWeapon, spawnElement) =&gt; !assignment.IsTemporarySlot(slot, spawnElement.Item));</div>
-<div class="line"><span class="lineno">  532</span> </div>
-<div class="line"><span class="lineno">  533</span>            <span class="keywordflow">if</span> (processedItemCount == 0) {</div>
-<div class="line"><span class="lineno">  534</span>                Global.Log($<span class="stringliteral">&quot;[DTES] Agent equipment returned 0 items. Fallback to Assignment. Agent={agent.Character?.Name}&quot;</span>, Colors.Yellow, Level.Debug);</div>
-<div class="line"><span class="lineno">  535</span>                ProcessAssignmentEquipmentFallback(assignment, processEquipmentItem);</div>
-<div class="line"><span class="lineno">  536</span>            }</div>
-<div class="line"><span class="lineno">  537</span> </div>
-<div class="line"><span class="lineno">  538</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  539</span>        }</div>
-<div class="line"><span class="lineno">  540</span> </div>
-<div class="line"><span class="lineno">  541</span>        Global.ProcessAgentEquipment(agent, processEquipmentItem);</div>
-<div class="line"><span class="lineno">  542</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00528">528</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  528</span>                                                                                                                     {</div>
+<div class="line"><span class="lineno">  529</span>        <span class="keywordflow">if</span> (_assignmentByAgent.TryGetValue(agent, out var assignment)) {</div>
+<div class="line"><span class="lineno">  530</span>            var processedItemCount = 0;</div>
+<div class="line"><span class="lineno">  531</span> </div>
+<div class="line"><span class="lineno">  532</span>            Global.ProcessAgentEquipment(</div>
+<div class="line"><span class="lineno">  533</span>                agent,</div>
+<div class="line"><span class="lineno">  534</span>                item =&gt; {</div>
+<div class="line"><span class="lineno">  535</span>                    processedItemCount++;</div>
+<div class="line"><span class="lineno">  536</span>                    processEquipmentItem(item);</div>
+<div class="line"><span class="lineno">  537</span>                },</div>
+<div class="line"><span class="lineno">  538</span>                (slot, missionWeapon, spawnElement) =&gt; !assignment.IsTemporarySlot(slot, spawnElement.Item));</div>
+<div class="line"><span class="lineno">  539</span> </div>
+<div class="line"><span class="lineno">  540</span>            <span class="keywordflow">if</span> (processedItemCount == 0) {</div>
+<div class="line"><span class="lineno">  541</span>                Global.Log($<span class="stringliteral">&quot;[DTES] Agent equipment returned 0 items. Fallback to Assignment. Agent={agent.Character?.Name}&quot;</span>, Colors.Yellow, Level.Debug);</div>
+<div class="line"><span class="lineno">  542</span>                ProcessAssignmentEquipmentFallback(assignment, processEquipmentItem);</div>
+<div class="line"><span class="lineno">  543</span>            }</div>
+<div class="line"><span class="lineno">  544</span> </div>
+<div class="line"><span class="lineno">  545</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  546</span>        }</div>
+<div class="line"><span class="lineno">  547</span> </div>
+<div class="line"><span class="lineno">  548</span>        Global.ProcessAgentEquipment(agent, processEquipmentItem);</div>
+<div class="line"><span class="lineno">  549</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00018">_assignmentByAgent</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00209">DynamicTroopEquipmentReupload.Global.ProcessAgentEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00544">ProcessAssignmentEquipmentFallback()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00018">_assignmentByAgent</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00209">DynamicTroopEquipmentReupload.Global.ProcessAgentEquipment()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00551">ProcessAssignmentEquipmentFallback()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00494">ReturnEquipmentFromAgents()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00501">ReturnEquipmentFromAgents()</a>.</p>
 
 </div>
 </div>
@@ -1057,33 +1060,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00544">544</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  544</span>                                                                                                                           {</div>
-<div class="line"><span class="lineno">  545</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
-<div class="line"><span class="lineno">  546</span>            <span class="keywordflow">if</span> (!assignment.CanUseMountEquipment &amp;&amp; (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))</div>
-<div class="line"><span class="lineno">  547</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  548</span> </div>
-<div class="line"><span class="lineno">  549</span>            var element = assignment.Equipment[slot];</div>
-<div class="line"><span class="lineno">  550</span>            <span class="keywordflow">if</span> (element.IsEmpty || element.Item is <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno">  551</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  552</span> </div>
-<div class="line"><span class="lineno">  553</span>            <span class="keywordflow">if</span> (element.Item.IsBannerItem || element.Item.ItemType == ItemObject.ItemTypeEnum.Banner)</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00551">551</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  551</span>                                                                                                                           {</div>
+<div class="line"><span class="lineno">  552</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
+<div class="line"><span class="lineno">  553</span>            <span class="keywordflow">if</span> (!assignment.CanUseMountEquipment &amp;&amp; (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))</div>
 <div class="line"><span class="lineno">  554</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  555</span> </div>
-<div class="line"><span class="lineno">  556</span>            <span class="keywordflow">if</span> (assignment.IsTemporarySlot(slot, element.Item))</div>
-<div class="line"><span class="lineno">  557</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  558</span> </div>
-<div class="line"><span class="lineno">  559</span>            <span class="keywordflow">if</span> (element.Item.ItemType is ItemObject.ItemTypeEnum.Arrows</div>
-<div class="line"><span class="lineno">  560</span>                                         or ItemObject.ItemTypeEnum.Bolts</div>
-<div class="line"><span class="lineno">  561</span>                                         or ItemObject.ItemTypeEnum.Thrown) { <span class="keywordflow">continue</span>; }</div>
+<div class="line"><span class="lineno">  556</span>            var element = assignment.Equipment[slot];</div>
+<div class="line"><span class="lineno">  557</span>            <span class="keywordflow">if</span> (element.IsEmpty || element.Item is <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno">  558</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  559</span> </div>
+<div class="line"><span class="lineno">  560</span>            <span class="keywordflow">if</span> (element.Item.IsBannerItem || element.Item.ItemType == ItemObject.ItemTypeEnum.Banner)</div>
+<div class="line"><span class="lineno">  561</span>                <span class="keywordflow">continue</span>;</div>
 <div class="line"><span class="lineno">  562</span> </div>
-<div class="line"><span class="lineno">  563</span>            processEquipmentItem(element.Item);</div>
-<div class="line"><span class="lineno">  564</span>        }</div>
-<div class="line"><span class="lineno">  565</span>    }</div>
+<div class="line"><span class="lineno">  563</span>            <span class="keywordflow">if</span> (assignment.IsTemporarySlot(slot, element.Item))</div>
+<div class="line"><span class="lineno">  564</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  565</span> </div>
+<div class="line"><span class="lineno">  566</span>            <span class="keywordflow">if</span> (element.Item.ItemType is ItemObject.ItemTypeEnum.Arrows</div>
+<div class="line"><span class="lineno">  567</span>                                         or ItemObject.ItemTypeEnum.Bolts</div>
+<div class="line"><span class="lineno">  568</span>                                         or ItemObject.ItemTypeEnum.Thrown) { <span class="keywordflow">continue</span>; }</div>
+<div class="line"><span class="lineno">  569</span> </div>
+<div class="line"><span class="lineno">  570</span>            processEquipmentItem(element.Item);</div>
+<div class="line"><span class="lineno">  571</span>        }</div>
+<div class="line"><span class="lineno">  572</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../da/d2a/a00086_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00521">ProcessAgentEquipmentRespectingTemporarySlots()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00528">ProcessAgentEquipmentRespectingTemporarySlots()</a>.</p>
 
 </div>
 </div>
@@ -1106,10 +1109,10 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00516">516</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  516</span>                                                                                   {</div>
-<div class="line"><span class="lineno">  517</span>        _assignmentByAgent[agent] = assignment;</div>
-<div class="line"><span class="lineno">  518</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00523">523</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  523</span>                                                                                   {</div>
+<div class="line"><span class="lineno">  524</span>        _assignmentByAgent[agent] = assignment;</div>
+<div class="line"><span class="lineno">  525</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00018">_assignmentByAgent</a>.</p>
 
@@ -1158,32 +1161,32 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00494">494</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  494</span>                                                                                                            {</div>
-<div class="line"><span class="lineno">  495</span>        var isPlayerParty  = partyId == playerPartyId;</div>
-<div class="line"><span class="lineno">  496</span>        var totalItemCount = 0;</div>
-<div class="line"><span class="lineno">  497</span> </div>
-<div class="line"><span class="lineno">  498</span>        <span class="keywordflow">foreach</span> (var agent <span class="keywordflow">in</span> agents)</div>
-<div class="line"><span class="lineno">  499</span>            ProcessAgentEquipmentRespectingTemporarySlots(agent,</div>
-<div class="line"><span class="lineno">  500</span>                                                          item =&gt; {</div>
-<div class="line"><span class="lineno">  501</span>                                                              <span class="keywordflow">if</span> (item is <span class="keyword">null</span> || !ItemBlackList.Test(item)) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  502</span> </div>
-<div class="line"><span class="lineno">  503</span>                                                              totalItemCount++;</div>
-<div class="line"><span class="lineno">  504</span>                                                              <span class="keywordflow">if</span> (isPlayerParty)</div>
-<div class="line"><span class="lineno">  505</span>                                                                  ArmyArmory.AddItemToArmory(item);</div>
-<div class="line"><span class="lineno">  506</span>                                                              <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Distributors.TryGetValue(partyId, out var distributor))</div>
-<div class="line"><span class="lineno">  507</span>                                                                  distributor.ReturnItem(item, 1);</div>
-<div class="line"><span class="lineno">  508</span>                                                          });</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00501">501</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  501</span>                                                                                                            {</div>
+<div class="line"><span class="lineno">  502</span>        var isPlayerParty  = partyId == playerPartyId;</div>
+<div class="line"><span class="lineno">  503</span>        var totalItemCount = 0;</div>
+<div class="line"><span class="lineno">  504</span> </div>
+<div class="line"><span class="lineno">  505</span>        <span class="keywordflow">foreach</span> (var agent <span class="keywordflow">in</span> agents)</div>
+<div class="line"><span class="lineno">  506</span>            ProcessAgentEquipmentRespectingTemporarySlots(agent,</div>
+<div class="line"><span class="lineno">  507</span>                                                          item =&gt; {</div>
+<div class="line"><span class="lineno">  508</span>                                                              <span class="keywordflow">if</span> (item is <span class="keyword">null</span> || !ItemBlackList.Test(item)) <span class="keywordflow">return</span>;</div>
 <div class="line"><span class="lineno">  509</span> </div>
-<div class="line"><span class="lineno">  510</span>        <span class="keywordflow">if</span> (totalItemCount &lt;= 0) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  511</span> </div>
-<div class="line"><span class="lineno">  512</span>        var partyType = isPlayerParty ? <span class="stringliteral">&quot;Player party&quot;</span> : <span class="stringliteral">&quot;Party&quot;</span>;</div>
-<div class="line"><span class="lineno">  513</span>        Global.Log($<span class="stringliteral">&quot;{partyType} {partyId} reclaimed {totalItemCount} items from agents&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  514</span>    }</div>
+<div class="line"><span class="lineno">  510</span>                                                              totalItemCount++;</div>
+<div class="line"><span class="lineno">  511</span>                                                              <span class="keywordflow">if</span> (isPlayerParty)</div>
+<div class="line"><span class="lineno">  512</span>                                                                  ArmyArmory.AddItemToArmory(item);</div>
+<div class="line"><span class="lineno">  513</span>                                                              <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Distributors.TryGetValue(partyId, out var distributor))</div>
+<div class="line"><span class="lineno">  514</span>                                                                  distributor.ReturnItem(item, 1);</div>
+<div class="line"><span class="lineno">  515</span>                                                          });</div>
+<div class="line"><span class="lineno">  516</span> </div>
+<div class="line"><span class="lineno">  517</span>        <span class="keywordflow">if</span> (totalItemCount &lt;= 0) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  518</span> </div>
+<div class="line"><span class="lineno">  519</span>        var partyType = isPlayerParty ? <span class="stringliteral">&quot;Player party&quot;</span> : <span class="stringliteral">&quot;Party&quot;</span>;</div>
+<div class="line"><span class="lineno">  520</span>        Global.Log($<span class="stringliteral">&quot;{partyType} {partyId} reclaimed {totalItemCount} items from agents&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  521</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00094">DynamicTroopEquipmentReupload.ArmyArmory.AddItemToArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00027">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00521">ProcessAgentEquipmentRespectingTemporarySlots()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00094">DynamicTroopEquipmentReupload.ArmyArmory.AddItemToArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00028">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00528">ProcessAgentEquipmentRespectingTemporarySlots()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>.</p>
 
 </div>
 </div>
@@ -1229,30 +1232,30 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00469">469</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  469</span>                                                                                                                           {</div>
-<div class="line"><span class="lineno">  470</span>        var totalItemCount = 0; <span class="comment">// 用于累计物品总数</span></div>
-<div class="line"><span class="lineno">  471</span> </div>
-<div class="line"><span class="lineno">  472</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> items) {</div>
-<div class="line"><span class="lineno">  473</span>            <span class="keywordflow">if</span> (item.Key == <span class="keyword">null</span> || item.Value &lt;= 0 || !ItemBlackList.Test(item.Key)) <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno">  474</span> </div>
-<div class="line"><span class="lineno">  475</span>            totalItemCount += item.Value;</div>
-<div class="line"><span class="lineno">  476</span> </div>
-<div class="line"><span class="lineno">  477</span>            <span class="keywordflow">if</span> (isPlayerParty)</div>
-<div class="line"><span class="lineno">  478</span>                ArmyArmory.AddItemToArmory(item.Key, item.Value);</div>
-<div class="line"><span class="lineno">  479</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Distributors.TryGetValue(partyId, out var distributor))</div>
-<div class="line"><span class="lineno">  480</span>                distributor.ReturnItem(item.Key, item.Value);</div>
-<div class="line"><span class="lineno">  481</span>        }</div>
-<div class="line"><span class="lineno">  482</span> </div>
-<div class="line"><span class="lineno">  483</span>        <span class="keywordflow">if</span> (totalItemCount &lt;= 0) <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  484</span> </div>
-<div class="line"><span class="lineno">  485</span>        var partyType = isPlayerParty ? <span class="stringliteral">&quot;Player party&quot;</span> : <span class="stringliteral">&quot;Party&quot;</span>;</div>
-<div class="line"><span class="lineno">  486</span>        Global.Log($<span class="stringliteral">&quot;{partyType} {partyId} processed a total of {totalItemCount} items&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  487</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00476">476</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  476</span>                                                                                                                           {</div>
+<div class="line"><span class="lineno">  477</span>        var totalItemCount = 0; <span class="comment">// 用于累计物品总数</span></div>
+<div class="line"><span class="lineno">  478</span> </div>
+<div class="line"><span class="lineno">  479</span>        <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> items) {</div>
+<div class="line"><span class="lineno">  480</span>            <span class="keywordflow">if</span> (item.Key == <span class="keyword">null</span> || item.Value &lt;= 0 || !ItemBlackList.Test(item.Key)) <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno">  481</span> </div>
+<div class="line"><span class="lineno">  482</span>            totalItemCount += item.Value;</div>
+<div class="line"><span class="lineno">  483</span> </div>
+<div class="line"><span class="lineno">  484</span>            <span class="keywordflow">if</span> (isPlayerParty)</div>
+<div class="line"><span class="lineno">  485</span>                ArmyArmory.AddItemToArmory(item.Key, item.Value);</div>
+<div class="line"><span class="lineno">  486</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Distributors.TryGetValue(partyId, out var distributor))</div>
+<div class="line"><span class="lineno">  487</span>                distributor.ReturnItem(item.Key, item.Value);</div>
+<div class="line"><span class="lineno">  488</span>        }</div>
+<div class="line"><span class="lineno">  489</span> </div>
+<div class="line"><span class="lineno">  490</span>        <span class="keywordflow">if</span> (totalItemCount &lt;= 0) <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  491</span> </div>
+<div class="line"><span class="lineno">  492</span>        var partyType = isPlayerParty ? <span class="stringliteral">&quot;Player party&quot;</span> : <span class="stringliteral">&quot;Party&quot;</span>;</div>
+<div class="line"><span class="lineno">  493</span>        Global.Log($<span class="stringliteral">&quot;{partyType} {partyId} processed a total of {totalItemCount} items&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  494</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00094">DynamicTroopEquipmentReupload.ArmyArmory.AddItemToArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00027">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d52/a00023_source.html#l00094">DynamicTroopEquipmentReupload.ArmyArmory.AddItemToArmory()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00028">Distributors</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>, and <a class="el" href="../../db/dab/a00089_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00443">HandlePartyItems()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00450">HandlePartyItems()</a>.</p>
 
 </div>
 </div>
@@ -1271,15 +1274,15 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00280">280</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  280</span>                                             {</div>
-<div class="line"><span class="lineno">  281</span>        Global.Log(<span class="stringliteral">&quot;ShowBattleResults() called&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno">  282</span>        <span class="keywordflow">if</span> (Mission.MissionResult?.BattleResolved == <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno">  283</span>            FinalizeMission(Mission.MissionResult);</div>
-<div class="line"><span class="lineno">  284</span>        base.ShowBattleResults();</div>
-<div class="line"><span class="lineno">  285</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00287">287</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  287</span>                                             {</div>
+<div class="line"><span class="lineno">  288</span>        Global.Log(<span class="stringliteral">&quot;ShowBattleResults() called&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno">  289</span>        <span class="keywordflow">if</span> (Mission.MissionResult?.BattleResolved == <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno">  290</span>            FinalizeMission(Mission.MissionResult);</div>
+<div class="line"><span class="lineno">  291</span>        base.ShowBattleResults();</div>
+<div class="line"><span class="lineno">  292</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
 </div>
 </div>
@@ -1298,40 +1301,45 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00055">55</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   55</span>                                            {</div>
-<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">if</span> (_areDistributorsInitialized || _isMissionEnded) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   57</span> </div>
-<div class="line"><span class="lineno">   58</span>        var mapEvent = MapEvent.PlayerMapEvent;</div>
-<div class="line"><span class="lineno">   59</span>        var mainParty = Campaign.Current?.MainParty;</div>
-<div class="line"><span class="lineno">   60</span>        <span class="keywordflow">if</span> (mapEvent == <span class="keyword">null</span> || mainParty == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
-<div class="line"><span class="lineno">   61</span> </div>
-<div class="line"><span class="lineno">   62</span>        ArmyArmory.SanitizeInPlace();</div>
-<div class="line"><span class="lineno">   63</span>        var mainPartyDistributor = <span class="keyword">new</span> PartyEquipmentDistributor(Mission, mainParty, ArmyArmory.Armory);</div>
-<div class="line"><span class="lineno">   64</span>        mainPartyDistributor.RunAsync();</div>
-<div class="line"><span class="lineno">   65</span>        Distributors[mainParty.Id] = mainPartyDistributor;</div>
-<div class="line"><span class="lineno">   66</span>        PartyBattleSides[mainParty.Id] = mainParty.Party.Side;</div>
-<div class="line"><span class="lineno">   67</span> </div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">foreach</span> (var partyBase <span class="keywordflow">in</span> mapEvent.InvolvedParties) {</div>
-<div class="line"><span class="lineno">   69</span>            var party = partyBase.MobileParty;</div>
-<div class="line"><span class="lineno">   70</span>            <span class="keywordflow">if</span> (party == <span class="keyword">null</span> || !party.IsValid() || party == mainParty || party.LeaderHero == <span class="keyword">null</span>) { <span class="keywordflow">continue</span>; }</div>
-<div class="line"><span class="lineno">   71</span> </div>
-<div class="line"><span class="lineno">   72</span>            var partyArmory = EveryoneCampaignBehavior.SanitizePartyArmory(party.Id);</div>
-<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">if</span> (partyArmory == <span class="keyword">null</span>) { <span class="keywordflow">continue</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00057">57</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   57</span>                                            {</div>
+<div class="line"><span class="lineno">   58</span>        <span class="keywordflow">if</span> (_areDistributorsInitialized || _isMissionEnded) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><span class="lineno">   59</span> </div>
+<div class="line"><span class="lineno">   60</span>        var mapEvent = MapEvent.PlayerMapEvent;</div>
+<div class="line"><span class="lineno">   61</span>        var mainParty = Campaign.Current?.MainParty;</div>
+<div class="line"><span class="lineno">   62</span>        <span class="keywordflow">if</span> (mapEvent == <span class="keyword">null</span> || mainParty == <span class="keyword">null</span>) { <span class="keywordflow">return</span>; }</div>
+<div class="line"><span class="lineno">   63</span> </div>
+<div class="line"><span class="lineno">   64</span>        ArmyArmory.SanitizeInPlace();</div>
+<div class="line"><span class="lineno">   65</span>        var mainPartyDistributor = <span class="keyword">new</span> PartyEquipmentDistributor(Mission, mainParty, ArmyArmory.Armory);</div>
+<div class="line"><span class="lineno">   66</span>        mainPartyDistributor.RunAsync();</div>
+<div class="line"><span class="lineno">   67</span>        Distributors[mainParty.Id] = mainPartyDistributor;</div>
+<div class="line"><span class="lineno">   68</span>        _sideByInvolvedParty[mainParty.Id] = mainParty.Party.Side;</div>
+<div class="line"><span class="lineno">   69</span>        PartyBattleSides[mainParty.Id] = mainParty.Party.Side;</div>
+<div class="line"><span class="lineno">   70</span> </div>
+<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">foreach</span> (var partyBase <span class="keywordflow">in</span> mapEvent.InvolvedParties) {</div>
+<div class="line"><span class="lineno">   72</span>            var party = partyBase.MobileParty;</div>
+<div class="line"><span class="lineno">   73</span>            <span class="keywordflow">if</span> (party == <span class="keyword">null</span> || party == mainParty) { <span class="keywordflow">continue</span>; }</div>
 <div class="line"><span class="lineno">   74</span> </div>
-<div class="line"><span class="lineno">   75</span>            var distributor = <span class="keyword">new</span> PartyEquipmentDistributor(Mission, party, partyArmory);</div>
-<div class="line"><span class="lineno">   76</span>            distributor.RunAsync();</div>
-<div class="line"><span class="lineno">   77</span>            Distributors[party.Id] = distributor;</div>
+<div class="line"><span class="lineno">   75</span>            _sideByInvolvedParty[party.Id] = partyBase.Side;</div>
+<div class="line"><span class="lineno">   76</span> </div>
+<div class="line"><span class="lineno">   77</span>            <span class="keywordflow">if</span> (!party.IsValid() || party.LeaderHero == <span class="keyword">null</span>) { <span class="keywordflow">continue</span>; }</div>
 <div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>            PartyBattleSides[party.Id] = partyBase.Side;</div>
-<div class="line"><span class="lineno">   80</span>        }</div>
+<div class="line"><span class="lineno">   79</span>            var partyArmory = EveryoneCampaignBehavior.SanitizePartyArmory(party.Id);</div>
+<div class="line"><span class="lineno">   80</span>            <span class="keywordflow">if</span> (partyArmory == <span class="keyword">null</span>) { <span class="keywordflow">continue</span>; }</div>
 <div class="line"><span class="lineno">   81</span> </div>
-<div class="line"><span class="lineno">   82</span>        _areDistributorsInitialized = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   83</span>    }</div>
+<div class="line"><span class="lineno">   82</span>            var distributor = <span class="keyword">new</span> PartyEquipmentDistributor(Mission, party, partyArmory);</div>
+<div class="line"><span class="lineno">   83</span>            distributor.RunAsync();</div>
+<div class="line"><span class="lineno">   84</span>            Distributors[party.Id] = distributor;</div>
+<div class="line"><span class="lineno">   85</span> </div>
+<div class="line"><span class="lineno">   86</span>            PartyBattleSides[party.Id] = partyBase.Side;</div>
+<div class="line"><span class="lineno">   87</span>        }</div>
+<div class="line"><span class="lineno">   88</span> </div>
+<div class="line"><span class="lineno">   89</span>        _areDistributorsInitialized = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   90</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00030">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00032">_isMissionEnded</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00027">Distributors</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00029">PartyBattleSides</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00108">DynamicTroopEquipmentReupload.ArmyArmory.SanitizeInPlace()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00502">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.SanitizePartyArmory()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d8b/a00059_source.html#l00031">_areDistributorsInitialized</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00033">_isMissionEnded</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00019">_sideByInvolvedParty</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00028">Distributors</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00030">PartyBattleSides</a>, <a class="el" href="../../d3/d52/a00023_source.html#l00108">DynamicTroopEquipmentReupload.ArmyArmory.SanitizeInPlace()</a>, and <a class="el" href="../../da/d45/a00011_source.html#l00502">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.SanitizePartyArmory()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>.</p>
 
 </div>
 </div>
@@ -1356,9 +1364,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00030">30</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00031">31</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -1384,7 +1392,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00018">18</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00521">ProcessAgentEquipmentRespectingTemporarySlots()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00516">RegisterSpawnedAgentAssignment()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00528">ProcessAgentEquipmentRespectingTemporarySlots()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00523">RegisterSpawnedAgentAssignment()</a>.</p>
 
 </div>
 </div>
@@ -1408,9 +1416,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00032">32</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00033">33</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -1434,9 +1442,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00019">19</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00020">20</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00348">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00443">HandlePartyItems()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00355">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00450">HandlePartyItems()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>.</p>
 
 </div>
 </div>
@@ -1460,9 +1468,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00023">23</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00024">24</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>.</p>
 
 </div>
 </div>
@@ -1486,9 +1494,35 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00025">25</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00026">26</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00397">NavalCasualtyLootOwner()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00404">NavalCasualtyLootOwner()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>.</p>
+
+</div>
+</div>
+<a id="a0808dd7d0f546ef5b3f9c374b0c3160f" name="a0808dd7d0f546ef5b3f9c374b0c3160f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0808dd7d0f546ef5b3f9c374b0c3160f">&#9670;&#160;</a></span>_sideByInvolvedParty</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly Dictionary&lt;MBGUID, BattleSideEnum&gt; DynamicTroopEquipmentReupload.DynamicTroopMissionLogic._sideByInvolvedParty = new()</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00019">19</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -1512,9 +1546,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00021">21</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00022">22</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00348">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00355">DistributeNavalCasualtyLoot()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00112">OnAgentRemoved()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>.</p>
 
 </div>
 </div>
@@ -1530,9 +1564,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00027">27</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00028">28</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00494">ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00469">ReturnItemsToDestination()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00501">ReturnEquipmentFromAgents()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00476">ReturnItemsToDestination()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
@@ -1548,9 +1582,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00029">29</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d8b/a00059_source.html#l00030">30</a> of file <a class="el" href="../../d3/d8b/a00059_source.html">DynamicTroopMissionLogic.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00295">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00397">NavalCasualtyLootOwner()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00105">OnAgentRemoved()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00038">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00055">TryInitializeDistributors()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d8b/a00059_source.html#l00302">FinalizeMission()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00404">NavalCasualtyLootOwner()</a>, <a class="el" href="../../d3/d8b/a00059_source.html#l00039">OnBehaviorInitialize()</a>, and <a class="el" href="../../d3/d8b/a00059_source.html#l00057">TryInitializeDistributors()</a>.</p>
 
 </div>
 </div>
