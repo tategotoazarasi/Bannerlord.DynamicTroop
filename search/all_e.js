@@ -31,5 +31,6 @@ var searchData=
   ['ontick_28',['OnTick',['../dc/d28/a00223.html#a53d56ad1fd52b7961b62c54238517cf6',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['ontrooprecruited_29',['OnTroopRecruited',['../d3/d42/a00235.html#a4f3b53532a6cd49d7c1b79352cba4649',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]],
   ['openarmoryscreen_30',['OpenArmoryScreen',['../d6/daa/a00187.html#ac26ec40663c03170097989b927a5504f',1,'DynamicTroopEquipmentReupload::ArmyArmoryBehavior']]],
-  ['overview_31',['Overview',['../dd/dea/a00408.html#autotoc_md3',1,'']]]
+  ['otherequipment_31',['OtherEquipment',['../d4/d6f/a00315.html#a05e4b2a7103d464afa0435130b294dc7ab341f3d066f4f0062bfb22eb44cd31c3',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
+  ['overview_32',['Overview',['../dd/dea/a00408.html#autotoc_md3',1,'']]]
 ];

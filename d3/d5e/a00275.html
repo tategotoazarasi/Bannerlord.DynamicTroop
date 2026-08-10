@@ -133,6 +133,8 @@ Private Member Functions</h2></td></tr>
 Static Private Member Functions</h2></td></tr>
 <tr class="memitem:ab6ced41be8f607ee478547ffcbb67890" id="r_ab6ced41be8f607ee478547ffcbb67890"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6ced41be8f607ee478547ffcbb67890">CanOpenArmory</a> (MapBarVM mapBar, MobileParty? mainParty)</td></tr>
 <tr class="separator:ab6ced41be8f607ee478547ffcbb67890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8af9aec5fba0f7a34ad8bfa307ddb7c5" id="r_a8af9aec5fba0f7a34ad8bfa307ddb7c5"><td class="memItemLeft" align="right" valign="top">static TextObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8af9aec5fba0f7a34ad8bfa307ddb7c5">GetArmoryShortageName</a> (<a class="el" href="../../d4/d6f/a00315.html#a05e4b2a7103d464afa0435130b294dc7">PartyEquipmentDistributor.ArmoryShortageType</a> shortageType)</td></tr>
+<tr class="separator:a8af9aec5fba0f7a34ad8bfa307ddb7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -218,19 +220,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00112">112</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  112</span>                                                                               {</div>
-<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  114</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  115</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
-<div class="line"><span class="lineno">  116</span>               mapBar.IsEnabled &amp;&amp;</div>
-<div class="line"><span class="lineno">  117</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
-<div class="line"><span class="lineno">  118</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
-<div class="line"><span class="lineno">  119</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
-<div class="line"><span class="lineno">  120</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  121</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00150">150</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  150</span>                                                                               {</div>
+<div class="line"><span class="lineno">  151</span>        <span class="keywordflow">return</span> Campaign.Current != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  152</span>               mainParty != <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  153</span>               Hero.MainHero is { IsPrisoner: <span class="keyword">false</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  154</span>               mapBar.IsEnabled &amp;&amp;</div>
+<div class="line"><span class="lineno">  155</span>               mapBar.MapTimeControl is { IsInMap: <span class="keyword">true</span>, IsCenterPanelEnabled: <span class="keyword">true</span> } &amp;&amp;</div>
+<div class="line"><span class="lineno">  156</span>               !mainParty.IsTransitionInProgress &amp;&amp;</div>
+<div class="line"><span class="lineno">  157</span>               mainParty.MapEvent == <span class="keyword">null</span> &amp;&amp;</div>
+<div class="line"><span class="lineno">  158</span>               PlayerEncounter.Current == <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  159</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00124">ExecuteOpenArmyArmory()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00162">ExecuteOpenArmyArmory()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -249,15 +251,69 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00124">124</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  124</span>                                        {</div>
-<div class="line"><span class="lineno">  125</span>        var mapBar = ViewModel;</div>
-<div class="line"><span class="lineno">  126</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
-<div class="line"><span class="lineno">  127</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; CanOpenArmory(mapBar, mainParty))</div>
-<div class="line"><span class="lineno">  128</span>            ArmyArmoryBehavior.OpenArmoryScreen();</div>
-<div class="line"><span class="lineno">  129</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00162">162</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  162</span>                                        {</div>
+<div class="line"><span class="lineno">  163</span>        var mapBar = ViewModel;</div>
+<div class="line"><span class="lineno">  164</span>        var mainParty = Campaign.Current != <span class="keyword">null</span> ? MobileParty.MainParty : <span class="keyword">null</span>;</div>
+<div class="line"><span class="lineno">  165</span>        <span class="keywordflow">if</span> (mapBar != <span class="keyword">null</span> &amp;&amp; CanOpenArmory(mapBar, mainParty))</div>
+<div class="line"><span class="lineno">  166</span>            ArmyArmoryBehavior.OpenArmoryScreen();</div>
+<div class="line"><span class="lineno">  167</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00112">CanOpenArmory()</a>, and <a class="el" href="../../d9/d77/a00095_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00150">CanOpenArmory()</a>, and <a class="el" href="../../d9/d77/a00095_source.html#l00178">DynamicTroopEquipmentReupload.ArmyArmoryBehavior.OpenArmoryScreen()</a>.</p>
+
+</div>
+</div>
+<a id="a8af9aec5fba0f7a34ad8bfa307ddb7c5" name="a8af9aec5fba0f7a34ad8bfa307ddb7c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8af9aec5fba0f7a34ad8bfa307ddb7c5">&#9670;&#160;</a></span>GetArmoryShortageName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static TextObject DynamicTroopEquipmentReupload.GUIExtensions.MapArmoryReadinessMixin.GetArmoryShortageName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/d6f/a00315.html#a05e4b2a7103d464afa0435130b294dc7">PartyEquipmentDistributor.ArmoryShortageType</a></td>          <td class="paramname"><span class="paramname"><em>shortageType</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00098">98</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   98</span>                                                                                                               {</div>
+<div class="line"><span class="lineno">   99</span>        <span class="keywordflow">return</span> shortageType <span class="keywordflow">switch</span> {</div>
+<div class="line"><span class="lineno">  100</span>            PartyEquipmentDistributor.ArmoryShortageType.BodyArmor =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_body_armor}Body armor&quot;</span>),</div>
+<div class="line"><span class="lineno">  101</span>            PartyEquipmentDistributor.ArmoryShortageType.LegArmor =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_leg_armor}Leg armor&quot;</span>),</div>
+<div class="line"><span class="lineno">  102</span>            PartyEquipmentDistributor.ArmoryShortageType.HeadArmor =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_helmets}Helmets&quot;</span>),</div>
+<div class="line"><span class="lineno">  103</span>            PartyEquipmentDistributor.ArmoryShortageType.HandArmor =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_gloves}Gloves&quot;</span>),</div>
+<div class="line"><span class="lineno">  104</span>            PartyEquipmentDistributor.ArmoryShortageType.Cape =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_capes}Capes&quot;</span>),</div>
+<div class="line"><span class="lineno">  105</span>            PartyEquipmentDistributor.ArmoryShortageType.Horse =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_horses}Horses&quot;</span>),</div>
+<div class="line"><span class="lineno">  106</span>            PartyEquipmentDistributor.ArmoryShortageType.HorseHarness =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_horse_armor}Horse armor&quot;</span>),</div>
+<div class="line"><span class="lineno">  107</span>            PartyEquipmentDistributor.ArmoryShortageType.MeleeWeapon =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_melee_weapons}Melee weapons&quot;</span>),</div>
+<div class="line"><span class="lineno">  108</span>            PartyEquipmentDistributor.ArmoryShortageType.Shield =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_shields}Shields&quot;</span>),</div>
+<div class="line"><span class="lineno">  109</span>            PartyEquipmentDistributor.ArmoryShortageType.Bow =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_bows}Bows&quot;</span>),</div>
+<div class="line"><span class="lineno">  110</span>            PartyEquipmentDistributor.ArmoryShortageType.Crossbow =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_crossbows}Crossbows&quot;</span>),</div>
+<div class="line"><span class="lineno">  111</span>            PartyEquipmentDistributor.ArmoryShortageType.Sling =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_slings}Slings&quot;</span>),</div>
+<div class="line"><span class="lineno">  112</span>            PartyEquipmentDistributor.ArmoryShortageType.Quiver =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_quivers}Quivers&quot;</span>),</div>
+<div class="line"><span class="lineno">  113</span>            PartyEquipmentDistributor.ArmoryShortageType.Ammunition =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_ammunition}Ammunition&quot;</span>),</div>
+<div class="line"><span class="lineno">  114</span>            PartyEquipmentDistributor.ArmoryShortageType.ThrowingWeapon =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_throwing_weapons}Throwing weapons&quot;</span>),</div>
+<div class="line"><span class="lineno">  115</span>            PartyEquipmentDistributor.ArmoryShortageType.Pistol =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_pistols}Pistols&quot;</span>),</div>
+<div class="line"><span class="lineno">  116</span>            PartyEquipmentDistributor.ArmoryShortageType.Musket =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_muskets}Muskets&quot;</span>),</div>
+<div class="line"><span class="lineno">  117</span>            PartyEquipmentDistributor.ArmoryShortageType.Banner =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_banners}Banners&quot;</span>),</div>
+<div class="line"><span class="lineno">  118</span>            _ =&gt; <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_shortage_other_equipment}Other equipment&quot;</span>)</div>
+<div class="line"><span class="lineno">  119</span>        };</div>
+<div class="line"><span class="lineno">  120</span>    }</div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00102">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Ammunition</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00106">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Banner</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00089">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.BodyArmor</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00098">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Bow</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00093">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Cape</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00099">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Crossbow</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00092">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.HandArmor</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00091">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.HeadArmor</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00094">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Horse</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00095">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.HorseHarness</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00090">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.LegArmor</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00096">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeleeWeapon</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00105">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Musket</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00104">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Pistol</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00101">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Quiver</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00097">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Shield</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00100">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.Sling</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.ThrowingWeapon</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -284,34 +340,34 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00084">84</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   84</span>                                                                         {</div>
-<div class="line"><span class="lineno">   85</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
-<div class="line"><span class="lineno">   86</span> </div>
-<div class="line"><span class="lineno">   87</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
-<div class="line"><span class="lineno">   88</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
-<div class="line"><span class="lineno">   89</span>                currentTroopCounts[character] = rosterElement.Number;</div>
-<div class="line"><span class="lineno">   90</span>        }</div>
-<div class="line"><span class="lineno">   91</span> </div>
-<div class="line"><span class="lineno">   92</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == _lastMainPartyTroopCounts.Count) {</div>
-<div class="line"><span class="lineno">   93</span>            var compositionChanged = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   94</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
-<div class="line"><span class="lineno">   95</span>                <span class="keywordflow">if</span> (!_lastMainPartyTroopCounts.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
-<div class="line"><span class="lineno">   96</span>                    compositionChanged = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   97</span>                    <span class="keywordflow">break</span>;</div>
-<div class="line"><span class="lineno">   98</span>                }</div>
-<div class="line"><span class="lineno">   99</span>            }</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
-<div class="line"><span class="lineno">  102</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  103</span>        }</div>
-<div class="line"><span class="lineno">  104</span> </div>
-<div class="line"><span class="lineno">  105</span>        _lastMainPartyTroopCounts.Clear();</div>
-<div class="line"><span class="lineno">  106</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
-<div class="line"><span class="lineno">  107</span>            _lastMainPartyTroopCounts.Add(troopCount.Key, troopCount.Value);</div>
-<div class="line"><span class="lineno">  108</span> </div>
-<div class="line"><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00122">122</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  122</span>                                                                         {</div>
+<div class="line"><span class="lineno">  123</span>        var currentTroopCounts = <span class="keyword">new</span> Dictionary&lt;CharacterObject, int&gt;();</div>
+<div class="line"><span class="lineno">  124</span> </div>
+<div class="line"><span class="lineno">  125</span>        <span class="keywordflow">foreach</span> (var rosterElement <span class="keywordflow">in</span> mainParty.MemberRoster.GetTroopRoster()) {</div>
+<div class="line"><span class="lineno">  126</span>            <span class="keywordflow">if</span> (rosterElement.Character is CharacterObject { IsHero: false } character &amp;&amp; rosterElement.Number &gt; 0)</div>
+<div class="line"><span class="lineno">  127</span>                currentTroopCounts[character] = rosterElement.Number;</div>
+<div class="line"><span class="lineno">  128</span>        }</div>
+<div class="line"><span class="lineno">  129</span> </div>
+<div class="line"><span class="lineno">  130</span>        <span class="keywordflow">if</span> (currentTroopCounts.Count == _lastMainPartyTroopCounts.Count) {</div>
+<div class="line"><span class="lineno">  131</span>            var compositionChanged = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  132</span>            <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts) {</div>
+<div class="line"><span class="lineno">  133</span>                <span class="keywordflow">if</span> (!_lastMainPartyTroopCounts.TryGetValue(troopCount.Key, out var previousCount) || previousCount != troopCount.Value) {</div>
+<div class="line"><span class="lineno">  134</span>                    compositionChanged = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  135</span>                    <span class="keywordflow">break</span>;</div>
+<div class="line"><span class="lineno">  136</span>                }</div>
+<div class="line"><span class="lineno">  137</span>            }</div>
+<div class="line"><span class="lineno">  138</span> </div>
+<div class="line"><span class="lineno">  139</span>            <span class="keywordflow">if</span> (!compositionChanged)</div>
+<div class="line"><span class="lineno">  140</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">  141</span>        }</div>
+<div class="line"><span class="lineno">  142</span> </div>
+<div class="line"><span class="lineno">  143</span>        _lastMainPartyTroopCounts.Clear();</div>
+<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">foreach</span> (var troopCount <span class="keywordflow">in</span> currentTroopCounts)</div>
+<div class="line"><span class="lineno">  145</span>            _lastMainPartyTroopCounts.Add(troopCount.Key, troopCount.Value);</div>
+<div class="line"><span class="lineno">  146</span> </div>
+<div class="line"><span class="lineno">  147</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">  148</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>.</p>
 
@@ -376,14 +432,28 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">   74</span>        var readiness = PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness(!mainPartyAtSea);</div>
 <div class="line"><span class="lineno">   75</span>        ArmoryReadinessFillHeight = INDICATOR_HEIGHT * readiness.FillRatio;</div>
 <div class="line"><span class="lineno">   76</span> </div>
-<div class="line"><span class="lineno">   77</span>        var hintText = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)&quot;</span>);</div>
-<div class="line"><span class="lineno">   78</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;PERCENT&quot;</span>, readiness.Percentage);</div>
-<div class="line"><span class="lineno">   79</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;FILLED&quot;</span>, readiness.EquippedSlots);</div>
-<div class="line"><span class="lineno">   80</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;EXPECTED&quot;</span>, readiness.ExpectedSlots);</div>
-<div class="line"><span class="lineno">   81</span>        ArmoryReadinessHint = <span class="keyword">new</span> HintViewModel(hintText);</div>
-<div class="line"><span class="lineno">   82</span>    }</div>
+<div class="line"><span class="lineno">   77</span>        var readinessText = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)&quot;</span>);</div>
+<div class="line"><span class="lineno">   78</span>        readinessText.SetTextVariable(<span class="stringliteral">&quot;PERCENT&quot;</span>, readiness.Percentage);</div>
+<div class="line"><span class="lineno">   79</span>        readinessText.SetTextVariable(<span class="stringliteral">&quot;FILLED&quot;</span>, readiness.EquippedSlots);</div>
+<div class="line"><span class="lineno">   80</span>        readinessText.SetTextVariable(<span class="stringliteral">&quot;EXPECTED&quot;</span>, readiness.ExpectedSlots);</div>
+<div class="line"><span class="lineno">   81</span> </div>
+<div class="line"><span class="lineno">   82</span>        TextObject shortageText;</div>
+<div class="line"><span class="lineno">   83</span>        <span class="keywordflow">if</span> (readiness.LargestShortageCount &gt; 0) {</div>
+<div class="line"><span class="lineno">   84</span>            shortageText = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_readiness_shortage}Most needed equipment: {TYPE} ({COUNT} missing)&quot;</span>);</div>
+<div class="line"><span class="lineno">   85</span>            shortageText.SetTextVariable(<span class="stringliteral">&quot;TYPE&quot;</span>, GetArmoryShortageName(readiness.LargestShortageType));</div>
+<div class="line"><span class="lineno">   86</span>            shortageText.SetTextVariable(<span class="stringliteral">&quot;COUNT&quot;</span>, readiness.LargestShortageCount);</div>
+<div class="line"><span class="lineno">   87</span>        }</div>
+<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno">   89</span>            shortageText = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{=armory_readiness_no_shortage}No equipment shortages&quot;</span>);</div>
+<div class="line"><span class="lineno">   90</span>        }</div>
+<div class="line"><span class="lineno">   91</span> </div>
+<div class="line"><span class="lineno">   92</span>        var hintText = <span class="keyword">new</span> TextObject(<span class="stringliteral">&quot;{READINESS}\n{SHORTAGE}&quot;</span>);</div>
+<div class="line"><span class="lineno">   93</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;READINESS&quot;</span>, readinessText);</div>
+<div class="line"><span class="lineno">   94</span>        hintText.SetTextVariable(<span class="stringliteral">&quot;SHORTAGE&quot;</span>, shortageText);</div>
+<div class="line"><span class="lineno">   95</span>        ArmoryReadinessHint = <span class="keyword">new</span> HintViewModel(hintText);</div>
+<div class="line"><span class="lineno">   96</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00025">_hasReadinessContextSnapshot</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00023">_lastArmoryVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00027">_lastMainPartyAtSea</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00024">_lastMemberRosterVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00026">_lastPreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00022">_trackedMainParty</a>, <a class="el" href="../../d5/de0/a00050_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00144">ArmoryReadinessFillHeight</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00156">ArmoryReadinessHint</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00112">CanOpenArmory()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00019">INDICATOR_HEIGHT</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00132">IsArmoryReadinessVisible</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00084">MainPartyTroopCompositionChanged()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00103">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/dc1/a00092_source.html#l00025">_hasReadinessContextSnapshot</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00023">_lastArmoryVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00027">_lastMainPartyAtSea</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00021">_lastMainPartyTroopCounts</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00024">_lastMemberRosterVersion</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00026">_lastPreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00022">_trackedMainParty</a>, <a class="el" href="../../d5/de0/a00050_source.html#l00027">DynamicTroopEquipmentReupload.ArmyArmory.Armory</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00182">ArmoryReadinessFillHeight</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00194">ArmoryReadinessHint</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00150">CanOpenArmory()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00098">GetArmoryShortageName()</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00019">INDICATOR_HEIGHT</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00170">IsArmoryReadinessVisible</a>, <a class="el" href="../../d1/dc1/a00092_source.html#l00122">MainPartyTroopCompositionChanged()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00130">DynamicTroopEquipmentReupload.PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
 
 </div>
 </div>
@@ -562,7 +632,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00021">21</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00084">MainPartyTroopCompositionChanged()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00122">MainPartyTroopCompositionChanged()</a>, and <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
 </div>
 </div>
@@ -691,17 +761,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00144">144</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  144</span>                                           {</div>
-<div class="line"><span class="lineno">  145</span>        <span class="keyword">get</span> =&gt; _armoryReadinessFillHeight;</div>
-<div class="line"><span class="lineno">  146</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  147</span>            <span class="keywordflow">if</span> (_armoryReadinessFillHeight.Equals(value))</div>
-<div class="line"><span class="lineno">  148</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  149</span> </div>
-<div class="line"><span class="lineno">  150</span>            _armoryReadinessFillHeight = value;</div>
-<div class="line"><span class="lineno">  151</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  152</span>        }</div>
-<div class="line"><span class="lineno">  153</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00182">182</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  182</span>                                           {</div>
+<div class="line"><span class="lineno">  183</span>        <span class="keyword">get</span> =&gt; _armoryReadinessFillHeight;</div>
+<div class="line"><span class="lineno">  184</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  185</span>            <span class="keywordflow">if</span> (_armoryReadinessFillHeight.Equals(value))</div>
+<div class="line"><span class="lineno">  186</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  187</span> </div>
+<div class="line"><span class="lineno">  188</span>            _armoryReadinessFillHeight = value;</div>
+<div class="line"><span class="lineno">  189</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  190</span>        }</div>
+<div class="line"><span class="lineno">  191</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
@@ -727,17 +797,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00156">156</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  156</span>                                             {</div>
-<div class="line"><span class="lineno">  157</span>        <span class="keyword">get</span> =&gt; _armoryReadinessHint;</div>
-<div class="line"><span class="lineno">  158</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  159</span>            <span class="keywordflow">if</span> (ReferenceEquals(_armoryReadinessHint, value))</div>
-<div class="line"><span class="lineno">  160</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  161</span> </div>
-<div class="line"><span class="lineno">  162</span>            _armoryReadinessHint = value;</div>
-<div class="line"><span class="lineno">  163</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  164</span>        }</div>
-<div class="line"><span class="lineno">  165</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00194">194</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  194</span>                                             {</div>
+<div class="line"><span class="lineno">  195</span>        <span class="keyword">get</span> =&gt; _armoryReadinessHint;</div>
+<div class="line"><span class="lineno">  196</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  197</span>            <span class="keywordflow">if</span> (ReferenceEquals(_armoryReadinessHint, value))</div>
+<div class="line"><span class="lineno">  198</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  199</span> </div>
+<div class="line"><span class="lineno">  200</span>            _armoryReadinessHint = value;</div>
+<div class="line"><span class="lineno">  201</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  202</span>        }</div>
+<div class="line"><span class="lineno">  203</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
@@ -763,17 +833,17 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00132">132</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">  132</span>                                         {</div>
-<div class="line"><span class="lineno">  133</span>        <span class="keyword">get</span> =&gt; _isArmoryReadinessVisible;</div>
-<div class="line"><span class="lineno">  134</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
-<div class="line"><span class="lineno">  135</span>            <span class="keywordflow">if</span> (_isArmoryReadinessVisible == value)</div>
-<div class="line"><span class="lineno">  136</span>                <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno">  137</span> </div>
-<div class="line"><span class="lineno">  138</span>            _isArmoryReadinessVisible = value;</div>
-<div class="line"><span class="lineno">  139</span>            OnPropertyChangedWithValue(value);</div>
-<div class="line"><span class="lineno">  140</span>        }</div>
-<div class="line"><span class="lineno">  141</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d1/dc1/a00092_source.html#l00170">170</a> of file <a class="el" href="../../d1/dc1/a00092_source.html">MapArmoryReadiness.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  170</span>                                         {</div>
+<div class="line"><span class="lineno">  171</span>        <span class="keyword">get</span> =&gt; _isArmoryReadinessVisible;</div>
+<div class="line"><span class="lineno">  172</span>        <span class="keyword">private</span> <span class="keyword">set</span> {</div>
+<div class="line"><span class="lineno">  173</span>            <span class="keywordflow">if</span> (_isArmoryReadinessVisible == value)</div>
+<div class="line"><span class="lineno">  174</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno">  175</span> </div>
+<div class="line"><span class="lineno">  176</span>            _isArmoryReadinessVisible = value;</div>
+<div class="line"><span class="lineno">  177</span>            OnPropertyChangedWithValue(value);</div>
+<div class="line"><span class="lineno">  178</span>        }</div>
+<div class="line"><span class="lineno">  179</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d1/dc1/a00092_source.html#l00036">OnRefresh()</a>.</p>
 
