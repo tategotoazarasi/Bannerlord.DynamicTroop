@@ -84,14 +84,41 @@ public class PartyEquipmentDistributor {
 		_equipmentToAssign = new ConcurrentDictionary<EquipmentElement, int>(new EquipmentElementComparer());
 	}
 
+	internal enum ArmoryShortageType {
+		None,
+		BodyArmor,
+		LegArmor,
+		HeadArmor,
+		HandArmor,
+		Cape,
+		Horse,
+		HorseHarness,
+		MeleeWeapon,
+		Shield,
+		Bow,
+		Crossbow,
+		Sling,
+		Quiver,
+		Ammunition,
+		ThrowingWeapon,
+		Pistol,
+		Musket,
+		Banner,
+		OtherEquipment
+	}
+
 	internal readonly struct ArmoryReadiness {
-		public ArmoryReadiness(int equippedSlots, int expectedSlots) {
+		public ArmoryReadiness(int equippedSlots, int expectedSlots, ArmoryShortageType largestShortageType, int largestShortageCount) {
 			EquippedSlots = equippedSlots;
 			ExpectedSlots = expectedSlots;
+			LargestShortageType = largestShortageType;
+			LargestShortageCount = largestShortageCount;
 		}
 
 		public int EquippedSlots { get; }
 		public int ExpectedSlots { get; }
+		public ArmoryShortageType LargestShortageType { get; }
+		public int LargestShortageCount { get; }
 		public float FillRatio => ExpectedSlots > 0
 			? EquippedSlots / (float)ExpectedSlots
 			: 0f;
@@ -103,7 +130,7 @@ public class PartyEquipmentDistributor {
 	internal static ArmoryReadiness MeasureMainPartyArmoryReadiness(bool canUseMountEquipment) {
 		var mainParty = MobileParty.MainParty;
 		if (mainParty == null)
-			return new ArmoryReadiness(0, 0);
+			return new ArmoryReadiness(0, 0, ArmoryShortageType.None, 0);
 
 		// refreshed campaign map before armory transactions have been finalized
 		var armorySnapshot = new ItemRoster();
@@ -148,6 +175,36 @@ public class PartyEquipmentDistributor {
 
 		var equippedSlots = 0;
 		var expectedSlots = 0;
+		var missingSlotsByType = new Dictionary<ArmoryShortageType, int>();
+
+		void CountMissingSlot(ArmoryShortageType shortageType) {
+			missingSlotsByType.TryGetValue(shortageType, out var missingCount);
+			missingSlotsByType[shortageType] = missingCount + 1;
+		}
+
+		static ArmoryShortageType GetShortageType(ItemTypeEnum itemType) {
+			return itemType switch {
+				ItemTypeEnum.BodyArmor or ItemTypeEnum.ChestArmor => ArmoryShortageType.BodyArmor,
+				ItemTypeEnum.LegArmor => ArmoryShortageType.LegArmor,
+				ItemTypeEnum.HeadArmor => ArmoryShortageType.HeadArmor,
+				ItemTypeEnum.HandArmor => ArmoryShortageType.HandArmor,
+				ItemTypeEnum.Cape => ArmoryShortageType.Cape,
+				ItemTypeEnum.Horse => ArmoryShortageType.Horse,
+				ItemTypeEnum.HorseHarness => ArmoryShortageType.HorseHarness,
+				ItemTypeEnum.OneHandedWeapon or ItemTypeEnum.TwoHandedWeapon or ItemTypeEnum.Polearm => ArmoryShortageType.MeleeWeapon,
+				ItemTypeEnum.Shield => ArmoryShortageType.Shield,
+				ItemTypeEnum.Bow => ArmoryShortageType.Bow,
+				ItemTypeEnum.Crossbow => ArmoryShortageType.Crossbow,
+				ItemTypeEnum.Sling => ArmoryShortageType.Sling,
+				ItemTypeEnum.Arrows or ItemTypeEnum.Bolts => ArmoryShortageType.Quiver,
+				ItemTypeEnum.SlingStones or ItemTypeEnum.Bullets => ArmoryShortageType.Ammunition,
+				ItemTypeEnum.Thrown => ArmoryShortageType.ThrowingWeapon,
+				ItemTypeEnum.Pistol => ArmoryShortageType.Pistol,
+				ItemTypeEnum.Musket => ArmoryShortageType.Musket,
+				ItemTypeEnum.Banner => ArmoryShortageType.Banner,
+				_ => ArmoryShortageType.OtherEquipment
+			};
+		}
 
 		foreach (var assignment in armoryPreview.Assignments)
 		{
@@ -181,6 +238,8 @@ public class PartyEquipmentDistributor {
 					var assignedEquipment = assignment.GetEquipmentFromSlot(slot);
 					if (!assignedEquipment.IsEmpty && assignedEquipment.Item != null)
 						equippedSlots++;
+					else
+						CountMissingSlot(GetShortageType(expectedEquipment.Item.ItemType));
 
 					continue;
 				}
@@ -207,20 +266,20 @@ public class PartyEquipmentDistributor {
 
 						var assignedWeapon = assignment.GetEquipmentFromSlot(slot);
 						var assignedWeaponItem = assignedWeapon.Item;
+						var matchesExpectedWeapon =
+							!assignedWeapon.IsEmpty &&
+							assignedWeaponItem != null &&
+							(expectedItem.IsBow() && assignedWeaponItem.IsBow() ||
+							 expectedItem.IsCrossBow() && assignedWeaponItem.IsCrossBow() ||
+							 expectedItem.IsArrow() && assignedWeaponItem.IsArrow() ||
+							 expectedItem.IsBolt() && assignedWeaponItem.IsBolt() ||
+							 expectedItem.IsThrowing() && assignedWeaponItem.IsThrowing() ||
+							 expectedItem.ItemType == assignedWeaponItem.ItemType);
 
-						if (!assignedWeapon.IsEmpty && assignedWeaponItem != null)
-						{
-							var matchesExpectedWeapon =
-								expectedItem.IsBow() && assignedWeaponItem.IsBow() ||
-								expectedItem.IsCrossBow() && assignedWeaponItem.IsCrossBow() ||
-								expectedItem.IsArrow() && assignedWeaponItem.IsArrow() ||
-								expectedItem.IsBolt() && assignedWeaponItem.IsBolt() ||
-								expectedItem.IsThrowing() && assignedWeaponItem.IsThrowing() ||
-								expectedItem.ItemType == assignedWeaponItem.ItemType;
-
-							if (matchesExpectedWeapon)
-								equippedSlots++;
-						}
+						if (matchesExpectedWeapon)
+							equippedSlots++;
+						else
+							CountMissingSlot(GetShortageType(expectedItem.ItemType));
 					}
 				}
 				var assignedWeaponElement = assignment.GetEquipmentFromSlot(slot);
@@ -251,6 +310,8 @@ public class PartyEquipmentDistributor {
 
 				if (hasAssignedMeleeWeapon)
 					equippedSlots++;
+				else
+					CountMissingSlot(ArmoryShortageType.MeleeWeapon);
 			}
 
 			// a two handed replacement makes the templates shield irrelevant
@@ -260,10 +321,17 @@ public class PartyEquipmentDistributor {
 
 				if (hasAssignedShield)
 					equippedSlots++;
+				else
+					CountMissingSlot(ArmoryShortageType.Shield);
 			}
 		}
 
-		return new ArmoryReadiness(equippedSlots, expectedSlots);
+		var largestShortage = missingSlotsByType
+			.OrderByDescending(shortage => shortage.Value)
+			.ThenBy(shortage => shortage.Key)
+			.FirstOrDefault();
+
+		return new ArmoryReadiness(equippedSlots, expectedSlots, largestShortage.Key, largestShortage.Value);
 	}
 
 	public void RunAsync() {

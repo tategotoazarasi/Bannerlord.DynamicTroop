@@ -48,6 +48,27 @@
         <string id="armory_view_option" text="View Army Armory"/>
         <string id="armory_manage_option" text="Manage Armory"/>
         <string id="armory_readiness_hint" text="Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)"/>
+        <string id="armory_readiness_shortage" text="Most needed equipment: {TYPE} ({COUNT} missing)"/>
+        <string id="armory_readiness_no_shortage" text="No equipment shortages"/>
+        <string id="armory_shortage_body_armor" text="Body armor"/>
+        <string id="armory_shortage_leg_armor" text="Leg armor"/>
+        <string id="armory_shortage_helmets" text="Helmets"/>
+        <string id="armory_shortage_gloves" text="Gloves"/>
+        <string id="armory_shortage_capes" text="Capes"/>
+        <string id="armory_shortage_horses" text="Horses"/>
+        <string id="armory_shortage_horse_armor" text="Horse armor"/>
+        <string id="armory_shortage_melee_weapons" text="Melee weapons"/>
+        <string id="armory_shortage_shields" text="Shields"/>
+        <string id="armory_shortage_bows" text="Bows"/>
+        <string id="armory_shortage_crossbows" text="Crossbows"/>
+        <string id="armory_shortage_slings" text="Slings"/>
+        <string id="armory_shortage_quivers" text="Quivers"/>
+        <string id="armory_shortage_ammunition" text="Ammunition"/>
+        <string id="armory_shortage_throwing_weapons" text="Throwing weapons"/>
+        <string id="armory_shortage_pistols" text="Pistols"/>
+        <string id="armory_shortage_muskets" text="Muskets"/>
+        <string id="armory_shortage_banners" text="Banners"/>
+        <string id="armory_shortage_other_equipment" text="Other equipment"/>
         <string id="sell_for_throwing" text="Trade Excess Equipment for Throwing Weapons"/>
         <string id="sell_for_throwing_text"
                 text="Sold excess equipment worth {VALUE} and obtained {COUNT} throwing weapons"/>

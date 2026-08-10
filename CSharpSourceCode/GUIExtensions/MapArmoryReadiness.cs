@@ -74,11 +74,49 @@ internal sealed class MapArmoryReadinessMixin : BaseViewModelMixin<MapBarVM> {
 		var readiness = PartyEquipmentDistributor.MeasureMainPartyArmoryReadiness(!mainPartyAtSea);
 		ArmoryReadinessFillHeight = INDICATOR_HEIGHT * readiness.FillRatio;
 
-		var hintText = new TextObject("{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)");
-		hintText.SetTextVariable("PERCENT", readiness.Percentage);
-		hintText.SetTextVariable("FILLED", readiness.EquippedSlots);
-		hintText.SetTextVariable("EXPECTED", readiness.ExpectedSlots);
+		var readinessText = new TextObject("{=armory_readiness_hint}Army Armory readiness: {PERCENT}% ({FILLED}/{EXPECTED} required equipment slots filled)");
+		readinessText.SetTextVariable("PERCENT", readiness.Percentage);
+		readinessText.SetTextVariable("FILLED", readiness.EquippedSlots);
+		readinessText.SetTextVariable("EXPECTED", readiness.ExpectedSlots);
+
+		TextObject shortageText;
+		if (readiness.LargestShortageCount > 0) {
+			shortageText = new TextObject("{=armory_readiness_shortage}Most needed equipment: {TYPE} ({COUNT} missing)");
+			shortageText.SetTextVariable("TYPE", GetArmoryShortageName(readiness.LargestShortageType));
+			shortageText.SetTextVariable("COUNT", readiness.LargestShortageCount);
+		}
+		else {
+			shortageText = new TextObject("{=armory_readiness_no_shortage}No equipment shortages");
+		}
+
+		var hintText = new TextObject("{READINESS}\n{SHORTAGE}");
+		hintText.SetTextVariable("READINESS", readinessText);
+		hintText.SetTextVariable("SHORTAGE", shortageText);
 		ArmoryReadinessHint = new HintViewModel(hintText);
+	}
+
+	private static TextObject GetArmoryShortageName(PartyEquipmentDistributor.ArmoryShortageType shortageType) {
+		return shortageType switch {
+			PartyEquipmentDistributor.ArmoryShortageType.BodyArmor => new TextObject("{=armory_shortage_body_armor}Body armor"),
+			PartyEquipmentDistributor.ArmoryShortageType.LegArmor => new TextObject("{=armory_shortage_leg_armor}Leg armor"),
+			PartyEquipmentDistributor.ArmoryShortageType.HeadArmor => new TextObject("{=armory_shortage_helmets}Helmets"),
+			PartyEquipmentDistributor.ArmoryShortageType.HandArmor => new TextObject("{=armory_shortage_gloves}Gloves"),
+			PartyEquipmentDistributor.ArmoryShortageType.Cape => new TextObject("{=armory_shortage_capes}Capes"),
+			PartyEquipmentDistributor.ArmoryShortageType.Horse => new TextObject("{=armory_shortage_horses}Horses"),
+			PartyEquipmentDistributor.ArmoryShortageType.HorseHarness => new TextObject("{=armory_shortage_horse_armor}Horse armor"),
+			PartyEquipmentDistributor.ArmoryShortageType.MeleeWeapon => new TextObject("{=armory_shortage_melee_weapons}Melee weapons"),
+			PartyEquipmentDistributor.ArmoryShortageType.Shield => new TextObject("{=armory_shortage_shields}Shields"),
+			PartyEquipmentDistributor.ArmoryShortageType.Bow => new TextObject("{=armory_shortage_bows}Bows"),
+			PartyEquipmentDistributor.ArmoryShortageType.Crossbow => new TextObject("{=armory_shortage_crossbows}Crossbows"),
+			PartyEquipmentDistributor.ArmoryShortageType.Sling => new TextObject("{=armory_shortage_slings}Slings"),
+			PartyEquipmentDistributor.ArmoryShortageType.Quiver => new TextObject("{=armory_shortage_quivers}Quivers"),
+			PartyEquipmentDistributor.ArmoryShortageType.Ammunition => new TextObject("{=armory_shortage_ammunition}Ammunition"),
+			PartyEquipmentDistributor.ArmoryShortageType.ThrowingWeapon => new TextObject("{=armory_shortage_throwing_weapons}Throwing weapons"),
+			PartyEquipmentDistributor.ArmoryShortageType.Pistol => new TextObject("{=armory_shortage_pistols}Pistols"),
+			PartyEquipmentDistributor.ArmoryShortageType.Musket => new TextObject("{=armory_shortage_muskets}Muskets"),
+			PartyEquipmentDistributor.ArmoryShortageType.Banner => new TextObject("{=armory_shortage_banners}Banners"),
+			_ => new TextObject("{=armory_shortage_other_equipment}Other equipment")
+		};
 	}
 
 	private bool MainPartyTroopCompositionChanged(MobileParty mainParty) {
