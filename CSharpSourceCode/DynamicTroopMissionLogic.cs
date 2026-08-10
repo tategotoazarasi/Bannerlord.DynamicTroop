@@ -116,7 +116,16 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		}
 
 
-		if (!affectedAgent.IsValid() || affectedAgent.Character is not { IsHero: false }) {
+		var isNavalTroopWithoutFormation =
+			(Mission.IsNavalBattle || Mission.IsNavalRaidBattle) &&
+			affectedAgent.Formation == null &&
+			!affectedAgent.IsMount &&
+			affectedAgent.Character != null &&
+			affectedAgent.Team is { MBTeam: { }, IsValid: true } &&
+			affectedAgent.Origin != null;
+
+		if ((!affectedAgent.IsValid() && !isNavalTroopWithoutFormation) ||
+			affectedAgent.Character is not { IsHero: false }) {
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 			return;
 		}
@@ -324,9 +333,9 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			BattleState.DefenderVictory => BattleSideEnum.Defender,
 			_ => BattleSideEnum.None
 		};
+		var isNavalMission = Mission.IsNavalBattle || Mission.IsNavalRaidBattle;
 
-		if (winningSide != BattleSideEnum.None &&
-			(Mission.IsNavalBattle || Mission.IsNavalRaidBattle))
+		if (winningSide != BattleSideEnum.None && isNavalMission)
 			DistributeNavalCasualtyLoot(winningSide);
 
 		foreach (var partyBattleSide in PartyBattleSides)
@@ -344,7 +353,13 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 		foreach (var partyBattleSide in PartyBattleSides) {
 			IEnumerable<Agent> partyAgents = Mission.Agents.WhereQ(agent =>
-				agent.IsValid() &&
+				(agent.IsValid() ||
+				 (isNavalMission &&
+				  agent.Formation == null &&
+				  !agent.IsMount &&
+				  agent.Character != null &&
+				  agent.Team is { MBTeam: { }, IsValid: true } &&
+				  agent.Origin != null)) &&
 				agent.IsActive() &&
 				!agent.IsHero &&
 				!_processedAgents.Contains(agent) &&
