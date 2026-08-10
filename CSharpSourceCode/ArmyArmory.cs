@@ -183,6 +183,7 @@ public static class ArmyArmory {
 			if ((Mission.Current?.IsNavalBattle == true ||
 				 Mission.Current?.IsNavalRaidBattle == true ||
 				 Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true ||
+				 Mission.Current?.HasMissionBehavior<HideoutAmbushMissionController>() == true ||
 				 Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
 				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 				continue;

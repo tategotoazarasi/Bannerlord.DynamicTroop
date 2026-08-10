@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using DynamicTroopEquipmentReupload.Extensions;
 using HarmonyLib;
+using SandBox.Missions.MissionLogics.Hideout;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.Core;
@@ -16,7 +17,8 @@ namespace DynamicTroopEquipmentReupload.Patches;
 [HarmonyPatch(typeof(Mission), nameof(Mission.SpawnAgent))]
 public static class SpawnAgentPatch {
 	private static void Prefix(Mission __instance, ref AgentBuildData agentBuildData, ref SpawnAgentState? __state) {
-		if (__instance.GetMissionBehavior<IMissionAgentSpawnLogic>() == null) { return; }
+		if (__instance.GetMissionBehavior<IMissionAgentSpawnLogic>() == null &&
+			!__instance.HasMissionBehavior<HideoutAmbushMissionController>()) { return; }
 
 		if (agentBuildData.AgentOrigin == null) { return; }
 

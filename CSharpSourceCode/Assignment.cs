@@ -222,7 +222,9 @@ public class Assignment : IComparable {
 	}
 
 	public void FillEmptySlots() {
-		var isHideoutBattle = Mission.Current?.HasMissionBehavior<HideoutMissionController>() ?? false;
+		var isHideoutBattle =
+			Mission.Current?.HasMissionBehavior<HideoutMissionController>() == true ||
+			Mission.Current?.HasMissionBehavior<HideoutAmbushMissionController>() == true;
 		var isSiegeBattle = Mission.Current?.HasMissionBehavior<MissionSiegeEnginesLogic>() ?? false;
 		var mountsUnavailable = !_canUseMountEquipment || isHideoutBattle || isSiegeBattle;
 

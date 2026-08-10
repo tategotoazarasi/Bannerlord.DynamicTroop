@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using DynamicTroopEquipmentReupload.Extensions;
 using log4net.Core;
+using SandBox.Missions.MissionLogics.Hideout;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
@@ -116,15 +117,18 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		}
 
 
-		var isNavalTroopWithoutFormation =
-			(Mission.IsNavalBattle || Mission.IsNavalRaidBattle) &&
+		var isHideoutMission =
+			Mission.HasMissionBehavior<HideoutMissionController>() ||
+			Mission.HasMissionBehavior<HideoutAmbushMissionController>();
+		var isFormationlessMissionTroop =
+			(Mission.IsNavalBattle || Mission.IsNavalRaidBattle || isHideoutMission) &&
 			affectedAgent.Formation == null &&
 			!affectedAgent.IsMount &&
 			affectedAgent.Character != null &&
 			affectedAgent.Team is { MBTeam: { }, IsValid: true } &&
 			affectedAgent.Origin != null;
 
-		if ((!affectedAgent.IsValid() && !isNavalTroopWithoutFormation) ||
+		if ((!affectedAgent.IsValid() && !isFormationlessMissionTroop) ||
 			affectedAgent.Character is not { IsHero: false }) {
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 			return;
@@ -151,7 +155,18 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			var affectedBattleRecord = _partyBattleRecords[affectedPartyId.Value];
 
 			var hasAffectedSide = _sideByInvolvedParty.TryGetValue(affectedPartyId.Value, out var affectedSide);
-			var affectorPartyId = affectorAgent.IsValid() ? Global.GetAgentParty(affectorAgent.Origin)?.Id : null;
+			var isFormationlessHideoutAffector =
+				isHideoutMission &&
+				affectorAgent is {
+					Formation: null,
+					IsMount: false,
+					Character: not null,
+					Team: { MBTeam: { }, IsValid: true },
+					Origin: not null
+				};
+			var affectorPartyId = (affectorAgent.IsValid() || isFormationlessHideoutAffector)
+				? Global.GetAgentParty(affectorAgent.Origin)?.Id
+				: null;
 
 			PartyBattleRecord? affectorBattleRecord = null;
 			if (hasAffectedSide &&
@@ -334,6 +349,9 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			_ => BattleSideEnum.None
 		};
 		var isNavalMission = Mission.IsNavalBattle || Mission.IsNavalRaidBattle;
+		var isHideoutMission =
+			Mission.HasMissionBehavior<HideoutMissionController>() ||
+			Mission.HasMissionBehavior<HideoutAmbushMissionController>();
 
 		if (winningSide != BattleSideEnum.None && isNavalMission)
 			DistributeNavalCasualtyLoot(winningSide);
@@ -359,6 +377,11 @@ public class DynamicTroopMissionLogic : MissionLogic {
 				  !agent.IsMount &&
 				  agent.Character != null &&
 				  agent.Team is { MBTeam: { }, IsValid: true } &&
+				  agent.Origin != null) ||
+				 (isHideoutMission &&
+				  _assignmentByAgent.ContainsKey(agent) &&
+				  !agent.IsMount &&
+				  agent.Character != null &&
 				  agent.Origin != null)) &&
 				agent.IsActive() &&
 				!agent.IsHero &&

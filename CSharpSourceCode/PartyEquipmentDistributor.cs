@@ -1131,6 +1131,7 @@ public class PartyEquipmentDistributor {
 		foreach (var slot in Global.EquipmentSlots) {
 			if ((!_missionAllowsMountEquipment ||
 				 _mission?.HasMissionBehavior<HideoutMissionController>() == true ||
+				 _mission?.HasMissionBehavior<HideoutAmbushMissionController>() == true ||
 				 _mission?.HasMissionBehavior<MissionSiegeEnginesLogic>() == true) &&
 				(slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 				continue;
@@ -1192,7 +1193,8 @@ public class PartyEquipmentDistributor {
 	}
 
 	private void ApplyEmergencyLoadout() {
-		if (_mission?.HasMissionBehavior<HideoutMissionController>() == true)
+		if (_mission?.HasMissionBehavior<HideoutMissionController>() == true ||
+			_mission?.HasMissionBehavior<HideoutAmbushMissionController>() == true)
 			return;
 
 		foreach (var assignment in Assignments) {
