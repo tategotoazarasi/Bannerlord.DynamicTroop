@@ -530,67 +530,68 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01194">1194</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1194</span>                                         {</div>
-<div class="line"><span class="lineno"> 1195</span>        <span class="keywordflow">if</span> (_mission?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span>)</div>
-<div class="line"><span class="lineno"> 1196</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno"> 1197</span> </div>
-<div class="line"><span class="lineno"> 1198</span>        <span class="keywordflow">foreach</span> (var assignment <span class="keywordflow">in</span> Assignments) {</div>
-<div class="line"><span class="lineno"> 1199</span>            <span class="comment">// Armour slots</span></div>
-<div class="line"><span class="lineno"> 1200</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.ArmourSlots) {</div>
-<div class="line"><span class="lineno"> 1201</span>                <span class="keywordflow">if</span> (assignment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: not null })</div>
-<div class="line"><span class="lineno"> 1202</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1203</span> </div>
-<div class="line"><span class="lineno"> 1204</span>                var reference   = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno"> 1205</span>                var desiredType = reference.Item?.ItemType ?? Helper.EquipmentIndexToItemEnumType(slot);</div>
-<div class="line"><span class="lineno"> 1206</span> </div>
-<div class="line"><span class="lineno"> 1207</span>                <span class="keywordflow">if</span> (!desiredType.HasValue)</div>
-<div class="line"><span class="lineno"> 1208</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1209</span> </div>
-<div class="line"><span class="lineno"> 1210</span>                var emergencyCulture = _party.LeaderHero?.Culture ?? assignment.Character.Culture;</div>
-<div class="line"><span class="lineno"> 1211</span>                var basicTroop       = emergencyCulture?.BasicTroop;</div>
-<div class="line"><span class="lineno"> 1212</span>                <span class="keywordflow">if</span> (basicTroop == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno"> 1213</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1214</span> </div>
-<div class="line"><span class="lineno"> 1215</span>                var fallbackItem = basicTroop.RandomBattleEquipment.GetEquipmentFromSlot(slot).Item;</div>
-<div class="line"><span class="lineno"> 1216</span>                <span class="keywordflow">if</span> (fallbackItem == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno"> 1217</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1218</span> </div>
-<div class="line"><span class="lineno"> 1219</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(fallbackItem) || fallbackItem.IsCraftedByPlayer || !fallbackItem.IsSuitableForCharacter(assignment.Character))</div>
-<div class="line"><span class="lineno"> 1220</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1221</span> </div>
-<div class="line"><span class="lineno"> 1222</span>                assignment.SetEquipment(slot, <span class="keyword">new</span> EquipmentElement(fallbackItem));</div>
-<div class="line"><span class="lineno"> 1223</span>                assignment.MarkSlotAsTemporary(slot, fallbackItem);</div>
-<div class="line"><span class="lineno"> 1224</span>            }</div>
-<div class="line"><span class="lineno"> 1225</span> </div>
-<div class="line"><span class="lineno"> 1226</span>            <span class="comment">// Weapon slots (only if empty)</span></div>
-<div class="line"><span class="lineno"> 1227</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Assignment.WeaponSlots) {</div>
-<div class="line"><span class="lineno"> 1228</span>                <span class="keywordflow">if</span> (assignment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: not null })</div>
-<div class="line"><span class="lineno"> 1229</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1230</span> </div>
-<div class="line"><span class="lineno"> 1231</span>                var reference   = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno"> 1232</span>                var desiredType = reference.Item?.ItemType;</div>
-<div class="line"><span class="lineno"> 1233</span> </div>
-<div class="line"><span class="lineno"> 1234</span>                <span class="keywordflow">if</span> (desiredType == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno"> 1235</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1236</span> </div>
-<div class="line"><span class="lineno"> 1237</span>                var emergencyCulture = _party.LeaderHero?.Culture ?? assignment.Character.Culture;</div>
-<div class="line"><span class="lineno"> 1238</span>                var basicTroop       = emergencyCulture?.BasicTroop;</div>
-<div class="line"><span class="lineno"> 1239</span>                <span class="keywordflow">if</span> (basicTroop == <span class="keyword">null</span>)</div>
-<div class="line"><span class="lineno"> 1240</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1241</span> </div>
-<div class="line"><span class="lineno"> 1242</span>                var fallbackItem = basicTroop.RandomBattleEquipment.GetEquipmentFromSlot(slot).Item;</div>
-<div class="line"><span class="lineno"> 1243</span>                <span class="keywordflow">if</span> (fallbackItem == <span class="keyword">null</span> || !fallbackItem.HasWeaponComponent)</div>
-<div class="line"><span class="lineno"> 1244</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1245</span> </div>
-<div class="line"><span class="lineno"> 1246</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(fallbackItem) || fallbackItem.IsCraftedByPlayer || !fallbackItem.IsSuitableForCharacter(assignment.Character))</div>
-<div class="line"><span class="lineno"> 1247</span>                    <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1248</span> </div>
-<div class="line"><span class="lineno"> 1249</span>                assignment.SetEquipment(slot, <span class="keyword">new</span> EquipmentElement(fallbackItem));</div>
-<div class="line"><span class="lineno"> 1250</span>                assignment.MarkSlotAsTemporary(slot, fallbackItem);</div>
-<div class="line"><span class="lineno"> 1251</span>            }</div>
-<div class="line"><span class="lineno"> 1252</span>        }</div>
-<div class="line"><span class="lineno"> 1253</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01195">1195</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1195</span>                                         {</div>
+<div class="line"><span class="lineno"> 1196</span>        <span class="keywordflow">if</span> (_mission?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span> ||</div>
+<div class="line"><span class="lineno"> 1197</span>            _mission?.HasMissionBehavior&lt;HideoutAmbushMissionController&gt;() == <span class="keyword">true</span>)</div>
+<div class="line"><span class="lineno"> 1198</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno"> 1199</span> </div>
+<div class="line"><span class="lineno"> 1200</span>        <span class="keywordflow">foreach</span> (var assignment <span class="keywordflow">in</span> Assignments) {</div>
+<div class="line"><span class="lineno"> 1201</span>            <span class="comment">// Armour slots</span></div>
+<div class="line"><span class="lineno"> 1202</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.ArmourSlots) {</div>
+<div class="line"><span class="lineno"> 1203</span>                <span class="keywordflow">if</span> (assignment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: not null })</div>
+<div class="line"><span class="lineno"> 1204</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1205</span> </div>
+<div class="line"><span class="lineno"> 1206</span>                var reference   = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno"> 1207</span>                var desiredType = reference.Item?.ItemType ?? Helper.EquipmentIndexToItemEnumType(slot);</div>
+<div class="line"><span class="lineno"> 1208</span> </div>
+<div class="line"><span class="lineno"> 1209</span>                <span class="keywordflow">if</span> (!desiredType.HasValue)</div>
+<div class="line"><span class="lineno"> 1210</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1211</span> </div>
+<div class="line"><span class="lineno"> 1212</span>                var emergencyCulture = _party.LeaderHero?.Culture ?? assignment.Character.Culture;</div>
+<div class="line"><span class="lineno"> 1213</span>                var basicTroop       = emergencyCulture?.BasicTroop;</div>
+<div class="line"><span class="lineno"> 1214</span>                <span class="keywordflow">if</span> (basicTroop == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno"> 1215</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1216</span> </div>
+<div class="line"><span class="lineno"> 1217</span>                var fallbackItem = basicTroop.RandomBattleEquipment.GetEquipmentFromSlot(slot).Item;</div>
+<div class="line"><span class="lineno"> 1218</span>                <span class="keywordflow">if</span> (fallbackItem == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno"> 1219</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1220</span> </div>
+<div class="line"><span class="lineno"> 1221</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(fallbackItem) || fallbackItem.IsCraftedByPlayer || !fallbackItem.IsSuitableForCharacter(assignment.Character))</div>
+<div class="line"><span class="lineno"> 1222</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1223</span> </div>
+<div class="line"><span class="lineno"> 1224</span>                assignment.SetEquipment(slot, <span class="keyword">new</span> EquipmentElement(fallbackItem));</div>
+<div class="line"><span class="lineno"> 1225</span>                assignment.MarkSlotAsTemporary(slot, fallbackItem);</div>
+<div class="line"><span class="lineno"> 1226</span>            }</div>
+<div class="line"><span class="lineno"> 1227</span> </div>
+<div class="line"><span class="lineno"> 1228</span>            <span class="comment">// Weapon slots (only if empty)</span></div>
+<div class="line"><span class="lineno"> 1229</span>            <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Assignment.WeaponSlots) {</div>
+<div class="line"><span class="lineno"> 1230</span>                <span class="keywordflow">if</span> (assignment.GetEquipmentFromSlot(slot) is { IsEmpty: false, Item: not null })</div>
+<div class="line"><span class="lineno"> 1231</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1232</span> </div>
+<div class="line"><span class="lineno"> 1233</span>                var reference   = assignment.ReferenceEquipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno"> 1234</span>                var desiredType = reference.Item?.ItemType;</div>
+<div class="line"><span class="lineno"> 1235</span> </div>
+<div class="line"><span class="lineno"> 1236</span>                <span class="keywordflow">if</span> (desiredType == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno"> 1237</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1238</span> </div>
+<div class="line"><span class="lineno"> 1239</span>                var emergencyCulture = _party.LeaderHero?.Culture ?? assignment.Character.Culture;</div>
+<div class="line"><span class="lineno"> 1240</span>                var basicTroop       = emergencyCulture?.BasicTroop;</div>
+<div class="line"><span class="lineno"> 1241</span>                <span class="keywordflow">if</span> (basicTroop == <span class="keyword">null</span>)</div>
+<div class="line"><span class="lineno"> 1242</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1243</span> </div>
+<div class="line"><span class="lineno"> 1244</span>                var fallbackItem = basicTroop.RandomBattleEquipment.GetEquipmentFromSlot(slot).Item;</div>
+<div class="line"><span class="lineno"> 1245</span>                <span class="keywordflow">if</span> (fallbackItem == <span class="keyword">null</span> || !fallbackItem.HasWeaponComponent)</div>
+<div class="line"><span class="lineno"> 1246</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1247</span> </div>
+<div class="line"><span class="lineno"> 1248</span>                <span class="keywordflow">if</span> (!ItemBlackList.Test(fallbackItem) || fallbackItem.IsCraftedByPlayer || !fallbackItem.IsSuitableForCharacter(assignment.Character))</div>
+<div class="line"><span class="lineno"> 1249</span>                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1250</span> </div>
+<div class="line"><span class="lineno"> 1251</span>                assignment.SetEquipment(slot, <span class="keyword">new</span> EquipmentElement(fallbackItem));</div>
+<div class="line"><span class="lineno"> 1252</span>                assignment.MarkSlotAsTemporary(slot, fallbackItem);</div>
+<div class="line"><span class="lineno"> 1253</span>            }</div>
+<div class="line"><span class="lineno"> 1254</span>        }</div>
+<div class="line"><span class="lineno"> 1255</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00033">_mission</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00039">_party</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00046">DynamicTroopEquipmentReupload.Global.ArmourSlots</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00041">Assignments</a>, <a class="el" href="../../df/d98/a00107_source.html#l00020">DynamicTroopEquipmentReupload.Helper.EquipmentIndexToItemEnumType()</a>, <a class="el" href="../../d4/d81/a00110_source.html#l00124">DynamicTroopEquipmentReupload.ItemBlackList.Test()</a>, and <a class="el" href="../../da/d2a/a00086_source.html#l00015">DynamicTroopEquipmentReupload.Assignment.WeaponSlots</a>.</p>
 
@@ -792,7 +793,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  850</span>        }</div>
 <div class="line"><span class="lineno">  851</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00041">Assignments</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00305">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00105">DynamicTroopEquipmentReupload.Global.GetEquipmentIndexByItemType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01169">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01176">IsCultureCompatible()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00041">Assignments</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00305">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00105">DynamicTroopEquipmentReupload.Global.GetEquipmentIndexByItemType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01170">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01177">IsCultureCompatible()</a>, and <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00417">DoAssignAsync()</a>.</p>
 
@@ -1419,7 +1420,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1081</span>        AssignWeaponIfAvailable(slot, assignment, bestWeapon);</div>
 <div class="line"><span class="lineno"> 1082</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01169">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01176">IsCultureCompatible()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01181">TryConsumeExactItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01170">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01177">IsCultureCompatible()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01182">TryConsumeExactItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>.</p>
 
@@ -1614,7 +1615,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  968</span>        AssignWeaponIfAvailable(slot, assignment, bestWeapon);</div>
 <div class="line"><span class="lineno">  969</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01169">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01176">IsCultureCompatible()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01181">TryConsumeExactItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00072">DynamicTroopEquipmentReupload.Assignment.Character</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00022">CULTURE_OVERRIDE_COMPATIBILITY_MULTIPLIER</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00204">DynamicTroopEquipmentReupload.Assignment.GetEquipmentFromSlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01170">GetMaxAllowedTier()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01177">IsCultureCompatible()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, <a class="el" href="../../dc/dee/a00053_source.html#l00067">DynamicTroopEquipmentReupload.ModSettings.PreferDefaultEquipmentThenClosest</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00074">DynamicTroopEquipmentReupload.Assignment.ReferenceEquipment</a>, <a class="el" href="../../da/d2a/a00086_source.html#l00210">DynamicTroopEquipmentReupload.Assignment.SetEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01182">TryConsumeExactItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>.</p>
 
@@ -1740,23 +1741,23 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01287">1287</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1287</span>                                                                                             {</div>
-<div class="line"><span class="lineno"> 1288</span>        var score = 0;</div>
-<div class="line"><span class="lineno"> 1289</span> </div>
-<div class="line"><span class="lineno"> 1290</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
-<div class="line"><span class="lineno"> 1291</span>            <span class="keywordflow">if</span> (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness) { <span class="keywordflow">continue</span>; }</div>
-<div class="line"><span class="lineno"> 1292</span> </div>
-<div class="line"><span class="lineno"> 1293</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno"> 1294</span>            <span class="keywordflow">if</span> (element is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> }) { score += (int)element.Item.Tier; }</div>
-<div class="line"><span class="lineno"> 1295</span>        }</div>
-<div class="line"><span class="lineno"> 1296</span> </div>
-<div class="line"><span class="lineno"> 1297</span>        <span class="keywordflow">return</span> score;</div>
-<div class="line"><span class="lineno"> 1298</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01289">1289</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1289</span>                                                                                             {</div>
+<div class="line"><span class="lineno"> 1290</span>        var score = 0;</div>
+<div class="line"><span class="lineno"> 1291</span> </div>
+<div class="line"><span class="lineno"> 1292</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
+<div class="line"><span class="lineno"> 1293</span>            <span class="keywordflow">if</span> (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness) { <span class="keywordflow">continue</span>; }</div>
+<div class="line"><span class="lineno"> 1294</span> </div>
+<div class="line"><span class="lineno"> 1295</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno"> 1296</span>            <span class="keywordflow">if</span> (element is { IsEmpty: <span class="keyword">false</span>, Item: not <span class="keyword">null</span> }) { score += (int)element.Item.Tier; }</div>
+<div class="line"><span class="lineno"> 1297</span>        }</div>
+<div class="line"><span class="lineno"> 1298</span> </div>
+<div class="line"><span class="lineno"> 1299</span>        <span class="keywordflow">return</span> score;</div>
+<div class="line"><span class="lineno"> 1300</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d9/d2e/a00056_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01255">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01257">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
@@ -1793,7 +1794,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01181">TryConsumeExactItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01182">TryConsumeExactItem()</a>.</p>
 
 </div>
 </div>
@@ -1878,7 +1879,7 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno">  460</span>            MarkUnderEquippedAssignmentsIfEnabled();</div>
 <div class="line"><span class="lineno">  461</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01194">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00312">GenerateHorseAndHarnessList()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01255">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01195">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00312">GenerateHorseAndHarnessList()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01257">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00269">RunAsync()</a>.</p>
 
@@ -2043,14 +2044,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01169">1169</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1169</span>                                                             {</div>
-<div class="line"><span class="lineno"> 1170</span>        <span class="keywordflow">if</span> (referenceItem == <span class="keyword">null</span>) {</div>
-<div class="line"><span class="lineno"> 1171</span>            <span class="keywordflow">return</span> 6; <span class="comment">// max</span></div>
-<div class="line"><span class="lineno"> 1172</span>        }</div>
-<div class="line"><span class="lineno"> 1173</span> </div>
-<div class="line"><span class="lineno"> 1174</span>        <span class="keywordflow">return</span> Math.Min(6, (<span class="keywordtype">int</span>)referenceItem.Tier + MAX_TIER_ABOVE_DEFAULT);</div>
-<div class="line"><span class="lineno"> 1175</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01170">1170</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1170</span>                                                             {</div>
+<div class="line"><span class="lineno"> 1171</span>        <span class="keywordflow">if</span> (referenceItem == <span class="keyword">null</span>) {</div>
+<div class="line"><span class="lineno"> 1172</span>            <span class="keywordflow">return</span> 6; <span class="comment">// max</span></div>
+<div class="line"><span class="lineno"> 1173</span>        }</div>
+<div class="line"><span class="lineno"> 1174</span> </div>
+<div class="line"><span class="lineno"> 1175</span>        <span class="keywordflow">return</span> Math.Min(6, (<span class="keywordtype">int</span>)referenceItem.Tier + MAX_TIER_ABOVE_DEFAULT);</div>
+<div class="line"><span class="lineno"> 1176</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00021">MAX_TIER_ABOVE_DEFAULT</a>.</p>
 
@@ -2172,10 +2173,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01176">1176</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1176</span>                                                                                          {</div>
-<div class="line"><span class="lineno"> 1177</span>        <span class="keywordflow">return</span> culture == <span class="keyword">null</span> || item.Culture == <span class="keyword">null</span> || item.Culture == culture;</div>
-<div class="line"><span class="lineno"> 1178</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01177">1177</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1177</span>                                                                                          {</div>
+<div class="line"><span class="lineno"> 1178</span>        <span class="keywordflow">return</span> culture == <span class="keyword">null</span> || item.Culture == <span class="keyword">null</span> || item.Culture == culture;</div>
+<div class="line"><span class="lineno"> 1179</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>.</p>
 
@@ -2275,40 +2276,40 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01255">1255</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1255</span>                                                         {</div>
-<div class="line"><span class="lineno"> 1256</span>        var settings = ModSettings.Instance;</div>
-<div class="line"><span class="lineno"> 1257</span>        <span class="keywordflow">if</span> (!(settings?.Underequipped ?? <span class="keyword">true</span>)) {</div>
-<div class="line"><span class="lineno"> 1258</span>            <span class="keywordflow">for</span> (var i = 0; i &lt; Assignments.Count; i++) {</div>
-<div class="line"><span class="lineno"> 1259</span>                var assignment = Assignments[i];</div>
-<div class="line"><span class="lineno"> 1260</span>                assignment.IsUnderEquipped            = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1261</span>                assignment.UnderEquippedMoralePenalty = 0f;</div>
-<div class="line"><span class="lineno"> 1262</span>            }</div>
-<div class="line"><span class="lineno"> 1263</span> </div>
-<div class="line"><span class="lineno"> 1264</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno"> 1265</span>        }</div>
-<div class="line"><span class="lineno"> 1266</span> </div>
-<div class="line"><span class="lineno"> 1267</span>        <span class="keywordflow">for</span> (var i = 0; i &lt; Assignments.Count; i++) {</div>
-<div class="line"><span class="lineno"> 1268</span>            var assignment = Assignments[i];</div>
-<div class="line"><span class="lineno"> 1269</span> </div>
-<div class="line"><span class="lineno"> 1270</span>            var referenceScore = CalculateEquipmentTierScoreWithoutMountEquipment(assignment.ReferenceEquipment);</div>
-<div class="line"><span class="lineno"> 1271</span>            var assignedScore  = CalculateEquipmentTierScoreWithoutMountEquipment(assignment.Equipment);</div>
-<div class="line"><span class="lineno"> 1272</span> </div>
-<div class="line"><span class="lineno"> 1273</span>            <span class="keywordflow">if</span> (assignedScore &gt;= referenceScore) {</div>
-<div class="line"><span class="lineno"> 1274</span>                assignment.IsUnderEquipped            = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1275</span>                assignment.UnderEquippedMoralePenalty = 0f;</div>
-<div class="line"><span class="lineno"> 1276</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1277</span>            }</div>
-<div class="line"><span class="lineno"> 1278</span> </div>
-<div class="line"><span class="lineno"> 1279</span>            var missingTierTotal = referenceScore - assignedScore;</div>
-<div class="line"><span class="lineno"> 1280</span>            var moralePenalty    = missingTierTotal * UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER;</div>
-<div class="line"><span class="lineno"> 1281</span> </div>
-<div class="line"><span class="lineno"> 1282</span>            assignment.IsUnderEquipped            = <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1283</span>            assignment.UnderEquippedMoralePenalty = Math.Min(UNDER_EQUIPPED_MORALE_PENALTY_CAP, moralePenalty);</div>
-<div class="line"><span class="lineno"> 1284</span>        }</div>
-<div class="line"><span class="lineno"> 1285</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01257">1257</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1257</span>                                                         {</div>
+<div class="line"><span class="lineno"> 1258</span>        var settings = ModSettings.Instance;</div>
+<div class="line"><span class="lineno"> 1259</span>        <span class="keywordflow">if</span> (!(settings?.Underequipped ?? <span class="keyword">true</span>)) {</div>
+<div class="line"><span class="lineno"> 1260</span>            <span class="keywordflow">for</span> (var i = 0; i &lt; Assignments.Count; i++) {</div>
+<div class="line"><span class="lineno"> 1261</span>                var assignment = Assignments[i];</div>
+<div class="line"><span class="lineno"> 1262</span>                assignment.IsUnderEquipped            = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1263</span>                assignment.UnderEquippedMoralePenalty = 0f;</div>
+<div class="line"><span class="lineno"> 1264</span>            }</div>
+<div class="line"><span class="lineno"> 1265</span> </div>
+<div class="line"><span class="lineno"> 1266</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno"> 1267</span>        }</div>
+<div class="line"><span class="lineno"> 1268</span> </div>
+<div class="line"><span class="lineno"> 1269</span>        <span class="keywordflow">for</span> (var i = 0; i &lt; Assignments.Count; i++) {</div>
+<div class="line"><span class="lineno"> 1270</span>            var assignment = Assignments[i];</div>
+<div class="line"><span class="lineno"> 1271</span> </div>
+<div class="line"><span class="lineno"> 1272</span>            var referenceScore = CalculateEquipmentTierScoreWithoutMountEquipment(assignment.ReferenceEquipment);</div>
+<div class="line"><span class="lineno"> 1273</span>            var assignedScore  = CalculateEquipmentTierScoreWithoutMountEquipment(assignment.Equipment);</div>
+<div class="line"><span class="lineno"> 1274</span> </div>
+<div class="line"><span class="lineno"> 1275</span>            <span class="keywordflow">if</span> (assignedScore &gt;= referenceScore) {</div>
+<div class="line"><span class="lineno"> 1276</span>                assignment.IsUnderEquipped            = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1277</span>                assignment.UnderEquippedMoralePenalty = 0f;</div>
+<div class="line"><span class="lineno"> 1278</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1279</span>            }</div>
+<div class="line"><span class="lineno"> 1280</span> </div>
+<div class="line"><span class="lineno"> 1281</span>            var missingTierTotal = referenceScore - assignedScore;</div>
+<div class="line"><span class="lineno"> 1282</span>            var moralePenalty    = missingTierTotal * UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER;</div>
+<div class="line"><span class="lineno"> 1283</span> </div>
+<div class="line"><span class="lineno"> 1284</span>            assignment.IsUnderEquipped            = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1285</span>            assignment.UnderEquippedMoralePenalty = Math.Min(UNDER_EQUIPPED_MORALE_PENALTY_CAP, moralePenalty);</div>
+<div class="line"><span class="lineno"> 1286</span>        }</div>
+<div class="line"><span class="lineno"> 1287</span>    }</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00041">Assignments</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01287">CalculateEquipmentTierScoreWithoutMountEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00026">UNDER_EQUIPPED_MORALE_PENALTY_CAP</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00024">UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER</a>.</p>
+<p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00041">Assignments</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01289">CalculateEquipmentTierScoreWithoutMountEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00026">UNDER_EQUIPPED_MORALE_PENALTY_CAP</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00024">UNDER_EQUIPPED_MORALE_PENALTY_PER_MISSING_TIER</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00417">DoAssignAsync()</a>.</p>
 
@@ -2595,18 +2596,18 @@ Static Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01157">1157</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1157</span>                                                        {</div>
-<div class="line"><span class="lineno"> 1158</span>        <span class="keywordflow">if</span> (!ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || count &lt;= 0) {</div>
-<div class="line"><span class="lineno"> 1159</span>            <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Warn))</div>
-<div class="line"><span class="lineno"> 1160</span>                WriteDistributionLog(<span class="stringliteral">&quot;Invalid item or count for return.&quot;</span>, Colors.Red, Level.Warn);</div>
-<div class="line"><span class="lineno"> 1161</span>            <span class="keywordflow">return</span>;</div>
-<div class="line"><span class="lineno"> 1162</span>        }</div>
-<div class="line"><span class="lineno"> 1163</span> </div>
-<div class="line"><span class="lineno"> 1164</span>        EveryoneCampaignBehavior.AddItemToPartyArmory(_party.Id, resolvedItem, count);</div>
-<div class="line"><span class="lineno"> 1165</span>        <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Debug))</div>
-<div class="line"><span class="lineno"> 1166</span>            WriteDistributionLog($<span class="stringliteral">&quot;Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno"> 1167</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01158">1158</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1158</span>                                                        {</div>
+<div class="line"><span class="lineno"> 1159</span>        <span class="keywordflow">if</span> (!ArmyArmory.TryResolveArmoryItem(item, out var resolvedItem) || count &lt;= 0) {</div>
+<div class="line"><span class="lineno"> 1160</span>            <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Warn))</div>
+<div class="line"><span class="lineno"> 1161</span>                WriteDistributionLog(<span class="stringliteral">&quot;Invalid item or count for return.&quot;</span>, Colors.Red, Level.Warn);</div>
+<div class="line"><span class="lineno"> 1162</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><span class="lineno"> 1163</span>        }</div>
+<div class="line"><span class="lineno"> 1164</span> </div>
+<div class="line"><span class="lineno"> 1165</span>        EveryoneCampaignBehavior.AddItemToPartyArmory(_party.Id, resolvedItem, count);</div>
+<div class="line"><span class="lineno"> 1166</span>        <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Debug))</div>
+<div class="line"><span class="lineno"> 1167</span>            WriteDistributionLog($<span class="stringliteral">&quot;Returned {count} of item {resolvedItem.StringId} to party {_party.Name}.&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno"> 1168</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00039">_party</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00538">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.AddItemToPartyArmory()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d5/de0/a00050_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
 
@@ -2681,7 +2682,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00037">_isReadinessPreview</a>, and <a class="el" href="../../d6/d5b/a00026_source.html#l00018">DynamicTroopEquipmentReupload.SubModule.Settings</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01157">ReturnItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01158">ReturnItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -2798,32 +2799,33 @@ Static Private Attributes</h2></td></tr>
 <div class="line"><span class="lineno"> 1131</span>        <span class="keywordflow">foreach</span> (var slot <span class="keywordflow">in</span> Global.EquipmentSlots) {</div>
 <div class="line"><span class="lineno"> 1132</span>            <span class="keywordflow">if</span> ((!_missionAllowsMountEquipment ||</div>
 <div class="line"><span class="lineno"> 1133</span>                 _mission?.HasMissionBehavior&lt;HideoutMissionController&gt;() == <span class="keyword">true</span> ||</div>
-<div class="line"><span class="lineno"> 1134</span>                 _mission?.HasMissionBehavior&lt;MissionSiegeEnginesLogic&gt;() == <span class="keyword">true</span>) &amp;&amp;</div>
-<div class="line"><span class="lineno"> 1135</span>                (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))</div>
-<div class="line"><span class="lineno"> 1136</span>                <span class="keywordflow">continue</span>;</div>
-<div class="line"><span class="lineno"> 1137</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
-<div class="line"><span class="lineno"> 1138</span>            <span class="keywordflow">if</span> (!ArmyArmory.TryResolveArmoryItem(element.Item, out var item)) { <span class="keywordflow">continue</span>; }</div>
-<div class="line"><span class="lineno"> 1139</span> </div>
-<div class="line"><span class="lineno"> 1140</span>            <span class="keywordflow">if</span> (partyArmory.TryGetValue(item, out var itemCount) &amp;&amp; itemCount &gt; 0) {</div>
-<div class="line"><span class="lineno"> 1141</span>                <span class="keywordflow">if</span> (itemCount == 1)</div>
-<div class="line"><span class="lineno"> 1142</span>                    partyArmory.Remove(item);</div>
-<div class="line"><span class="lineno"> 1143</span>                <span class="keywordflow">else</span></div>
-<div class="line"><span class="lineno"> 1144</span>                    partyArmory[item] = itemCount - 1;</div>
-<div class="line"><span class="lineno"> 1145</span> </div>
-<div class="line"><span class="lineno"> 1146</span>                <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Debug))</div>
-<div class="line"><span class="lineno"> 1147</span>                    WriteDistributionLog($<span class="stringliteral">&quot;Spawned item {item.StringId}&quot;</span>, Colors.Green, Level.Debug);</div>
-<div class="line"><span class="lineno"> 1148</span>            }</div>
-<div class="line"><span class="lineno"> 1149</span>            <span class="keywordflow">else</span> {</div>
-<div class="line"><span class="lineno"> 1150</span>                <span class="comment">// 武器库中没有足够的物品或者该物品不存在</span></div>
-<div class="line"><span class="lineno"> 1151</span>                <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Warn))</div>
-<div class="line"><span class="lineno"> 1152</span>                    WriteDistributionLog($<span class="stringliteral">&quot;Insufficient or no items to spawn {item.StringId}&quot;</span>, Colors.Red, Level.Warn);</div>
-<div class="line"><span class="lineno"> 1153</span>            }</div>
-<div class="line"><span class="lineno"> 1154</span>        }</div>
-<div class="line"><span class="lineno"> 1155</span>    }</div>
+<div class="line"><span class="lineno"> 1134</span>                 _mission?.HasMissionBehavior&lt;HideoutAmbushMissionController&gt;() == <span class="keyword">true</span> ||</div>
+<div class="line"><span class="lineno"> 1135</span>                 _mission?.HasMissionBehavior&lt;MissionSiegeEnginesLogic&gt;() == <span class="keyword">true</span>) &amp;&amp;</div>
+<div class="line"><span class="lineno"> 1136</span>                (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))</div>
+<div class="line"><span class="lineno"> 1137</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><span class="lineno"> 1138</span>            var element = equipment.GetEquipmentFromSlot(slot);</div>
+<div class="line"><span class="lineno"> 1139</span>            <span class="keywordflow">if</span> (!ArmyArmory.TryResolveArmoryItem(element.Item, out var item)) { <span class="keywordflow">continue</span>; }</div>
+<div class="line"><span class="lineno"> 1140</span> </div>
+<div class="line"><span class="lineno"> 1141</span>            <span class="keywordflow">if</span> (partyArmory.TryGetValue(item, out var itemCount) &amp;&amp; itemCount &gt; 0) {</div>
+<div class="line"><span class="lineno"> 1142</span>                <span class="keywordflow">if</span> (itemCount == 1)</div>
+<div class="line"><span class="lineno"> 1143</span>                    partyArmory.Remove(item);</div>
+<div class="line"><span class="lineno"> 1144</span>                <span class="keywordflow">else</span></div>
+<div class="line"><span class="lineno"> 1145</span>                    partyArmory[item] = itemCount - 1;</div>
+<div class="line"><span class="lineno"> 1146</span> </div>
+<div class="line"><span class="lineno"> 1147</span>                <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Debug))</div>
+<div class="line"><span class="lineno"> 1148</span>                    WriteDistributionLog($<span class="stringliteral">&quot;Spawned item {item.StringId}&quot;</span>, Colors.Green, Level.Debug);</div>
+<div class="line"><span class="lineno"> 1149</span>            }</div>
+<div class="line"><span class="lineno"> 1150</span>            <span class="keywordflow">else</span> {</div>
+<div class="line"><span class="lineno"> 1151</span>                <span class="comment">// 武器库中没有足够的物品或者该物品不存在</span></div>
+<div class="line"><span class="lineno"> 1152</span>                <span class="keywordflow">if</span> (ShouldWriteDistributionLog(Level.Warn))</div>
+<div class="line"><span class="lineno"> 1153</span>                    WriteDistributionLog($<span class="stringliteral">&quot;Insufficient or no items to spawn {item.StringId}&quot;</span>, Colors.Red, Level.Warn);</div>
+<div class="line"><span class="lineno"> 1154</span>            }</div>
+<div class="line"><span class="lineno"> 1155</span>        }</div>
+<div class="line"><span class="lineno"> 1156</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00033">_mission</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00035">_missionAllowsMountEquipment</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00039">_party</a>, <a class="el" href="../../d9/d2e/a00056_source.html#l00022">DynamicTroopEquipmentReupload.Global.EquipmentSlots</a>, <a class="el" href="../../d2/de7/a00014_source.html#l00028">DynamicTroopEquipmentReupload.EveryoneCampaignBehavior.PartyArmories</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00290">ShouldWriteDistributionLog()</a>, <a class="el" href="../../d5/de0/a00050_source.html#l00044">DynamicTroopEquipmentReupload.ArmyArmory.TryResolveArmoryItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00285">WriteDistributionLog()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00068">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Postfix()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/d1f/a00083_source.html#l00070">DynamicTroopEquipmentReupload.Patches.SpawnAgentPatch.Postfix()</a>.</p>
 
 </div>
 </div>
@@ -2854,19 +2856,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01181">1181</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno"> 1181</span>                                                                                         {</div>
-<div class="line"><span class="lineno"> 1182</span>        var stripped = <span class="keyword">new</span> EquipmentElement(item);</div>
-<div class="line"><span class="lineno"> 1183</span> </div>
-<div class="line"><span class="lineno"> 1184</span>        <span class="keywordflow">if</span> (_equipmentToAssign.TryGetValue(stripped, out var cnt) &amp;&amp; cnt &gt; 0) {</div>
-<div class="line"><span class="lineno"> 1185</span>            ConsumeEquipmentToAssign(stripped);</div>
-<div class="line"><span class="lineno"> 1186</span>            exactElement = stripped;</div>
-<div class="line"><span class="lineno"> 1187</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno"> 1188</span>        }</div>
-<div class="line"><span class="lineno"> 1189</span> </div>
-<div class="line"><span class="lineno"> 1190</span>        exactElement = <span class="keywordflow">default</span>;</div>
-<div class="line"><span class="lineno"> 1191</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno"> 1192</span>    }</div>
+<p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l01182">1182</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno"> 1182</span>                                                                                         {</div>
+<div class="line"><span class="lineno"> 1183</span>        var stripped = <span class="keyword">new</span> EquipmentElement(item);</div>
+<div class="line"><span class="lineno"> 1184</span> </div>
+<div class="line"><span class="lineno"> 1185</span>        <span class="keywordflow">if</span> (_equipmentToAssign.TryGetValue(stripped, out var cnt) &amp;&amp; cnt &gt; 0) {</div>
+<div class="line"><span class="lineno"> 1186</span>            ConsumeEquipmentToAssign(stripped);</div>
+<div class="line"><span class="lineno"> 1187</span>            exactElement = stripped;</div>
+<div class="line"><span class="lineno"> 1188</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno"> 1189</span>        }</div>
+<div class="line"><span class="lineno"> 1190</span> </div>
+<div class="line"><span class="lineno"> 1191</span>        exactElement = <span class="keywordflow">default</span>;</div>
+<div class="line"><span class="lineno"> 1192</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno"> 1193</span>    }</div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00027">_equipmentToAssign</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00305">ConsumeEquipmentToAssign()</a>.</p>
 
@@ -2914,7 +2916,7 @@ Static Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/d51/a00017_source.html#l00037">_isReadinessPreview</a>, and <a class="el" href="../../d9/d2e/a00056_source.html#l00121">DynamicTroopEquipmentReupload.Global.Log()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01157">ReturnItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00583">AssignExtraArrows()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00599">AssignExtraBolts()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00551">AssignExtraShield()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00567">AssignExtraThrownWeapon()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00615">AssignExtraTwoHandedWeaponOrPolearms()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01112">AssignWeaponIfAvailable()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01158">ReturnItem()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -2941,7 +2943,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00027">27</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00296">AddEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00305">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00312">GenerateHorseAndHarnessList()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01181">TryConsumeExactItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00296">AddEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00984">AssignWeaponByItemEnumTypeBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00872">AssignWeaponByWeaponClassBySlot()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00305">ConsumeEquipmentToAssign()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00312">GenerateHorseAndHarnessList()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00631">GetMeleeWeaponForUnarmedTroop()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01085">IsWeaponSuitable()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01182">TryConsumeExactItem()</a>.</p>
 
 </div>
 </div>
@@ -3045,7 +3047,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00033">33</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01194">ApplyEmergencyLoadout()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01195">ApplyEmergencyLoadout()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -3097,7 +3099,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00039">39</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01194">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01157">ReturnItem()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l00064">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00052">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00043">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00078">PartyEquipmentDistributor()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01195">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01158">ReturnItem()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00269">RunAsync()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l01124">Spawn()</a>.</p>
 
 </div>
 </div>
@@ -3115,7 +3117,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00041">41</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01194">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01255">MarkUnderEquippedAssignmentsIfEnabled()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00269">RunAsync()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01195">ApplyEmergencyLoadout()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00683">AssignEquipmentType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00507">AssignExtraEquipment()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00464">AssignHorseAndHarness()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00972">AssignWeaponByItemEnumType()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00854">AssignWeaponByWeaponClass()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l00485">AssignWeaponToUnarmed()</a>, <a class="el" href="../../d4/d51/a00017_source.html#l01257">MarkUnderEquippedAssignmentsIfEnabled()</a>, and <a class="el" href="../../d4/d51/a00017_source.html#l00269">RunAsync()</a>.</p>
 
 </div>
 </div>
@@ -3167,7 +3169,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00021">21</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01169">GetMaxAllowedTier()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01170">GetMaxAllowedTier()</a>.</p>
 
 </div>
 </div>
@@ -3193,7 +3195,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00026">26</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01255">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01257">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
@@ -3219,7 +3221,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d51/a00017_source.html#l00024">24</a> of file <a class="el" href="../../d4/d51/a00017_source.html">PartyEquipmentDistributor.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01255">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d4/d51/a00017_source.html#l01257">MarkUnderEquippedAssignmentsIfEnabled()</a>.</p>
 
 </div>
 </div>
