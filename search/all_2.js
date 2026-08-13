@@ -11,5 +11,5 @@ var searchData=
   ['blacklist_8',['Item Blacklist',['../dd/dea/a00408.html#autotoc_md14',1,'']]],
   ['bodyarmor_9',['BodyArmor',['../d4/d6f/a00315.html#a05e4b2a7103d464afa0435130b294dc7a83939600fb52bedcfaa188694bb9905f',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
   ['bow_10',['Bow',['../d4/d6f/a00315.html#a05e4b2a7103d464afa0435130b294dc7a48fce5d02f6935e50f256d5dedac4437',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
-  ['buymercenariespatch_2ecs_11',['BuyMercenariesPatch.cs',['../d4/d8c/a00035.html',1,'']]]
+  ['buymercenariespatch_2ecs_11',['BuyMercenariesPatch.cs',['../da/d24/a00068.html',1,'']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>动态装备系统: CSharpSourceCode/Patches/ReinforcementCaravanConversationPatches.cs Source File</title>
+<title>动态装备系统: CSharpSourceCode/Extensions/TownExtension.cs Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -83,100 +83,59 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_773cbfa47786ee09d1f60e5f0093b1a8.html">CSharpSourceCode</a></li><li class="navelem"><a class="el" href="../../dir_82983f635cb26a0e65625cd7f80373d1.html">Patches</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_773cbfa47786ee09d1f60e5f0093b1a8.html">CSharpSourceCode</a></li><li class="navelem"><a class="el" href="../../dir_b69477adaef42674b77267662f2acf1c.html">Extensions</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">ReinforcementCaravanConversationPatches.cs</div></div>
+  <div class="headertitle"><div class="title">TownExtension.cs</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../dc/d87/a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="keyword">using </span>HarmonyLib;</div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="keyword">using </span>TaleWorlds.CampaignSystem;</div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>TaleWorlds.CampaignSystem.CampaignBehaviors;</div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>TaleWorlds.CampaignSystem.Party;</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>TaleWorlds.Localization;</div>
+<a href="../../dc/d87/a00032.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#region</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using </span>System.Collections.Generic;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using </span>TaleWorlds.CampaignSystem.Settlements;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span>TaleWorlds.Core;</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a>;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#endregion</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>[HarmonyPatch]</div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html">   10</a></span><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../d3/dc9/a00355.html">ReinforcementCaravanConversationPatches</a> {</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#acdc1d285fbdb9ab0e1e66a67774aeb7a">   11</a></span>    <span class="keyword">private</span> <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../d3/dc9/a00355.html#acdc1d285fbdb9ab0e1e66a67774aeb7a">DISABLE_TRADE_BLOCK_FOR_TEST</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="comment">// no trading for reinforcement </span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    [HarmonyPatch(typeof(CaravansCampaignBehavior), <span class="stringliteral">&quot;caravan_buy_products_on_condition&quot;</span>)]</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    [HarmonyPrefix]</div>
-<div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#a1e2108342a2910ad12d6e942b6b496b3">   16</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/dc9/a00355.html#a1e2108342a2910ad12d6e942b6b496b3">CaravanBuyProductsOnConditionPrefix</a>(ref <span class="keywordtype">bool</span> __result) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/dc9/a00355.html#acdc1d285fbdb9ab0e1e66a67774aeb7a">DISABLE_TRADE_BLOCK_FOR_TEST</a>) { <span class="keywordflow">return</span> <span class="keyword">true</span>; }</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d8/d87/a00118.html">DynamicTroopEquipmentReupload.Extensions</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../df/da9/a00263.html">   11</a></span><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class </span><a class="code hl_class" href="../../df/da9/a00263.html">TownExtension</a> {</div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../df/da9/a00263.html#a0b177644f55acabc29b1c85cb11f1da1">   12</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> List&lt;ItemObject&gt; <a class="code hl_function" href="../../df/da9/a00263.html#a0b177644f55acabc29b1c85cb11f1da1">GetRandomEquipments</a>(<span class="keyword">this</span> Town? town) {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        List&lt;ItemObject&gt; list = <span class="keyword">new</span>();</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">if</span> (town == <span class="keyword">null</span>) <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">foreach</span> (var village <span class="keywordflow">in</span> town.Villages) {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">if</span> (village.VillageState != Village.VillageStates.Normal) <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">if</span> (<a class="code hl_class" href="../../dc/d28/a00223.html">CutTheirSupplyBehavior</a>.<a class="code hl_function" href="../../dc/d28/a00223.html#a105560676df7fc55cfd940429992f57d">IsReinforcementCaravanParty</a>(MobileParty.ConversationParty)) {</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            __result = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        }</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
-</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            var items = <a class="code hl_class" href="../../d8/d72/a00199.html">Cache</a>.<a class="code hl_function" href="../../d8/d72/a00199.html#a949c5756fa4be32fc71685f83ffb25e1">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)village.GetProsperityLevel() +</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                                       (<span class="keywordtype">int</span>)(<a class="code hl_class" href="../../d0/da2/a00307.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d0/da2/a00307.html#a3ceb481f406db6aaa49c74320e44c127">Difficulty</a> ?? 0f),</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                       town.Culture);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">if</span> (items != <span class="keyword">null</span> &amp;&amp; !items.IsEmpty()) list.Add(items.GetRandomElement());</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">if</span> (town.IsUnderSiege) <span class="keywordflow">return</span> list;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    [HarmonyPatch(typeof(CaravansCampaignBehavior), <span class="stringliteral">&quot;AddDialogs&quot;</span>)]</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    [HarmonyPostfix]</div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#a94a98ed9591bfdb377273701dbbe8ad1">   29</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d3/dc9/a00355.html#a94a98ed9591bfdb377273701dbbe8ad1">AddDialogsPostfix</a>(CampaignGameStarter starter) {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        starter.AddPlayerLine(</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="stringliteral">&quot;reinforcement_caravan_buy_products_disabled&quot;</span>,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="stringliteral">&quot;caravan_talk&quot;</span>,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="stringliteral">&quot;caravan_player_trade&quot;</span>,</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="stringliteral">&quot;{=t0UGXPV4}I&#39;m interested in trading. What kind of products do you have?&quot;</span>,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <a class="code hl_function" href="../../d3/dc9/a00355.html#a1963a77098d79e21255148b53c7b9493">ReinforcementTradeLineOnCondition</a>,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keyword">null</span>,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            100,</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <a class="code hl_function" href="../../d3/dc9/a00355.html#a1fda89468f3968683d35f304876311f1">ReinforcementTradeLineOnClickableCondition</a>);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        var items2 =</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_class" href="../../d8/d72/a00199.html">Cache</a>.<a class="code hl_function" href="../../d8/d72/a00199.html#a949c5756fa4be32fc71685f83ffb25e1">GetItemsByTierAndCulture</a>(2 * (<span class="keywordtype">int</span>)town.GetProsperityLevel() +</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                           (<span class="keywordtype">int</span>)(<a class="code hl_class" href="../../d0/da2/a00307.html">ModSettings</a>.Instance?.<a class="code hl_property" href="../../d0/da2/a00307.html#a3ceb481f406db6aaa49c74320e44c127">Difficulty</a> ?? 0f),</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                           town.Culture);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (items2 != <span class="keyword">null</span> &amp;&amp; !items2.IsEmpty()) list.Add(items2.GetRandomElement());</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
 </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#a1963a77098d79e21255148b53c7b9493">   41</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/dc9/a00355.html#a1963a77098d79e21255148b53c7b9493">ReinforcementTradeLineOnCondition</a>() {</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="../../d3/dc9/a00355.html#acdc1d285fbdb9ab0e1e66a67774aeb7a">DISABLE_TRADE_BLOCK_FOR_TEST</a>) { <span class="keywordflow">return</span> <span class="keyword">false</span>; }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> <a class="code hl_class" href="../../dc/d28/a00223.html">CutTheirSupplyBehavior</a>.<a class="code hl_function" href="../../dc/d28/a00223.html#a105560676df7fc55cfd940429992f57d">IsReinforcementCaravanParty</a>(MobileParty.ConversationParty);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
 </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#a1fda89468f3968683d35f304876311f1">   47</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/dc9/a00355.html#a1fda89468f3968683d35f304876311f1">ReinforcementTradeLineOnClickableCondition</a>(out TextObject explanation) {</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        explanation = <a class="code hl_class" href="../../df/d95/a00299.html">LocalizedTexts</a>.<a class="code hl_variable" href="../../df/d95/a00299.html#a38b7e75a75f08d782e6efb65e9dbbde5">ReinforcementCaravanTradeDisabled</a>;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
-</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    [HarmonyPatch(typeof(CaravansCampaignBehavior), <span class="stringliteral">&quot;IsSurrenderFeasible&quot;</span>)]</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    [HarmonyPrefix]</div>
-<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="../../d3/dc9/a00355.html#aa9f2ff3bcdbce1aeac18736fa958eae7">   54</a></span>    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="../../d3/dc9/a00355.html#aa9f2ff3bcdbce1aeac18736fa958eae7">IsSurrenderFeasiblePrefix</a>(ref <span class="keywordtype">bool</span> __result) {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">if</span> (<a class="code hl_class" href="../../dc/d28/a00223.html">CutTheirSupplyBehavior</a>.<a class="code hl_function" href="../../dc/d28/a00223.html#a105560676df7fc55cfd940429992f57d">IsReinforcementCaravanParty</a>(MobileParty.ConversationParty)) {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            __result = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
-</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
-</div>
-<div class="ttc" id="aa00116_html"><div class="ttname"><a href="../../d4/d3e/a00116.html">DynamicTroopEquipmentReupload</a></div><div class="ttdef"><b>Definition</b> <a href="../../db/db2/a00020_source.html#l00007">ArmorSelector.cs:7</a></div></div>
-<div class="ttc" id="aa00223_html"><div class="ttname"><a href="../../dc/d28/a00223.html">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior</a></div><div class="ttdef"><b>Definition</b> <a href="../../d2/de7/a00014_source.html#l00022">CutTheirSupplyBehavior.cs:22</a></div></div>
-<div class="ttc" id="aa00223_html_a105560676df7fc55cfd940429992f57d"><div class="ttname"><a href="../../dc/d28/a00223.html#a105560676df7fc55cfd940429992f57d">DynamicTroopEquipmentReupload.CutTheirSupplyBehavior.IsReinforcementCaravanParty</a></div><div class="ttdeci">static bool IsReinforcementCaravanParty(MobileParty? mobileParty)</div><div class="ttdef"><b>Definition</b> <a href="../../d2/de7/a00014_source.html#l00093">CutTheirSupplyBehavior.cs:93</a></div></div>
-<div class="ttc" id="aa00299_html"><div class="ttname"><a href="../../df/d95/a00299.html">DynamicTroopEquipmentReupload.LocalizedTexts</a></div><div class="ttdef"><b>Definition</b> <a href="../../d4/d81/a00110_source.html#l00005">LocalizedTexts.cs:5</a></div></div>
-<div class="ttc" id="aa00299_html_a38b7e75a75f08d782e6efb65e9dbbde5"><div class="ttname"><a href="../../df/d95/a00299.html#a38b7e75a75f08d782e6efb65e9dbbde5">DynamicTroopEquipmentReupload.LocalizedTexts.ReinforcementCaravanTradeDisabled</a></div><div class="ttdeci">static readonly TextObject ReinforcementCaravanTradeDisabled</div><div class="ttdef"><b>Definition</b> <a href="../../d4/d81/a00110_source.html#l00046">LocalizedTexts.cs:46</a></div></div>
-<div class="ttc" id="aa00355_html"><div class="ttname"><a href="../../d3/dc9/a00355.html">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches</a></div><div class="ttdef"><b>Definition</b> <a href="#l00010">ReinforcementCaravanConversationPatches.cs:10</a></div></div>
-<div class="ttc" id="aa00355_html_a1963a77098d79e21255148b53c7b9493"><div class="ttname"><a href="../../d3/dc9/a00355.html#a1963a77098d79e21255148b53c7b9493">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.ReinforcementTradeLineOnCondition</a></div><div class="ttdeci">static bool ReinforcementTradeLineOnCondition()</div><div class="ttdef"><b>Definition</b> <a href="#l00041">ReinforcementCaravanConversationPatches.cs:41</a></div></div>
-<div class="ttc" id="aa00355_html_a1e2108342a2910ad12d6e942b6b496b3"><div class="ttname"><a href="../../d3/dc9/a00355.html#a1e2108342a2910ad12d6e942b6b496b3">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.CaravanBuyProductsOnConditionPrefix</a></div><div class="ttdeci">static bool CaravanBuyProductsOnConditionPrefix(ref bool __result)</div><div class="ttdef"><b>Definition</b> <a href="#l00016">ReinforcementCaravanConversationPatches.cs:16</a></div></div>
-<div class="ttc" id="aa00355_html_a1fda89468f3968683d35f304876311f1"><div class="ttname"><a href="../../d3/dc9/a00355.html#a1fda89468f3968683d35f304876311f1">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.ReinforcementTradeLineOnClickableCondition</a></div><div class="ttdeci">static bool ReinforcementTradeLineOnClickableCondition(out TextObject explanation)</div><div class="ttdef"><b>Definition</b> <a href="#l00047">ReinforcementCaravanConversationPatches.cs:47</a></div></div>
-<div class="ttc" id="aa00355_html_a94a98ed9591bfdb377273701dbbe8ad1"><div class="ttname"><a href="../../d3/dc9/a00355.html#a94a98ed9591bfdb377273701dbbe8ad1">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.AddDialogsPostfix</a></div><div class="ttdeci">static void AddDialogsPostfix(CampaignGameStarter starter)</div><div class="ttdef"><b>Definition</b> <a href="#l00029">ReinforcementCaravanConversationPatches.cs:29</a></div></div>
-<div class="ttc" id="aa00355_html_aa9f2ff3bcdbce1aeac18736fa958eae7"><div class="ttname"><a href="../../d3/dc9/a00355.html#aa9f2ff3bcdbce1aeac18736fa958eae7">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.IsSurrenderFeasiblePrefix</a></div><div class="ttdeci">static bool IsSurrenderFeasiblePrefix(ref bool __result)</div><div class="ttdef"><b>Definition</b> <a href="#l00054">ReinforcementCaravanConversationPatches.cs:54</a></div></div>
-<div class="ttc" id="aa00355_html_acdc1d285fbdb9ab0e1e66a67774aeb7a"><div class="ttname"><a href="../../d3/dc9/a00355.html#acdc1d285fbdb9ab0e1e66a67774aeb7a">DynamicTroopEquipmentReupload.ReinforcementCaravanConversationPatches.DISABLE_TRADE_BLOCK_FOR_TEST</a></div><div class="ttdeci">const bool DISABLE_TRADE_BLOCK_FOR_TEST</div><div class="ttdef"><b>Definition</b> <a href="#l00011">ReinforcementCaravanConversationPatches.cs:11</a></div></div>
+<div class="ttc" id="aa00118_html"><div class="ttname"><a href="../../d8/d87/a00118.html">DynamicTroopEquipmentReupload.Extensions</a></div><div class="ttdef"><b>Definition</b> <a href="../../d6/d2d/a00047_source.html#l00005">AgentExtension.cs:5</a></div></div>
+<div class="ttc" id="aa00199_html"><div class="ttname"><a href="../../d8/d72/a00199.html">DynamicTroopEquipmentReupload.Cache</a></div><div class="ttdef"><b>Definition</b> <a href="../../d0/dc2/a00104_source.html#l00014">Cache.cs:14</a></div></div>
+<div class="ttc" id="aa00199_html_a949c5756fa4be32fc71685f83ffb25e1"><div class="ttname"><a href="../../d8/d72/a00199.html#a949c5756fa4be32fc71685f83ffb25e1">DynamicTroopEquipmentReupload.Cache.GetItemsByTierAndCulture</a></div><div class="ttdeci">static ? ItemObject[] GetItemsByTierAndCulture(int tier, BasicCultureObject? culture)</div><div class="ttdef"><b>Definition</b> <a href="../../d0/dc2/a00104_source.html#l00027">Cache.cs:27</a></div></div>
+<div class="ttc" id="aa00263_html"><div class="ttname"><a href="../../df/da9/a00263.html">DynamicTroopEquipmentReupload.Extensions.TownExtension</a></div><div class="ttdef"><b>Definition</b> <a href="#l00011">TownExtension.cs:11</a></div></div>
+<div class="ttc" id="aa00263_html_a0b177644f55acabc29b1c85cb11f1da1"><div class="ttname"><a href="../../df/da9/a00263.html#a0b177644f55acabc29b1c85cb11f1da1">DynamicTroopEquipmentReupload.Extensions.TownExtension.GetRandomEquipments</a></div><div class="ttdeci">static List&lt; ItemObject &gt; GetRandomEquipments(this Town? town)</div><div class="ttdef"><b>Definition</b> <a href="#l00012">TownExtension.cs:12</a></div></div>
+<div class="ttc" id="aa00307_html"><div class="ttname"><a href="../../d0/da2/a00307.html">DynamicTroopEquipmentReupload.ModSettings</a></div><div class="ttdef"><b>Definition</b> <a href="../../dc/dee/a00053_source.html#l00012">ModSettings.cs:12</a></div></div>
+<div class="ttc" id="aa00307_html_a3ceb481f406db6aaa49c74320e44c127"><div class="ttname"><a href="../../d0/da2/a00307.html#a3ceb481f406db6aaa49c74320e44c127">DynamicTroopEquipmentReupload.ModSettings.Difficulty</a></div><div class="ttdeci">float Difficulty</div><div class="ttdef"><b>Definition</b> <a href="../../dc/dee/a00053_source.html#l00033">ModSettings.cs:33</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
