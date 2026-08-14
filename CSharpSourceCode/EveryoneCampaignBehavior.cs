@@ -7,11 +7,14 @@ using Bannerlord.ButterLib.SaveSystem.Extensions;
 using DynamicTroopEquipmentReupload.Comparers;
 using DynamicTroopEquipmentReupload.Extensions;
 using DynamicTroopEquipmentReupload.Patches;
+using Helpers;
 using HarmonyLib;
 using log4net.Core;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -324,13 +327,25 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private void OnMapEventEnded(MapEvent mapEvent) {
 		Global.Log($"Map Event ended with state {mapEvent.BattleState}", Colors.Green, Level.Debug);
 		if (mapEvent.BattleState is not BattleState.AttackerVictory and not BattleState.DefenderVictory) return;
+		if (mapEvent.EndedByRetreat ||
+			(mapEvent.IsPlayerMapEvent && PlayerEncounter.Current.IsNavalEncounterFinishedWithDisengage) ||
+			(mapEvent.IsPlayerSimulation && PlayerEncounter.Current.ForceHideoutSendTroops))
+			return;
 
-		var validWinnerParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
-														? mapEvent.AttackerSide.Parties
-														: mapEvent.DefenderSide.Parties);
-		var validLoserParties = FilterValidParties(mapEvent.BattleState == BattleState.AttackerVictory
-													   ? mapEvent.DefenderSide.Parties
-													   : mapEvent.AttackerSide.Parties);
+		var winnerParties = mapEvent.BattleState == BattleState.AttackerVictory
+			? mapEvent.AttackerSide.Parties
+			: mapEvent.DefenderSide.Parties;
+		var loserParties = mapEvent.BattleState == BattleState.AttackerVictory
+			? mapEvent.DefenderSide.Parties
+			: mapEvent.AttackerSide.Parties;
+
+		if (mapEvent.IsPlayerSimulation && mapEvent.WinningSide == mapEvent.PlayerSide) {
+			DistributePlayerSimulationLoot(mapEvent, winnerParties, loserParties);
+			return;
+		}
+
+		var validWinnerParties = FilterValidParties(winnerParties);
+		var validLoserParties = FilterValidParties(loserParties);
 
 		LogParties(validWinnerParties, "Winning");
 		LogParties(validLoserParties,  "Defeated");
@@ -341,6 +356,123 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 
 	private MapEventParty[] FilterValidParties(IEnumerable<MapEventParty> parties) {
 		return parties.WhereQ(IsMapEventPartyValid).ToArrayQ();
+	}
+
+	private void DistributePlayerSimulationLoot(
+		MapEvent mapEvent,
+		MBReadOnlyList<MapEventParty> winnerParties,
+		MBReadOnlyList<MapEventParty> loserParties) {
+		var random = new Random();
+		var dropRate = SubModule.Settings?.DropRate ?? 1f;
+		var canUseMountEquipment = !mapEvent.IsNavalMapEvent && !MapEventHelper.IsNavalRaid(mapEvent);
+		var mountsUnavailable = !canUseMountEquipment ||
+			mapEvent.IsSiegeAssault ||
+			mapEvent.IsSiegeOutside ||
+			mapEvent.IsSallyOut;
+
+		foreach (var defeatedParty in loserParties) {
+			Dictionary<UniqueTroopDescriptor, Assignment>? assignments = null;
+			var defeatedMobileParty = defeatedParty.Party.MobileParty;
+			if (defeatedMobileParty != null && defeatedMobileParty.IsValid()) {
+				var defeatedArmory = SanitizePartyArmory(defeatedMobileParty.Id);
+				if (defeatedArmory != null)
+					assignments = PartyEquipmentDistributor.CreateMapEventAssignments(
+						defeatedMobileParty,
+						defeatedParty.Troops,
+						defeatedArmory,
+						canUseMountEquipment);
+			}
+
+			var lootChances = Campaign.Current.Models.BattleRewardModel
+				.GetLootCasualtyChances(winnerParties, defeatedParty.Party);
+
+			foreach (var casualty in defeatedParty.Troops) {
+				if (casualty.Troop.IsHero ||
+					casualty.State is not (RosterTroopState.Killed or RosterTroopState.WoundedInThisBattle))
+					continue;
+
+				var totalChance = 0f;
+				foreach (var lootChance in lootChances) {
+					var mobileParty = lootChance.Key.Party.MobileParty;
+					if (lootChance.Value > 0f &&
+						(lootChance.Key.Party == PartyBase.MainParty ||
+						 mobileParty != null && mobileParty.IsValid() && PartyArmories.ContainsKey(mobileParty.Id)))
+						totalChance += lootChance.Value;
+				}
+
+				if (totalChance <= 0f)
+					continue;
+
+				var roll = random.NextDouble() * totalChance;
+				var accumulatedChance = 0f;
+				MapEventParty? recipientParty = null;
+				foreach (var lootChance in lootChances) {
+					var mobileParty = lootChance.Key.Party.MobileParty;
+					if (lootChance.Value <= 0f ||
+						(lootChance.Key.Party != PartyBase.MainParty &&
+						 (mobileParty == null || !mobileParty.IsValid() || !PartyArmories.ContainsKey(mobileParty.Id))))
+						continue;
+
+					accumulatedChance += lootChance.Value;
+					if (roll < accumulatedChance) {
+						recipientParty = lootChance.Key;
+						break;
+					}
+				}
+
+				if (recipientParty == null)
+					continue;
+
+				Assignment? assignment = null;
+				Equipment equipment;
+				if (assignments != null && assignments.TryGetValue(casualty.Descriptor, out assignment))
+					equipment = assignment.Equipment;
+				else
+					equipment = casualty.Troop.RandomBattleEquipment;
+
+				ItemObject? extraBrokenArmor = null;
+				var extraBreakChance = casualty.Troop.Tier switch {
+					3 => 0.25f,
+					4 => 0.35f,
+					5 => 0.45f,
+					_ => casualty.Troop.Tier >= 6 ? 0.60f : 0f
+				};
+
+				if (extraBreakChance > 0f && random.NextFloat() <= extraBreakChance) {
+					var armorCandidates = new List<ItemObject>();
+					foreach (var armorSlot in Global.ArmourAndHorsesSlots) {
+						var armor = equipment[armorSlot].Item;
+						if (armor is { HasArmorComponent: true } && armor.ItemType != ItemObject.ItemTypeEnum.HorseHarness)
+							armorCandidates.Add(armor);
+					}
+
+					if (armorCandidates.Count > 0)
+						extraBrokenArmor = armorCandidates[random.Next(armorCandidates.Count)];
+				}
+
+				// auto resolve dont have damages per body part
+				foreach (var slot in Global.EquipmentSlots) {
+					if (mountsUnavailable && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+						continue;
+
+					var equipmentElement = equipment[slot];
+					var item = equipmentElement.Item;
+					if (item == null ||
+						item.IsBannerItem ||
+						item.ItemType == ItemObject.ItemTypeEnum.Banner ||
+						assignment?.IsTemporarySlot(slot, item) == true ||
+						(extraBrokenArmor != null && item.StringId == extraBrokenArmor.StringId) ||
+						!ItemBlackList.Test(item) ||
+						random.NextFloat() > dropRate)
+						continue;
+
+					if (recipientParty.Party == PartyBase.MainParty)
+						ArmyArmory.AddItemToArmory(item);
+					else if (recipientParty.Party.MobileParty is { } recipientMobileParty)
+						AddItemToPartyArmory(recipientMobileParty.Id, item, 1);
+				}
+			}
+		}
 	}
 
 	private static void LogParties(IEnumerable<MapEventParty> parties, string label) {
@@ -373,7 +505,11 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			var totalLootCount = 0;
 
 			foreach (var lootItem in lootItemsWithCount) {
-				AddItemToPartyArmory(winnerParty.Id, lootItem.Key, lootItem.Value);
+				if (winnerParty == MobileParty.MainParty)
+					ArmyArmory.AddItemToArmory(lootItem.Key, lootItem.Value);
+				else
+					AddItemToPartyArmory(winnerParty.Id, lootItem.Key, lootItem.Value);
+
 				totalLootCount += lootItem.Value;
 			}
 
@@ -410,8 +546,12 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 						: 1;
 			}
 
-			foreach (var partyItemCount in currentItemDistribution)
-				AddItemToPartyArmory(partyItemCount.Key, item, partyItemCount.Value);
+			foreach (var partyItemCount in currentItemDistribution) {
+				if (partyItemCount.Key == MobileParty.MainParty.Id)
+					ArmyArmory.AddItemToArmory(item, partyItemCount.Value);
+				else
+					AddItemToPartyArmory(partyItemCount.Key, item, partyItemCount.Value);
+			}
 
 			if (selectionFailed)
 				return;
@@ -425,18 +565,21 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	private static Dictionary<ItemObject, int> GetAllLootItems(IEnumerable<MapEventParty> parties) {
 		Dictionary<ItemObject, int> itemsWithCount = new();
 		foreach (var party in parties) {
-			var partyId = party.Party.MobileParty.Id;
-			var inventory = SanitizePartyArmory(partyId);
-			if (inventory == null)
-				continue;
+			var mobileParty = party.Party.MobileParty;
+			if (mobileParty != null) {
+				var inventory = SanitizePartyArmory(mobileParty.Id);
+				if (inventory != null) {
+					foreach (var item in inventory) {
+						if (item.Value <= 0 || !ItemBlackList.Test(item.Key))
+							continue;
 
-			foreach (var item in inventory) {
-				if (item.Value <= 0 || !ItemBlackList.Test(item.Key))
+						itemsWithCount[item.Key] = itemsWithCount.TryGetValue(item.Key, out var currentCount)
+							? currentCount + item.Value
+							: item.Value;
+					}
+
 					continue;
-
-				itemsWithCount[item.Key] = itemsWithCount.TryGetValue(item.Key, out var currentCount)
-					? currentCount + item.Value
-					: item.Value;
+				}
 			}
 		}
 

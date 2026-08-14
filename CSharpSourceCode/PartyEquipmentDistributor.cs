@@ -334,6 +334,40 @@ public class PartyEquipmentDistributor {
 		return new ArmoryReadiness(equippedSlots, expectedSlots, largestShortage.Key, largestShortage.Value);
 	}
 
+	internal static Dictionary<UniqueTroopDescriptor, Assignment> CreateMapEventAssignments(
+		MobileParty party,
+		FlattenedTroopRoster troops,
+		Dictionary<ItemObject, int> armory,
+		bool canUseMountEquipment) {
+		var armorySnapshot = new ItemRoster();
+		foreach (var armoryItem in armory) {
+			if (armoryItem.Value > 0 && ArmyArmory.TryResolveArmoryItem(armoryItem.Key, out var item))
+				armorySnapshot.AddToCounts(new EquipmentElement(item), armoryItem.Value);
+		}
+
+		var distributor = new PartyEquipmentDistributor(party, armorySnapshot, canUseMountEquipment);
+		var assignments = new Dictionary<UniqueTroopDescriptor, Assignment>();
+
+		foreach (var troop in troops) {
+			if (troop.Troop.IsHero || troop.State == RosterTroopState.Wounded)
+				continue;
+
+			var assignment = new Assignment(troop.Troop, canUseMountEquipment);
+			distributor.Assignments.Add(assignment);
+			assignments[troop.Descriptor] = assignment;
+		}
+
+		distributor.Assignments.Sort((x, y) => y.CompareTo(x));
+		foreach (var rosterElement in armorySnapshot)
+			distributor.AddEquipmentToAssign(rosterElement.EquipmentElement, rosterElement.Amount);
+
+		distributor.DoAssignAsync();
+		foreach (var assignment in distributor.Assignments)
+			assignment.FillEmptySlots();
+
+		return assignments;
+	}
+
 	public void RunAsync() {
 		foreach (var troop in _party.MemberRoster.GetTroopRoster()) {
 			for (var i = 0; i < troop.Number - troop.WoundedNumber; i++) {

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Encounters;
@@ -22,13 +23,15 @@ public static class ItemRosterForPlayerLootSharePatch {
 		var playerEncounter = PlayerEncounter.Current;
 		var mapEvent = MapEvent.PlayerMapEvent;
 		if (mapEvent == null ||
+			mapEvent.IsPlayerSimulation ||
 			mapEvent.WinningSide != mapEvent.PlayerSide ||
 			playerEncounter?.IsNavalEncounterFinishedWithDisengage == true ||
 			playerEncounter?.ForceHideoutSendTroops == true)
 			return;
 
 		var sanitizedVanillaLoot = CreateSanitizedRoster(gainedLoots);
-		var dynamicTroopLoot = new ItemRoster();
+		ReplaceRosterContents(gainedLoots, sanitizedVanillaLoot);
+
 		var playerContribution = mapEvent.GetPlayerBattleContributionRate();
 		if (float.IsNaN(playerContribution) || float.IsInfinity(playerContribution))
 			playerContribution = 0f;
@@ -47,7 +50,7 @@ public static class ItemRosterForPlayerLootSharePatch {
 			if (defeatedArmory == null)
 				continue;
 
-			foreach (var entry in defeatedArmory) {
+			foreach (var entry in defeatedArmory.ToArray()) {
 				if (entry.Value <= 0 ||
 					!ArmyArmory.TryResolveArmoryItem(entry.Key, out var item) ||
 					!ItemBlackList.Test(item))
@@ -57,24 +60,19 @@ public static class ItemRosterForPlayerLootSharePatch {
 				var lootCount = (int)expectedCount;
 				if (_random.NextDouble() < expectedCount - lootCount)
 					lootCount++;
+
 				lootCount = Math.Min(lootCount, entry.Value);
-				if (lootCount > 0)
-					dynamicTroopLoot.AddToCounts(item, lootCount);
+				if (lootCount <= 0)
+					continue;
+
+				gainedLoots.AddToCounts(item, lootCount);
+
+				if (lootCount == entry.Value)
+					defeatedArmory.Remove(entry.Key);
+				else
+					defeatedArmory[entry.Key] = entry.Value - lootCount;
 			}
 		}
-
-		if (dynamicTroopLoot.IsEmpty()) {
-			ReplaceRosterContents(gainedLoots, sanitizedVanillaLoot);
-			return;
-		}
-
-		foreach (var rosterElement in sanitizedVanillaLoot) {
-			var item = rosterElement.EquipmentElement.Item;
-			if (item.IsTradeGood || item.IsBannerItem || item.ItemType == ItemObject.ItemTypeEnum.Animal)
-				dynamicTroopLoot.AddToCounts(rosterElement.EquipmentElement, rosterElement.Amount);
-		}
-
-		ReplaceRosterContents(gainedLoots, dynamicTroopLoot);
 	}
 
 	private static ItemRoster CreateSanitizedRoster(ItemRoster sourceRoster) {

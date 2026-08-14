@@ -2,9 +2,11 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using DynamicTroopEquipmentReupload.Extensions;
+using HarmonyLib;
 using log4net.Core;
 using SandBox.Missions.MissionLogics.Hideout;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.AgentOrigins;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
@@ -16,7 +18,12 @@ using TaleWorlds.ObjectSystem;
 namespace DynamicTroopEquipmentReupload;
 
 public class DynamicTroopMissionLogic : MissionLogic {
+	private static readonly AccessTools.FieldRef<PartyAgentOrigin, bool> PartyAgentOriginInvincibleRef =
+		AccessTools.FieldRefAccess<PartyAgentOrigin, bool>("_isInvincible");
+
 	private readonly Dictionary<Agent, Assignment> _assignmentByAgent = new();
+	private readonly Dictionary<Agent, Equipment> _navalSpawnEquipmentByAgent = new();
+	private readonly Dictionary<Agent, HashSet<EquipmentIndex>> _brokenShieldSlotsByAgent = new();
 	private readonly Dictionary<MBGUID, BattleSideEnum> _sideByInvolvedParty = new();
 	private readonly ConcurrentDictionary<MBGUID, PartyBattleRecord> _partyBattleRecords = new();
 	// drowning (or any other self inflicted blow) is not identifying a valid looting party during agent removal. loot owner party to be resolved when the battle result is known.
@@ -48,6 +55,8 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		Distributors.Clear();
 		PartyBattleSides.Clear();
 		_assignmentByAgent.Clear();
+		_navalSpawnEquipmentByAgent.Clear();
+		_brokenShieldSlotsByAgent.Clear();
 
 		_isMissionEnded = false;
 
@@ -134,6 +143,15 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			return;
 		}
 
+		// ambush using units without a campaign roster for mission  
+		var isSyntheticAmbushTroop =
+			Mission.HasMissionBehavior<HideoutAmbushMissionController>() &&
+			affectedAgent.Origin is PartyAgentOrigin partyAgentOrigin &&
+			PartyAgentOriginInvincibleRef(partyAgentOrigin);
+		if (isSyntheticAmbushTroop) {
+			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
+			return;
+		}
 		if (_processedAgents.Contains(affectedAgent)) {
 			base.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 			return;
@@ -171,6 +189,7 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			PartyBattleRecord? affectorBattleRecord = null;
 			if (hasAffectedSide &&
 				affectorPartyId.HasValue &&
+				PartyBattleSides.ContainsKey(affectorPartyId.Value) &&
 				_sideByInvolvedParty.TryGetValue(affectorPartyId.Value, out var affectorSide) &&
 				affectorSide != affectedSide)
 				affectorBattleRecord = _partyBattleRecords.GetOrAdd(
@@ -562,20 +581,53 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		_assignmentByAgent[agent] = assignment;
 	}
 
+	public void RegisterNavalSpawnEquipment(Agent agent) {
+		_navalSpawnEquipmentByAgent[agent] = agent.SpawnEquipment.Clone();
+	}
+
+	public void RegisterBrokenShield(Agent agent, EquipmentIndex slot) {
+		if (!_brokenShieldSlotsByAgent.TryGetValue(agent, out var brokenSlots)) {
+			brokenSlots = new HashSet<EquipmentIndex>();
+			_brokenShieldSlotsByAgent[agent] = brokenSlots;
+		}
+
+		brokenSlots.Add(slot);
+	}
+
+	private bool WasShieldBroken(Agent agent, EquipmentIndex slot) {
+		return _brokenShieldSlotsByAgent.TryGetValue(agent, out var brokenSlots) && brokenSlots.Contains(slot);
+	}
 
 	private void ProcessAgentEquipmentRespectingTemporarySlots(Agent agent, Action<ItemObject> processEquipmentItem) {
 		if (_assignmentByAgent.TryGetValue(agent, out var assignment)) {
+			var spawnEquipment = agent.SpawnEquipment;
+			var hasSpawnEquipmentData = Global.EquipmentSlots.AnyQ(slot =>
+				spawnEquipment[slot] is { IsEmpty: false, Item: not null });
 			var processedItemCount = 0;
+
+			ItemObject ArmoryItemForSlot(EquipmentIndex slot, ItemObject spawnItem) {
+				if (!Mission.IsNavalBattle ||
+					Mission.IsNavalRaidBattle ||
+					spawnItem.ItemType is not (ItemObject.ItemTypeEnum.Arrows or ItemObject.ItemTypeEnum.Bolts))
+					return spawnItem;
+
+				var assignedElement = assignment.GetEquipmentFromSlot(slot);
+				return assignedElement is { IsEmpty: false, Item: not null } && assignedElement.Item.ItemType == spawnItem.ItemType
+					? assignedElement.Item
+					: spawnItem;
+			}
 
 			Global.ProcessAgentEquipment(
 				agent,
-				item => {
+				(slot, item) => {
 					processedItemCount++;
-					processEquipmentItem(item);
+					processEquipmentItem(ArmoryItemForSlot(slot, item));
 				},
-				(slot, missionWeapon, spawnElement) => !assignment.IsTemporarySlot(slot, spawnElement.Item));
+				(slot, missionWeapon, spawnElement) =>
+					!WasShieldBroken(agent, slot) &&
+					!assignment.IsTemporarySlot(slot, ArmoryItemForSlot(slot, spawnElement.Item)));
 
-			if (processedItemCount == 0) {
+			if (processedItemCount == 0 && !hasSpawnEquipmentData) {
 				Global.Log($"[DTES] Agent equipment returned 0 items. Fallback to Assignment. Agent={agent.Character?.Name}", Colors.Yellow, Level.Debug);
 				ProcessAssignmentEquipmentFallback(assignment, processEquipmentItem);
 			}
@@ -583,12 +635,42 @@ public class DynamicTroopMissionLogic : MissionLogic {
 			return;
 		}
 
-		Global.ProcessAgentEquipment(agent, processEquipmentItem);
+		if (_navalSpawnEquipmentByAgent.TryGetValue(agent, out var originalSpawnEquipment)) {
+			Global.ProcessAgentEquipment(
+				agent,
+				(slot, item) => {
+					var originalElement = originalSpawnEquipment[slot];
+					var originalItem = originalElement.Item;
+					var itemToRecover =
+						originalItem != null &&
+						item.ItemType is ItemObject.ItemTypeEnum.Arrows or ItemObject.ItemTypeEnum.Bolts &&
+						originalItem.ItemType == item.ItemType
+							? originalItem
+							: item;
+
+					processEquipmentItem(itemToRecover);
+				},
+				(slot, missionWeapon, spawnElement) => !WasShieldBroken(agent, slot));
+			return;
+		}
+
+		Global.ProcessAgentEquipment(
+			agent,
+			processEquipmentItem,
+			(slot, missionWeapon, spawnElement) => !WasShieldBroken(agent, slot));
 	}
 
-	private static void ProcessAssignmentEquipmentFallback(Assignment assignment, Action<ItemObject> processEquipmentItem) {
+	private void ProcessAssignmentEquipmentFallback(Assignment assignment, Action<ItemObject> processEquipmentItem) {
+		var isHideoutBattle =
+			Mission.HasMissionBehavior<HideoutMissionController>() ||
+			Mission.HasMissionBehavior<HideoutAmbushMissionController>();
+		var mountsUnavailable =
+			!assignment.CanUseMountEquipment ||
+			isHideoutBattle ||
+			Mission.HasMissionBehavior<MissionSiegeEnginesLogic>();
+
 		foreach (var slot in Global.EquipmentSlots) {
-			if (!assignment.CanUseMountEquipment && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
+			if (mountsUnavailable && (slot == EquipmentIndex.Horse || slot == EquipmentIndex.HorseHarness))
 				continue;
 
 			var element = assignment.Equipment[slot];

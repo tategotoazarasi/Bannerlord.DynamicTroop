@@ -207,12 +207,18 @@ public static class Global {
 	}
 
 	public static void ProcessAgentEquipment(Agent agent, Action<ItemObject> processEquipmentItem) {
-		ProcessAgentEquipment(agent, processEquipmentItem, null);
+		ProcessAgentEquipment(agent, (_, item) => processEquipmentItem(item), null);
 	}
 
 	public static void ProcessAgentEquipment(
 		Agent                                                        agent,
 		Action<ItemObject>                                           processEquipmentItem,
+		Func<EquipmentIndex, MissionWeapon, EquipmentElement, bool>? shouldProcessSlot) {
+		ProcessAgentEquipment(agent, (_, item) => processEquipmentItem(item), shouldProcessSlot);
+	}
+	public static void ProcessAgentEquipment(
+		Agent                                                        agent,
+		Action<EquipmentIndex, ItemObject>                            processEquipmentItem,
 		Func<EquipmentIndex, MissionWeapon, EquipmentElement, bool>? shouldProcessSlot) {
 		var missionEquipment = agent.Equipment;
 		var spawnEquipment   = agent.SpawnEquipment;
@@ -250,7 +256,7 @@ public static class Global {
 			if (shouldProcessSlot != null && !shouldProcessSlot(slot, missionWeapon, spawnElement))
 				continue;
 
-			processEquipmentItem(spawnElement.Item);
+			processEquipmentItem(slot, spawnElement.Item);
 		}
 	}
 

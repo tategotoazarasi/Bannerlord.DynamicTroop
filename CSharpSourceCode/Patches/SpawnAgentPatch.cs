@@ -68,7 +68,15 @@ public static class SpawnAgentPatch {
 	}
 
 	private static void Postfix(Agent __result, SpawnAgentState? __state) {
-		if (__result == null || __state == null) { return; }
+		if (__result == null) { return; }
+
+		var dynamicTroopMissionLogic = __result.Mission?.GetMissionBehavior<DynamicTroopMissionLogic>();
+		if (__state == null) {
+			if (__result.Mission is { IsNavalBattle: true, IsNavalRaidBattle: false } &&
+				__result.Character is { IsHero: false })
+				dynamicTroopMissionLogic?.RegisterNavalSpawnEquipment(__result);
+			return;
+		}
 
 		var equipmentToConsume = __state.Assignment.CreateEquipmentForArmoryConsumption();
 
@@ -81,7 +89,6 @@ public static class SpawnAgentPatch {
 			if (penalty > 0f) { ApplyMoralePenalty(__result, penalty); }
 		}
 
-		var dynamicTroopMissionLogic = __result.Mission?.GetMissionBehavior<DynamicTroopMissionLogic>();
 		dynamicTroopMissionLogic?.RegisterSpawnedAgentAssignment(__result, __state.Assignment);
 	}
 

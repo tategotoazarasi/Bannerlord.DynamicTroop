@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bannerlord.UIExtenderEx;
+using DynamicTroopEquipmentReupload.Patches;
 using HarmonyLib;
 using log4net;
 using log4net.Appender;
@@ -91,11 +92,26 @@ public class SubModule : MBSubModuleBase {
 																});*/
 	}
 
-	public override void OnGameInitializationFinished(Game game) { base.OnGameInitializationFinished(game); }
+	public override void OnGameInitializationFinished(Game game) {
+		base.OnGameInitializationFinished(game);
+
+		var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
+		var onShieldDamaged = AccessTools.Method(typeof(Agent), "OnShieldDamaged");
+		var shieldDamagedPrefix = AccessTools.Method(typeof(BrokenShieldPatch), "AgentShieldDamagedPrefix");
+		harmony.Patch(onShieldDamaged, prefix: new HarmonyMethod(shieldDamagedPrefix));
+	}
 
 	protected override void OnGameStart(Game game, IGameStarter gameStarterObject) {
 		base.OnGameStart(game, gameStarterObject);
 		if (game.GameType is Campaign) AddBehaviors(gameStarterObject as CampaignGameStarter);
+	}
+
+	public override void OnGameEnd(Game game) {
+		var harmony = new Harmony("com.bannerlord.mod.dynamic_troop");
+		var onShieldDamaged = AccessTools.Method(typeof(Agent), "OnShieldDamaged");
+		harmony.Unpatch(onShieldDamaged, HarmonyPatchType.Prefix, harmony.Id);
+
+		base.OnGameEnd(game);
 	}
 
 	private void AddBehaviors(CampaignGameStarter? gameStarterObject) {
