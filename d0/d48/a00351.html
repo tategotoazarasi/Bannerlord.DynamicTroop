@@ -83,22 +83,21 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../df/d6a/a00119.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../de/d36/a00123.html">Patches</a></li><li class="navelem"><a class="el" href="../../d0/dc3/a00354.html">RecruitmentPatch</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../df/d6a/a00119.html">DynamicTroopEquipmentReupload</a></li><li class="navelem"><a class="el" href="../../de/d36/a00123.html">Patches</a></li><li class="navelem"><a class="el" href="../../d0/dc3/a00354.html">VanillaCasualtyLootPatch</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
-  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch Member List</div></div>
+  <div class="headertitle"><div class="title">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This is the complete list of members for <a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a>, including all inherited members.</p>
+<p>This is the complete list of members for <a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#a542be308d9e0e9512346e30c6a9924d5">AddStartingEquipmentToPlayerArmory</a>(CharacterObject character, int troopCount)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a></td><td class="entry"><span class="mlabel">package</span><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#a42352ae1696ed603ffa4ee6e3eb7fd35">GetRandomizedRecruitEquipments</a>(CharacterObject? character)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#af2b2261621e282f0366ebd36d87cf3d3">GetRecruitEquipments</a>(CharacterObject? character)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#af13737721db1722064f2ade87df7ad0c">Postfix</a>(Dictionary&lt; CharacterObject, int &gt; __state)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#a4a93726b6bb5edd9b484538839476504">Prefix</a>(RecruitmentVM __instance, out Dictionary&lt; CharacterObject, int &gt; __state)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.RecruitmentPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#ac56ebd116c4ab55e196f802a05ef2b3c">CountLootItems</a>(ItemRoster roster)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#ab100a61d664102642f525624981c8b6d">FindPlayerParty</a>(MBReadOnlyList&lt; MapEventParty &gt; parties)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#a43e3d108f8210485e0e3ff8d6878c9ba">Postfix</a>(MapEvent __instance, MBReadOnlyList&lt; MapEventParty &gt; winnerParties, Dictionary&lt; ItemObject, int &gt;? __state)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d0/dc3/a00354.html#a356a3d88f614d6dd9132380060d23622">Prefix</a>(MapEvent __instance, MBReadOnlyList&lt; MapEventParty &gt; winnerParties, out Dictionary&lt; ItemObject, int &gt;? __state)</td><td class="entry"><a class="el" href="../../d0/dc3/a00354.html">DynamicTroopEquipmentReupload.Patches.VanillaCasualtyLootPatch</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

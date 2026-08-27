@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['table_20of_20contents_0',['📖 Table of Contents',['../d0/dd6/a00415.html#autotoc_md1',1,'']]],
+  ['table_20of_20contents_0',['📖 Table of Contents',['../d3/d29/a00419.html#autotoc_md1',1,'']]],
   ['target_5fparty_5fsize_1',['TARGET_PARTY_SIZE',['../dc/d55/a00226.html#a85a336f3748b96e005363f0651cefa4d',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['tavernmercenaryequipmentpatch_2',['TavernMercenaryEquipmentPatch',['../da/d75/a00334.html',1,'DynamicTroopEquipmentReupload::Patches']]],
   ['test_3',['Test',['../d4/d5b/a00294.html#a76cf72d7e5032dec2846b85a42604225',1,'DynamicTroopEquipmentReupload::ItemBlackList']]],
-  ['the_20armory_20system_4',['The Armory System',['../d0/dd6/a00415.html#autotoc_md6',1,'']]],
-  ['their_20supply_5',['AI &amp; Logistics (&quot;Cut Their Supply&quot;)',['../d0/dd6/a00415.html#autotoc_md9',1,'']]],
+  ['the_20armory_20system_4',['The Armory System',['../d3/d29/a00419.html#autotoc_md6',1,'']]],
+  ['their_20supply_5',['AI &amp; Logistics (&quot;Cut Their Supply&quot;)',['../d3/d29/a00419.html#autotoc_md9',1,'']]],
   ['threat_5fscan_5fradius_6',['THREAT_SCAN_RADIUS',['../dc/d55/a00226.html#ae86c87a7f1a478c5456dc7092e011f1b',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['threat_5fscan_5fradius_5fsquared_7',['THREAT_SCAN_RADIUS_SQUARED',['../dc/d55/a00226.html#a8c3d2ca372e10cda4a3baad172351146',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['throwingweapon_8',['ThrowingWeapon',['../d2/d41/a00318.html#a05e4b2a7103d464afa0435130b294dc7a2ec425076e9e10b137baaf6735e720e7',1,'DynamicTroopEquipmentReupload::PartyEquipmentDistributor']]],
@@ -15,7 +15,7 @@ var searchData=
   ['townextension_2ecs_12',['TownExtension.cs',['../d0/d89/a00071.html',1,'']]],
   ['townmenumercenaryequipmentpatch_13',['TownMenuMercenaryEquipmentPatch',['../d8/d23/a00326.html',1,'DynamicTroopEquipmentReupload::Patches']]],
   ['transfercargototargetstash_14',['TransferCargoToTargetStash',['../dc/d55/a00226.html#a707a21f02cf3e4af125a3cddce3ce65b',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['troop_20equipment_20system_20reupload_15',['Dynamic Troop Equipment System (Reupload)',['../d0/dd6/a00415.html',1,'']]],
+  ['troop_20equipment_20system_20reupload_15',['Dynamic Troop Equipment System (Reupload)',['../d3/d29/a00419.html',1,'']]],
   ['troopqueue_16',['TroopQueue',['../d0/da7/a00250.html#ad03a5df130a095bebc5c32dd37dcb977',1,'DynamicTroopEquipmentReupload::Extensions::CharacterObjectExtension']]],
   ['trooprosterelementextension_17',['TroopRosterElementExtension',['../d9/d2a/a00270.html',1,'DynamicTroopEquipmentReupload::Extensions']]],
   ['trooprosterelementextension_2ecs_18',['TroopRosterElementExtension.cs',['../da/d24/a00068.html',1,'']]],

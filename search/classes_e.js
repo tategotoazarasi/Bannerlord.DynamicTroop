@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['weightedrandomselector_0',['WeightedRandomSelector',['../d7/d08/a00378.html',1,'DynamicTroopEquipmentReupload']]]
+  ['vanillacasualtylootpatch_0',['VanillaCasualtyLootPatch',['../d0/dc3/a00354.html',1,'DynamicTroopEquipmentReupload::Patches']]]
 ];

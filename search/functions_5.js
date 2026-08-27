@@ -7,7 +7,8 @@ var searchData=
   ['findactiveparty_4',['FindActiveParty',['../da/d2e/a00238.html#ae48bbec6bdcf22e6af2d40666cb7ef61',1,'DynamicTroopEquipmentReupload::EveryoneCampaignBehavior']]],
   ['findclanbyid_5',['FindClanById',['../dc/d55/a00226.html#abe9911aaa48409d7349ea6f9bee6c59c',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
   ['findmobilepartybyid_6',['FindMobilePartyById',['../dc/d55/a00226.html#a1c2168a919d448290fb38832ec41970d',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['findsettlementbyid_7',['FindSettlementById',['../dc/d55/a00226.html#a32fcac7fe7a3030bcc97aca16c3887b8',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['findtargetlordparty_8',['FindTargetLordParty',['../dc/d55/a00226.html#aa1540866ab063ac248fd2c6828953dd6',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
-  ['fullysameweaponclass_9',['FullySameWeaponClass',['../dd/d56/a00274.html#a0f78c10d5e5742555fabdf5207e2d4af',1,'DynamicTroopEquipmentReupload::Global']]]
+  ['findplayerparty_7',['FindPlayerParty',['../d0/dc3/a00354.html#ab100a61d664102642f525624981c8b6d',1,'DynamicTroopEquipmentReupload::Patches::VanillaCasualtyLootPatch']]],
+  ['findsettlementbyid_8',['FindSettlementById',['../dc/d55/a00226.html#a32fcac7fe7a3030bcc97aca16c3887b8',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['findtargetlordparty_9',['FindTargetLordParty',['../dc/d55/a00226.html#aa1540866ab063ac248fd2c6828953dd6',1,'DynamicTroopEquipmentReupload::CutTheirSupplyBehavior']]],
+  ['fullysameweaponclass_10',['FullySameWeaponClass',['../dd/d56/a00274.html#a0f78c10d5e5742555fabdf5207e2d4af',1,'DynamicTroopEquipmentReupload::Global']]]
 ];
