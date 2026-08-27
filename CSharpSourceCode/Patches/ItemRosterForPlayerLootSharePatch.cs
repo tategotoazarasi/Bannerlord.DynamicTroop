@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Encounters;
@@ -14,10 +14,8 @@ namespace DynamicTroopEquipmentReupload.Patches;
 // as of 1.4 finalized party player roster is built and used after MapEvent  
 [HarmonyPatch(typeof(CampaignEventDispatcher), nameof(CampaignEventDispatcher.OnCollectLootItems))]
 public static class ItemRosterForPlayerLootSharePatch {
-	private static readonly Random _random = new();
-
-	private static void Prefix(PartyBase winnerParty, ItemRoster gainedLoots) {
-		if ((ModSettings.Instance?.UseVanillaLootingSystem ?? false) || winnerParty != PartyBase.MainParty)
+	private static void Postfix(PartyBase winnerParty) {
+		if (winnerParty != PartyBase.MainParty)
 			return;
 
 		var playerEncounter = PlayerEncounter.Current;
@@ -26,71 +24,91 @@ public static class ItemRosterForPlayerLootSharePatch {
 			mapEvent.IsPlayerSimulation ||
 			mapEvent.WinningSide != mapEvent.PlayerSide ||
 			playerEncounter?.IsNavalEncounterFinishedWithDisengage == true ||
-			playerEncounter?.ForceHideoutSendTroops == true)
+			playerEncounter?.ForceHideoutSendTroops == true ||
+			!ReferenceEquals(EveryoneCampaignBehavior.PendingPlayerCasualtyLootMapEvent, mapEvent))
 			return;
 
-		var sanitizedVanillaLoot = CreateSanitizedRoster(gainedLoots);
-		ReplaceRosterContents(gainedLoots, sanitizedVanillaLoot);
+		var addedLootCount = EveryoneCampaignBehavior.AddPlayerCasualtyLootToArmory(
+			mapEvent,
+			EveryoneCampaignBehavior.PendingPlayerCasualtyLoot);
 
-		var playerContribution = mapEvent.GetPlayerBattleContributionRate();
-		if (float.IsNaN(playerContribution) || float.IsInfinity(playerContribution))
-			playerContribution = 0f;
+		EveryoneCampaignBehavior.PendingPlayerCasualtyLoot.Clear();
+		EveryoneCampaignBehavior.PendingPlayerCasualtyLootMapEvent = null;
 
-		playerContribution = MBMath.ClampFloat(
-			playerContribution * (ModSettings.Instance?.DropRate ?? 1f),
-			0f,
-			1f);
+		if (addedLootCount > 0)
+			MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(addedLootCount), Colors.Green));
+	}
+}
 
-		foreach (var defeatedParty in mapEvent.PartiesOnSide(mapEvent.DefeatedSide)) {
-			var defeatedMobileParty = defeatedParty.Party.MobileParty;
-			if (defeatedMobileParty == null)
-				continue;
+[HarmonyPatch(typeof(MapEvent), "LootDefeatedPartyCasualties")]
+internal static class VanillaCasualtyLootPatch {
+	[HarmonyPrefix]
+	[HarmonyPriority(Priority.First)]
+	private static void Prefix(
+		MapEvent __instance,
+		MBReadOnlyList<MapEventParty> winnerParties,
+		out Dictionary<ItemObject, int>? __state) {
+		__state = null;
+		EveryoneCampaignBehavior.VanillaPlayerCasualtyLoot.Clear();
+		EveryoneCampaignBehavior.VanillaPlayerCasualtyLootMapEvent = null;
 
-			var defeatedArmory = EveryoneCampaignBehavior.SanitizePartyArmory(defeatedMobileParty.Id);
-			if (defeatedArmory == null)
-				continue;
+		if ((ModSettings.Instance?.UseVanillaLootingSystem ?? false) ||
+			!__instance.IsPlayerMapEvent ||
+			__instance.WinningSide != __instance.PlayerSide)
+			return;
 
-			foreach (var entry in defeatedArmory.ToArray()) {
-				if (entry.Value <= 0 ||
-					!ArmyArmory.TryResolveArmoryItem(entry.Key, out var item) ||
-					!ItemBlackList.Test(item))
-					continue;
+		var playerParty = FindPlayerParty(winnerParties);
+		if (playerParty == null)
+			return;
 
-				var expectedCount = entry.Value * playerContribution;
-				var lootCount = (int)expectedCount;
-				if (_random.NextDouble() < expectedCount - lootCount)
-					lootCount++;
-
-				lootCount = Math.Min(lootCount, entry.Value);
-				if (lootCount <= 0)
-					continue;
-
-				gainedLoots.AddToCounts(item, lootCount);
-
-				if (lootCount == entry.Value)
-					defeatedArmory.Remove(entry.Key);
-				else
-					defeatedArmory[entry.Key] = entry.Value - lootCount;
-			}
-		}
+		__state = CountLootItems(playerParty.RosterToReceiveLootItems);
 	}
 
-	private static ItemRoster CreateSanitizedRoster(ItemRoster sourceRoster) {
-		var sanitizedRoster = new ItemRoster();
-		foreach (var rosterElement in sourceRoster) {
+	[HarmonyPostfix]
+	[HarmonyPriority(Priority.Last)]
+	private static void Postfix(
+		MapEvent __instance,
+		MBReadOnlyList<MapEventParty> winnerParties,
+		Dictionary<ItemObject, int>? __state) {
+		if (__state == null)
+			return;
+
+		var playerParty = FindPlayerParty(winnerParties);
+		if (playerParty == null)
+			return;
+
+		var currentLoot = CountLootItems(playerParty.RosterToReceiveLootItems);
+		foreach (var entry in currentLoot) {
+			var previousCount = __state.TryGetValue(entry.Key, out var count) ? count : 0;
+			var gainedCount = entry.Value - previousCount;
+			if (gainedCount > 0)
+				EveryoneCampaignBehavior.VanillaPlayerCasualtyLoot[entry.Key] = gainedCount;
+		}
+
+		EveryoneCampaignBehavior.VanillaPlayerCasualtyLootMapEvent = __instance;
+	}
+
+	private static MapEventParty? FindPlayerParty(MBReadOnlyList<MapEventParty> parties) {
+		foreach (var party in parties) {
+			if (party.Party == PartyBase.MainParty)
+				return party;
+		}
+
+		return null;
+	}
+
+	private static Dictionary<ItemObject, int> CountLootItems(ItemRoster roster) {
+		Dictionary<ItemObject, int> itemCounts = new();
+		foreach (var rosterElement in roster) {
 			if (rosterElement.Amount <= 0 ||
-				!ArmyArmory.TryNormalizeArmoryElement(rosterElement.EquipmentElement, out var equipmentElement))
+				!ArmyArmory.TryResolveArmoryItem(rosterElement.EquipmentElement.Item, out var item))
 				continue;
 
-			sanitizedRoster.AddToCounts(equipmentElement, rosterElement.Amount);
+			itemCounts[item] = itemCounts.TryGetValue(item, out var currentCount)
+				? currentCount + rosterElement.Amount
+				: rosterElement.Amount;
 		}
 
-		return sanitizedRoster;
-	}
-
-	private static void ReplaceRosterContents(ItemRoster targetRoster, ItemRoster sourceRoster) {
-		targetRoster.Clear();
-		foreach (var rosterElement in sourceRoster)
-			targetRoster.AddToCounts(rosterElement.EquipmentElement, rosterElement.Amount);
+		return itemCounts;
 	}
 }

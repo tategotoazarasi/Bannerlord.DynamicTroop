@@ -39,7 +39,7 @@ public class ModSettings : AttributeGlobalSettings<ModSettings> {
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool RandomizeNonHeroLedAiPartiesArmor { get; set; }
 
-	[SettingPropertyBool("{=use_vanilla_looting_system}Use vanilla looting system", RequireRestart = false, HintText = "{=use_vanilla_looting_system_description}Use Bannerlord's vanilla loot calculation instead of the armory-based loot.", Order = 5)]
+	[SettingPropertyBool("{=use_vanilla_looting_system}Use vanilla looting system", RequireRestart = false, HintText = "{=use_vanilla_looting_system_description}Use Bannerlord's vanilla loot only. When disabled, recoverable casualty equipment not taken by vanilla loot is added to the Army Armory.", Order = 5)]
 	[SettingPropertyGroup("{=settings}Settings")]
 	public bool UseVanillaLootingSystem { get; set; }
 

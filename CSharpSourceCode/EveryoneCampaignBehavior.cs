@@ -29,6 +29,10 @@ namespace DynamicTroopEquipmentReupload;
 
 public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 	public static readonly Dictionary<MBGUID, Dictionary<ItemObject, int>> PartyArmories = new();
+	internal static readonly Dictionary<ItemObject, int> PendingPlayerCasualtyLoot = new();
+	internal static MapEvent? PendingPlayerCasualtyLootMapEvent;
+	internal static readonly Dictionary<ItemObject, int> VanillaPlayerCasualtyLoot = new();
+	internal static MapEvent? VanillaPlayerCasualtyLootMapEvent;
 
 	private readonly Dictionary<uint, Dictionary<string, int>> _unresolvedPartyArmories = new();
 	private Data _data = new();
@@ -339,8 +343,10 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 			? mapEvent.DefenderSide.Parties
 			: mapEvent.AttackerSide.Parties;
 
-		if (mapEvent.IsPlayerSimulation && mapEvent.WinningSide == mapEvent.PlayerSide) {
-			DistributePlayerSimulationLoot(mapEvent, winnerParties, loserParties);
+		if (mapEvent.IsPlayerMapEvent && mapEvent.WinningSide == mapEvent.PlayerSide) {
+			if (mapEvent.IsPlayerSimulation)
+				DistributePlayerSimulationLoot(mapEvent, winnerParties, loserParties);
+
 			return;
 		}
 
@@ -358,12 +364,77 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 		return parties.WhereQ(IsMapEventPartyValid).ToArrayQ();
 	}
 
+	internal static int AddPlayerCasualtyLootToArmory(
+		MapEvent mapEvent,
+		IEnumerable<KeyValuePair<ItemObject, int>> casualtyLoot) {
+		Dictionary<ItemObject, int> remainingLoot = new();
+		foreach (var entry in casualtyLoot) {
+			if (entry.Value <= 0 ||
+				!ArmyArmory.TryResolveArmoryItem(entry.Key, out var item) ||
+				!ItemBlackList.Test(item))
+				continue;
+
+			remainingLoot[item] = remainingLoot.TryGetValue(item, out var currentCount)
+				? currentCount + entry.Value
+				: entry.Value;
+		}
+
+		if (ReferenceEquals(VanillaPlayerCasualtyLootMapEvent, mapEvent)) {
+			foreach (var entry in remainingLoot.ToArray()) {
+				if (!VanillaPlayerCasualtyLoot.TryGetValue(entry.Key, out var vanillaCount) || vanillaCount <= 0)
+					continue;
+
+				var consumedCount = Math.Min(entry.Value, vanillaCount);
+				remainingLoot[entry.Key] = entry.Value - consumedCount;
+				VanillaPlayerCasualtyLoot[entry.Key] = vanillaCount - consumedCount;
+			}
+
+			// vanilla rolls from troop templates, so the item id can differ from the DTE assignment even when the type is the same
+			Dictionary<ItemObject.ItemTypeEnum, int> unmatchedVanillaLootByType = new();
+			foreach (var entry in VanillaPlayerCasualtyLoot) {
+				if (entry.Value <= 0)
+					continue;
+
+				var itemType = entry.Key.ItemType;
+				unmatchedVanillaLootByType[itemType] = unmatchedVanillaLootByType.TryGetValue(itemType, out var currentCount)
+					? currentCount + entry.Value
+					: entry.Value;
+			}
+
+			foreach (var entry in remainingLoot.ToArray()) {
+				if (entry.Value <= 0 ||
+					!unmatchedVanillaLootByType.TryGetValue(entry.Key.ItemType, out var vanillaCount) ||
+					vanillaCount <= 0)
+					continue;
+
+				var consumedCount = Math.Min(entry.Value, vanillaCount);
+				remainingLoot[entry.Key] = entry.Value - consumedCount;
+				unmatchedVanillaLootByType[entry.Key.ItemType] = vanillaCount - consumedCount;
+			}
+		}
+
+		VanillaPlayerCasualtyLoot.Clear();
+		VanillaPlayerCasualtyLootMapEvent = null;
+
+		var addedCount = 0;
+		foreach (var entry in remainingLoot) {
+			if (entry.Value <= 0)
+				continue;
+
+			ArmyArmory.AddItemToArmory(entry.Key, entry.Value);
+			addedCount += entry.Value;
+		}
+
+		return addedCount;
+	}
+
 	private void DistributePlayerSimulationLoot(
 		MapEvent mapEvent,
 		MBReadOnlyList<MapEventParty> winnerParties,
 		MBReadOnlyList<MapEventParty> loserParties) {
 		var random = new Random();
 		var dropRate = SubModule.Settings?.DropRate ?? 1f;
+		var playerCasualtyLoot = new Dictionary<ItemObject, int>();
 		var canUseMountEquipment = !mapEvent.IsNavalMapEvent && !MapEventHelper.IsNavalRaid(mapEvent);
 		var mountsUnavailable = !canUseMountEquipment ||
 			mapEvent.IsSiegeAssault ||
@@ -466,13 +537,19 @@ public class EveryoneCampaignBehavior : CampaignBehaviorBase {
 						random.NextFloat() > dropRate)
 						continue;
 
-					if (recipientParty.Party == PartyBase.MainParty)
-						ArmyArmory.AddItemToArmory(item);
+					if (recipientParty.Party == PartyBase.MainParty) {
+						if (!(ModSettings.Instance?.UseVanillaLootingSystem ?? false))
+							playerCasualtyLoot[item] = playerCasualtyLoot.TryGetValue(item, out var currentCount)
+								? currentCount + 1
+								: 1;
+					}
 					else if (recipientParty.Party.MobileParty is { } recipientMobileParty)
 						AddItemToPartyArmory(recipientMobileParty.Id, item, 1);
 				}
 			}
 		}
+
+		AddPlayerCasualtyLootToArmory(mapEvent, playerCasualtyLoot);
 	}
 
 	private static void LogParties(IEnumerable<MapEventParty> parties, string label) {

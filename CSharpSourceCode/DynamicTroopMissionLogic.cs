@@ -57,6 +57,10 @@ public class DynamicTroopMissionLogic : MissionLogic {
 		_assignmentByAgent.Clear();
 		_navalSpawnEquipmentByAgent.Clear();
 		_brokenShieldSlotsByAgent.Clear();
+		EveryoneCampaignBehavior.PendingPlayerCasualtyLoot.Clear();
+		EveryoneCampaignBehavior.PendingPlayerCasualtyLootMapEvent = null;
+		EveryoneCampaignBehavior.VanillaPlayerCasualtyLoot.Clear();
+		EveryoneCampaignBehavior.VanillaPlayerCasualtyLootMapEvent = null;
 
 		_isMissionEnded = false;
 
@@ -513,11 +517,19 @@ public class DynamicTroopMissionLogic : MissionLogic {
 
 		if (isVictorious) {
 			ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty);
-			ReturnItemsToDestination(partyId, battleRecord.LootedItems,    isPlayerParty);
+
 			if (isPlayerParty) {
-				MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts.GetLootAddedMessage(battleRecord.LootedItemsCount),                   Colors.Green));
+				if (!(ModSettings.Instance?.UseVanillaLootingSystem ?? false) && MapEvent.PlayerMapEvent is { } mapEvent) {
+					EveryoneCampaignBehavior.PendingPlayerCasualtyLoot.Clear();
+					EveryoneCampaignBehavior.PendingPlayerCasualtyLootMapEvent = mapEvent;
+					foreach (var item in battleRecord.LootedItems)
+						EveryoneCampaignBehavior.PendingPlayerCasualtyLoot[item.Key] = item.Value;
+				}
+
 				MessageDisplayService.EnqueueMessage(new InformationMessage(LocalizedTexts.GetItemsRecoveredFromFallenMessage(battleRecord.ItemsToRecoverCount), Colors.Green));
 			}
+			else
+				ReturnItemsToDestination(partyId, battleRecord.LootedItems, false);
 		}
 		else if (!isDefeated) { ReturnItemsToDestination(partyId, battleRecord.ItemsToRecover, isPlayerParty); }
 
